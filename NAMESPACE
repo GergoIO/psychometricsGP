@@ -2,3 +2,4 @@
 
 export(fnBoxplot)
 export(fnRmColsByName)
+export(fnRmExclItems)
