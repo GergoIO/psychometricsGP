@@ -3,3 +3,5 @@
 export(fnBoxplot)
 export(fnRmColsByName)
 export(fnRmExclItems)
+export(fnRptCoverSheet)
+export(fnTimestamp)
