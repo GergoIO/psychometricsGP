@@ -1,7 +1,7 @@
-#' Removes specific columns by name from a dataframe
+#' Removes specific columns by name from a dataframe. Additional functionality to handle scenarios where no columns need to be removed.
 #'
 #' @param df The name of the data frame.
-#' @param itemsToRm The
+#' @param itemsToRm The items to remove. Can be an empty vector
 #'
 #' @return This function will return a dataframe with the selected columns removed
 #' @export
