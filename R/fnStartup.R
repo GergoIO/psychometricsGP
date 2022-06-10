@@ -1,26 +1,28 @@
 #' Run functions to install and load required packages + set and save folders
 #'
+#' @param githubToken The authorization token needed to access the relevant github repos
+#'
 #' @return Required packages are installed and loaded if they are not already.
 #' The working directory is set to the location of the script file and save as variable folderWD.
 #' Two folders for figures and other outputs are also created and saved as folderOutput and folderPlots
 #' @export
 #'
 #' @examples fnStartup()
-fnStartup <- function() {
+
+################################################################################
+
+fnStartup <- function(githubToken=NULL) {
 #   ____________________________________________________________________________
 #   Install Packages                                                        ####
 # Run package installer/loader once only
 
   # Install psychometricsTNG packages from private Github
   devtools::install_github("GergoIO/psychometricsTNG",
-                           auth_token = "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",
-                           quiet = TRUE) # So no warning if skipping
-  devtools::install_github("GergoIO/psychometricsGP",
-                           auth_token = "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",
+                           auth_token = githubToken,
                            quiet = TRUE) # So no warning if skipping
   # psychometric package no longer on CRAN so hosting it myself
   devtools::install_github("GergoIO/psychometric",
-                           auth_token = "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",
+                           auth_token = githubToken,
                            quiet = TRUE)
 
   if (!require("librarian")) {
@@ -44,7 +46,7 @@ fnStartup <- function() {
     openxlsx,
     plyr,
     psychometric,
-    psychometricsGP,
+    # psychometricsGP, # No longer needed since this is loaded prior to this function running
     psychometricsTNG,
     # reshape,
     readxl,
@@ -78,4 +80,4 @@ fnStartup <- function() {
 
   folderOutput <<- file.path(glue('{getwd()}\\Output ({verNum})'))
   folderPlots <<- file.path(glue('{getwd()}\\Figures ({verNum})'))
-}
+} # END
