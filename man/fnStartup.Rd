@@ -4,10 +4,13 @@
 \alias{fnStartup}
 \title{Run functions to install and load required packages + set and save folders}
 \usage{
-fnStartup(githubToken = NULL)
+fnStartup(githubToken = NULL, verNum = NULL)
 }
 \arguments{
 \item{githubToken}{The authorization token needed to access the relevant github repos}
+
+\item{verNum}{Set a version number - appended to save folders and file names
+#'}
 }
 \value{
 Required packages are installed and loaded if they are not already.

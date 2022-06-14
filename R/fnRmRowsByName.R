@@ -14,7 +14,7 @@ fnRmRowsByName <- function(input, itemsToRm) {
   continue <- TRUE
   if (is.null(input) == TRUE) {
     continue <- FALSE
-    warning("Please specify the data")
+    stop("Please specify the data")
   } else if (is.null(itemsToRm) == TRUE) {
     continue <- FALSE
     warning("There are no items to remove, no rows will be deleted")

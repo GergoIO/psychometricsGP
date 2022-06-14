@@ -1,7 +1,8 @@
 #' Run functions to install and load required packages + set and save folders
 #'
 #' @param githubToken The authorization token needed to access the relevant github repos
-#'
+#' @param verNum Set a version number - appended to save folders and file names
+#' #'
 #' @return Required packages are installed and loaded if they are not already.
 #' The working directory is set to the location of the script file and save as variable folderWD.
 #' Two folders for figures and other outputs are also created and saved as folderOutput and folderPlots
@@ -11,20 +12,24 @@
 
 ################################################################################
 
-fnStartup <- function(githubToken=NULL) {
-#   ____________________________________________________________________________
-#   Install Packages                                                        ####
-# Run package installer/loader once only
+fnStartup <- function(githubToken = NULL, verNum = NULL) {
+  #   ____________________________________________________________________________
+  #   Install Packages                                                        ####
 
-  # Install psychometricsTNG packages from private Github
-  devtools::install_github("GergoIO/psychometricsTNG",
-                           auth_token = githubToken,
-                           quiet = TRUE) # So no warning if skipping
-  # psychometric package no longer on CRAN so hosting it myself
-  devtools::install_github("GergoIO/psychometric",
-                           auth_token = githubToken,
-                           quiet = TRUE)
-
+  if (is.null(githubToken) == TRUE | is.null(verNum) == TRUE) {
+    stop(
+      "Please specify the github personal access token for file retrieval and a version number for file naming."
+    )
+  } else {
+    # Install psychometricsTNG packages from private Github
+    devtools::install_github("GergoIO/psychometricsTNG",
+                             auth_token = githubToken,
+                             quiet = TRUE) # So no warning if skipping
+    # psychometric package no longer on CRAN so hosting it myself
+    devtools::install_github("GergoIO/psychometric",
+                             auth_token = githubToken,
+                             quiet = TRUE)
+  }
   if (!require("librarian")) {
     install.packages("librarian", dependencies = TRUE)
   }
@@ -62,8 +67,8 @@ fnStartup <- function(githubToken=NULL) {
     tjmahr / WrapRmd
   )
 
-#   ____________________________________________________________________________
-#   Working Directory and File Structuring                                  ####
+  #   ____________________________________________________________________________
+  #   Working Directory and File Structuring                                  ####
 
   setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
   folderWD <<- getwd()
