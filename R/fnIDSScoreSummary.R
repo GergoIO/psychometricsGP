@@ -1,27 +1,28 @@
 #' Create score summary tables for IDS analysis
 #'
 #' @param lstOfDetails This variable should be a list containing as least the following defined variables: stage (stored as a numeric). This variable will be used to indentify the relevant students.
+#' @param dfDemographics A dataframe containing student demographics
 #' @param dfRes A dataframe containing the results for students who sat the exam
 #' @param dfResAbsent A dataframe containing the results for students who did not sit the exam
 #' @param programmes Which programmes to consider
-#' @param pctScoreTotal Column name where the total percentage score is stored in dfRes
 #'
 #' @return A table of the score summaries is returned
 #' @export
 #'
-#' @examples fnIDSScoreSummary(cnst, dfRes, dfResAbsent, c("BDS"), pctScoreTotal)
+#' @examples fnIDSScoreSummary(cnst, dfRes, dfResAbsent, c("BDS"))
 
 ################################################################################
 
 fnIDSScoreSummary <- function(lstOfDetails,
+                              dfDemographics,
                               dfRes,
                               dfResAbsent,
-                              programmes,
-                              pctScoreTotal) {
+                              programmes) {
   if (is.null(lstOfDetails) == TRUE |
+      is.null(dfDemographics) == TRUE |
       is.null(dfRes) == TRUE |
       is.null(dfResAbsent) == TRUE |
-      is.null(programmes) == TRUE | is.null(pctScoreTotal) == TRUE) {
+      is.null(programmes) == TRUE) {
     stop("Please specify each of the required variables.")
   } else {
     # Get cohort size from original demographics file
