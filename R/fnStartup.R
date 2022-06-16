@@ -2,6 +2,7 @@
 #'
 #' @param githubToken The authorization token needed to access the relevant github repos
 #' @param verNum Set a version number - appended to save folders and file names
+#' @param createPulseFolder (TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE
 #' #'
 #' @return Required packages are installed and loaded if they are not already.
 #' The working directory is set to the location of the script file and save as variable folderWD.
@@ -12,7 +13,8 @@
 
 ################################################################################
 
-fnStartup <- function(githubToken = NULL, verNum = NULL) {
+fnStartup <- function(githubToken = NULL,
+                      verNum = NULL, createPulseFolder = NULL) {
   #   ____________________________________________________________________________
   #   Install Packages                                                        ####
 
@@ -85,4 +87,16 @@ fnStartup <- function(githubToken = NULL, verNum = NULL) {
 
   folderOutput <<- file.path(glue('{getwd()}\\Output ({verNum})'))
   folderPlots <<- file.path(glue('{getwd()}\\Figures ({verNum})'))
+
+  if(createPulseFolder == TRUE){
+    lapply(c(glue('Output ({verNum})\\Pulse')), function(x)
+      if (!dir.exists(x))
+        dir.create(
+          x,
+          showWarnings = TRUE,
+          recursive = FALSE,
+          mode = "0777"
+        ))
+  folderOutputPulse <<- file.path(glue('{getwd()}\\Output ({verNum})\\Pulse'))
+  }
 } # END
