@@ -14,7 +14,8 @@
 ################################################################################
 
 fnStartup <- function(githubToken = NULL,
-                      verNum = NULL, createPulseFolder = NULL) {
+                      verNum = NULL,
+                      createPulseFolder = NULL) {
   #   ____________________________________________________________________________
   #   Install Packages                                                        ####
 
@@ -88,7 +89,7 @@ fnStartup <- function(githubToken = NULL,
   folderOutput <<- file.path(glue('{getwd()}\\Output ({verNum})'))
   folderPlots <<- file.path(glue('{getwd()}\\Figures ({verNum})'))
 
-  if(createPulseFolder == TRUE){
+  if (createPulseFolder == TRUE) {
     lapply(c(glue('Output ({verNum})\\Pulse')), function(x)
       if (!dir.exists(x))
         dir.create(
@@ -97,6 +98,7 @@ fnStartup <- function(githubToken = NULL,
           recursive = FALSE,
           mode = "0777"
         ))
-  folderOutputPulse <<- file.path(glue('{getwd()}\\Output ({verNum})\\Pulse'))
+    folderOutputPulse <<-
+      file.path(glue('{getwd()}\\Output ({verNum})\\Pulse'))
   }
 } # END

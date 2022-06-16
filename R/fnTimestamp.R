@@ -8,5 +8,5 @@
 ################################################################################
 
 fnTimestamp <- function()  {
-  strftime(Sys.time(), "%Y%m%d_%H%M%S")
+  strftime(Sys.time(), "%y%m%d_%H%M%S")
 }
