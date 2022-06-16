@@ -20,7 +20,7 @@ fnRptCoverSheet <-
         is.null(rptTitle) == TRUE |
         is.null(lstOfDetails) == TRUE) {
       continue <- FALSE
-      warning("One of the required variables for this function has not been specified.")
+      stop("One of the required variables for this function has not been specified.")
     }
     if (continue == TRUE) {
       rptVar <-
