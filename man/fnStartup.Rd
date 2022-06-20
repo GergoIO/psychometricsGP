@@ -4,15 +4,25 @@
 \alias{fnStartup}
 \title{Run functions to install and load required packages + set and save folders}
 \usage{
-fnStartup(githubToken = NULL, verNum = NULL, createPulseFolder = NULL)
+fnStartup(
+  githubToken = NULL,
+  verNum = NULL,
+  createOutputFolder = NULL,
+  createPulseSubfolder = NULL,
+  createImagesFolder = NULL
+)
 }
 \arguments{
 \item{githubToken}{The authorization token needed to access the relevant github repos}
 
 \item{verNum}{Set a version number - appended to save folders and file names}
 
-\item{createPulseFolder}{(TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE
+\item{createOutputFolder}{(TRUE/FALSE/NULL) Create an outputs folder in the working directory (with appended version number) if TRUE}
+
+\item{createImagesFolder}{(TRUE/FALSE/NULL) Create an Images folder in the working directory (with appended version number) if TRUE
 #'}
+
+\item{createPulseFolder}{(TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE}
 }
 \value{
 Required packages are installed and loaded if they are not already.
