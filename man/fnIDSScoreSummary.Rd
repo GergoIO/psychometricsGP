@@ -4,10 +4,10 @@
 \alias{fnIDSScoreSummary}
 \title{Create score summary tables for IDS analysis}
 \usage{
-fnIDSScoreSummary(lstOfDetails, dfDemographics, dfRes, dfResAbsent, programmes)
+fnIDSScoreSummary(stage, dfDemographics, dfRes, dfResAbsent, programmes)
 }
 \arguments{
-\item{lstOfDetails}{This variable should be a list containing as least the following defined variables: stage (stored as a numeric). This variable will be used to indentify the relevant students.}
+\item{stage}{The stage of students (numeric) This variable will be used to indentify the relevant students.}
 
 \item{dfDemographics}{A dataframe containing student demographics}
 
@@ -24,5 +24,5 @@ A table of the score summaries is returned
 Create score summary tables for IDS analysis
 }
 \examples{
-fnIDSScoreSummary(cnst, dfRes, dfResAbsent, c("BDS"))
+fnIDSScoreSummary(2, dfRes, dfResAbsent, c("BDS"))
 }

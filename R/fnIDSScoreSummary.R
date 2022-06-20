@@ -1,6 +1,6 @@
 #' Create score summary tables for IDS analysis
 #'
-#' @param lstOfDetails This variable should be a list containing as least the following defined variables: stage (stored as a numeric). This variable will be used to indentify the relevant students.
+#' @param stage The stage of students (numeric) This variable will be used to indentify the relevant students.
 #' @param dfDemographics A dataframe containing student demographics
 #' @param dfRes A dataframe containing the results for students who sat the exam
 #' @param dfResAbsent A dataframe containing the results for students who did not sit the exam
@@ -9,16 +9,16 @@
 #' @return A table of the score summaries is returned
 #' @export
 #'
-#' @examples fnIDSScoreSummary(cnst, dfRes, dfResAbsent, c("BDS"))
+#' @examples fnIDSScoreSummary(2, dfRes, dfResAbsent, c("BDS"))
 
 ################################################################################
 
-fnIDSScoreSummary <- function(lstOfDetails,
+fnIDSScoreSummary <- function(stage,
                               dfDemographics,
                               dfRes,
                               dfResAbsent,
                               programmes) {
-  if (is.null(lstOfDetails) == TRUE |
+  if (is.null(stage) == TRUE |
       is.null(dfDemographics) == TRUE |
       is.null(dfRes) == TRUE |
       is.null(dfResAbsent) == TRUE |
@@ -28,10 +28,10 @@ fnIDSScoreSummary <- function(lstOfDetails,
     # Get cohort size from original demographics file
     .fnNCohort = length(
       which(
-        dfDemogOrig$Programme %in% programmes &
-          dfDemogOrig$Stage == lstOfDetails$stage &
-          dfDemogOrig$Year_Status != "Interrupted" &
-          dfDemogOrig$Year_Status != "Withdrawn"
+        dfDemographics$Programme %in% programmes &
+          dfDemographics$Stage == stage &
+          dfDemographics$Year_Status != "Interrupted" &
+          dfDemographics$Year_Status != "Withdrawn"
       )
     )
     # Get the col of pct scores for the requested programmes
