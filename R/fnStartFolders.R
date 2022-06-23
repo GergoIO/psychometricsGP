@@ -21,7 +21,7 @@ fnStartFolders <- function(workingDirectory = NULL,
                            createOutputFolder = NULL,
                            createPulseSubfolder = NULL,
                            createImagesFolder = NULL) {
-  if (is.null(wd) == TRUE | is.null(verNum) == TRUE) {
+  if (is.null(workingDirectory) == TRUE | is.null(verNum) == TRUE) {
     stop("Please specify a working directory and a version number for file naming.")
   } else if (is.null(createOutputFolder) == TRUE |
              is.null(createImagesFolder) == TRUE |
