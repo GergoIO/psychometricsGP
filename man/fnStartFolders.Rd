@@ -5,6 +5,7 @@
 \title{Run functions to create and set variables for save folders}
 \usage{
 fnStartFolders(
+  workingDirectory = NULL,
   verNum = NULL,
   createOutputFolder = NULL,
   createPulseSubfolder = NULL,
@@ -12,6 +13,8 @@ fnStartFolders(
 )
 }
 \arguments{
+\item{workingDirectory}{Define the working directory, where save folders will be created}
+
 \item{verNum}{Set a version number - appended to save folders and file names}
 
 \item{createOutputFolder}{(TRUE/FALSE/NULL) Create an outputs folder in the working directory (with appended version number) if TRUE}
@@ -28,5 +31,5 @@ Two folders for figures and other outputs are also created and saved as folderOu
 Run functions to create and set variables for save folders
 }
 \examples{
-fnStartFolders(verNum = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
+fnStartFolders(workingDirectory = getwd(), verNum = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
 }
