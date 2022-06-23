@@ -21,13 +21,19 @@ fnStartFolders <- function(workingDirectory = NULL,
                            createOutputFolder = NULL,
                            createPulseSubfolder = NULL,
                            createImagesFolder = NULL) {
-  if (is.null(workingDirectory) == TRUE | is.null(verNum) == TRUE) {
-    stop("Please specify a working directory and a version number for file naming.")
+  if (is.null(workingDirectory) == TRUE) {
+    stop(
+      "fnStartFolders: Please specify the variable 'workingDirectory' to set the working directory."
+    )
+  } else if (is.null(verNum) == TRUE) {
+    stop(
+      "fnStartFolders: Please specify the variable 'verNum' - a version number for file naming."
+    )
   } else if (is.null(createOutputFolder) == TRUE |
              is.null(createImagesFolder) == TRUE |
              is.null(createPulseSubfolder) == TRUE) {
     warning(
-      "Please specify the booleans createOutputFolder, createImagesFolder and createPulseSubfolder to determine which folders should be created. By default, folders will be created for any undefined booleans."
+      "fnStartFolders: Please specify the booleans createOutputFolder, createImagesFolder and createPulseSubfolder to determine which folders should be created. By default, folders will be created for any undefined booleans."
     )
   }
 
@@ -42,7 +48,8 @@ fnStartFolders <- function(workingDirectory = NULL,
           recursive = FALSE,
           mode = "0777"
         ))
-    folderOutput <<- file.path(glue('{wd}\\Output ({verNum})'))
+    folderOutput <<-
+      file.path(glue('{workingDirectory}\\Output ({verNum})'))
   }
 
   if (createImagesFolder != FALSE) {
@@ -54,7 +61,8 @@ fnStartFolders <- function(workingDirectory = NULL,
           recursive = FALSE,
           mode = "0777"
         ))
-    folderImages <<- file.path(glue('{wd}\\Images ({verNum})'))
+    folderImages <<-
+      file.path(glue('{workingDirectory}\\Images ({verNum})'))
   }
 
   if (createPulseSubfolder != FALSE) {
@@ -67,6 +75,6 @@ fnStartFolders <- function(workingDirectory = NULL,
           mode = "0777"
         ))
     folderOutputPulse <<-
-      file.path(glue('{wd}\\Output ({verNum})\\Pulse'))
+      file.path(glue('{workingDirectory}\\Output ({verNum})\\Pulse'))
   }
 } # END
