@@ -1,4 +1,4 @@
-#' Run functions to install and load required packages + set and save folders
+#' LEGACY FUNCTION - NOW SPLIT TO fnStartPackages and fnStartFolders Run functions to install and load required packages + set and save folders
 #'
 #' @param githubToken The authorization token needed to access the relevant github repos
 #' @param verNum Set a version number - appended to save folders and file names
@@ -12,6 +12,19 @@
 #' @export
 #'
 #' @examples fnStartup()
+
+# Example of IDS usage
+# if (exists("hasRun") == FALSE) {
+#   fnStartup(
+#     githubToken = .githubToken,
+#     verNum = cnst$verNum,
+#     createOutputFolder = TRUE,
+#     createPulseSubfolder = TRUE,
+#     createImagesFolder = TRUE
+#   ) # Run startup function once per session
+#   hasRun <- TRUE
+# }
+
 
 ################################################################################
 
