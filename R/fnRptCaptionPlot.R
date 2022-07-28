@@ -2,7 +2,7 @@
 #'
 #' @param rptVar The variable name of the report
 #' @param caption The caption to add (string)
-#' @param plotCount The current number of plots already in the report (integer)
+#' @param plotCount The variable name in the document calling this function must be countPlt. The current number of plots already in the report (integer)
 #'
 #'
 #' @return Nothing is explicitly returned, rather a formatted caption is added to the report
@@ -22,6 +22,6 @@ fnRptCaptionPlot <-
         body_add_par(rptVar,
                      glue('Figure {plotCount}: {caption}'),
                      style = "caption")
-      plotCount <<- plotCount + 1
+      countPlt <<- plotCount + 1
     }
   }
