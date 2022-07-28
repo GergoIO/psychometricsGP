@@ -2,7 +2,7 @@
 % Please edit documentation in R/fnStartup.R
 \name{fnStartup}
 \alias{fnStartup}
-\title{Run functions to install and load required packages + set and save folders}
+\title{LEGACY FUNCTION - NOW SPLIT TO fnStartPackages and fnStartFolders Run functions to install and load required packages + set and save folders}
 \usage{
 fnStartup(
   githubToken = NULL,
@@ -30,7 +30,7 @@ The working directory is set to the location of the script file and save as vari
 Two folders for figures and other outputs are also created and saved as folderOutput and folderPlots
 }
 \description{
-Run functions to install and load required packages + set and save folders
+LEGACY FUNCTION - NOW SPLIT TO fnStartPackages and fnStartFolders Run functions to install and load required packages + set and save folders
 }
 \examples{
 fnStartup()

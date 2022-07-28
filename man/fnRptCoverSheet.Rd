@@ -11,7 +11,7 @@ fnRptCoverSheet(rptVar = NULL, rptTitle = NULL, lstOfDetails = NULL)
 
 \item{rptTitle}{This string will be the report title, shown prominently on the coverpage}
 
-\item{lstOfDetails}{This variable should be a list containing as least the following defined variables: academicYear, programme, stage, module, assessmentNumber, assessmentDate. These variables will be input on the cover page.}
+\item{lstOfDetails}{This variable should be a list containing as least the following defined variables: academicYear, programme, stage/stages (the function automatically handles either scenario with the default being to use stage), module, assessmentNumber, assessmentDate. These variables will be input on the cover page.}
 }
 \value{
 Nothing is explicitly returned, rather the cover page of the variable containing the report is populated with the required information.
