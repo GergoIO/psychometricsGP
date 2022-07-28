@@ -22,6 +22,6 @@ fnRptCaptionPlot <-
         body_add_par(rptVar,
                      glue('Figure {plotCount}: {caption}'),
                      style = "caption")
-      plotCount <- plotCount + 1
+      plotCount <<- plotCount + 1
     }
   }
