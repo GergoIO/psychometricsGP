@@ -2,7 +2,7 @@
 #'
 #' @param rptVar The variable name of the report
 #' @param rptTitle This string will be the report title, shown prominently on the coverpage
-#' @param lstOfDetails This variable should be a list containing as least the following defined variables: academicYear, programme, stage, module, assessmentNumber, assessmentDate. These variables will be input on the cover page.
+#' @param lstOfDetails This variable should be a list containing as least the following defined variables: academicYear, programme, stage/stages (the function automatically handles either scenario with the default being to use stage), module, assessmentNumber, assessmentDate. These variables will be input on the cover page.
 #'
 #' @return Nothing is explicitly returned, rather the cover page of the variable containing the report is populated with the required information.
 #' @export
@@ -15,14 +15,11 @@ fnRptCoverSheet <-
   function (rptVar = NULL,
             rptTitle = NULL,
             lstOfDetails = NULL) {
-    continue <- TRUE
     if (is.null(rptVar) == TRUE |
         is.null(rptTitle) == TRUE |
         is.null(lstOfDetails) == TRUE) {
-      continue <- FALSE
       stop("One of the required variables for this function has not been specified.")
-    }
-    if (continue == TRUE) {
+    } else{
       rptVar <-
         body_replace_all_text(
           rptVar,
@@ -37,13 +34,25 @@ fnRptCoverSheet <-
           new_value = lstOfDetails$programme,
           only_at_cursor = FALSE
         )
-      rptVar <-
-        body_replace_all_text(
-          rptVar,
-          old_value = "StagePlaceholder",
-          new_value = as.character(lstOfDetails$stage),
-          only_at_cursor = FALSE
-        )
+      if (is.null(lstOfDetails$stage) == FALSE) {
+        rptVar <-
+          body_replace_all_text(
+            rptVar,
+            old_value = "StagePlaceholder",
+            new_value = as.character(lstOfDetails$stage),
+            only_at_cursor = FALSE
+          )
+      } else if (is.null(lstOfDetails$stage) == TRUE &&
+                 is.null(lstOfDetails$stages) == FALSE) {
+        rptVar <-
+          body_replace_all_text(
+            rptVar,
+            old_value = "StagePlaceholder",
+            new_value = as.character(lstOfDetails$stages),
+            only_at_cursor = FALSE
+          )
+
+      }
       rptVar <-
         body_replace_all_text(
           rptVar,
