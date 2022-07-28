@@ -18,8 +18,10 @@ Then,
       }
 - Code > Insert Roxgen skeleton (Ctrl Alt Shift R)
 - Fill in added text with descriptions, uses etc.
+
 - Console > document()
     This creates the associated documentation files to go with the function
+
 - Build > Install and Restart
 - Git > Commit (select and add a comment/description)
 - Git > Push
