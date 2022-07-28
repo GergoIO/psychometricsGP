@@ -48,7 +48,13 @@ fnRptCoverSheet <-
           body_replace_all_text(
             rptVar,
             old_value = "StagePlaceholder",
-            new_value = as.character(lstOfDetails$stages),
+            new_value = as.character(as.character(
+              sub(
+                ",([^,]*)$",
+                " and\\1",
+                paste0(cnst$stages, collapse = ", ")
+              )
+            )),
             only_at_cursor = FALSE
           )
 
