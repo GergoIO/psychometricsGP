@@ -1,6 +1,6 @@
 #' Add a new caption to accompany a plot and return the value of the total number of plots.
 #'
-#' @param rptVar The variable name of the report
+#' @param report The variable name of the report
 #' @param caption The caption to add (string)
 #' @param plotCount The variable name in the document which stores the current number of plots already in the report (integer, usually named 'countPlt')
 #'
@@ -12,19 +12,19 @@
 ################################################################################
 
 fnRptCaptionPlot <-
-  function(rptVar = NULL,
+  function(report = NULL,
            caption = NULL,
            plotCount = NULL) {
-    if (is.null(rptVar) == TRUE |
+    if (is.null(report) == TRUE |
         is.null(caption) == TRUE | is.null(plotCount) == TRUE)
     {
       stop("One of the required variables for this function has not been specified.")
     } else{
-      rptVar <-
-        body_add_par(rptVar,
+      report <-
+        body_add_par(report,
                      glue('Figure {plotCount}: {caption}'),
                      style = "caption")
       plotCount <- plotCount + 1
       return(plotCount)
     }
-  }
+  } # END

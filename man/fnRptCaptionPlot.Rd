@@ -4,10 +4,10 @@
 \alias{fnRptCaptionPlot}
 \title{Add a new caption to accompany a plot and return the value of the total number of plots.}
 \usage{
-fnRptCaptionPlot(rptVar = NULL, caption = NULL, plotCount = NULL)
+fnRptCaptionPlot(report = NULL, caption = NULL, plotCount = NULL)
 }
 \arguments{
-\item{rptVar}{The variable name of the report}
+\item{report}{The variable name of the report}
 
 \item{caption}{The caption to add (string)}
 
