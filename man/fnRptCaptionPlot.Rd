@@ -20,5 +20,5 @@ The new value for the total number of plots is returned. The output of this func
 Add a new caption to accompany a plot and return the value of the total number of plots.
 }
 \examples{
-fnRptCaptionPlot(rptVar = rpt$All, caption = "This caption", plotCount = countPlt)
+countPlt <- fnRptCaptionPlot(rptVar = rpt$All, plotCount = countPlt, caption = "This caption")
 }

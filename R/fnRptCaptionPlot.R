@@ -7,7 +7,7 @@
 #' @return The new value for the total number of plots is returned. The output of this function should be saved to match whatever that varialbe is stored as in the main script. In addition to returning this, the formatted caption is also added the variable saving the report
 #' @export
 #'
-#' @examples fnRptCaptionPlot(rptVar = rpt$All, caption = "This caption", plotCount = countPlt)
+#' @examples countPlt <- fnRptCaptionPlot(rptVar = rpt$All, plotCount = countPlt, caption = "This caption")
 
 ################################################################################
 
