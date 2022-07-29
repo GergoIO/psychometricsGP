@@ -23,7 +23,7 @@ fnRptCaptionTab <-
     } else{
       report <-
         body_add_par(report,
-                     glue('Figure {tableCount}: {caption}'),
+                     glue('Table {tableCount}: {caption}'),
                      style = "caption")
       tableCount <- tableCount + 1
       return(tableCount)
