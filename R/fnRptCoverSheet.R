@@ -24,7 +24,7 @@ fnRptCoverSheet <-
         body_replace_all_text(
           rptVar,
           old_value = "YearPlaceholder",
-          new_value = fnAcademicYearFormat(lstOfDetails$academicYear, "Short Dash"),
+          new_value = fnAcademicYearFormat(lstOfDetails$academicYear, "Short Slash"),
           only_at_cursor = FALSE
         )
       rptVar <-
