@@ -33,7 +33,7 @@ fnRptAddPlot <-
       fnRptCaptionTable(report = report,
                         tableCount = tableCount,
                         caption = caption)
-      # Ensure that the variabl'tableCount' is updated in main script
+      # Ensure that the variable fed through as 'tableCount' is updated in main script
       # The below line already appears in 'fnRptCaptionTable' - however it must be repeated in the top level function so that the 'tableCount' variable is updated in the main script too
       assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
 

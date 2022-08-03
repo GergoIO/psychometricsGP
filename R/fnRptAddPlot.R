@@ -33,13 +33,15 @@ fnRptAddPlot <-
                             value = plot,
                             height = 4,
                             width = 6)
+      # Caption goes below the plot
       fnRptCaptionPlot(report = report,
                        plotCount = plotCount,
                        caption = caption)
-      # Ensure that whatever variable 'plotCount' is configured as is updated in main script
+      # Ensure that the variable fed through as 'plotCount' is updated in main script
+      # The below line already appears in 'fnRptCaptionPlot' - however it must be repeated in the top level function so that the 'plotCount' variable is updated in the main script too
       assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
       if (addTrailingLine == TRUE) {
         fnRptAddParagraph(report)
       }
     }
-  }
+  } # END
