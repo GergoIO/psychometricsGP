@@ -13,7 +13,7 @@
 
 ################################################################################
 
-fnRptAddPlot <-
+fnRptAddTable <-
   function(report = NULL,
            table = NULL,
            tableCount = NULL,
