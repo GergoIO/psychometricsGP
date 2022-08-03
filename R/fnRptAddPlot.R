@@ -9,7 +9,7 @@
 #' @return The plot is added with an accompanying formatted caption to the configured report. The variable storing the number of plots in the report is incremented by 1 and a single trailing line is added following the caption (if requested)
 #' @export
 #'
-#' @examples fnRptCaptionPlot(report = rpt$All, plot = plot1, plotCount = countPlt, caption = "This caption")
+#' @examples fnRptAddPlot(report = rpt$All, plot = plot1, plotCount = countPlt, caption = "This caption", addTrailingLine = TRUE)
 
 ################################################################################
 
