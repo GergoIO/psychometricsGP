@@ -30,5 +30,5 @@ The plot is added with an accompanying formatted caption to the configured repor
 Add a plot with accompanying caption
 }
 \examples{
-fnRptCaptionPlot(report = rpt$All, plot = plot1, plotCount = countPlt, caption = "This caption")
+fnRptAddPlot(report = rpt$All, plot = plot1, plotCount = countPlt, caption = "This caption", addTrailingLine = TRUE)
 }
