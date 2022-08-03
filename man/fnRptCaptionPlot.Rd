@@ -20,5 +20,5 @@ The formatted caption is added to the configured report. The variable storing th
 Add a new caption to accompany a plot and increment the value of the total number of plots.
 }
 \examples{
-fnRptCaptionPlot(rptVar = rpt$All, plotCount = countPlt, caption = "This caption")
+fnRptCaptionPlot(report = rpt$All, plotCount = countPlt, caption = "This caption")
 }

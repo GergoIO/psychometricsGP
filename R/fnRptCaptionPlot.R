@@ -7,7 +7,7 @@
 #' @return The formatted caption is added to the configured report. The variable storing the number of plots in the reported is incremented by 1
 #' @export
 #'
-#' @examples fnRptCaptionPlot(rptVar = rpt$All, plotCount = countPlt, caption = "This caption")
+#' @examples fnRptCaptionPlot(report = rpt$All, plotCount = countPlt, caption = "This caption")
 
 ################################################################################
 
