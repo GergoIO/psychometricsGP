@@ -36,6 +36,8 @@ fnRptAddPlot <-
       fnRptCaptionPlot(report = report,
                        plotCount = plotCount,
                        caption = caption)
+      # Ensure that whatever variable 'plotCount' is configured as it updated in main script
+      assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
       if (addTrailingLine == TRUE) {
         fnRptAddParagraph(report)
       }
