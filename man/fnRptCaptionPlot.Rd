@@ -2,7 +2,7 @@
 % Please edit documentation in R/fnRptCaptionPlot.R
 \name{fnRptCaptionPlot}
 \alias{fnRptCaptionPlot}
-\title{Add a new caption to accompany a plot and return the value of the total number of plots.}
+\title{Add a new caption to accompany a plot and increment the value of the total number of plots.}
 \usage{
 fnRptCaptionPlot(report = NULL, plotCount = NULL, caption = NULL)
 }
@@ -14,11 +14,11 @@ fnRptCaptionPlot(report = NULL, plotCount = NULL, caption = NULL)
 \item{caption}{The caption to add (string)}
 }
 \value{
-The new value for the total number of plots is returned. The output of this function should be saved to match whatever that varialbe is stored as in the main script. In addition to returning this, the formatted caption is also added the variable saving the report
+The formatted caption is added to the configured report. The variable storing the number of plots in the reported is incremented by 1
 }
 \description{
-Add a new caption to accompany a plot and return the value of the total number of plots.
+Add a new caption to accompany a plot and increment the value of the total number of plots.
 }
 \examples{
-countPlt <- fnRptCaptionPlot(rptVar = rpt$All, plotCount = countPlt, caption = "This caption")
+fnRptCaptionPlot(rptVar = rpt$All, plotCount = countPlt, caption = "This caption")
 }
