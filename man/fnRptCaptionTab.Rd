@@ -2,23 +2,23 @@
 % Please edit documentation in R/fnRptCaptionTab.R
 \name{fnRptCaptionTab}
 \alias{fnRptCaptionTab}
-\title{Add a new caption to accompany a table and return the value of the total number of tables.}
+\title{Add a new caption to accompany a table and increment the value of the total number of tables.}
 \usage{
 fnRptCaptionTab(report = NULL, tableCount = NULL, caption = NULL)
 }
 \arguments{
 \item{report}{The variable name of the report}
 
-\item{tableCount}{The variable name in the document which stores the current number of tables already in the report (integer, usually named 'countTab')}
+\item{tableCount}{The variable name in the document which stores the current number of variables already in the report (integer, usually named 'countTab')}
 
 \item{caption}{The caption to add (string)}
 }
 \value{
-The new value for the total number of tables is returned. The output of this function should be saved to match whatever that varialbe is stored as in the main script. In addition to returning this, the formatted caption is also added the variable saving the report
+The formatted caption is added to the configured report. The variable storing the number of tables in the reported is incremented by 1
 }
 \description{
-Add a new caption to accompany a table and return the value of the total number of tables.
+Add a new caption to accompany a table and increment the value of the total number of tables.
 }
 \examples{
-countTab <- fnRptCaptionTab(rptVar = rpt$All, tableCount = countTab, caption = "This caption")
+fnRptCaptionTab(rptVar = rpt$All, tableCount = countTab, caption = "This caption")
 }

@@ -25,6 +25,7 @@ fnRptCaptionPlot <-
                      glue('Figure {plotCount}: {caption}'),
                      style = "caption")
       # Increments and stores the variable tracking the number of plots in the report
+      # The assign fn requires the variable as a string
       assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
     }
   } # END

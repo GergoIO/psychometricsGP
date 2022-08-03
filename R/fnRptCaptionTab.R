@@ -1,13 +1,13 @@
-#' Add a new caption to accompany a table and return the value of the total number of tables.
+#' Add a new caption to accompany a table and increment the value of the total number of tables.
 #'
 #' @param report The variable name of the report
-#' @param tableCount The variable name in the document which stores the current number of tables already in the report (integer, usually named 'countTab')
+#' @param tableCount The variable name in the document which stores the current number of variables already in the report (integer, usually named 'countTab')
 #' @param caption The caption to add (string)
 #'
-#' @return The new value for the total number of tables is returned. The output of this function should be saved to match whatever that varialbe is stored as in the main script. In addition to returning this, the formatted caption is also added the variable saving the report
+#' @return The formatted caption is added to the configured report. The variable storing the number of tables in the reported is incremented by 1
 #' @export
 #'
-#' @examples countTab <- fnRptCaptionTab(rptVar = rpt$All, tableCount = countTab, caption = "This caption")
+#' @examples fnRptCaptionTab(rptVar = rpt$All, tableCount = countTab, caption = "This caption")
 
 ################################################################################
 
@@ -25,7 +25,8 @@ fnRptCaptionTab <-
         body_add_par(report,
                      glue('Table {tableCount}: {caption}'),
                      style = "caption")
-      tableCount <- tableCount + 1
-      return(tableCount)
+      # Increments and stores the variable tracking the number of plots in the report
+      # The assign fn requires the variable as a string
+      assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
     }
   } # END
