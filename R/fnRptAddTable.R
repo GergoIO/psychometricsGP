@@ -37,7 +37,7 @@ fnRptAddTable <-
       # The below line already appears in 'fnRptCaptionTable' - however it must be repeated in the top level function so that the 'tableCount' variable is updated in the main script too
       assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
 
-      rpt$All <-
+      report <-
         body_add_flextable(x = report,
                            value = qflextable(table))
       if (addTrailingLine == TRUE) {

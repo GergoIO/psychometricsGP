@@ -29,7 +29,7 @@ fnRptAddPlot <-
       stop("The variable 'addTrailingLine' must be set to either 'TRUE' or 'FALSE'.")
     }
     else{
-      report <- body_add_gg(rpt$All,
+      report <- body_add_gg(report,
                             value = plot,
                             height = 4,
                             width = 6)
