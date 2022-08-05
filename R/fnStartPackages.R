@@ -55,7 +55,8 @@ fnStartPackages <- function(githubToken = NULL) {
       stringi,
       tidyverse,
       viridis,
-      tjmahr / WrapRmd
+      tjmahr / WrapRmd,
+      xlsx
     )
   }
 } # END
