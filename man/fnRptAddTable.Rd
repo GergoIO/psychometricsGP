@@ -9,7 +9,7 @@ fnRptAddTable(
   table = NULL,
   tableCount = NULL,
   caption = NULL,
-  addTrailingLine = NULL
+  stopTrailingLine = FALSE
 )
 }
 \arguments{
@@ -21,7 +21,9 @@ fnRptAddTable(
 
 \item{caption}{The caption to add (string)}
 
-\item{addTrailingLine}{TRUE/FALSE}
+\item{stopTrailingLine}{TRUE/FALSE - decides whether to add an empty line below the table (default is FALSE if undeclared)}
+
+\item{stopFlextableConversion}{TRUE/FALSE - decides whether to convert the input table to a flextable. If the table has already been converted to a flextable prior to its use in the function. Set stopFlextableCoversion to FALSE. Otherwise, if a dataframe is input to this function stopFlextableCoversion can be left undeclared (default is FALSE if undeclared)}
 }
 \value{
 The table is added with an accompanying formatted caption to the configured report. The variable storing the number of tables in the report is incremented by 1 and a single trailing line is added following the caption (if requested)
