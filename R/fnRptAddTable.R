@@ -19,7 +19,8 @@ fnRptAddTable <-
            table = NULL,
            tableCount = NULL,
            caption = NULL,
-           stopTrailingLine = FALSE) {
+           stopTrailingLine = FALSE,
+           stopFlextableConversion = FALSE) {
     if (is.null(report) == TRUE | is.null(table) == TRUE |
         is.null(caption) == TRUE |
         is.null(tableCount) == TRUE)

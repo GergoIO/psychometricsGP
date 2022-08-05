@@ -9,7 +9,8 @@ fnRptAddTable(
   table = NULL,
   tableCount = NULL,
   caption = NULL,
-  stopTrailingLine = FALSE
+  stopTrailingLine = FALSE,
+  stopFlextableConversion = FALSE
 )
 }
 \arguments{
