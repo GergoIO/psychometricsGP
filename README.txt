@@ -25,3 +25,11 @@ Then,
 - Build > Install and Restart
 - Git > Commit (select and add a comment/description)
 - Git > Push
+
+
+
+Main usage while writing packages is the following:
+
+library(devtools)
+library(roxygen2)
+document()
