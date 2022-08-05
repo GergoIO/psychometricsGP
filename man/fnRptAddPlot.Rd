@@ -9,7 +9,7 @@ fnRptAddPlot(
   plot = NULL,
   plotCount = NULL,
   caption = NULL,
-  addTrailingLine = NULL
+  stopTrailingLine = FALSE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ fnRptAddPlot(
 
 \item{caption}{The caption to add (string)}
 
-\item{addTrailingLine}{TRUE/FALSE}
+\item{stopTrailingLine}{TRUE/FALSE - decides whether to add an empty line below the plot (default is FALSE if undeclared)}
 }
 \value{
 The plot is added with an accompanying formatted caption to the configured report. The variable storing the number of plots in the report is incremented by 1 and a single trailing line is added following the caption (if requested)
