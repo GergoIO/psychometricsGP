@@ -2,7 +2,7 @@
 % Please edit documentation in R/fnPltSave.R
 \name{fnPltSave}
 \alias{fnPltSave}
-\title{Save a plot}
+\title{Save a 15x15cm plot}
 \usage{
 fnPltSave(controls = NULL, plot = NULL, filePath = NULL)
 }
@@ -12,12 +12,14 @@ fnPltSave(controls = NULL, plot = NULL, filePath = NULL)
 \item{plot}{The variable name of the plot}
 
 \item{filePath}{The file path where the plot is saved}
+
+\item{dimensions}{A vector containing the width, height and units of the dimensions of the saved image}
 }
 \value{
 Nothing is explicitly returned, a plot is saved
 }
 \description{
-Save a plot
+Save a 15x15cm plot
 }
 \examples{
 fnPltSave(controls = list(stopAllOutputs = TRUE, stopImageSaving = FALSE), plot = plt1, filePath = glue('{some path}\\\\filename.jpg'))

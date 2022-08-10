@@ -1,4 +1,4 @@
-#' Save a plot
+#' Save a 15x15cm plot
 #'
 #' @param controls A list containing at least the defined (TRUE/FALSE) variables 'stopAllOutputs' and 'stopImageSaving'. If either of the variables are TRUE, this function will not save an image. Otherwise, if both variables are FALSE, an image will be saved. If 'controls' is not defined, the default behaviour is to proceed and save an image if possible. The user will be notified in this instance.
 #' @param plot The variable name of the plot
@@ -38,6 +38,9 @@ fnPltSave <-
     else if (controls$stopAllOutputs == FALSE &&
              controls$stopImageSaving == FALSE){
       ggsave(plot,
-             file = filePath)
+             file = filePath,
+             width = 15,
+             height = 15,
+             units = c("cm"))
     }
   }
