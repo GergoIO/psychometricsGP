@@ -7,7 +7,7 @@
 fnAcademicYearFormat(academicYearShort = NULL, type = NULL)
 }
 \arguments{
-\item{academicYearShort}{Insert the shortened version of the current academic year which needs formatting (eg for the academic year 2021 through 2022 this would be of the for 2122 or 21-22)}
+\item{academicYearShort}{Insert the shortened version of the current academic year which needs formatting (eg for the academic year 2021 through 2022 this would be of the form 2122 or 21-22)}
 
 \item{type}{Select the type of formatted output. Use one of: 'Long Dash', 'Long Slash', 'Short Dash' or 'Short Slash' only. (eg for the academic year 2021 through 2022 the following outputs can be achieved: 'Long Dash': 2021-2022, 'Long Slash': 2021/2022, 'Short Dash': 2021-22 or 'Short Slash': 2021/22.)}
 }
