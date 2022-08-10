@@ -15,6 +15,7 @@
 fnPltSave <-
   function(controls = NULL,
            plot = NULL,
+           dimensions = NULL,
            filePath = NULL) {
     if (is.null(plot) == TRUE |
         is.null(filePath) == TRUE | is.null(dimensions) == TRUE)    {
