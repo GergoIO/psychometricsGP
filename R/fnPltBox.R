@@ -421,7 +421,7 @@ fnPltBox<-function(df, xName=NULL, yName=NULL, maxScore=100, forceScheme=NULL, f
       expand_limits(y=c(0,maxScore)) +
       ylab(ifelse(maxScore==100,"Score (%)","Score")) +
       xlab(labelX) +
-      stat_summary(fun.y="mean", geom="point", shape=8, size=3.5, position=position_dodge(width=0.75), color="white") +
+      stat_summary(fun="mean", geom="point", shape=8, size=3.5, position=position_dodge(width=0.75), color="white") +
       theme_psmd() }
 
   else{
@@ -433,7 +433,7 @@ fnPltBox<-function(df, xName=NULL, yName=NULL, maxScore=100, forceScheme=NULL, f
       expand_limits(y=c(0,maxScore)) +
       ylab(ifelse(maxScore==100,"Score (%)","Score")) +
       xlab(labelX) +
-      stat_summary(fun.y="mean", geom="point", shape=8, size=3.5, position=position_dodge(width=0.75), color="white") +
+      stat_summary(fun="mean", geom="point", shape=8, size=3.5, position=position_dodge(width=0.75), color="white") +
       labs(fill=ifelse(fillScheme=="Assessor","Assessor ID",ifelse(fillScheme=="Stage",fillScheme,ifelse(fillScheme=="Gender",fillScheme,ifelse(fillScheme=="Ethnicity",fillScheme,ifelse(fillScheme=="Disability",fillScheme,"Grade")))))) +
       theme_psmd() + theme(legend.position=c(1,0), legend.justification=c(1,0))	}
 
