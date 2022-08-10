@@ -3,6 +3,8 @@
 export(fnAcademicYearFormat)
 export(fnBoxplot)
 export(fnIDSScoreSummary)
+export(fnPltSave)
+export(fnPltScatter)
 export(fnRmColsByName)
 export(fnRmExclItems)
 export(fnRmRowsByName)
