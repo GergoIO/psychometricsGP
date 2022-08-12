@@ -53,6 +53,8 @@ fnAnova <-
           for (i in stages) {
             loopStage <-
               glue("Stage {i}") # Get string of the current stage for col selection
+            # Remove all rows with any missing demographics data
+            # loopDemogData <- na.omit(demogDataStages[[loopStage]][, c("Score", varsAll)])
             loopDemogData <- demogDataStages[[loopStage]]
 
             ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
@@ -63,6 +65,7 @@ fnAnova <-
 
             lReturn[[glue('RawAnovaStage{i}')]] <- .aov
 
+            # Format and save Anova results
             tabAov <- drop1(aov, test = "F")
             tabAov <- tabAov[-1,]
             tabAov <-
@@ -96,15 +99,16 @@ fnAnova <-
             ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
             ### Observed Means                                                    ####
 
-            # Create a nested list of the number and mean scores for the variables not included in ANOVA
-
+            # Set which columns with be included in the observed means table
             if (reportObsMeanForAllVars == TRUE) {
               obsMeans <- varsAll
             } else {
               obsMeans <- setdiff(varsAll, varsAnova)
             }
+
+            # Create a nested list of the number and mean scores for selected demographics
             lstOfLsts <-
-              apply(na.omit(loopDemogData[, obsMeans]), 2, function(x)
+              apply(loopDemogData[, obsMeans], 2, function(x)
               {
                 tapply(loopDemogData$Score, x, function(x) {
                   c(length(x), fnRound(mean(x), 2))
@@ -143,3 +147,4 @@ fnAnova <-
       }
     }
   }
+
