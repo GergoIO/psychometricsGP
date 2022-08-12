@@ -53,8 +53,6 @@ fnAnova <-
           for (i in stages) {
             loopStage <-
               glue("Stage {i}") # Get string of the current stage for col selection
-            # Remove all rows with any missing demographics data
-            # loopDemogData <- na.omit(demogDataStages[[loopStage]][, c("Score", varsAll)])
             loopDemogData <- demogDataStages[[loopStage]]
 
             ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
@@ -148,3 +146,43 @@ fnAnova <-
     }
   }
 
+
+
+# Return to later - checking which demographics should be included as part of anova
+
+
+# https://www.datanovia.com/en/lessons/anova-in-r/
+# ddemog1 <-
+#   na.omit(dfDemog[, c("ScoreTotal", "Gender", "Ethnicity", "Disability")])
+#
+# install.packages("rstatix")
+# library(rstatix)
+#
+# dSummary <- ddemog1 %>%
+#   group_by(Gender, Ethnicity) %>%
+#   get_summary_stats(ScoreTotal, type = "mean_sd")
+#
+# dSummaryGender <- ddemog1 %>%
+#   group_by(Gender) %>%
+#   get_summary_stats(ScoreTotal, type = "mean_sd")
+#
+# dSummaryEthnicity <- ddemog1 %>%
+#   group_by(Ethnicity) %>%
+#   get_summary_stats(ScoreTotal, type = "mean_sd")
+#
+# dSummaryDisability <- ddemog1 %>%
+#   group_by(Disability) %>%
+#   get_summary_stats(ScoreTotal, type = "mean_sd")
+#
+#
+# dOutlier <- ddemog1 %>%
+#   group_by(Gender, Ethnicity, Disability) %>%
+#   identify_outliers(ScoreTotal)
+#
+# dShapiro <- ddemog1 %>%
+#   group_by(Gender, Ethnicity) %>%
+#   shapiro_test(ScoreTotal)
+#
+# dLevene <-
+#   ddemog1 %>% levene_test(ScoreTotal ~ Gender * Ethnicity * Disability)
+#
