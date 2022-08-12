@@ -14,12 +14,25 @@ fnAnova(
 )
 }
 \arguments{
-\item{demogData}{Dataframe containing demographics data columns (independent variables) and the student score (dependent variable) in another column and the relevant stage of each student row (if multiple stages are to be considered)}
+\item{demogData}{A dataframe - containing demographics data columns (independent variables) and the student score (dependent variable) in another column and the relevant stage of each student row (if multiple stages are to be considered)}
 
-\item{stages}{A vector denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData}
+\item{colScore}{A string - the name of the column containing the student scores (the dependent variable)}
 
-\item{reportObsMeanForAllVars}{}
+\item{varsAll}{A vector of strings - all the column names of the demographic properties to consider}
+
+\item{varsAnova}{A vector of strings - all the column names of the demographic properties to consider for the Anova}
+
+\item{stages}{A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData}
+
+\item{reportObsMeanForAllVars}{Boolean (TRUE/FALSE) - TRUE: Report observed means for all the demographics (varsAll). FALSE: Report observed means for only the demographics which were not included in the Anova}
+}
+\value{
+A list of dataframes with the anova results, summarised anova results, adjusted means table and observed means table
 }
 \description{
 Perform ANOVA, save ANOVA results, adjusted means and observed means for different stages
+}
+\examples{
+fnAnova(demogData = df, colScore = "ScoreTotal", varsAll = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability"), stages = c(2,3,4,5), reportObsMeanForAllVars = FALSE)
+
 }
