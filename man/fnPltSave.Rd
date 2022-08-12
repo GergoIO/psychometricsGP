@@ -4,16 +4,16 @@
 \alias{fnPltSave}
 \title{Save a plot}
 \usage{
-fnPltSave(controls = NULL, plot = NULL, filePath = NULL)
+fnPltSave(controls = NULL, plot = NULL, dimensions = NULL, filePath = NULL)
 }
 \arguments{
 \item{controls}{A list containing at least the defined (TRUE/FALSE) variables 'stopAllOutputs' and 'stopImageSaving'. If either of the variables are TRUE, this function will not save an image. Otherwise, if both variables are FALSE, an image will be saved. If 'controls' is not defined, the default behaviour is to proceed and save an image if possible. The user will be notified in this instance.}
 
 \item{plot}{The variable name of the plot}
 
-\item{filePath}{The file path where the plot is saved}
-
 \item{dimensions}{A vector containing the width, height and units of the dimensions of the saved image}
+
+\item{filePath}{The file path where the plot is saved}
 }
 \value{
 Nothing is explicitly returned, a plot is saved
