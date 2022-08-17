@@ -13,6 +13,10 @@ fnStartPackages <- function(githubToken = NULL) {
   if (is.null(githubToken) == TRUE) {
     stop("Please specify the github personal access token for file retrieval.")
   } else {
+
+    # Define the 'not in' operator
+    `%!in%` <- Negate(`%in%`)
+
     # Install psychometricsTNG packages from private Github
     devtools::install_github("GergoIO/psychometricsTNG",
                              auth_token = githubToken,
