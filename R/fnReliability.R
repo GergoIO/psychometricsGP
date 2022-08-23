@@ -15,58 +15,63 @@ fnReliability <-  function(stages = NULL,
   relCalcs = list() # To save intermediary calculations which are not returned as part of the function
   reliability = data.frame(matrix(NA, nrow = 9)) # To save final reliability calculations
 
-  for (i in stages) {
-    stage <- glue("Stage {i}")
-    loopDf <- scoresData[[stage]]
+  if (is.null(stages) == TRUE | is.null(scoresData) == TRUE) {
+    stop("One of the required variables for this function has not been specified.")
+  } else{
+    for (i in stages) {
+      stage <- glue("Stage {i}")
+      loopDf <- scoresData[[stage]]
 
-    loopScoresLong <-
-      transform(loopDf, Candidate = c(1:nrow(loopDf)))
-    loopScoresLong <-
-      melt(loopScoresLong, id = "Candidate")
-    colnames(loopScoresLong) <- c("Candidate", "Item", "Score")
-    loopScoresLong$Item <-
-      gsub("X", "", loopScoresLong$Item, fixed = TRUE)
+      loopScoresLong <-
+        transform(loopDf, Candidate = c(1:nrow(loopDf)))
+      loopScoresLong <-
+        melt(loopScoresLong, id = "Candidate")
+      colnames(loopScoresLong) <- c("Candidate", "Item", "Score")
+      loopScoresLong$Item <-
+        gsub("X", "", loopScoresLong$Item, fixed = TRUE)
 
-    fitLinearMixEffectModel <-
-      lmer(Score ~ (1 |
-                      Candidate) + (1 | Item), data = loopScoresLong)
+      fitLinearMixEffectModel <-
+        lmer(Score ~ (1 |
+                        Candidate) + (1 |
+                                        Item), data = loopScoresLong)
 
-    relCalcs$varCorr <-
-      as.data.frame(VarCorr(fitLinearMixEffectModel))
-    rownames(relCalcs$varCorr) <- relCalcs$varCorr$grp
-    relCalcs$varCorr$perc <-
-      relCalcs$varCorr$vcov / sum(relCalcs$varCorr$vcov) * 100
+      relCalcs$varCorr <-
+        as.data.frame(VarCorr(fitLinearMixEffectModel))
+      rownames(relCalcs$varCorr) <- relCalcs$varCorr$grp
+      relCalcs$varCorr$perc <-
+        relCalcs$varCorr$vcov / sum(relCalcs$varCorr$vcov) * 100
 
-    cv <-
-      relCalcs$varCorr["Candidate", 4] #Candidate Variances or Covariance
-    iv <-
-      relCalcs$varCorr["Item", 4] #Item Variances or Covariance
-    rv <-
-      relCalcs$varCorr["Residual", 4] #Residual Variances or Covariance
-    relCalcs$phi <-
-      cv / (cv + (iv / cnst$nItemsIncl) + (rv / cnst$nItemsIncl))
-    relCalcs$g <- cv / (cv + (rv / cnst$nItemsIncl))
-    relCalcs$semAbs <-
-      100 * sqrt((iv / cnst$nItemsIncl) + (rv / cnst$nItemsIncl))
-    relCalcs$semRel <- 100 * sqrt(rv / cnst$nItemsIncl)
-    relCalcs$varianceCandidate <-
-      relCalcs$varCorr["Candidate", 6]
-    relCalcs$varianceItem <- relCalcs$varCorr["Item", 6]
-    relCalcs$varianceResidual <-
-      relCalcs$varCorr["Residual", 6]
+      cv <-
+        relCalcs$varCorr["Candidate", 4] #Candidate Variances or Covariance
+      iv <-
+        relCalcs$varCorr["Item", 4] #Item Variances or Covariance
+      rv <-
+        relCalcs$varCorr["Residual", 4] #Residual Variances or Covariance
+      relCalcs$phi <-
+        cv / (cv + (iv / cnst$nItemsIncl) + (rv / cnst$nItemsIncl))
+      relCalcs$g <- cv / (cv + (rv / cnst$nItemsIncl))
+      relCalcs$semAbs <-
+        100 * sqrt((iv / cnst$nItemsIncl) + (rv / cnst$nItemsIncl))
+      relCalcs$semRel <- 100 * sqrt(rv / cnst$nItemsIncl)
+      relCalcs$varianceCandidate <-
+        relCalcs$varCorr["Candidate", 6]
+      relCalcs$varianceItem <- relCalcs$varCorr["Item", 6]
+      relCalcs$varianceResidual <-
+        relCalcs$varCorr["Residual", 6]
 
-    reliability[, stage] <- c(
-      "Students Assessed" = dim(dfRes[dfRes$Stage == i, ])[1],
-      "Cronbach's Alpha" = cronbach.alpha(scoresData[[stage]])[[1]],
-      "Variance (%) due to candidates" = relCalcs$varianceCandidate,
-      "Variance (%) due to items" = relCalcs$varianceItem,
-      "Variance (%) residual" = relCalcs$varianceResidual,
-      "G coefficient" = relCalcs$g,
-      "Relative SEM" = relCalcs$semRel,
-      "Phi Coefficient" = relCalcs$phi,
-      "Absolute SEM" = relCalcs$semAbs
-    )
+      reliability[, stage] <- c(
+        "Students Assessed" = dim(dfRes[dfRes$Stage == i,])[1],
+        "Cronbach's Alpha" = cronbach.alpha(scoresData[[stage]])[[1]],
+        "Variance (%) due to candidates" = relCalcs$varianceCandidate,
+        "Variance (%) due to items" = relCalcs$varianceItem,
+        "Variance (%) residual" = relCalcs$varianceResidual,
+        "G coefficient" = relCalcs$g,
+        "Relative SEM" = relCalcs$semRel,
+        "Phi Coefficient" = relCalcs$phi,
+        "Absolute SEM" = relCalcs$semAbs
+      )
 
+    }
+    return(reliability[, -1])
   }
-  return(reliability[, -1])
 }
