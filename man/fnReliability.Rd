@@ -2,7 +2,7 @@
 % Please edit documentation in R/fnReliability.R
 \name{fnReliability}
 \alias{fnReliability}
-\title{Stage Specific Test Reliability Parameters}
+\title{Test Reliability Parameters (Stage Specific)}
 \usage{
 fnReliability(stages = NULL, scoresData = NULL)
 }
@@ -15,7 +15,7 @@ fnReliability(stages = NULL, scoresData = NULL)
 A dataframe containing the reliability data for each considered stage is returned
 }
 \description{
-Stage Specific Test Reliability Parameters
+Test Reliability Parameters (Stage Specific)
 }
 \examples{
 fnReliability(stages = cnst$stages, scoresData = dfResStagesOnlyScores)

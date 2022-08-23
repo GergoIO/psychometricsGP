@@ -1,4 +1,4 @@
-#' Stage Specific Test Reliability Parameters
+#' Test Reliability Parameters (Stage Specific)
 #'
 #' @param stages Vector containing all the stages being considered
 #' @param scoresData List of dataframes with students scores for each stage. Each data frame in the list should be named "Stage #" where # is the relevant stage. In each dataframe the columns should be the items and the rows should be the index of each student (actual value unimportant). Each data point should represent the score for a particular student on a particular item. All students with NA scores and excluded items should be removed prior to use in this function
@@ -11,7 +11,7 @@
 ################################################################################
 
 fnReliability <-  function(stages = NULL,
-                            scoresData = NULL) {
+                           scoresData = NULL) {
   relCalcs = list() # To save intermediary calculations which are not returned as part of the function
   reliability = data.frame(matrix(nrow = 9, ncol = 0), stringsAsFactors = FALSE) # To save final reliability calculations
 
@@ -72,7 +72,7 @@ fnReliability <-  function(stages = NULL,
           "Absolute SEM"
         )
       reliability[, stage] <- c(
-        dim(dfRes[dfRes$Stage == i, ])[1],
+        dim(dfRes[dfRes$Stage == i,])[1],
         cronbach.alpha(scoresData[[stage]])[[1]],
         relCalcs$varianceCandidate,
         relCalcs$varianceItem,
@@ -84,6 +84,5 @@ fnReliability <-  function(stages = NULL,
       )
     }
     return(reliability)
-    print(reliability)
   }
-}
+} # END
