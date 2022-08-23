@@ -11,9 +11,9 @@
 ################################################################################
 
 fnReliability <-  function(stages = NULL,
-                           scoresData = NULL) {
+                            scoresData = NULL) {
   relCalcs = list() # To save intermediary calculations which are not returned as part of the function
-  reliability = data.frame(matrix(NA, nrow = 9)) # To save final reliability calculations
+  reliability = data.frame(matrix(nrow = 9, ncol = 0), stringsAsFactors = FALSE) # To save final reliability calculations
 
   if (is.null(stages) == TRUE | is.null(scoresData) == TRUE) {
     stop("One of the required variables for this function has not been specified.")
@@ -59,19 +59,31 @@ fnReliability <-  function(stages = NULL,
       relCalcs$varianceResidual <-
         relCalcs$varCorr["Residual", 6]
 
+      rownames(reliability) <-
+        c(
+          "Students Assessed",
+          "Cronbach's Alpha",
+          "Variance (%) due to candidates",
+          "Variance (%) due to items",
+          "Variance (%) residual",
+          "G coefficient",
+          "Relative SEM",
+          "Phi Coefficient",
+          "Absolute SEM"
+        )
       reliability[, stage] <- c(
-        "Students Assessed" = dim(dfRes[dfRes$Stage == i,])[1],
-        "Cronbach's Alpha" = cronbach.alpha(scoresData[[stage]])[[1]],
-        "Variance (%) due to candidates" = relCalcs$varianceCandidate,
-        "Variance (%) due to items" = relCalcs$varianceItem,
-        "Variance (%) residual" = relCalcs$varianceResidual,
-        "G coefficient" = relCalcs$g,
-        "Relative SEM" = relCalcs$semRel,
-        "Phi Coefficient" = relCalcs$phi,
-        "Absolute SEM" = relCalcs$semAbs
+        dim(dfRes[dfRes$Stage == i, ])[1],
+        cronbach.alpha(scoresData[[stage]])[[1]],
+        relCalcs$varianceCandidate,
+        relCalcs$varianceItem,
+        relCalcs$varianceResidual,
+        relCalcs$g,
+        relCalcs$semRel,
+        relCalcs$phi,
+        relCalcs$semAbs
       )
-
     }
-    return(reliability[, -1])
+    return(reliability)
+    print(reliability)
   }
 }
