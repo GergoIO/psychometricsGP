@@ -54,7 +54,7 @@ fnStartup <- function(githubToken = NULL,
              is.null(createImagesFolder) == TRUE |
              is.null(createPulseSubfolder) == TRUE) {
     warning(
-      "Please specify the booleans createOutputFolder, createImagesFolder and createPulseSubfolder to determine which folders should be created. No folders will be created for any underfined booleans."
+      "Please specify the booleans createOutputFolder, createImagesFolder and createPulseSubfolder to determine which folders should be created. No folders will be created for any undefined booleans."
     )
   } else {
     # Install psychometricsTNG packages from private Github
