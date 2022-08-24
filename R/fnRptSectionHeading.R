@@ -1,9 +1,9 @@
-#' Add a section heading to a report
+#' Add a section heading (level 3) to a report
 #'
 #' @param rptVar The variable name of the report
 #' @param headingTitle This string will be the added section heading
 #'
-#' @return Nothing is explicitly returned, rather the desired section heading is added to the report
+#' @return Nothing is explicitly returned, rather the desired section heading is added to the report (this is one level lower than fnRptSectionTitle)
 #' @export
 #'
 #' @examples fnRptSectionHeading(rptVar = rpt$All, headingTitle = "Grade Distributions")
