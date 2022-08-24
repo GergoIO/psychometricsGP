@@ -6,8 +6,8 @@
 #' @return Nothing is explicitly returned, rather the desired section title is added to the report (this is one level higher than fnRptSectionHeading)
 #' @export
 #'
-#' @examples fnRptSectionHeading(rptVar = rpt$All, headingTitle = "Grade Distributions")
-fnRptSectionHeading <- function(rptVar = NULL,
+#' @examples fnRptSectionTitle(rptVar = rpt$All, sectionTitle = "Grade Distributions")
+fnRptSectionTitle <- function(rptVar = NULL,
                                 sectionTitle = NULL) {
   if (is.null(rptVar) == TRUE |
       is.null(sectionTitle) == TRUE)
