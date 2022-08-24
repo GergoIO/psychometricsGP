@@ -70,7 +70,7 @@ fnRptCoverSheet <-
         body_replace_all_text(
           rptVar,
           old_value = "AssessmentPlaceholder",
-          new_value = lstOfDetails$assessmentNumber,
+          new_value = lstOfDetails$assessment,
           only_at_cursor = FALSE
         )
       rptVar <-
