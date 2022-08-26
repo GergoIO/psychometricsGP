@@ -4,21 +4,23 @@
 \alias{fnTestRetestAnalysis}
 \title{Test Retest Data Analysis}
 \usage{
-fnTestRetestAnalysis(lstOfDetails, dataAnalysis, dataRaw)
+fnTestRetestAnalysis(stage, lstOfDetails, dataAnalysis, dataRaw)
 }
 \arguments{
-\item{lstOfDetails}{This variable should be a list containing as least the following defined variables: assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)}
+\item{stage}{A number (optional) - for use if this function is used as part of a loop. If a stage is defined, the stage will be appended to the saved list items.  If a stage is not defined, no stage info will be appended.}
 
-\item{dataAnalysis}{A list - the name of the variable storing all the test retest data analysis results}
+\item{lstOfDetails}{A list - containing as least the following defined variables: assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)}
 
-\item{dataRaw}{A dataframe - all the raw test retest data. The following columns must be present:}
+\item{dataAnalysis}{A list - the name of the variable storing all the test retest data analysis results. This list must be defined (even as an empty list eg: testRetest <- list()) in the main script prior to calling this function.}
+
+\item{dataRaw}{A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and "####_Grade" (eg for analysis of PT36: "PT35_Score", "PT35_Grade", "PT36_Score", "PT36_Grade")}
 }
 \value{
-todo
+A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is
 }
 \description{
 Test Retest Data Analysis
 }
 \examples{
-todo
+testRetest <- fnTestRetestAnalysis(stage = 1, lstOfDetails = cnst, dataAnalysis = testRetest, dataRaw = dfResTestRetestStages[["Stage 1"]])
 }
