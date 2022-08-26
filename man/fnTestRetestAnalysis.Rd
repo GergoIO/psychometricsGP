@@ -4,7 +4,12 @@
 \alias{fnTestRetestAnalysis}
 \title{Test Retest Data Analysis}
 \usage{
-fnTestRetestAnalysis(stage, lstOfDetails, dataAnalysis, dataRaw)
+fnTestRetestAnalysis(
+  stage = NULL,
+  lstOfDetails = NULL,
+  dataAnalysis = NULL,
+  dataRaw = NULL
+)
 }
 \arguments{
 \item{stage}{A number (optional) - for use if this function is used as part of a loop. If a stage is defined, the stage will be appended to the saved list items.  If a stage is not defined, no stage info will be appended.}
@@ -16,7 +21,7 @@ fnTestRetestAnalysis(stage, lstOfDetails, dataAnalysis, dataRaw)
 \item{dataRaw}{A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and "####_Grade" (eg for analysis of PT36: "PT35_Score", "PT35_Grade", "PT36_Score", "PT36_Grade")}
 }
 \value{
-A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is
+A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified
 }
 \description{
 Test Retest Data Analysis

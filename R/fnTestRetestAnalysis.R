@@ -5,20 +5,18 @@
 #' @param dataAnalysis A list - the name of the variable storing all the test retest data analysis results. This list must be defined (even as an empty list eg: testRetest <- list()) in the main script prior to calling this function.
 #' @param dataRaw A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and "####_Grade" (eg for analysis of PT36: "PT35_Score", "PT35_Grade", "PT36_Score", "PT36_Grade")
 #'
-#' @return A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is
+#' @return A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified
 #' @export
 #'
 #' @examples testRetest <- fnTestRetestAnalysis(stage = 1, lstOfDetails = cnst, dataAnalysis = testRetest, dataRaw = dfResTestRetestStages[["Stage 1"]])
 
 ################################################################################
 
-# TODO Finish descriptions etc. test fcn
-
 fnTestRetestAnalysis <-
-  function(stage,
-           lstOfDetails,
-           dataAnalysis,
-           dataRaw) {
+  function(stage = NULL,
+           lstOfDetails = NULL,
+           dataAnalysis = NULL,
+           dataRaw = NULL) {
     if (is.null(lstOfDetails) == TRUE |
         is.null(dataAnalysis) == TRUE |
         is.null(dataRaw) == TRUE) {
@@ -29,19 +27,24 @@ fnTestRetestAnalysis <-
         "fnTestRetestAnalysis: No stage is specified. Continuing without stage specificity"
       )
 
-      testScore <- glue('{lstOfDetails$assessment}_Score')
-      testGrade <- glue('{lstOfDetails$assessment}_Grade')
+      assessment <- lstOfDetails$assessment
+      assessmentPrev <- lstOfDetails$assessmentPrev
 
-      testScorePrev <- glue('{lstOfDetails$assessmentPrev}_Score')
-      testGradePrev <- glue('{lstOfDetails$assessmentPrev}_Grade')
+      testScore <- glue('{assessment}_Score')
+      testGrade <- glue('{assessment}_Grade')
+      testScorePrev <- glue('{assessmentPrev}_Score')
+      testGradePrev <- glue('{assessmentPrev}_Grade')
 
-      # TRT Cov
+      # Test Retest Cov
+      # Save number of students considered
       dataAnalysis[["nTestRetest"]] <-
         length(dataRaw$StudentID)
+      # Perform correlation test
       .looptestRetestCor <-
         dataAnalysis[["corrTest"]] <-
         cor.test(dataRaw[[testScorePrev]], dataRaw[[testScore]])
 
+      # Save correlation test results
       dataAnalysis[["corrVal"]] <-
         .looptestRetestCor$estimate[[1]]
       dataAnalysis[["corrLowCI"]] <-
@@ -49,7 +52,7 @@ fnTestRetestAnalysis <-
       dataAnalysis[["corrHighCI"]] <-
         .looptestRetestCor$conf.int[2]
 
-      # Matrix
+      # Construct Test Retest Grade Matrix
       dataAnalysis[["testGradePrev"]] <-
         factor(
           dataRaw[[testGradePrev]],
@@ -103,23 +106,27 @@ fnTestRetestAnalysis <-
       dataAnalysis[["Matrix"]] <- testRetestMatrix
       return(dataAnalysis)
 
-
     } else {
-      message("fnTestRetestAnalysis: A stage is specified")
+      message(glue("fnTestRetestAnalysis: Stage {i} is specified"))
 
-      testScore <- glue('{lstOfDetails$assessment}_Score')
-      testGrade <- glue('{lstOfDetails$assessment}_Grade')
+      assessment <- lstOfDetails$assessment
+      assessmentPrev <- lstOfDetails$assessmentPrev
 
-      testScorePrev <- glue('{lstOfDetails$assessmentPrev}_Score')
-      testGradePrev <- glue('{lstOfDetails$assessmentPrev}_Grade')
+      testScore <- glue('{assessment}_Score')
+      testGrade <- glue('{assessment}_Grade')
+      testScorePrev <- glue('{assessmentPrev}_Score')
+      testGradePrev <- glue('{assessmentPrev}_Grade')
 
-      # TRT Cov
+      # Test Retest Cov
+      # Save number of students considered
       dataAnalysis[[glue('nTestRetestStage{stage}')]] <-
         length(dataRaw$StudentID)
+      # Perform correlation test
       .looptestRetestCor <-
         dataAnalysis[[glue('corrTestStage{stage}')]] <-
         cor.test(dataRaw[[testScorePrev]], dataRaw[[testScore]])
 
+      # Save correlation test results
       dataAnalysis[[glue('corrValStage{stage}')]] <-
         .looptestRetestCor$estimate[[1]]
       dataAnalysis[[glue('corrLowCIStage{stage}')]] <-
@@ -127,7 +134,7 @@ fnTestRetestAnalysis <-
       dataAnalysis[[glue('corrHighCIStage{stage}')]] <-
         .looptestRetestCor$conf.int[2]
 
-      # Matrix
+      # Construct Test Retest Grade Matrix
       dataAnalysis[[glue('{testGradePrev}Stage{stage}')]] <-
         factor(
           dataRaw[[testGradePrev]],
