@@ -16,9 +16,9 @@ fnTestRetestAnalysis(
 
 \item{lstOfDetails}{A list - containing as least the following defined variables: assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)}
 
-\item{dataAnalysis}{A list - the name of the variable storing all the test retest data analysis results. The output this function (fnTestRetestAnalysis) should be the same as the dataAnalysis variable. It is also defined as an input variable here so that prior data saved to this list is not overwritten. This list must be defined (even as an empty list eg: testRetest <- list()) in the main script prior to calling this function.}
+\item{dataAnalysis}{A list - the name of the variable storing all the test retest data analysis results. The output this function (fnTestRetestAnalysis) should be saved to the same dataAnalysis variable. It is also defined as an input variable here so that prior data saved to this list is not overwritten. This list must be defined (even as an empty list eg: testRetest <- list()) in the main script prior to calling this function.}
 
-\item{dataRaw}{A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and "####_Grade" (eg for analysis of PT36: "PT35_Score", "PT35_Grade", "PT36_Score", "PT36_Grade")}
+\item{dataRaw}{A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and (eg for analysis of PT36: "PT35_Score", PT36_Score")}
 }
 \value{
 A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified
