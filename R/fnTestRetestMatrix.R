@@ -24,7 +24,7 @@ fnTestRetestMatrix <-
     }
     if (is.null(stage) == TRUE) {
       message(
-        "fnTestRetestAnalysis: No stage is specified. Continuing without stage specificity"
+        "fnTestRetestMatrix: No stage is specified. Continuing without stage specificity"
       )
 
       assessment <- lstOfDetails$assessment
@@ -88,7 +88,7 @@ fnTestRetestMatrix <-
       return(dataAnalysis)
 
     } else {
-      message(glue("fnTestRetestAnalysis: A Stage ({stage}) is specified"))
+      message(glue("fnTestRetestMatrix: A Stage ({stage}) is specified"))
 
       assessment <- lstOfDetails$assessment
       assessmentPrev <- lstOfDetails$assessmentPrev
