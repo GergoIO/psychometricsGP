@@ -4,10 +4,10 @@
 \alias{fnRptAddText}
 \title{Add Text to a Report}
 \usage{
-fnRptAddText(rptVar = NULL, text = NULL)
+fnRptAddText(report = NULL, text = NULL)
 }
 \arguments{
-\item{rptVar}{The variable name of the report}
+\item{report}{The variable name of the report}
 
 \item{text}{The text to add to the report}
 }
@@ -18,5 +18,5 @@ Nothing is explicitly returned, rather the configured text is added to the confi
 Add Text to a Report
 }
 \examples{
-fnRptAddText(rptVar = rpt$All, text = "Test text")
+fnRptAddText(report = rpt$All, text = "Test text")
 }
