@@ -64,7 +64,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 
     fnRptSectionHeading(report, glue("Stage {stage} Test-Retest Statistics"))
 
-    if (cnst$testInYear == 1 && stage = 1) {
+    if (cnst$testInYear == 1 && stage == 1) {
       fnRptAddText(report = report,
                    text = "As this is the first test for this cohort, there are no test-retest statistics available.")
     } else{
