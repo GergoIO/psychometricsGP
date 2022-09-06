@@ -6,6 +6,7 @@
 #' @param caption The caption to add (string)
 #' @param stopTrailingLine TRUE/FALSE - decides whether to add an empty line below the table (default is FALSE if undeclared)
 #' @param stopFlextableConversion TRUE/FALSE - decides whether to convert the input table to a flextable. If the table has already been converted to a flextable prior to its use in the function. Set stopFlextableCoversion to FALSE. Otherwise, if a dataframe is input to this function stopFlextableCoversion can be left undeclared (default is FALSE if undeclared)
+#' @param ... A wildcard argument to add extra arguments to the body_add_flextable function nested within this function (use it for things like 'align = "left"')
 #'
 #' @return The table is added with an accompanying formatted caption to the configured report. The variable storing the number of tables in the report is incremented by 1 and a single trailing line is added following the caption (if requested)
 #' @export
@@ -20,7 +21,8 @@ fnRptAddTable <-
            tableCount = NULL,
            caption = NULL,
            stopTrailingLine = FALSE,
-           stopFlextableConversion = FALSE) {
+           stopFlextableConversion = FALSE,
+           ...) {
     if (is.null(report) == TRUE | is.null(table) == TRUE |
         is.null(caption) == TRUE |
         is.null(tableCount) == TRUE)
@@ -40,11 +42,13 @@ fnRptAddTable <-
       if (stopFlextableConversion == TRUE) {
         report <-
           body_add_flextable(x = report,
-                             value = table)
+                             value = table,
+                             ...)
       } else if (stopFlextableConversion %in% c(NULL, FALSE)) {
         report <-
           body_add_flextable(x = report,
-                             value = qflextable(table))
+                             value = qflextable(table),
+                             ...)
       }
       if (stopTrailingLine == TRUE) {
 
