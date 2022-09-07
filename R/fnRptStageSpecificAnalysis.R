@@ -49,7 +49,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddText(
       report = report,
       text = glue(
-        "Scores for the {dim(dfResStagesOnlyScores[[glue('Stage {stage}')]])[1]} Stage {stage} students were {ifelse(tab[[glue('ShapiroStage{stage}')]]$ShapiroP<0.05, 'not', '')} normally distributed (Shapiro-Wilk test, W={sprintf('%.3f', tab[[glue('ShapiroStage{stage}')]]$ShapiroW)}, p={sprintf('%.3f', tab[[glue('ShapiroStage{stage}')]]$ShapiroP)}."
+        "Scores for the {dim(dfResStagesOnlyScores[[glue('Stage {stage}')]])[1]} Stage {stage} students were {ifelse(tab[[glue('ShapiroStage{stage}')]]$ShapiroP<0.05, 'not', '')} normally distributed (Shapiro-Wilk test, W={sprintf('%.3f', tab[[glue('ShapiroStage{stage}')]]$ShapiroW)}, p={sprintf('%.3f', tab[[glue('ShapiroStage{stage}')]]$ShapiroP))}."
       )
     )
     fnRptAddParagraph(report)
