@@ -33,9 +33,7 @@ fnRnd <- function(value = NULL,
       } else{
         return("NA")
       }
-    } else if (is.numeric(value) == FALSE){
-      return(value)
-      }else{
+    } else{
       # Extra conversion to numeric below helps to catch non numeric inputs
       return(suppressWarnings(format(round(as.numeric(value), decimals), nsmall = decimals)))
     }
