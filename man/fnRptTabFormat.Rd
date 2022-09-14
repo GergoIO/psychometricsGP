@@ -13,7 +13,7 @@ fnRptTabFormat(table, decimals, editColumnsNotRows, integerColumnsOrRows)
 
 \item{editColumnsNotRows}{(Boolean) If TRUE, the specified COLUMN numbers will be converted back to integers. If FALSE, the specified ROW numbers will be converted back to integers.}
 
-\item{integerColumnsOrRows}{(Numeric, a list or single value eg: 1 or c(1,2,3)) The numbers of the COLUMNS or ROWS (depending on the editColumnsNotRows variable) which will be displayed as integers}
+\item{integerColumnsOrRows}{(OPTIONAL, Numeric, a list or single value eg: 1 or c(1,2,3)) The numbers of the COLUMNS or ROWS (depending on the editColumnsNotRows variable) which will be displayed as integers. If this variable is not defined, none of the columns or rows will be converted to integers.}
 }
 \value{
 The formatted table is returned
