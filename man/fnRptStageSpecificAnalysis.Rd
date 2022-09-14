@@ -13,8 +13,8 @@ fnRptStageSpecificAnalysis(
   tabDemog = NULL,
   dfResStagesOnlyScores = NULL,
   testRetest = NULL,
-  countPlt = NULL,
-  countTab = NULL
+  plotCount = NULL,
+  tableCount = NULL
 )
 }
 \arguments{
@@ -34,9 +34,9 @@ fnRptStageSpecificAnalysis(
 
 \item{testRetest}{***}
 
-\item{countPlt}{***}
+\item{plotCount}{***}
 
-\item{countTab}{***}
+\item{tableCount}{***}
 }
 \value{
 ***

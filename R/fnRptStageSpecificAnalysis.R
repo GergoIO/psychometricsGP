@@ -8,8 +8,8 @@
 #' @param tabDemog ***
 #' @param dfResStagesOnlyScores ***
 #' @param testRetest ***
-#' @param countPlt ***
-#' @param countTab ***
+#' @param tableCount ***
+#' @param plotCount ***
 #'
 #' @return ***
 #' @export
@@ -28,8 +28,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
                                        tabDemog = NULL,
                                        dfResStagesOnlyScores = NULL,
                                        testRetest = NULL,
-                                       countPlt = NULL,
-                                       countTab = NULL) {
+                                       plotCount = NULL,
+                                       tableCount = NULL) {
   if (is.null(stage) == TRUE |
       is.null(report) == TRUE |
       is.null(cnst) == TRUE |
@@ -38,8 +38,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       is.null(tabDemog) == TRUE |
       is.null(dfResStagesOnlyScores) == TRUE |
       is.null(testRetest) == TRUE |
-      is.null(countPlt) == TRUE |
-      is.null(countTab) == TRUE) {
+      is.null(plotCount) == TRUE |
+      is.null(tableCount) == TRUE) {
     stop(
       "fnRptStageSpecificAnalysis: One of the required variables for this function has not been specified."
     )
@@ -58,7 +58,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddPlot(
       report = report,
       plot = plt[[glue('HistogramScoresStage{stage}')]],
-      plotCount = countPlt,
+      plotCount = plotCount,
       caption = glue('Distribution of Stage {stage} test scores')
     )
 
@@ -80,7 +80,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       fnRptAddPlot(
         report = report,
         plot = plt[[glue('testRetestStage{stage}')]],
-        plotCount = countPlt,
+        plotCount = plotCount,
         caption = glue(
           'Scatterplot of Stage {stage} scores on current and previous test'
         )
@@ -91,7 +91,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddTable(
       report = report,
       table = testRetest[[glue('MatrixStage{stage}')]],
-      tableCount = countTab,
+      tableCount = tableCount,
       caption = glue(
         'Stage {stage} students by grade awarded in {cnst$assessment} (row) and {cnst$assessmentPrev} (column)'
       )
@@ -111,7 +111,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddTable(
       report = report,
       table = tabDemog[[glue('AnovaStage{stage}')]],
-      tableCount = countTab,
+      tableCount = tableCount,
       caption = glue(
         "Analysis of variance table (Type III sums of squares, dependent variable: ({cnst$assessment} % Score))"
       )
@@ -120,7 +120,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddTable(
       report = report,
       table = tabDemog[[glue('MeansAdjStage{stage}')]],
-      tableCount = countTab,
+      tableCount = tableCount,
       caption = glue(
         "Estimated marginal means (dependent variable: ({cnst$assessment} % Score))"
       )
@@ -136,7 +136,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddTable(
       report = report,
       table = tabDemog[[glue('MeansObsStage{stage}')]],
-      tableCount = countTab,
+      tableCount = tableCount,
       caption = glue("Observed mean percentage scores")
     )
   }
@@ -161,7 +161,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddPlot(
 #     report = rpt$All,
 #     plot = plt[[glue('HistogramScoresStage{i}')]],
-#     plotCount = countPlt,
+#     plotCount = plotCount,
 #     caption = glue('Distribution of Stage {i} test scores')
 #   )
 #
@@ -179,7 +179,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddPlot(
 #     report = rpt$All,
 #     plot = plt[[glue('testRetestStage{i}')]],
-#     plotCount = countPlt,
+#     plotCount = plotCount,
 #     caption = glue('Scatterplot of Stage {i} scores on current and previous test')
 #   )
 #
@@ -187,7 +187,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddTable(
 #     report = rpt$All,
 #     table = testRetest[[glue('MatrixStage{i}')]],
-#     tableCount = countTab,
+#     tableCount = tableCount,
 #     caption = glue(
 #       'Stage {i} students by grade awarded in {cnst$assessment} (row) and {cnst$assessmentPrev} (column)'
 #     )
@@ -207,7 +207,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddTable(
 #     report = rpt$All,
 #     table = tabDemog[[glue('AnovaStage{i}')]],
-#     tableCount = countTab,
+#     tableCount = tableCount,
 #     caption = glue(
 #       "Analysis of variance table (Type III sums of squares, dependent variable: ({cnst$assessment} % Score))"
 #     )
@@ -216,7 +216,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddTable(
 #     report = rpt$All,
 #     table = tabDemog[[glue('MeansAdjStage{i}')]],
-#     tableCount = countTab,
+#     tableCount = tableCount,
 #     caption = glue(
 #       "Estimated marginal means (dependent variable: ({cnst$assessment} % Score))"
 #     )
@@ -232,7 +232,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddTable(
 #     report = rpt$All,
 #     table = tabDemog[[glue('MeansObsStage{i}')]],
-#     tableCount = countTab,
+#     tableCount = tableCount,
 #     caption = glue("Observed mean percentage scores")
 #   )
 #
