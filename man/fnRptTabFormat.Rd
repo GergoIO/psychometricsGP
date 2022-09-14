@@ -4,14 +4,19 @@
 \alias{fnRptTabFormat}
 \title{Format a table for presenting in a report}
 \usage{
-fnRptTabFormat(table, decimals, editColumnsNotRows, integerColumnsOrRows)
+fnRptTabFormat(
+  table = NULL,
+  decimals = NULL,
+  editColumnsNotRows = NULL,
+  integerColumnsOrRows = NULL
+)
 }
 \arguments{
 \item{table}{(Dataframe) The input data, which will be formatted}
 
 \item{decimals}{(Integer, Numeric) The number of decimals to round values to}
 
-\item{editColumnsNotRows}{(Boolean) If TRUE, the specified COLUMN numbers will be converted back to integers. If FALSE, the specified ROW numbers will be converted back to integers.}
+\item{editColumnsNotRows}{(OPTIONAL, Boolean) If TRUE, the specified COLUMN numbers will be converted back to integers. If FALSE, the specified ROW numbers will be converted back to integers. If this variable is not defined, none of the coloumns of rows will be converted to integers}
 
 \item{integerColumnsOrRows}{(OPTIONAL, Numeric, a list or single value eg: 1 or c(1,2,3)) The numbers of the COLUMNS or ROWS (depending on the editColumnsNotRows variable) which will be displayed as integers. If this variable is not defined, none of the columns or rows will be converted to integers.}
 }

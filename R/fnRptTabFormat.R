@@ -16,16 +16,17 @@
 #'
 
 fnRptTabFormat <-
-  function(table,
-           decimals,
-           editColumnsNotRows,
-           integerColumnsOrRows) {
+  function(table = NULL,
+           decimals = NULL,
+           editColumnsNotRows = NULL,
+           integerColumnsOrRows = NULL) {
     if (is.null(table) == TRUE |
         is.null(decimals) == TRUE)
     {
       stop("One of the required variables for this function has not been specified.")
-    } else if (any(is.null(editColumnsNotRows),
-                   is.null(integerColumnsOrRows)) == TRUE) {
+    } else if (
+      # Check if only one of 'editColumnsNotRows' and 'integerColumnsOrRows' are defined
+      ((is.null(editColumnsNotRows) == TRUE && is.null(integerColumnsOrRows) == FALSE) | (is.null(editColumnsNotRows) == FALSE && is.null(integerColumnsOrRows) == TRUE)) == TRUE) {
       stop(
         'Only one of the variables ("editColumnsNotRows" or "integerColumnsOrRows") has not been defined. To convert some rounded columns or rows back to integer, both variables must be defined. Alternatively, if neither variable is defined, then no columns or rows are converted back to integer following rounding.'
       )
