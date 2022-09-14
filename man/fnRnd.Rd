@@ -21,7 +21,7 @@ Return a rounded value as a string, ready for adding to reports
 There is additional functionality to handle different data types if this function is used as part of a loop.
 If NA data is input, the default value of "NA" is returned.
 This can be overriden by setting the variable 'valueIfNA'.
-Otherwise, the input value is converted to numeric, rounded to the number of given decimals and converted to a string (this preserves trailing zeros). Input strings which cannot be converted to a numeric value (eg inputting a string) will just return whatever was input, also as a string.
+Otherwise, the input value is converted to numeric, rounded to the number of given decimals and converted to a string (this preserves trailing zeros). Input strings which cannot be converted to a numeric value (eg inputting a string) will return "NA".
 }
 \examples{
 fnRnd(value = 23.3333, decimals = 2, valueIfNA = "N/A")
