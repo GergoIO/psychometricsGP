@@ -24,9 +24,15 @@ fnRptTabFormat <-
         is.null(decimals) == TRUE)
     {
       stop("One of the required variables for this function has not been specified.")
-    } else if (
-      # Check if only one of 'editColumnsNotRows' and 'integerColumnsOrRows' are defined
-      ((is.null(editColumnsNotRows) == TRUE && is.null(integerColumnsOrRows) == FALSE) | (is.null(editColumnsNotRows) == FALSE && is.null(integerColumnsOrRows) == TRUE)) == TRUE) {
+    } else if (# Check if only one of 'editColumnsNotRows' and 'integerColumnsOrRows' are defined
+      ((
+        is.null(editColumnsNotRows) == TRUE &&
+        is.null(integerColumnsOrRows) == FALSE
+      ) |
+      (
+        is.null(editColumnsNotRows) == FALSE &&
+        is.null(integerColumnsOrRows) == TRUE
+      )) == TRUE) {
       stop(
         'Only one of the variables ("editColumnsNotRows" or "integerColumnsOrRows") has not been defined. To convert some rounded columns or rows back to integer, both variables must be defined. Alternatively, if neither variable is defined, then no columns or rows are converted back to integer following rounding.'
       )
@@ -48,10 +54,10 @@ fnRptTabFormat <-
             sapply(table[, integerColumnsOrRows], as.integer)
         } else{
           # Convert specified ROWS to integer
-          table[integerColumnsOrRows,] <-
-            sapply(table[integerColumnsOrRows,], as.integer)
+          table[integerColumnsOrRows, ] <-
+            sapply(table[integerColumnsOrRows, ], as.integer)
         }
-        return(table)
       }
+      return(table)
     }
   }
