@@ -4,7 +4,7 @@
 \alias{fnReliability}
 \title{Test Reliability Parameters (Stage Specific)}
 \usage{
-fnReliability(stages = NULL, scoresData = NULL)
+fnReliability(stages = NULL, scoresData = NULL, resultsData = NULL)
 }
 \arguments{
 \item{stages}{Vector containing all the stages being considered}
