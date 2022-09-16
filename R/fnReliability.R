@@ -2,6 +2,7 @@
 #'
 #' @param stages Vector containing all the stages being considered
 #' @param scoresData List of dataframes with students scores for each stage. Each data frame in the list should be named "Stage #" where # is the relevant stage. In each dataframe the columns should be the items and the rows should be the index of each student (actual value unimportant). Each data point should represent the score for a particular student on a particular item. All students with NA scores and excluded items should be removed prior to use in this function
+#' @param resultsData A dataframe containing student results. This variable must contain a "Stage" column in which the stage of each student is entered in a new row. This is used to add the number of students assessed in each Stage to the resultant export of reliability data.
 #'
 #' @return A dataframe containing the reliability data for each considered stage is returned
 #' @export
@@ -72,7 +73,7 @@ fnReliability <-  function(stages = NULL,
           "Absolute SEM"
         )
       reliability[, stage] <- c(
-        dim(dfRes[dfRes$Stage == i,])[1],
+        dim(resultsData[resultsData$Stage == i,])[1],
         cronbach.alpha(scoresData[[stage]])[[1]],
         relCalcs$varianceCandidate,
         relCalcs$varianceItem,
