@@ -1,4 +1,4 @@
-#' Round value
+#' Round value or vector
 #'
 #' @description Return a rounded value as a string, ready for adding to reports
 #' There is additional functionality to handle different data types if this function is used as part of a loop.
@@ -13,29 +13,30 @@
 #' @return The rounded value is returned as a string
 #' @export
 #'
-#' @examples fnRnd(value = 23.3333, decimals = 2, valueIfNA = "N/A")
+#' @examples fnRnd(value = 23.3333, decimals = 2, valueIfNA = "N/A"),
+#' fnRnd(value = c(2.55,3.44, "4", "NA", NA), decimals = 2, valueIfNA = "N/A")
 
 ################################################################################
 
 fnRnd <- function(value = NULL,
-                           decimals = NULL,
-                           valueIfNA = NULL) {
+                  decimals = NULL,
+                  valueIfNA = NULL) {
   if (is.null(value) == TRUE |
       is.null(decimals) == TRUE) {
     stop("fnRnd: One of the required variables for this function has not been specified.")
-  } else if(is.numeric(decimals) == FALSE){
+  } else if (is.numeric(decimals) == FALSE) {
     stop("fnRnd: The decimals variable must be numeric.")
-  }
-  else{
-    if (is.na(value) == TRUE) {
-      if (is.null(valueIfNA) == FALSE) {
-        return(valueIfNA)
-      } else{
-        return("NA")
-      }
-    } else{
-      # Extra conversion to numeric below helps to catch non numeric inputs which are actually numbers
-      return(suppressWarnings(format(round(as.numeric(value), decimals), nsmall = decimals)))
-    }
+  } else {
+    # First convert all items to numeric and round + format it (to string)
+    # All numbers or numbers saved as strings will be rounded appropriately
+    # All other values will go to "  NA"
+    value <- suppressWarnings(format(round(as.numeric(value),
+                                           decimals), nsmall = decimals))
+    # Convert all instances of NA (string) to just NA (not string)
+    value <-
+      gsub("NA", ifelse(is.null(valueIfNA) == TRUE, NA, valueIfNA), value)
+    # Sometimes spaces were introduced before a number. This removes them
+    value <- gsub(" ", "", value)
+    return(value)
   }
 }

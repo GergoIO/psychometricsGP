@@ -2,7 +2,7 @@
 % Please edit documentation in R/fnRnd.R
 \name{fnRnd}
 \alias{fnRnd}
-\title{Round value}
+\title{Round value or vector}
 \usage{
 fnRnd(value = NULL, decimals = NULL, valueIfNA = NULL)
 }
@@ -24,5 +24,6 @@ This can be overriden by setting the variable 'valueIfNA'.
 Otherwise, the input value is converted to numeric, rounded to the number of given decimals and converted to a string (this preserves trailing zeros). Input strings which cannot be converted to a numeric value (eg inputting a string) will return "NA".
 }
 \examples{
-fnRnd(value = 23.3333, decimals = 2, valueIfNA = "N/A")
+fnRnd(value = 23.3333, decimals = 2, valueIfNA = "N/A"),
+fnRnd(value = c(2.55,3.44, "4", "NA", NA), decimals = 2, valueIfNA = "N/A")
 }
