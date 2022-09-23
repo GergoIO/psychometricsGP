@@ -61,7 +61,8 @@ fnAnova <-
             aov <-
               (aov(Score ~ ., data = na.omit(loopDemogData[, c("Score", varsAnova)])))
 
-            lReturn[[glue('RawAnovaStage{i}')]] <- .aov
+            # Add the raw anova result to the list of data returned
+            lReturn[[glue('RawAnovaStage{i}')]] <- aov
 
             # Format and save Anova results
             tabAov <- drop1(aov, test = "F")
