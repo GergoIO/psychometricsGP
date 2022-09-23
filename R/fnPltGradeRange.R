@@ -118,11 +118,14 @@ fnPltGradeRange <-
           dfSubset <- data[data$group == i, ]
 
           for (j in 1:nGradesPerGroup) {
-            if (dfSubset[j, "yMin"] <= dfSubset[j, "yMax"] |
-                is.na(dfSubset[j, "yMin"]) == TRUE |
+            if (is.na(dfSubset[j, "yMin"]) == TRUE |
                 is.na(dfSubset[j, "yMax"]) == TRUE) {
-              # Do Nothing
+              # Do Nothing - If any cells in the row are NA
+            }
+            else if (as.numeric(dfSubset[j, "yMin"]) <= as.numeric(dfSubset[j, "yMax"])) {
+              # Do Nothing - If the Min value is <= to the Max val
             } else{
+              # Otherwise - Set the following row's min to the current min and both current min and max to NA
               dfSubset[j + 1, "yMin"] <- dfSubset[j, "yMin"]
               dfSubset[j, "yMin"] <- dfSubset[j, "yMax"] <- NA
             }
