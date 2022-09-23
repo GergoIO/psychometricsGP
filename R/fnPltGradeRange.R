@@ -66,6 +66,11 @@ fnPltGradeRange <-
       stop("One of the required variables for this function has not been specified.")
     } else {
       #   ______________________________________________________________________
+      #   Ensure Data is Numeric                                            ####
+
+      data <- mutate_all(data, function(x) as.numeric(as.character(x)))
+
+      #   ______________________________________________________________________
       #   Define Constants                                                  ####
 
       # Get a vector of possible grades ("U", "B", "S", "E") or ("U", "S")
@@ -115,7 +120,7 @@ fnPltGradeRange <-
       fnSetMin <- function(data, nGroups, nGradesPerGroup) {
         for (i in 1:nGroups) {
           # Subset a single group (stage)
-          dfSubset <- data[data$group == i, ]
+          dfSubset <- data[data$group == i,]
 
           for (j in 1:nGradesPerGroup) {
             if (is.na(dfSubset[j, "yMin"]) == TRUE |
@@ -153,9 +158,9 @@ fnPltGradeRange <-
           # Eg for 3 stages graded US this col will be 1,1,2,2,3,3
           group = sort(rep(1:nGroups, nGradesPerGroup)),
           # 1:4 covers Min - Excellent
-          yMin = unlist(data[1:4, ], use.names = FALSE),
+          yMin = unlist(data[1:4,], use.names = FALSE),
           # 2-5 covers Borderline - Max
-          yMax = unlist(data[2:5, ], use.names = FALSE),
+          yMax = unlist(data[2:5,], use.names = FALSE),
           Grade = rep(unlist(gradesLong), nGroups)
         )
 
@@ -219,9 +224,9 @@ fnPltGradeRange <-
           # Eg for 3 stages graded US this col will be 1,1,2,2,3,3
           group = sort(rep(1:nGroups, nGradesPerGroup)),
           # 1:2 covers Min - Satisfactory
-          yMin = unlist(data[1:2, ], use.names = FALSE),
+          yMin = unlist(data[1:2,], use.names = FALSE),
           # 2-3 covers Satisfactory - Max
-          yMax = unlist(data[2:3, ], use.names = FALSE),
+          yMax = unlist(data[2:3,], use.names = FALSE),
           Grade = rep(unlist(gradesLong), nGroups)
         )
 
