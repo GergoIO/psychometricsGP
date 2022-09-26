@@ -26,7 +26,7 @@ fnPltHistoricStatsMultiple <-
       for (j in 1:length(listOfStats)) {
         loopStat <- listOfStats[j]
         listOfPlots[[glue("historic{loopStat}{names(listOfData[i])}")]] <-
-          fnPlotHistoricStats(loopDf, loopStat)
+          fnPltHistoricStats(loopDf, loopStat)
 
         fnPltSave(
           controls = lFileOutputs,
