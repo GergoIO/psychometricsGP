@@ -2,23 +2,33 @@
 % Please edit documentation in R/fnPltHistoricStatsMultiple.R
 \name{fnPltHistoricStatsMultiple}
 \alias{fnPltHistoricStatsMultiple}
-\title{Title}
+\title{Plot multiple historic stats for multiple datasets}
 \usage{
-fnPltHistoricStatsMultiple(listOfCurrentPlots, listOfData, listOfStats)
+fnPltHistoricStatsMultiple(
+  listOfData,
+  listOfStats,
+  listOfFileControls,
+  savePlot,
+  plotsFolder
+)
 }
 \arguments{
-\item{listOfCurrentPlots}{***}
+\item{listOfData}{A vector of dataframes. The chosen statistics will be plotted for each provided dataset}
 
-\item{listOfData}{***}
+\item{listOfStats}{A vector of the statistics to plot for each of the datasets in 'listOfData'}
 
-\item{listOfStats}{***}
+\item{savePlot}{A boolean (TRUE/FALSE) determines whether the plot will be saved. Useful for controlling overall save behaviour}
+
+\item{plotsFolder}{The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function}
 }
 \value{
 ****
 }
 \description{
-Title
+Plot multiple historic stats for multiple datasets
 }
 \examples{
 ****
+
+
 }
