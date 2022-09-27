@@ -6,11 +6,10 @@
 #' @param createPulseFolder (TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE
 #' @param createImagesFolder (TRUE/FALSE/NULL) Create an Images folder in the working directory (with appended version number) if TRUE
 #'
-#' @return The working directory is set to the location of the script file and save as variable folderWD.
-#' Two folders for figures and other outputs are also created and saved as folderOutput and folderPlots
+#' @return A list of the paths to the created folders (for Outputs, Images and Pulse Files) is returned.
 #' @export
 #'
-#' @examples fnStartFolders(workingDirectory = getwd(), verNum = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
+#' @examples listOfPaths <- fnStartFolders(workingDirectory = getwd(), verNum = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
 
 ################################################################################
 
@@ -37,6 +36,8 @@ fnStartFolders <- function(workingDirectory = NULL,
     )
   }
 
+  listOfPaths <- list()
+
   # Create folders, if they don't exist
   # https://stackoverflow.com/questions/40714190/use-apply-functions-dir-exist-and-dir-create
   if (createOutputFolder != FALSE) {
@@ -48,7 +49,7 @@ fnStartFolders <- function(workingDirectory = NULL,
           recursive = FALSE,
           mode = "0777"
         ))
-    folderOutput <<-
+    listOfPaths$pathOutput <-
       file.path(glue('{workingDirectory}\\Output ({verNum})'))
   }
 
@@ -61,7 +62,7 @@ fnStartFolders <- function(workingDirectory = NULL,
           recursive = FALSE,
           mode = "0777"
         ))
-    folderImages <<-
+    listOfPaths$pathImages <-
       file.path(glue('{workingDirectory}\\Images ({verNum})'))
   }
 
@@ -74,7 +75,53 @@ fnStartFolders <- function(workingDirectory = NULL,
           recursive = FALSE,
           mode = "0777"
         ))
-    folderOutputPulse <<-
+    listOfPaths$pathOutputPulse <-
       file.path(glue('{workingDirectory}\\Output ({verNum})\\Pulse'))
   }
+  # Return the list of paths at the end
+  return(listOfPaths)
 } # END
+
+# Old method below
+
+# # Create folders, if they don't exist
+# # https://stackoverflow.com/questions/40714190/use-apply-functions-dir-exist-and-dir-create
+# if (createOutputFolder != FALSE) {
+#   lapply(c(glue('Output ({verNum})')), function(x)
+#     if (!dir.exists(x))
+#       dir.create(
+#         x,
+#         showWarnings = TRUE,
+#         recursive = FALSE,
+#         mode = "0777"
+#       ))
+#   folderOutput <<-
+#     file.path(glue('{workingDirectory}\\Output ({verNum})'))
+# }
+#
+# if (createImagesFolder != FALSE) {
+#   lapply(c(glue('Images ({verNum})')), function(x)
+#     if (!dir.exists(x))
+#       dir.create(
+#         x,
+#         showWarnings = TRUE,
+#         recursive = FALSE,
+#         mode = "0777"
+#       ))
+#   folderImages <<-
+#     file.path(glue('{workingDirectory}\\Images ({verNum})'))
+# }
+#
+# if (createPulseSubfolder != FALSE) {
+#   lapply(c(glue('Output ({verNum})\\Pulse')), function(x)
+#     if (!dir.exists(x))
+#       dir.create(
+#         x,
+#         showWarnings = TRUE,
+#         recursive = FALSE,
+#         mode = "0777"
+#       ))
+#   folderOutputPulse <<-
+#     file.path(glue('{workingDirectory}\\Output ({verNum})\\Pulse'))
+# }
+# } # END

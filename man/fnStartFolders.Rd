@@ -24,12 +24,11 @@ fnStartFolders(
 \item{createPulseFolder}{(TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE}
 }
 \value{
-The working directory is set to the location of the script file and save as variable folderWD.
-Two folders for figures and other outputs are also created and saved as folderOutput and folderPlots
+A list of the paths to the created folders (for Outputs, Images and Pulse Files) is returned.
 }
 \description{
 Run functions to create and set variables for save folders
 }
 \examples{
-fnStartFolders(workingDirectory = getwd(), verNum = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
+listOfPaths <- fnStartFolders(workingDirectory = getwd(), verNum = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
 }
