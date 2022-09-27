@@ -4,14 +4,19 @@
 \alias{fnPltSave}
 \title{Save a plot}
 \usage{
-fnPltSave(controls = NULL, plot = NULL, dimensions = NULL, filePath = NULL)
+fnPltSave(
+  savePlot = NULL,
+  plot = NULL,
+  dimensions = c(15, 15, "cm"),
+  filePath = NULL
+)
 }
 \arguments{
-\item{controls}{A list containing at least the defined (TRUE/FALSE) variables 'stopAllOutputs' and 'stopImageSaving'. If either of the variables are TRUE, this function will not save an image. Otherwise, if both variables are FALSE, an image will be saved. If 'controls' is not defined, the default behaviour is to proceed and save an image if possible. The user will be notified in this instance.}
+\item{savePlot}{A boolean (TRUE/FALSE) determines whether the plot will be saved. Useful for controlling overall save behaviour.}
 
-\item{plot}{The variable name of the plot}
+\item{plot}{The variable name of the plot - must exist in your environment}
 
-\item{dimensions}{A vector containing the width, height and units of the dimensions of the saved image}
+\item{dimensions}{A vector containing the width, height and units of the dimensions of the saved image (in that order). If not set, defaults to 15cm x 15cm}
 
 \item{filePath}{The file path where the plot is saved}
 }
@@ -22,5 +27,5 @@ Nothing is explicitly returned, a plot is saved
 Save a plot
 }
 \examples{
-fnPltSave(controls = list(stopAllOutputs = TRUE, stopImageSaving = FALSE), plot = plt1, filePath = glue('{some path}\\\\filename.jpg'))
+fnPltSave(savePlot = TRUE, plot = plt1, dimensions = c(15, 15, "cm"), filePath = glue('{some path}\\\\filename.jpg'))
 }
