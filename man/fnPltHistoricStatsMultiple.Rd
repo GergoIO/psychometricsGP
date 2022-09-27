@@ -4,14 +4,19 @@
 \alias{fnPltHistoricStatsMultiple}
 \title{Plot multiple historic stats for multiple datasets}
 \usage{
-fnPltHistoricStatsMultiple(listOfData, listOfStats, savePlot, plotsFolder)
+fnPltHistoricStatsMultiple(
+  data = NULL,
+  listOfStats = NULL,
+  savePlot = NULL,
+  plotsFolder = NULL
+)
 }
 \arguments{
-\item{listOfData}{A vector of dataframes. The chosen statistics will be plotted for each provided dataset}
+\item{data}{A dataframe OR vector of dataframes. For plotting multiple stats on a single dataframe of data, provide only a single dataframe (data = df1). For plotting multiple stats on multiple dataframes of data, provide a list of dataframes (plotData = list(df1, df2, df3), names(plotData = c("Data1", "Data2", "Data3"), data = plotData)). NOTE - when providing a list of dataframes, each dataframe must be names in the list (see example). The name of each df in the list will be appended to file names. In each provided dataframe (whether individual or in a list) there must be a unique column with the same name as each of the variables to plot (provided in 'listOfStats'). The chosen statistics will be plotted for each provided dataset}
 
-\item{listOfStats}{A vector of the statistics to plot for each of the datasets in 'listOfData'}
+\item{listOfStats}{A vector of the statistics to plot for each of the datasets in 'data'}
 
-\item{savePlot}{A boolean (TRUE/FALSE) determines whether the plot will be saved. Useful for controlling overall save behaviour}
+\item{savePlot}{A boolean (TRUE/FALSE, default TRUE) determines whether the plot will be saved. Useful for controlling overall save behaviour.}
 
 \item{plotsFolder}{The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function}
 }
