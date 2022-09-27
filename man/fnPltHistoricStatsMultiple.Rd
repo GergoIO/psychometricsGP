@@ -4,13 +4,7 @@
 \alias{fnPltHistoricStatsMultiple}
 \title{Plot multiple historic stats for multiple datasets}
 \usage{
-fnPltHistoricStatsMultiple(
-  listOfData,
-  listOfStats,
-  listOfFileControls,
-  savePlot,
-  plotsFolder
-)
+fnPltHistoricStatsMultiple(listOfData, listOfStats, savePlot, plotsFolder)
 }
 \arguments{
 \item{listOfData}{A vector of dataframes. The chosen statistics will be plotted for each provided dataset}
