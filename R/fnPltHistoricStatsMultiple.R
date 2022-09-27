@@ -8,7 +8,28 @@
 #' @return ****
 #' @export
 #'
-#' @examples ****
+#' @examples
+#' data1 <- list(statsAll, statsStagesA, statsStagesB)
+#' names(.data1) <- c("All", "StagesA", "StagesB")
+#' stats <- c("Mean", "Correct", "Incorrect", "DontKnow", "Phi")
+#'
+#' pltList <- list()
+#' pltList <- append(pltList,
+#'   fnPltHistoricStatsMultiple(
+#'       data = data1,
+#'       listOfStats = stats,
+#'       savePlot = !any(lFiles$stopAllOutputs, lFiles$stopImageSaving),
+#'       plotsFolder = lFiles$pathImages)
+#'       )
+#'
+#' pltList2 <- list()
+#' pltList2 <- append(pltList2,
+#'   fnPltHistoricStatsMultiple(
+#'       data = dfData,
+#'       listOfStats = stats,
+#'       savePlot = !any(lFiles$stopAllOutputs, lFiles$stopImageSaving),
+#'       plotsFolder = lFiles$pathImages)
+#'       )
 #'
 ################################################################################
 #'
