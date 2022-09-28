@@ -3,7 +3,7 @@
 #' @param savePlot (Optional) A boolean (TRUE/FALSE) determines whether the plot will be saved. Useful for controlling overall save behaviour.
 #' @param plot The variable name of the plot to save - this must exist in your environment
 #' @param dimensions (Optional) A vector containing the width, height and units of the dimensions of the saved image (in that order). If not set, defaults to 15cm x 15cm
-#' @param filePath The file path where the plot is saved
+#' @param filePath The file path where the plot is saved. No plot saved if not declared
 #'
 #' @return Nothing is explicitly returned, a plot is saved
 #' @export
@@ -17,17 +17,16 @@ fnPltSave <-
            plot = NULL,
            dimensions = c(15, 15, "cm"),
            filePath = NULL) {
-    if (is.null(plot) == TRUE |
-        is.null(filePath) == TRUE) {
+    if (is.null(plot) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     } else if (is.null(savePlot) == TRUE) {
-      message("fnPltSave: The 'savePlot' variable has not been set. Defaulting to saving the plot.")
+      message("fnPltSave: The 'savePlot' variable has not been set. The plot will be saved by default.")
       savePlot <- TRUE
-    } else if (is.null(filePath) == TRUE){
-      message("fnPltSave: The 'filePath' variable has not been set. Defaulting to not saving any plots")
+    } else if (is.null(filePath) == TRUE && savePlot != FALSE) {
+      message("fnPltSave: The 'filePath' variable has not been set. The plot will not be saved.")
       savePlot <- FALSE
     }
-    else if (savePlot == TRUE) {
+    if (savePlot == TRUE) {
       ggsave(
         plot,
         file = filePath,

@@ -18,7 +18,7 @@ fnPltSave(
 
 \item{dimensions}{(Optional) A vector containing the width, height and units of the dimensions of the saved image (in that order). If not set, defaults to 15cm x 15cm}
 
-\item{filePath}{The file path where the plot is saved}
+\item{filePath}{The file path where the plot is saved. No plot saved if not declared}
 }
 \value{
 Nothing is explicitly returned, a plot is saved

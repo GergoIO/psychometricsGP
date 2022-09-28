@@ -46,8 +46,10 @@ fnPltHistoricStatsMultiple <-
         "fnPltHistoricStatsMultiple: The 'savePlot' variable has not been set. Defaulting to saving the plot."
       )
       savePlot <- TRUE
-    } else if (is.null(plotsFolder) == TRUE){
-      message("fnPltHistoricStatsMultiple: The 'plotsFolder' variable has not been set. Defaulting to not saving any plots")
+    } else if (is.null(plotsFolder) == TRUE) {
+      message(
+        "fnPltHistoricStatsMultiple: The 'plotsFolder' variable has not been set. Defaulting to not saving any plots"
+      )
       savePlot <- FALSE
     }
 
@@ -70,13 +72,16 @@ fnPltHistoricStatsMultiple <-
         loopPlt <- listOfPlots[[glue("historic{loopStat}")]] <-
           fnPltHistoricStats(data, loopStat)
 
-        fnPltSave(
-          savePlot = savePlot,
-          plot = loopPlt,
-          filePath =  glue(
-            '{plotsFolder}\\{fnTimestamp()}_Historic{loopStat}.jpg'
+        # Only save if requested and the folder is defined
+        if (savePlot == TRUE && is.null(plotsFolder) == FALSE) {
+          fnPltSave(
+            savePlot = savePlot,
+            plot = loopPlt,
+            filePath =  glue(
+              '{plotsFolder}\\{fnTimestamp()}_Historic{loopStat}.jpg'
+            )
           )
-        )
+        }
       }
     } else{
       # There is not a single df provided (must then be a list of dfs) - create historic stats plots across multiple datasets
@@ -101,13 +106,16 @@ fnPltHistoricStatsMultiple <-
             listOfPlots[[glue("historic{loopStat}{names(data[i])}")]] <-
             fnPltHistoricStats(loopDf, loopStat)
 
-          fnPltSave(
-            savePlot = savePlot,
-            plot = loopPlt,
-            filePath =  glue(
-              '{plotsFolder}\\{fnTimestamp()}_Historic{loopStat}{names(data[i])}.jpg'
+          # Only save if requested and the folder is defined
+          if (savePlot == TRUE && is.null(plotsFolder) == FALSE) {
+            fnPltSave(
+              savePlot = savePlot,
+              plot = loopPlt,
+              filePath =  glue(
+                '{plotsFolder}\\{fnTimestamp()}_Historic{loopStat}{names(data[i])}.jpg'
+              )
             )
-          )
+          }
         }
       }
     }
