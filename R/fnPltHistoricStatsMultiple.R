@@ -44,7 +44,7 @@ fnPltHistoricStatsMultiple <-
     }
     if (is.null(savePlot) == TRUE && is.null(plotsFolder) == FALSE) {
       message(
-        "fnPltHistoricStatsMultiple: The 'savePlot' variable has not been set. Defaulting to saving the plot."
+        "fnPltHistoricStatsMultiple: The 'savePlot' variable has not been set. Defaulting to saving the plots."
       )
       savePlot <- TRUE
     }

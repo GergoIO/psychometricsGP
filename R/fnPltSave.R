@@ -26,7 +26,7 @@ fnPltSave <-
       savePlot <- TRUE
     } # If saving is requested but no file path is declared
     else if (is.null(filePath) == TRUE && savePlot != FALSE) {
-      message("fnPltSave: The 'filePath' variable has not been set. The plot will not be saved.")
+      message("fnPltSave: The 'filePath' variable has not been set (there is nowhere to save the plot. The plot will not be saved regardless of if 'savePlot' is set.")
       savePlot <- FALSE
     }
     if (savePlot == TRUE) {
