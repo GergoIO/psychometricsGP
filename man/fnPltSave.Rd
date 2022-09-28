@@ -12,11 +12,11 @@ fnPltSave(
 )
 }
 \arguments{
-\item{savePlot}{A boolean (TRUE/FALSE) determines whether the plot will be saved. Useful for controlling overall save behaviour.}
+\item{savePlot}{(Optional) A boolean (TRUE/FALSE) determines whether the plot will be saved. Useful for controlling overall save behaviour.}
 
-\item{plot}{The variable name of the plot - must exist in your environment}
+\item{plot}{The variable name of the plot to save - this must exist in your environment}
 
-\item{dimensions}{A vector containing the width, height and units of the dimensions of the saved image (in that order). If not set, defaults to 15cm x 15cm}
+\item{dimensions}{(Optional) A vector containing the width, height and units of the dimensions of the saved image (in that order). If not set, defaults to 15cm x 15cm}
 
 \item{filePath}{The file path where the plot is saved}
 }

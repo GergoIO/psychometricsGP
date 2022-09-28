@@ -16,12 +16,12 @@ fnPltHistoricStatsMultiple(
 
 \item{listOfStats}{A vector of the statistics to plot for each of the datasets in 'data'}
 
-\item{savePlot}{A boolean (TRUE/FALSE, default TRUE) determines whether the plot will be saved. Useful for controlling overall save behaviour.}
+\item{savePlot}{(Optional - if not set, plots are saved by default) A boolean (TRUE/FALSE, default TRUE) determines whether the plot will be saved. Useful for controlling overall save behaviour.}
 
-\item{plotsFolder}{The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function}
+\item{plotsFolder}{(Optional - if not set, no plots are saved but they are still created and returned) The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function}
 }
 \value{
-****
+A list of plots is returned. The list contains all the plots generated. Separately, if
 }
 \description{
 Plot multiple historic stats for multiple datasets
