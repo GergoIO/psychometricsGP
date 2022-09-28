@@ -5,7 +5,7 @@
 #' @param savePlot (Optional - if not set, plots are saved by default) A boolean (TRUE/FALSE, default TRUE) determines whether the plot will be saved. Useful for controlling overall save behaviour.
 #' @param plotsFolder (Optional - if not set, no plots are saved but they are still created and returned) The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function
 #'
-#' @return A list of plots is returned. The list contains all the plots generated. Separately, if
+#' @return A list of plots is returned. The list contains all the plots generated. Separately, if requested, the generated plots are also saved to a specified folder.
 #' @export
 #'
 #' @examples
@@ -42,7 +42,7 @@ fnPltHistoricStatsMultiple <-
         is.null(listOfStats) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     }
-    if (is.null(savePlot) == TRUE) {
+    if (is.null(savePlot) == TRUE && is.null(plotsFolder) == FALSE) {
       message(
         "fnPltHistoricStatsMultiple: The 'savePlot' variable has not been set. Defaulting to saving the plot."
       )
@@ -50,8 +50,9 @@ fnPltHistoricStatsMultiple <-
     }
     if (is.null(plotsFolder) == TRUE) {
       message(
-        "fnPltHistoricStatsMultiple: The 'plotsFolder' variable has not been set. Defaulting to not saving any plots"
+        "fnPltHistoricStatsMultiple: The 'plotsFolder' variable has not been set (there is nowhere to save the plots). Defaulting to not saving any plots regardless of if 'savePlot' is set."
       )
+      # Changing 'savePlot' to FALSE here stops any attempts at saving plots to a folder
       savePlot <- FALSE
     }
 

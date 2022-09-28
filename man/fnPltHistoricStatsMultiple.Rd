@@ -21,7 +21,7 @@ fnPltHistoricStatsMultiple(
 \item{plotsFolder}{(Optional - if not set, no plots are saved but they are still created and returned) The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function}
 }
 \value{
-A list of plots is returned. The list contains all the plots generated. Separately, if
+A list of plots is returned. The list contains all the plots generated. Separately, if requested, the generated plots are also saved to a specified folder.
 }
 \description{
 Plot multiple historic stats for multiple datasets
