@@ -74,7 +74,7 @@ fnReliability <-  function(stages = NULL,
         "Phi Coefficient",
         "Absolute SEM"
       )
-    reliability <- c(
+    reliability[,1] <- c(
       dim(resultsData)[1],
       cronbach.alpha(scoresData)[[1]],
       relCalcs$varianceCandidate,
@@ -85,6 +85,7 @@ fnReliability <-  function(stages = NULL,
       relCalcs$phi,
       relCalcs$semAbs
     )
+    colnames(reliability) <- "Value"
   } else{
     message("fnReliability: Analysing reliability across multiple stages")
     for (i in stages) {
