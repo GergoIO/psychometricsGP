@@ -17,7 +17,7 @@ fnRmColsByName <- function(df, itemsToRm) {
     stop("Please specify the dataframe")
   }
   if (is.null(itemsToRm) == TRUE) {
-    message("There are no items to remove, no columns will be deleted")
+    message("fnRmColsByName: There are no items to remove, no columns will be deleted")
     return(df)
   } else {
     return(df[, -itemsToRm])

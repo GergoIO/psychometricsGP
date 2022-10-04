@@ -18,7 +18,7 @@ fnRmRowsByName <- function(input, itemsToRm) {
     stop("fnRmRowsByName: No data is specified. Please specify the data")
   }
   if (is.null(itemsToRm) == TRUE) {
-    message("There are no items to remove, no rows will be deleted")
+    message("fnRmRowsByName: There are no items to remove, no rows will be deleted")
     return(input)
   } else if (is.null(dim(input)) == TRUE) {
     return(input[-itemsToRm]) # for 1D lists etc
