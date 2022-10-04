@@ -1,11 +1,10 @@
 Package: psychometricsGP
 Type: Package
 Title: Functions for Psychometric Analysis
-Version: 0.1.0
+Version: 0.2.0
 Author: Gergo Pinter
 Maintainer: Gergo Pinter <gergo.pinter@plymouth.ac.uk>
-Description: Combines a variety of functions that are commonly used
-    Use four spaces when indenting paragraphs within the Description.
+Description: Gathers all custom commonly-used functions
 License: Private
 Encoding: UTF-8
 LazyData: true
