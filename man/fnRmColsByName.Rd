@@ -2,14 +2,14 @@
 % Please edit documentation in R/fnRmColsByName.R
 \name{fnRmColsByName}
 \alias{fnRmColsByName}
-\title{Removes specific columns by name from a dataframe. Additional functionality to handle scenarios where no columns need to be removed.}
+\title{Remove Rows By Name}
 \usage{
 fnRmColsByName(df, itemsToRm)
 }
 \arguments{
 \item{df}{The name of the data frame.}
 
-\item{itemsToRm}{The items to remove. Can be an empty vector}
+\item{itemsToRm}{(Vector of numerics) The items to remove. Can be an empty vector, c()}
 }
 \value{
 This function will return a dataframe with the selected columns removed
@@ -18,5 +18,5 @@ This function will return a dataframe with the selected columns removed
 Removes specific columns by name from a dataframe. Additional functionality to handle scenarios where no columns need to be removed.
 }
 \examples{
-fnRmColsByName(dfName, c(15,29,43))
+fnRmColsByName(dfName, c(15,29,43)), fnRmColsByName(dfName, c())
 }

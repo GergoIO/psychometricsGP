@@ -2,21 +2,21 @@
 % Please edit documentation in R/fnRmRowsByName.R
 \name{fnRmRowsByName}
 \alias{fnRmRowsByName}
-\title{Removes specific columns by name from a dataframe. Additional functionality to handle scenarios where no columns need to be removed. 1D lists and 2D data frames are handled}
+\title{Remove Rows By Name}
 \usage{
 fnRmRowsByName(input, itemsToRm)
 }
 \arguments{
 \item{input}{The name of the data frame or list.}
 
-\item{itemsToRm}{The items to remove. Can be an empty vector c()}
+\item{itemsToRm}{(A vector of numerics) The items to remove. Can be an empty vector, c()}
 }
 \value{
 This function will return a dataframe with the selected rows removed
 }
 \description{
-Removes specific columns by name from a dataframe. Additional functionality to handle scenarios where no columns need to be removed. 1D lists and 2D data frames are handled
+Removes specific rows by name from a dataframe or list. Additional functionality to handle scenarios where no columns need to be removed. Works for 1D lists and 2D data frames.
 }
 \examples{
-fnRmRowsByName(df, c(2)), fnRmRowsByName(df, c()), fnRmRowsByName(list, c(1,2,3))
+fnRmRowsByName(dfName, c(2)), fnRmRowsByName(dfName, c()), fnRmRowsByName(list, c(1,2,3))
 }
