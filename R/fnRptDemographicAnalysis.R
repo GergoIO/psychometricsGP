@@ -46,7 +46,7 @@ fnRptDemographicAnalysis <- function(report = NULL,
     # TAB Adj Means
     fnRptAddTable(
       report = report,
-      table = tabDemog$MeansAdjStage,
+      table = tabDemog$MeansAdj,
       tableCount = tableCount,
       caption = glue(
         "Estimated marginal means (dependent variable: ({cnst$assessment} % Score))"
