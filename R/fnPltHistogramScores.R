@@ -3,7 +3,6 @@
 #' @description fnPltHistogramScores creates a histogram of scores. Optional arguments draw a boxplot above the histogram and shade the plot background according to supplied grade boundaries.
 #' The output from fnPltHistogramScores is a ggplot object which can then be saved or customised as needed.
 #' See Examples for more details.
-#' Edited by Gergo Pinter 05/10/22, given a new name and moved to a new package (PsychometricsGP)
 #'
 #' @usage fnPltHistogramScores(x,lo=0,hi=100,gradeScheme="",gradeBounds=c(),main="",ylab="Frequency (N students)",plotBox=TRUE,pcScore=TRUE)
 #'
@@ -40,9 +39,12 @@
 #' 	plotExample  # plot output
 #' 	plotExample+ggtitle("Example Distribution of Assessment Scores") # plot output plus title
 #'
-#' @source Written by Martin Roberts (psychometrics@plymouth.ac.uk) Edited by Gergo Pinter 05/10/22, given a new name and moved to a new package (PsychometricsGP)
+#' @source Written by Martin Roberts (psychometrics@plymouth.ac.uk)
 #'
 #' @export
+#
+################################################################################
+#
 fnPltHistogramScores <-
   function(x,
            lo = 0,
@@ -55,7 +57,7 @@ fnPltHistogramScores <-
            pcScore = TRUE) {
     # Written by: Martin Roberts
     # Last updated: 16/01/2018
-    #' Edited by Gergo Pinter 05/10/22, given a new name and moved to a new package (PsychometricsGP)
+    # Edited by Gergo Pinter 05/10/22, given a new name and moved to a new package (PsychometricsGP)
     ################################################
     x <- na.omit(x)
     if (min(c(x, gradeBounds), na.rm = TRUE) < lo) {

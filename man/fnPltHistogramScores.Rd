@@ -4,7 +4,7 @@
 \alias{fnPltHistogramScores}
 \title{Histogram of student assessment scores with optional boxplot and background shading by grade ranges}
 \source{
-Written by Martin Roberts (psychometrics@plymouth.ac.uk) Edited by Gergo Pinter 05/10/22, given a new name and moved to a new package (PsychometricsGP)
+Written by Martin Roberts (psychometrics@plymouth.ac.uk)
 }
 \usage{
 fnPltHistogramScores(x,lo=0,hi=100,gradeScheme="",gradeBounds=c(),main="",ylab="Frequency (N students)",plotBox=TRUE,pcScore=TRUE)
@@ -35,7 +35,6 @@ A ggplot object which can be saved or customised as needed.
 fnPltHistogramScores creates a histogram of scores. Optional arguments draw a boxplot above the histogram and shade the plot background according to supplied grade boundaries.
 The output from fnPltHistogramScores is a ggplot object which can then be saved or customised as needed.
 See Examples for more details.
-Edited by Gergo Pinter 05/10/22, given a new name and moved to a new package (PsychometricsGP)
 }
 \note{
 This function uses \code{\link[ggplot2]{ggplot2}} for the underlying graphics.
