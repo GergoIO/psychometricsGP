@@ -1,52 +1,79 @@
 #' Initialise the default cover page for a report
 #'
-#' @param rptVar The variable name of the report
-#' @param rptTitle This string will be the report title, shown prominently on the coverpage
-#' @param lstOfDetails This variable should be a list containing as least the following defined variables: academicYear, programme, stage/stages (the function automatically handles either scenario with the default being to use stage), module, assessmentNumber, assessmentDate. These variables will be input on the cover page.
+#' @param reportVar The variable name of the report
+#' @param reportTitle This string will be the report title, shown prominently on the coverpage
+#' @param listOfDetails This variable should be a list containing as least the following defined variables: academicYear, programme, stage/stages (the function automatically handles either scenario with the default being to use stage), module, assessmentNumber, assessmentDate. These variables will be input on the cover page.
 #'
 #' @return Nothing is explicitly returned, rather the cover page of the variable containing the report is populated with the required information.
 #' @export
 #'
-#' @examples fnRptCoverSheet(rptVar, rptTitle, lstOfDetails)
+#' @examples fnRptCoverSheet(reportVar, reportTitle, listOfDetails)
 
 ################################################################################
 
 fnRptCoverSheet <-
-  function (rptVar = NULL,
-            rptTitle = NULL,
-            lstOfDetails = NULL) {
-    if (is.null(rptVar) == TRUE |
-        is.null(rptTitle) == TRUE |
-        is.null(lstOfDetails) == TRUE) {
-      stop("One of the required variables for this function has not been specified.")
+  function (reportVar = NULL,
+            reportTitle = NULL,
+            listOfDetails = NULL) {
+    if (is.null(reportVar) == TRUE |
+        is.null(reportTitle) == TRUE |
+        is.null(listOfDetails) == TRUE) {
+      stop(
+        "fnRptCoverSheet: One of the required variables for this function has not been specified."
+      )
+    }
+    if (is.null(listOfDetails$academicYear) == TRUE) {
+      stop(
+        "fnRptCoverSheet: An item named 'academicYear' must defined in the provided 'listOfDetails' list (use listOfDetails$academicYear <- *** and replace 'listOfDetails' with actual variable name."
+      )
+    }
+    if (is.null(listOfDetails$programme) == TRUE) {
+      stop(
+        "fnRptCoverSheet: An item named 'programme' must defined in the provided 'listOfDetails' list (use listOfDetails$programme <- *** and replace 'listOfDetails' with actual variable name."
+      )
+    }
+    if (is.null(listOfDetails$module) == TRUE) {
+      stop(
+        "fnRptCoverSheet: An item named 'module' must defined in the provided 'listOfDetails' list (use listOfDetails$module <- *** and replace 'listOfDetails' with actual variable name."
+      )
+    }
+    if (is.null(listOfDetails$assessment) == TRUE) {
+      stop(
+        "fnRptCoverSheet: An item named 'assessment' must defined in the provided 'listOfDetails' list (use listOfDetails$assessment <- *** and replace 'listOfDetails' with actual variable name."
+      )
+    }
+    if (is.null(listOfDetails$assessmentDate) == TRUE) {
+      stop(
+        "fnRptCoverSheet: An item named 'assessmentDate' must defined in the provided 'listOfDetails' list (use listOfDetails$assessmentDate <- *** and replace 'listOfDetails' with actual variable name."
+      )
     } else{
-      rptVar <-
+      reportVar <-
         body_replace_all_text(
-          rptVar,
+          reportVar,
           old_value = "YearPlaceholder",
-          new_value = fnAcademicYearFormat(lstOfDetails$academicYear, "Short Slash"),
+          new_value = fnAcademicYearFormat(listOfDetails$academicYear, "Short Slash"),
           only_at_cursor = FALSE
         )
-      rptVar <-
+      reportVar <-
         body_replace_all_text(
-          rptVar,
+          reportVar,
           old_value = "ProgrammePlaceholder",
-          new_value = lstOfDetails$programme,
+          new_value = listOfDetails$programme,
           only_at_cursor = FALSE
         )
-      if (is.null(lstOfDetails$stage) == FALSE) {
-        rptVar <-
+      if (is.null(listOfDetails$stage) == FALSE) {
+        reportVar <-
           body_replace_all_text(
-            rptVar,
+            reportVar,
             old_value = "StagePlaceholder",
-            new_value = as.character(lstOfDetails$stage),
+            new_value = as.character(listOfDetails$stage),
             only_at_cursor = FALSE
           )
-      } else if (is.null(lstOfDetails$stage) == TRUE &&
-                 is.null(lstOfDetails$stages) == FALSE) {
-        rptVar <-
+      } else if (is.null(listOfDetails$stage) == TRUE &&
+                 is.null(listOfDetails$stages) == FALSE) {
+        reportVar <-
           body_replace_all_text(
-            rptVar,
+            reportVar,
             old_value = "StagePlaceholder",
             new_value = as.character(as.character(
               sub(
@@ -59,38 +86,38 @@ fnRptCoverSheet <-
           )
 
       }
-      rptVar <-
+      reportVar <-
         body_replace_all_text(
-          rptVar,
+          reportVar,
           old_value = "ModulePlaceholder",
-          new_value = lstOfDetails$module,
+          new_value = listOfDetails$module,
           only_at_cursor = FALSE
         )
-      rptVar <-
+      reportVar <-
         body_replace_all_text(
-          rptVar,
+          reportVar,
           old_value = "AssessmentPlaceholder",
-          new_value = lstOfDetails$assessment,
+          new_value = listOfDetails$assessment,
           only_at_cursor = FALSE
         )
-      rptVar <-
+      reportVar <-
         body_replace_all_text(
-          rptVar,
+          reportVar,
           old_value = "DatePlaceholder",
-          new_value = lstOfDetails$assessmentDate,
+          new_value = listOfDetails$assessmentDate,
           only_at_cursor = FALSE
         )
-      rptVar <-
-        cursor_reach(rptVar, keyword = "ReportTitlePlaceholder")
-      rptVar <-
-        body_add_par(rptVar, rptTitle, style = "heading 1", pos = "on")
-      rptVar <-
+      reportVar <-
+        cursor_reach(reportVar, keyword = "ReportTitlePlaceholder")
+      reportVar <-
+        body_add_par(reportVar, reportTitle, style = "heading 1", pos = "on")
+      reportVar <-
         body_replace_all_text(
-          rptVar,
+          reportVar,
           old_value = "StartPlaceholder",
           new_value = "",
           only_at_cursor = FALSE
         )
-      rptVar <- cursor_end(rptVar)
+      reportVar <- cursor_end(reportVar)
     }
   }# END
