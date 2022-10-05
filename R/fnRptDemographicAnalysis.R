@@ -37,7 +37,7 @@ fnRptDemographicAnalysis <- function(report = NULL,
     # TAB ANOVA
     fnRptAddTable(
       report = report,
-      table = tabDemog$AnovaStage,
+      table = tabDemog$Anova,
       tableCount = tableCount,
       caption = glue(
         "Analysis of variance table (Type III sums of squares, dependent variable: ({cnst$assessment} % Score))"
