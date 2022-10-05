@@ -2,7 +2,6 @@
 #'
 #' @param report ***
 #' @param cnst ***
-#' @param plt ***
 #' @param tab ***
 #' @param tabDemog ***
 #' @param tableCount ***
@@ -13,13 +12,11 @@
 #' @examples ***
 fnRptDemographicAnalysis <- function(report = NULL,
                                        cnst = NULL,
-                                       plt = NULL,
                                        tab = NULL,
                                        tabDemog = NULL,
                                        tableCount = NULL) {
   if (is.null(report) == TRUE |
       is.null(cnst) == TRUE |
-      is.null(plt) == TRUE |
       is.null(tab) == TRUE |
       is.null(tabDemog) == TRUE |
       is.null(tableCount) == TRUE) {

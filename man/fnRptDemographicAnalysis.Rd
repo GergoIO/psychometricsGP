@@ -7,7 +7,6 @@
 fnRptDemographicAnalysis(
   report = NULL,
   cnst = NULL,
-  plt = NULL,
   tab = NULL,
   tabDemog = NULL,
   tableCount = NULL
@@ -17,8 +16,6 @@ fnRptDemographicAnalysis(
 \item{report}{***}
 
 \item{cnst}{***}
-
-\item{plt}{***}
 
 \item{tab}{***}
 
