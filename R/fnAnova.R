@@ -33,6 +33,9 @@ fnAnova <-
       lReturn <- list() # For returning multiple dfs and other objects
       # Check if multiple stages are being considered
       if (length(stages) > 1) {
+        #   ____________________________________________________________________
+        #   With Stage Separation                                           ####
+
         # When multiple stages are being considered
         # Check if there is a 'Stage' col in the data
         if ("Stage" %in% colnames(dfDemog) == FALSE) {
@@ -55,8 +58,8 @@ fnAnova <-
               glue("Stage {i}") # Get string of the current stage for col selection
             loopDemogData <- demogDataStages[[loopStage]]
 
-            ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
-            ### ANOVA                                                             ####
+            ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
+            ### ANOVA                                                       ####
 
             aov <-
               (aov(Score ~ ., data = na.omit(loopDemogData[, c("Score", varsAnova)])))
@@ -80,8 +83,8 @@ fnAnova <-
 
             lReturn[[glue('AnovaStage{i}')]] <- tabAov
 
-            ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
-            ### Adjusted Means                                                    ####
+            ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
+            ### Adjusted Means                                              ####
 
             tabMeansAdj <- fnEmMeans(aov)
 
@@ -95,8 +98,8 @@ fnAnova <-
 
             lReturn[[glue('MeansAdjStage{i}')]] <- tabMeansAdj
 
-            ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
-            ### Observed Means                                                    ####
+            ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
+            ### Observed Means                                              ####
 
             # Set which columns with be included in the observed means table
             if (reportObsMeanForAllVars == TRUE) {
@@ -142,15 +145,103 @@ fnAnova <-
           return(lReturn)
         }
       } else{
-        # Insert code for anova etc when only 1 stage (or add to the data saving process)
+        #   ____________________________________________________________________
+        #   No Stage Separation                                             ####
+
+        # Store data separately so the original df is not modified
+        dfDemog <- demogData
+        # Rename the col storing the scores (needed for manual input in aov fn)
+        names(dfDemog)[names(dfDemog) == colScore] <- "Score"
+
+        ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
+        ### ANOVA                                                           ####
+
+        aov <-
+          (aov(Score ~ ., data = na.omit(dfDemog[, c("Score", varsAnova)])))
+
+        # Add the raw anova result to the list of data returned
+        lReturn$RawAnova <- aov
+
+        # Format and save Anova results
+        tabAov <- drop1(aov, test = "F")
+        tabAov <- tabAov[-1, ]
+        tabAov <-
+          cbind(fnRound(tabAov[, 1:5], 2), (fnRound(tabAov[, 6], 3)))
+        colnames(tabAov) <-
+          c("Df",
+            "Sum of Sq",
+            "RSS",
+            "AIC",
+            "F-statistic",
+            "P-value")
+        tabAov <- rownames_to_column(tabAov, "Factor")
+
+        lReturn$Anova <- tabAov
+
+        ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
+        ### Adjusted Means                                                  ####
+
+        tabMeansAdj <- fnEmMeans(aov)
+
+        # Precautionary measure - if cols in original input demog file have repeats, they may have suffixes like .x and .y etc. This step removes them
+        tabMeansAdj <-
+          data.frame(lapply(tabMeansAdj, function(x) {
+            gsub("\\.x|\\.y|\\.z", "", x)
+          }))
+        colnames(tabMeansAdj) <-
+          c("Factor", "Level", "N", "Adjusted\nMean")
+
+        lReturn$MeansAdj <- tabMeansAdj
+
+        ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
+        ### Observed Means                                                  ####
+
+        # Set which columns with be included in the observed means table
+        if (reportObsMeanForAllVars == TRUE) {
+          obsMeans <- varsAll
+        } else {
+          obsMeans <- setdiff(varsAll, varsAnova)
+        }
+
+        # Create a nested list of the number and mean scores for selected demographics
+        lstOfLsts <-
+          apply(dfDemog[, obsMeans], 2, function(x)
+          {
+            tapply(dfDemog$Score, x, function(x) {
+              c(length(x), fnRound(mean(x), 2))
+            })
+          })
+
+        tabObsMeans <-
+          data.frame(t(data.frame(unlist(
+            lstOfLsts, recursive = F
+          ))))
+        # Match only first '.' in rownames and replace with '*'
+        rownames(tabObsMeans) <-
+          sub('\\.', "\\*", rownames(tabObsMeans))
+        # Replace all remaining '.' with ' '
+        rownames(tabObsMeans) <-
+          gsub('\\.', " ", rownames(tabObsMeans))
+        tabObsMeans <-
+          rownames_to_column(tabObsMeans, "Factor")
+        colnames(tabObsMeans) <-
+          c("Factor", "N", "Observed\nMean")
+        tabObsMeans <-
+          separate(
+            tabObsMeans,
+            col = Factor,
+            into = c('Factor', 'Level'),
+            sep = "\\*"
+          )
+        tabObsMeans$Factor[duplicated(tabObsMeans$Factor)] <- ""
+
+        lReturn$MeansObs <- tabObsMeans
+        return(lReturn)
       }
     }
   } # END
 
-
-
 # Return to later - checking which demographics should be included as part of anova
-
 
 # https://www.datanovia.com/en/lessons/anova-in-r/
 # ddemog1 <-
