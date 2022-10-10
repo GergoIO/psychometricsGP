@@ -3,6 +3,7 @@
 export(fnAcademicYearFormat)
 export(fnAnova)
 export(fnIDSScoreSummary)
+export(fnPltBarChart)
 export(fnPltBox)
 export(fnPltGradeRange)
 export(fnPltHistogram)
