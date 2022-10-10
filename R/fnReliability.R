@@ -26,8 +26,8 @@ fnReliability <-  function(stages = NULL,
     scoresLong <-
       transform(scoresData, Candidate = c(1:nrow(scoresData)))
     scoresLong <-
-      melt(ScoresLong, id = "Candidate")
-    colnames(ScoresLong) <- c("Candidate", "Item", "Score")
+      melt(scoresLong, id = "Candidate")
+    colnames(scoresLong) <- c("Candidate", "Item", "Score")
     scoresLong$Item <-
       gsub("X", "", scoresLong$Item, fixed = TRUE)
 
