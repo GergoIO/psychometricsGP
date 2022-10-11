@@ -57,6 +57,7 @@ fnStartPackages <- function(githubToken = NULL) {
       spatstat,
       lorenzwalthert / strcode,
       stringi,
+      tictoc,
       tidyverse,
       viridis,
       tjmahr / WrapRmd
