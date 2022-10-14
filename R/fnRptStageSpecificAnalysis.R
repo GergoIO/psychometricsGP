@@ -85,17 +85,17 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
           'Scatterplot of Stage {stage} scores on current and previous test'
         )
       )
-    }
 
-    # TAB Test Retest Matrix STAGES A
-    fnRptAddTable(
-      report = report,
-      table = testRetest[[glue('MatrixStage{stage}')]],
-      tableCount = tableCount,
-      caption = glue(
-        'Stage {stage} students by grade awarded in {cnst$assessment} (row) and {cnst$assessmentPrev} (column)'
+      # TAB Test Retest Matrix STAGES A
+      fnRptAddTable(
+        report = report,
+        table = testRetest[[glue('MatrixStage{stage}')]],
+        tableCount = tableCount,
+        caption = glue(
+          'Stage {stage} students by grade awarded in {cnst$assessment} (row) and {cnst$assessmentPrev} (column)'
+        )
       )
-    )
+    }
 
     fnRptSectionHeading(report, glue("Stage {stage} Subgroup Analysis (ANOVA)"))
 
