@@ -22,19 +22,27 @@ fnTestRetest <-
       stop("One of the required variables for this function has not been specified.")
     } else{
       testRetest <- results
+      # Merge previous and present assessment results (in that order, previous to the left)
       testRetest <-
         merge(resultsPrevious,
               testRetest,
               by = "StudentID",
               na.rm = TRUE)
-      names(testRetest)[names(testRetest) == "Stage.x"] <-
+
+      # The second column storing Stage becomes Stage.y and contains the present Stage of students
+      # Use the Stage.y col going forwards
+      # The Stage.x column contains the stage students were at the time of the previous assessment
+      # Important to label this data with each students present Stage, especially in first test in year
+      names(testRetest)[names(testRetest) == "Stage.y"] <-
         "Stage"
-      #Remove any rows with NA for present of previous test score
+
+      #Remove any rows with NA for present or previous test score
       testRetest <-
         testRetest[!is.na(testRetest[[glue('{lstOfDetails$assessment}_Score')]]),]
       testRetest <-
         testRetest[!is.na(testRetest[[glue('{lstOfDetails$assessmentPrev}_Score')]]),]
 
+      # Only keep the required columns
       testRetest <-
         testRetest[, c(
           "StudentID",
