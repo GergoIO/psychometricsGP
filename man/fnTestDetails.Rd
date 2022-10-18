@@ -14,7 +14,7 @@ fnTestDetails(
 \arguments{
 \item{stages}{A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.)}
 
-\item{demogData}{A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included}
+\item{demogData}{A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included. Make sure to use a df containing demographics data for all students and not one which has been filtered to include present students only}
 
 \item{results}{A dataframe - containing results for students. A column titled "Stage" must be included. Each student should have one entry (row) in this dataframe. This will be used to determine the number of students assessed in each stage}
 

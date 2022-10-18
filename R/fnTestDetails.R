@@ -1,7 +1,7 @@
 #' Test Details Parameters (Stage Specific)
 #'
 #' @param stages A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.)
-#' @param demogData A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included
+#' @param demogData A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included. Make sure to use a df containing demographics data for all students and not one which has been filtered to include present students only
 #' @param results A dataframe - containing results for students. A column titled "Stage" must be included. Each student should have one entry (row) in this dataframe. This will be used to determine the number of students assessed in each stage
 #' @param resultsAbsent A dataframe - containing results for absent students. A column titled "Stage" must be included. Each absent student should have one entry (row) in this dataframe. This will be used to determine the number of absent students who were not assessed in each stage
 #'
