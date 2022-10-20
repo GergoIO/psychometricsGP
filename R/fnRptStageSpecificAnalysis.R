@@ -44,6 +44,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       "fnRptStageSpecificAnalysis: One of the required variables for this function has not been specified."
     )
   } else{
+    message(glue("fnRptStageSpecificAnalysis: Adding stage specific analysis to the specified report for Stage {stage}"))
     # NOTE on increment plotCount and tableCount:
     # The relevant functions (fnRptAddPlot and fnRptAddTable) increment the counts in the global environment of the script which call this function
     # The counts are not incremented within the scope of this script so it must be manually done here after each use of fnRptAddPlot and fnRptAddTable
@@ -158,8 +159,6 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     tableCount <- tableCount + 1
   }
   # For now- must return plotCount and tableCount so that they can be manually assigned in the main script. Global assignment not currently working and values are not updated between loops
-  message(plotCount)
-  message(tableCount)
   return(c(plotCount, tableCount))
   # Update plot and table counts in the global environment
   # assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
