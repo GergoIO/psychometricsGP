@@ -11,7 +11,7 @@
 #' @param tableCount ***
 #' @param plotCount ***
 #'
-#' @return ***
+#' @return The latest values of the plot and table counts are returned as a vector (with the table count as the first item). This is to enable those values to be updated in the main script while this function is used inside a loop.
 #' @export
 #'
 #' @examples ***
@@ -21,15 +21,15 @@
 # Currently only testing on AMK
 
 fnRptStageSpecificAnalysis <- function(stage = NULL,
-                                       report = NULL,
-                                       cnst = NULL,
-                                       plt = NULL,
-                                       tab = NULL,
-                                       tabDemog = NULL,
-                                       dfResStagesOnlyScores = NULL,
-                                       testRetest = NULL,
-                                       plotCount = NULL,
-                                       tableCount = NULL) {
+                                        report = NULL,
+                                        cnst = NULL,
+                                        plt = NULL,
+                                        tab = NULL,
+                                        tabDemog = NULL,
+                                        dfResStagesOnlyScores = NULL,
+                                        testRetest = NULL,
+                                        plotCount = NULL,
+                                        tableCount = NULL) {
   if (is.null(stage) == TRUE |
       is.null(report) == TRUE |
       is.null(cnst) == TRUE |
@@ -67,7 +67,6 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     )
     # Manually increment plot count
     plotCount <- plotCount + 1
-    # assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
 
     fnRptSectionHeading(report, glue("Stage {stage} Test-Retest Statistics"))
 
@@ -94,7 +93,6 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       )
       # Manually increment plot count
       plotCount <- plotCount + 1
-      # assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
 
       # TAB Test Retest Matrix STAGES A
       fnRptAddTable(
@@ -107,7 +105,6 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       )
       # Manually increment table count
       tableCount <- tableCount + 1
-      # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
     }
 
     fnRptSectionHeading(report, glue("Stage {stage} Subgroup Analysis (ANOVA)"))
@@ -131,7 +128,6 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     )
     # Manually increment table count
     tableCount <- tableCount + 1
-    # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
 
     # TAB Adj Means STAGES B
     fnRptAddTable(
@@ -144,7 +140,6 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     )
     # Manually increment table count
     tableCount <- tableCount + 1
-    # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
 
     fnRptAddText(
       report = report,
@@ -161,14 +156,15 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     )
     # Manually increment table count
     tableCount <- tableCount + 1
-    # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
-
-    # Update plot and table counts in the global environment
-    assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
-    assign(deparse(substitute(tableCount)), tableCount, envir = globalenv())
-
   }
+  # For now- must return plotCount and tableCount so that they can be manually assigned in the main script. Global assignment not currently working and values are not updated between loops
+  return(c(plotCount, tableCount))
+
+  # Update plot and table counts in the global environment
+  # assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
+  # assign(deparse(substitute(tableCount)), tableCount, envir = globalenv())
 }
+
 
 ################################################################################
 # Below is the manual version that does not use this function for simplification
