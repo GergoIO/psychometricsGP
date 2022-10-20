@@ -44,6 +44,10 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       "fnRptStageSpecificAnalysis: One of the required variables for this function has not been specified."
     )
   } else{
+    # NOTE on increment plotCount and tableCount:
+    # The relevant functions (fnRptAddPlot and fnRptAddTable) increment the counts in the global environment of the script which call this function
+    # The counts are not incremented within the scope of this script so it must be manually done here after each use of fnRptAddPlot and fnRptAddTable
+
     fnRptSectionHeading(report, glue("Stage {stage} Score Distribution"))
 
     fnRptAddText(
@@ -61,6 +65,9 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       plotCount = plotCount,
       caption = glue('Distribution of Stage {stage} test scores')
     )
+    # Manually increment plot count
+    assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
+
 
     fnRptSectionHeading(report, glue("Stage {stage} Test-Retest Statistics"))
 
@@ -85,6 +92,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
           'Scatterplot of Stage {stage} scores on current and previous test'
         )
       )
+      # Manually increment plot count
+      assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
 
       # TAB Test Retest Matrix STAGES A
       fnRptAddTable(
@@ -95,6 +104,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
           'Stage {stage} students by grade awarded in {cnst$assessment} (row) and {cnst$assessmentPrev} (column)'
         )
       )
+      # Manually increment table count
+      assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
     }
 
     fnRptSectionHeading(report, glue("Stage {stage} Subgroup Analysis (ANOVA)"))
@@ -116,6 +127,9 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
         "Analysis of variance table (Type III sums of squares, dependent variable: ({cnst$assessment} % Score))"
       )
     )
+    # Manually increment table count
+    assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+
     # TAB Adj Means STAGES B
     fnRptAddTable(
       report = report,
@@ -125,6 +139,9 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
         "Estimated marginal means (dependent variable: ({cnst$assessment} % Score))"
       )
     )
+    # Manually increment table count
+    assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+
 
     fnRptAddText(
       report = report,
@@ -139,12 +156,9 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       tableCount = tableCount,
       caption = glue("Observed mean percentage scores")
     )
-
-
-    # The below lines already appear in 'fnRptCaptionPlot' and 'fnRptTablePlot' - however it must be repeated in this top level function so that the 'plotCount' and 'tableCount' variables are updated in the main script too
-    assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
+    # Manually increment table count
     assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
-    }
+  }
 }
 
 ################################################################################
