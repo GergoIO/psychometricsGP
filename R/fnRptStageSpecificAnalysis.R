@@ -66,8 +66,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       caption = glue('Distribution of Stage {stage} test scores')
     )
     # Manually increment plot count
-    assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
-
+    plotCount <- plotCount + 1
+    # assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
 
     fnRptSectionHeading(report, glue("Stage {stage} Test-Retest Statistics"))
 
@@ -93,7 +93,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
         )
       )
       # Manually increment plot count
-      assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
+      plotCount <- plotCount + 1
+      # assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
 
       # TAB Test Retest Matrix STAGES A
       fnRptAddTable(
@@ -105,7 +106,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
         )
       )
       # Manually increment table count
-      assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+      tableCount <- tableCount + 1
+      # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
     }
 
     fnRptSectionHeading(report, glue("Stage {stage} Subgroup Analysis (ANOVA)"))
@@ -128,7 +130,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       )
     )
     # Manually increment table count
-    assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+    tableCount <- tableCount + 1
+    # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
 
     # TAB Adj Means STAGES B
     fnRptAddTable(
@@ -140,8 +143,8 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       )
     )
     # Manually increment table count
-    assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
-
+    tableCount <- tableCount + 1
+    # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
 
     fnRptAddText(
       report = report,
@@ -157,7 +160,13 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       caption = glue("Observed mean percentage scores")
     )
     # Manually increment table count
-    assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+    tableCount <- tableCount + 1
+    # assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+
+    # Update plot and table counts in the global environment
+    assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
+    assign(deparse(substitute(tableCount)), tableCount, envir = globalenv())
+
   }
 }
 
