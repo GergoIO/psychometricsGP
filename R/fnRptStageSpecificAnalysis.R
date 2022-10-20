@@ -139,7 +139,12 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       tableCount = tableCount,
       caption = glue("Observed mean percentage scores")
     )
-  }
+
+
+    # The below lines already appear in 'fnRptCaptionPlot' and 'fnRptTablePlot' - however it must be repeated in this top level function so that the 'plotCount' and 'tableCount' variables are updated in the main script too
+    assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
+    assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+    }
 }
 
 ################################################################################
