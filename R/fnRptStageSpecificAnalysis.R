@@ -1,15 +1,18 @@
 #' Report: Stage Specific Analysis
 #'
-#' @param stage ***
-#' @param report ***
-#' @param cnst ***
-#' @param plt ***
-#' @param tab ***
-#' @param tabDemog ***
-#' @param dfResStagesOnlyScores ***
-#' @param testRetest ***
-#' @param tableCount ***
-#' @param plotCount ***
+#' @description This function will perform all relevant stage specific analysis (currently tested for BMBS AMK Assessments). The stage specific analysis is performed, generated data, plots and dataframes are saved to variables and also added to the specified report along with surround text and other formatting (heading, captions, explanations etc.)
+#'
+#' @param stage Numeric (integer) - the stage to compile analysis for
+#' @param report String - the variable name of the report which the analysis should be added to
+#' @param listOfDetails A list - containing at least the following variables must be defined as part of that list:
+#' testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.), assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)
+#' @param listOfPlots A list - to save any generated plots to
+#' @param listOfTables A list - to save any generated tables to
+#' @param listOfDemographics A list - to save any generated demographics tables
+#' @param listOfTestRetest A list - to save any generated test retest analysis (values, lists and dataframes)
+#' @param stageSpecificScores A list - Each list item must be a dataframe titled 'Stage #' where # is the stage. Each list item must contain only number data of the scores for each student (rows) on each item (columns). No other information (studentIDs etc.) should be included
+#' @param tableCount Numeric (integer) - the current number of tables in the report (will be incremented as more tables are added)
+#' @param plotCount Numeric (integer) - the current number of plots in the report (will be incremented as more plots are added)
 #'
 #' @return The latest values of the plot and table counts are returned as a vector (with the table count as the first item). This is to enable those values to be updated in the main script while this function is used inside a loop
 #' @export
@@ -21,30 +24,34 @@
 # Currently only testing on AMK
 
 fnRptStageSpecificAnalysis <- function(stage = NULL,
-                                        report = NULL,
-                                        cnst = NULL,
-                                        plt = NULL,
-                                        tab = NULL,
-                                        tabDemog = NULL,
-                                        dfResStagesOnlyScores = NULL,
-                                        testRetest = NULL,
-                                        plotCount = NULL,
-                                        tableCount = NULL) {
+                                       report = NULL,
+                                       listOfDetails = NULL,
+                                       listOfPlots = NULL,
+                                       listOfTables = NULL,
+                                       listOfDemographics = NULL,
+                                       listOfTestRetest = NULL,
+                                       stageSpecificScores = NULL,
+                                       plotCount = NULL,
+                                       tableCount = NULL) {
   if (is.null(stage) == TRUE |
       is.null(report) == TRUE |
-      is.null(cnst) == TRUE |
-      is.null(plt) == TRUE |
-      is.null(tab) == TRUE |
-      is.null(tabDemog) == TRUE |
-      is.null(dfResStagesOnlyScores) == TRUE |
-      is.null(testRetest) == TRUE |
+      is.null(listOfDetails) == TRUE |
+      is.null(listOfPlots) == TRUE |
+      is.null(listOfTables) == TRUE |
+      is.null(listOfDemographics) == TRUE |
+      is.null(listOfTestRetest) == TRUE |
+      is.null(stageSpecificScores) == TRUE |
       is.null(plotCount) == TRUE |
       is.null(tableCount) == TRUE) {
     stop(
       "fnRptStageSpecificAnalysis: One of the required variables for this function has not been specified."
     )
   } else{
-    message(glue("fnRptStageSpecificAnalysis: Adding stage specific analysis to the specified report for Stage {stage}"))
+    message(
+      glue(
+        "fnRptStageSpecificAnalysis: Adding stage specific analysis to the specified report for Stage {stage}"
+      )
+    )
     # NOTE on increment plotCount and tableCount:
     # The relevant functions (fnRptAddPlot and fnRptAddTable) increment the counts in the global environment of the script which call this function
     # The counts are not incremented within the scope of this script so it must be manually done here after each use of fnRptAddPlot and fnRptAddTable
@@ -54,15 +61,15 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddText(
       report = report,
       text = glue(
-        "Scores for the {dim(dfResStagesOnlyScores[[glue('Stage {stage}')]])[1]} Stage {stage} students were {ifelse(tab[[glue('ShapiroStage{stage}')]]$ShapiroP<0.05, 'not', '')} normally distributed (Shapiro-Wilk test, W={sprintf('%.3f', tab[[glue('ShapiroStage{stage}')]]$ShapiroW)}, p={sprintf('%.3f', tab[[glue('ShapiroStage{stage}')]]$ShapiroP)})."
+        "Scores for the {dim(stageSpecificScores[[glue('Stage {stage}')]])[1]} Stage {stage} students were {ifelse(listOfTables[[glue('ShapiroStage{stage}')]]$ShapiroP<0.05, 'not', '')} normally distributed (Shapiro-Wilk test, W={sprintf('%.3f', listOfTables[[glue('ShapiroStage{stage}')]]$ShapiroW)}, p={sprintf('%.3f', listOfTables[[glue('ShapiroStage{stage}')]]$ShapiroP)})."
       )
     )
     fnRptAddParagraph(report)
 
-    # PLT Score Distr. for STAGES B
+    # listOfPlots Score Distr. for STAGES B
     fnRptAddPlot(
       report = report,
-      plot = plt[[glue('HistogramScoresStage{stage}')]],
+      plot = listOfPlots[[glue('HistogramScoresStage{stage}')]],
       plotCount = plotCount,
       caption = glue('Distribution of Stage {stage} test scores')
     )
@@ -71,22 +78,22 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 
     fnRptSectionHeading(report, glue("Stage {stage} Test-Retest Statistics"))
 
-    if (cnst$testInYear == 1 && stage == 1) {
+    if (listOfDetails$testInYear == 1 && stage == 1) {
       fnRptAddText(report = report,
                    text = "As this is the first test for this cohort, there are no test-retest statistics available.")
     } else{
       fnRptAddText(
         report = report,
         text = glue(
-          "There were {testRetest[[glue('nTestRetestStage{stage}')]]} Stage {stage} students for whom scores on both this test ({cnst$assessment}) and the previous test ({cnst$assessmentPrev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', testRetest[[glue('corrValStage{stage}')]])} (95% confidence interval {sprintf('%.2f', testRetest[[glue('corrLowCIStage{stage}')]])} to {sprintf('%.2f', testRetest[[glue('corrHighCIStage{stage}')]])})."
+          "There were {listOfTestRetest[[glue('nTestRetestStage{stage}')]]} Stage {stage} students for whom scores on both this test ({listOfDetails$assessment}) and the previous test ({listOfDetails$assessmentPrev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', listOfTestRetest[[glue('corrValStage{stage}')]])} (95% confidence interval {sprintf('%.2f', listOfTestRetest[[glue('corrLowCIStage{stage}')]])} to {sprintf('%.2f', listOfTestRetest[[glue('corrHighCIStage{stage}')]])})."
         )
       )
       fnRptAddParagraph(report)
 
-      # PLT Scatterplot of test score comparisons STAGES A
+      # listOfPlots Scatterplot of test score comparisons STAGES A
       fnRptAddPlot(
         report = report,
-        plot = plt[[glue('testRetestStage{stage}')]],
+        plot = listOfPlots[[glue('testRetestStage{stage}')]],
         plotCount = plotCount,
         caption = glue(
           'Scatterplot of Stage {stage} scores on current and previous test'
@@ -95,13 +102,13 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       # Manually increment plot count
       plotCount <- plotCount + 1
 
-      # TAB Test Retest Matrix STAGES A
+      # listOfTables Test Retest Matrix STAGES A
       fnRptAddTable(
         report = report,
-        table = testRetest[[glue('MatrixStage{stage}')]],
+        table = listOfTestRetest[[glue('MatrixStage{stage}')]],
         tableCount = tableCount,
         caption = glue(
-          'Stage {stage} students by grade awarded in {cnst$assessment} (row) and {cnst$assessmentPrev} (column)'
+          'Stage {stage} students by grade awarded in {listOfDetails$assessment} (row) and {listOfDetails$assessmentPrev} (column)'
         )
       )
       # Manually increment table count
@@ -113,30 +120,30 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     fnRptAddText(
       report = report,
       text = glue(
-        "Analysis of variance of the scores by students gender, ethnicity and disability status showed{ifelse(any(tabDemog[[glue('AnovaStage{stage}')]][['P-value']] < 0.05), ' ', ' no ')}statistically significant variation as shown in the table below."
+        "Analysis of variance of the scores by students gender, ethnicity and disability status showed{ifelse(any(listOfDemographics[[glue('AnovaStage{stage}')]][['P-value']] < 0.05), ' ', ' no ')}statistically significant variation as shown in the table below."
       )
     )
     fnRptAddParagraph(report)
 
-    # TAB ANOVA STAGES B
+    # listOfTables ANOVA STAGES B
     fnRptAddTable(
       report = report,
-      table = tabDemog[[glue('AnovaStage{stage}')]],
+      table = listOfDemographics[[glue('AnovaStage{stage}')]],
       tableCount = tableCount,
       caption = glue(
-        "Analysis of variance table (Type III sums of squares, dependent variable: ({cnst$assessment} % Score))"
+        "Analysis of variance table (Type III sums of squares, dependent variable: ({listOfDetails$assessment} % Score))"
       )
     )
     # Manually increment table count
     tableCount <- tableCount + 1
 
-    # TAB Adj Means STAGES B
+    # listOfTables Adj Means STAGES B
     fnRptAddTable(
       report = report,
-      table = tabDemog[[glue('MeansAdjStage{stage}')]],
+      table = listOfDemographics[[glue('MeansAdjStage{stage}')]],
       tableCount = tableCount,
       caption = glue(
-        "Estimated marginal means (dependent variable: ({cnst$assessment} % Score))"
+        "Estimated marginal means (dependent variable: ({listOfDetails$assessment} % Score))"
       )
     )
     # Manually increment table count
@@ -148,10 +155,10 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
         "Score variation by entry pathway and origin cannot reliably be included in the above ANOVA due to low student numbers. The table below presents Stage {stage} students' observed mean scores broken down by Entry Pathway and Origin."
       )
     )
-    # TAB Obs Means STAGES B
+    # listOfTables Obs Means STAGES B
     fnRptAddTable(
       report = report,
-      table = tabDemog[[glue('MeansObsStage{stage}')]],
+      table = listOfDemographics[[glue('MeansObsStage{stage}')]],
       tableCount = tableCount,
       caption = glue("Observed mean percentage scores")
     )
@@ -170,21 +177,21 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 # Below is the manual version that does not use this function for simplification
 ################################################################################
 
-# for (i in cnst$stagesB) {
+# for (i in listOfDetails$stagesB) {
 #   fnRptSectionHeading(rpt$All, glue("Stage {i} Score Distribution"))
 #
 #   fnRptAddText(
 #     report = rpt$All,
 #     text = glue(
-#       "Scores for the {dim(dfResStagesOnlyScores[[glue('Stage {i}')]])[1]} Stage {i} students were {ifelse(tab[[glue('ShapiroStage{i}')]]$ShapiroP<0.05, 'not', '')} normally distributed (Shapiro-Wilk test, W={sprintf('%.3f', tab[[glue('ShapiroStage{i}')]]$ShapiroW)}, p={sprintf('%.3f', tab[[glue('ShapiroStage{i}')]]$ShapiroP)}."
+#       "Scores for the {dim(stageSpecificScores[[glue('Stage {i}')]])[1]} Stage {i} students were {ifelse(listOfTables[[glue('ShapiroStage{i}')]]$ShapiroP<0.05, 'not', '')} normally distributed (Shapiro-Wilk test, W={sprintf('%.3f', listOfTables[[glue('ShapiroStage{i}')]]$ShapiroW)}, p={sprintf('%.3f', listOfTables[[glue('ShapiroStage{i}')]]$ShapiroP)}."
 #     )
 #   )
 #   fnRptAddParagraph(rpt$All)
 #
-#   # PLT Score Distr. for STAGES B
+#   # listOfPlots Score Distr. for STAGES B
 #   fnRptAddPlot(
 #     report = rpt$All,
-#     plot = plt[[glue('HistogramScoresStage{i}')]],
+#     plot = listOfPlots[[glue('HistogramScoresStage{i}')]],
 #     plotCount = plotCount,
 #     caption = glue('Distribution of Stage {i} test scores')
 #   )
@@ -194,26 +201,26 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddText(
 #     report = rpt$All,
 #     text = glue(
-#       "There were {testRetest[[glue('nTestRetestStage{i}')]]} Stage {i} students for whom scores on both this test ({cnst$assessment}) and the previous test ({cnst$assessmentPrev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', testRetest[[glue('corrValStage{i}')]])} (95% confidence interval {sprintf('%.2f', testRetest[[glue('corrLowCIStage{i}')]])} to {sprintf('%.2f', testRetest[[glue('corrHighCIStage{i}')]])})."
+#       "There were {listOfTestRetest[[glue('nTestRetestStage{i}')]]} Stage {i} students for whom scores on both this test ({listOfDetails$assessment}) and the previous test ({listOfDetails$assessmentPrev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', listOfTestRetest[[glue('corrValStage{i}')]])} (95% confidence interval {sprintf('%.2f', listOfTestRetest[[glue('corrLowCIStage{i}')]])} to {sprintf('%.2f', listOfTestRetest[[glue('corrHighCIStage{i}')]])})."
 #     )
 #   )
 #   fnRptAddParagraph(rpt$All)
 #
-#   # PLT Scatterplot of test score comparisons STAGES A
+#   # listOfPlots Scatterplot of test score comparisons STAGES A
 #   fnRptAddPlot(
 #     report = rpt$All,
-#     plot = plt[[glue('testRetestStage{i}')]],
+#     plot = listOfPlots[[glue('testRetestStage{i}')]],
 #     plotCount = plotCount,
 #     caption = glue('Scatterplot of Stage {i} scores on current and previous test')
 #   )
 #
-#   # TAB Test Retest Matrix STAGES A
+#   # listOfTables Test Retest Matrix STAGES A
 #   fnRptAddTable(
 #     report = rpt$All,
-#     table = testRetest[[glue('MatrixStage{i}')]],
+#     table = listOfTestRetest[[glue('MatrixStage{i}')]],
 #     tableCount = tableCount,
 #     caption = glue(
-#       'Stage {i} students by grade awarded in {cnst$assessment} (row) and {cnst$assessmentPrev} (column)'
+#       'Stage {i} students by grade awarded in {listOfDetails$assessment} (row) and {listOfDetails$assessmentPrev} (column)'
 #     )
 #   )
 #
@@ -222,27 +229,27 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #   fnRptAddText(
 #     report = rpt$All,
 #     text = glue(
-#       "Analysis of variance of the scores by students gender, ethnicity and disability status showed{ifelse(any(tabDemog[[glue('AnovaStage{i}')]][['P-value']] < 0.05), ' ', ' no ')}statistically significant variation as shown in the table below."
+#       "Analysis of variance of the scores by students gender, ethnicity and disability status showed{ifelse(any(listOfDemographics[[glue('AnovaStage{i}')]][['P-value']] < 0.05), ' ', ' no ')}statistically significant variation as shown in the table below."
 #     )
 #   )
 #   fnRptAddParagraph(rpt$All)
 #
-#   # TAB ANOVA STAGES B
+#   # listOfTables ANOVA STAGES B
 #   fnRptAddTable(
 #     report = rpt$All,
-#     table = tabDemog[[glue('AnovaStage{i}')]],
+#     table = listOfDemographics[[glue('AnovaStage{i}')]],
 #     tableCount = tableCount,
 #     caption = glue(
-#       "Analysis of variance table (Type III sums of squares, dependent variable: ({cnst$assessment} % Score))"
+#       "Analysis of variance table (Type III sums of squares, dependent variable: ({listOfDetails$assessment} % Score))"
 #     )
 #   )
-#   # TAB Adj Means STAGES B
+#   # listOfTables Adj Means STAGES B
 #   fnRptAddTable(
 #     report = rpt$All,
-#     table = tabDemog[[glue('MeansAdjStage{i}')]],
+#     table = listOfDemographics[[glue('MeansAdjStage{i}')]],
 #     tableCount = tableCount,
 #     caption = glue(
-#       "Estimated marginal means (dependent variable: ({cnst$assessment} % Score))"
+#       "Estimated marginal means (dependent variable: ({listOfDetails$assessment} % Score))"
 #     )
 #   )
 #
@@ -252,10 +259,10 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
 #       "Score variation by entry pathway and origin cannot reliably be included in the above ANOVA due to low student numbers. The table below presents Stage {i} students' observed mean scores broken down by Entry Pathway and Origin."
 #     )
 #   )
-#   # TAB Obs Means STAGES B
+#   # listOfTables Obs Means STAGES B
 #   fnRptAddTable(
 #     report = rpt$All,
-#     table = tabDemog[[glue('MeansObsStage{i}')]],
+#     table = listOfDemographics[[glue('MeansObsStage{i}')]],
 #     tableCount = tableCount,
 #     caption = glue("Observed mean percentage scores")
 #   )
