@@ -13,15 +13,15 @@ fnRptDemographicAnalysis(
 )
 }
 \arguments{
-\item{report}{***}
+\item{report}{String - the variable name of the report which the analysis should be added to}
 
-\item{cnst}{***}
+\item{cnst}{*** SHOULD CHANGE THIS - ONLY cnst$assessment is required}
 
-\item{tab}{***}
+\item{tab}{*** A list - to save any generated tables to}
 
-\item{tabDemog}{***}
+\item{tabDemog}{*** A list - to save any generated demographics tables}
 
-\item{tableCount}{***}
+\item{tableCount}{Numeric (integer) - the current number of tables in the report (will be incremented as more tables are added)}
 }
 \value{
 ***

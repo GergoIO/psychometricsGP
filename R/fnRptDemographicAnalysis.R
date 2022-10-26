@@ -1,10 +1,10 @@
 #' ANOVA for Report
 #'
-#' @param report ***
-#' @param cnst ***
-#' @param tab ***
-#' @param tabDemog ***
-#' @param tableCount ***
+#' @param report String - the variable name of the report which the analysis should be added to
+#' @param cnst *** SHOULD CHANGE THIS - ONLY cnst$assessment is required
+#' @param tab *** A list - to save any generated tables to
+#' @param tabDemog *** A list - to save any generated demographics tables
+#' @param tableCount Numeric (integer) - the current number of tables in the report (will be incremented as more tables are added)
 #'
 #' @return ***
 #' @export
