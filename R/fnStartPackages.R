@@ -42,6 +42,7 @@ fnStartPackages <- function(githubToken = NULL) {
       hrbrthemes,
       ltm,
       lme4,
+      mirt,
       officer,
       openxlsx,
       plyr,
