@@ -131,7 +131,9 @@ fnTagAnalysis <- function(data = NULL,
       geom_bar(width = 0.85,
                stat = "identity",
                position = "stack") +
-      if (textLabels == TRUE) {
+      scale_y_continuous(limits = c(0, 100.1), expand = c(0, 0)) +
+      theme_psmd() +
+    if (textLabels == TRUE) {
         scale_x_continuous(
           breaks = c(1:length(variableOptions)),
           expand = c(0, 0),
@@ -141,9 +143,6 @@ fnTagAnalysis <- function(data = NULL,
         scale_x_continuous(breaks = c(1:length(variableOptions)),
                            expand = c(0, 0))
       }
-    +
-      scale_y_continuous(limits = c(0, 100.1), expand = c(0, 0)) +
-      theme_psmd()
 
     # Save table to be returned
     lReturn[[glue("plt{variableName}")]] <- .pltIA
@@ -151,8 +150,6 @@ fnTagAnalysis <- function(data = NULL,
     return(lReturn)
   }
 }
-
-
 
 # The Data variable -
 # Data must be one row for each item.
