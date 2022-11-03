@@ -17,8 +17,8 @@
 #'
 fnTagAnalysis <-
   function(lReturn = NULL,
-           variableName = NULL,
            data = NULL,
+           variableName = NULL,
            variableOptions = NULL,
            variableNQuestions = NULL,
            scoreOptions = NULL,
@@ -32,6 +32,9 @@ fnTagAnalysis <-
         is.null(textLabels) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     } else{
+
+      variableNameNoSpace <- gsub(" ", "", variableName)
+
       #   __________________________________________________________________________
       #   TABLE                                                                 ####
 
@@ -96,8 +99,7 @@ fnTagAnalysis <-
         bg(.tabIA, j = 6, bg = "#86BB6A") # Green
 
       # Save table to be returned
-      lReturn[[glue("tab{variableName}")]] <- .tabIA
-
+      lReturn[[glue("tab{variableNameNoSpace}")]] <- .tabIA
 
       #   ____________________________________________________________________________
       #   PLOTS                                                                   ####
@@ -149,7 +151,7 @@ fnTagAnalysis <-
         }
 
       # Save table to be returned
-      lReturn[[glue("plt{variableName}")]] <- .pltIA
+      lReturn[[glue("plt{variableNameNoSpace}")]] <- .pltIA
 
       return(lReturn)
     }
