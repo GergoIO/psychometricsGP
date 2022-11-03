@@ -5,6 +5,7 @@
 \title{Tag Analysis Table and Plot}
 \usage{
 fnTagAnalysis(
+  lReturn = NULL,
   variableName = NULL,
   data = NULL,
   variableOptions = NULL,
@@ -14,6 +15,8 @@ fnTagAnalysis(
 )
 }
 \arguments{
+\item{lReturn}{Define a list where generated analysis will be saved to. This list must already be defined (even if just an empty, list()) prior to use in this function}
+
 \item{variableName}{***}
 
 \item{data}{***}

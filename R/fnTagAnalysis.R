@@ -1,5 +1,6 @@
 #' Tag Analysis Table and Plot
 #'
+#' @param lReturn Define a list where generated analysis will be saved to. This list must already be defined (even if just an empty, list()) prior to use in this function
 #' @param data ***
 #' @param scoreOptions ***
 #' @param variableName ***
@@ -15,13 +16,15 @@
 ################################################################################
 #'
 fnTagAnalysis <-
-  function(variableName = NULL,
+  function(lReturn = NULL,
+           variableName = NULL,
            data = NULL,
            variableOptions = NULL,
            variableNQuestions = NULL,
            scoreOptions = NULL,
            textLabels = NULL) {
-    if (is.null(data) == TRUE |
+    if (is.null(lReturn) == TRUE |
+        is.null(data) == TRUE |
         is.null(scoreOptions) == TRUE |
         is.null(variableName) == TRUE |
         is.null(variableOptions) == TRUE |
@@ -29,7 +32,6 @@ fnTagAnalysis <-
         is.null(textLabels) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     } else{
-      lReturn <- list() # For returning multiple dfs and other objects
       #   __________________________________________________________________________
       #   TABLE                                                                 ####
 
@@ -57,8 +59,8 @@ fnTagAnalysis <-
 
       .tabIA[is.na(.tabIA)] <- 0
       .tabIA <- data.frame(t(.tabIA))
-      colnames(.tabIA) <- .tabIA[1, ]
-      .tabIA <- .tabIA[-1, ]
+      colnames(.tabIA) <- .tabIA[1,]
+      .tabIA <- .tabIA[-1,]
       rownames(.tabIA) <- variableOptions
 
       # For use with later plotting of item specific responses
@@ -76,7 +78,7 @@ fnTagAnalysis <-
       colnames(.tabIA)[1] <- variableName
 
       # Order by most incorrect answers at top
-      .tabIA <- .tabIA[order(-.tabIA[, 3]), ]
+      .tabIA <- .tabIA[order(-.tabIA[, 3]),]
 
       # Add a col for tag number
       .tabIA <-
@@ -104,7 +106,7 @@ fnTagAnalysis <-
       .tabIALong <-
         rownames_to_column(.tabIALong, "VarName")
       # Order by most incorrect answers at top
-      .tabIALong <- .tabIALong[order(-.tabIALong[, 2]), ]
+      .tabIALong <- .tabIALong[order(-.tabIALong[, 2]),]
 
       # Suppression of messages stops a "Using Stage as id variables" text being displayed each loop
       .tabIALong <- suppressMessages(melt(.tabIALong))
