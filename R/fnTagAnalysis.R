@@ -87,6 +87,9 @@ fnTagAnalysis <-
         cbind(c(1:length(variableOptions)), .tabIA)
       colnames(.tabIA)[1] <- paste0(variableName, "\nNumber")
 
+      # Save table to be returned (before converting to flextable)
+      lReturn[[glue("tab{variableNameNoSpace}")]] <- .tabIA
+
       # TABLE
       .tabIA <- qflextable(.tabIA)
       # Change background of correct response to green
@@ -97,8 +100,8 @@ fnTagAnalysis <-
       .tabIA <-
         bg(.tabIA, j = 6, bg = "#86BB6A") # Green
 
-      # Save table to be returned
-      lReturn[[glue("tab{variableNameNoSpace}")]] <- .tabIA
+      # Save flextable to be returned
+      lReturn[[glue("flextab{variableNameNoSpace}")]] <- .tabIA
 
       #   ____________________________________________________________________________
       #   PLOTS                                                                   ####
