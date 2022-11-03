@@ -32,7 +32,6 @@ fnTagAnalysis <-
         is.null(textLabels) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     } else{
-
       variableNameNoSpace <- gsub(" ", "", variableName)
 
       #   __________________________________________________________________________
@@ -128,11 +127,6 @@ fnTagAnalysis <-
                            labels = c("Incorrect", "Correct", "Don't Know")
                          )
                        )) +
-        labs(
-          x = glue("{variableName} Number"),
-          y = "Proportion (%)",
-          fill = "Response"
-        ) +
         scale_fill_manual(values = c("#ff4d4d", "#b5bfc9", "#86BB6A")) +
         geom_bar(width = 0.85,
                  stat = "identity",
@@ -144,10 +138,18 @@ fnTagAnalysis <-
             breaks = c(1:length(variableOptions)),
             expand = c(0, 0),
             labels = variableOptions
-          )
+          ) +
+            labs(x = glue("{variableName}"),
+                 y = "Proportion (%)",
+                 fill = "Response")
         } else{
           scale_x_continuous(breaks = c(1:length(variableOptions)),
-                             expand = c(0, 0))
+                             expand = c(0, 0)) +
+            labs(
+              x = glue("{variableName} Number"),
+              y = "Proportion (%)",
+              fill = "Response"
+            )
         }
 
       # Save table to be returned
