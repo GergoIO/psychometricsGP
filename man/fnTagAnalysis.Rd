@@ -9,7 +9,8 @@ fnTagAnalysis(
   scoreOptions = NULL,
   variableName = NULL,
   variableOptions = NULL,
-  variableNQuestions = NULL
+  variableNQuestions = NULL,
+  textLabels = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ fnTagAnalysis(
 \item{variableOptions}{***}
 
 \item{variableNQuestions}{The number of times a question on each variable occurs. The first col contains the variables (should be titled "Var1") and the second col contains the number of times each occurs (should be titled "Number\nof\nQuestions")}
+
+\item{textLabels}{Boolean (TRUE/FALSE). Set to TRUE to add the specific tag names to the x-axis on the plot. Otherwise each tag will be given a number (with a corresponding number also in the generated table)}
 }
 \value{
 ***

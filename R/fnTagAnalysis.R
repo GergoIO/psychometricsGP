@@ -5,6 +5,7 @@
 #' @param variableName ***
 #' @param variableOptions ***
 #' @param variableNQuestions The number of times a question on each variable occurs. The first col contains the variables (should be titled "Var1") and the second col contains the number of times each occurs (should be titled "Number\nof\nQuestions")
+#' @param textLabels Boolean (TRUE/FALSE). Set to TRUE to add the specific tag names to the x-axis on the plot. Otherwise each tag will be given a number (with a corresponding number also in the generated table)
 #'
 #' @return ***
 #' @export
@@ -17,12 +18,14 @@ fnTagAnalysis <- function(data = NULL,
                           scoreOptions = NULL,
                           variableName = NULL,
                           variableOptions = NULL,
-                          variableNQuestions = NULL) {
+                          variableNQuestions = NULL,
+                          textLabels = NULL) {
   if (is.null(data) == TRUE |
       is.null(scoreOptions) == TRUE |
       is.null(variableName) == TRUE |
       is.null(variableOptions) == TRUE |
-      is.null(variableNQuestions) == TRUE) {
+      is.null(variableNQuestions) == TRUE |
+      is.null(textLabels) == TRUE) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     lReturn <- list() # For returning multiple dfs and other objects
@@ -53,8 +56,8 @@ fnTagAnalysis <- function(data = NULL,
 
     .tabIA[is.na(.tabIA)] <- 0
     .tabIA <- data.frame(t(.tabIA))
-    colnames(.tabIA) <- .tabIA[1,]
-    .tabIA <- .tabIA[-1,]
+    colnames(.tabIA) <- .tabIA[1, ]
+    .tabIA <- .tabIA[-1, ]
     rownames(.tabIA) <- variableOptions
 
     # For use with later plotting of item specific responses
@@ -72,7 +75,7 @@ fnTagAnalysis <- function(data = NULL,
     colnames(.tabIA)[1] <- "Speciality"
 
     # Order by most incorrect answers at top
-    .tabIA <- .tabIA[order(-.tabIA[, 3]),]
+    .tabIA <- .tabIA[order(-.tabIA[, 3]), ]
 
     # Add a col for speciality number
     .tabIA <-
@@ -99,7 +102,7 @@ fnTagAnalysis <- function(data = NULL,
     .tabIALong <-
       rownames_to_column(.tabIALong, "VarName")
     # Order by most incorrect answers at top
-    .tabIALong <- .tabIALong[order(-.tabIALong[, 2]),]
+    .tabIALong <- .tabIALong[order(-.tabIALong[, 2]), ]
 
     # Suppression of messages stops a "Using Stage as id variables" text being displayed each loop
     .tabIALong <- suppressMessages(melt(.tabIALong))
@@ -128,8 +131,17 @@ fnTagAnalysis <- function(data = NULL,
       geom_bar(width = 0.85,
                stat = "identity",
                position = "stack") +
-      scale_x_continuous(breaks = c(1:length(variableOptions)),
-                         expand = c(0, 0)) +
+      if (textLabels == TRUE) {
+        scale_x_continuous(
+          breaks = c(1:length(variableOptions)),
+          expand = c(0, 0),
+          labels = variableOptions
+        )
+      } else{
+        scale_x_continuous(breaks = c(1:length(variableOptions)),
+                           expand = c(0, 0))
+      }
+    +
       scale_y_continuous(limits = c(0, 100.1), expand = c(0, 0)) +
       theme_psmd()
 
@@ -147,4 +159,3 @@ fnTagAnalysis <- function(data = NULL,
 # First col contains the variable type for each item (ie the specific speciality of whatever is being compared)
 # Other cols contain student scores (-0.25, 0, 1)
 # Each student has a column
-
