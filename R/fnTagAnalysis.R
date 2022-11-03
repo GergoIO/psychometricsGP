@@ -132,25 +132,29 @@ fnTagAnalysis <-
                  stat = "identity",
                  position = "stack") +
         scale_y_continuous(limits = c(0, 100.1), expand = c(0, 0)) +
-        theme_psmd() +
-        if (textLabels == TRUE) {
+        theme_psmd()
+
+
+      if (textLabels == TRUE) {
+        .pltIA <-  .pltIA +
           scale_x_continuous(
             breaks = c(1:length(variableOptions)),
             expand = c(0, 0),
             labels = variableOptions
           ) +
-            labs(x = glue("{variableName}"),
-                 y = "Proportion (%)",
-                 fill = "Response")
-        } else{
+          labs(x = glue("{variableName}"),
+               y = "Proportion (%)",
+               fill = "Response")
+      } else{
+        .pltIA <- .pltIA +
           scale_x_continuous(breaks = c(1:length(variableOptions)),
                              expand = c(0, 0)) +
-            labs(
-              x = glue("{variableName} Number"),
-              y = "Proportion (%)",
-              fill = "Response"
-            )
-        }
+          labs(
+            x = glue("{variableName} Number"),
+            y = "Proportion (%)",
+            fill = "Response"
+          )
+      }
 
       # Save table to be returned
       lReturn[[glue("plt{variableNameNoSpace}")]] <- .pltIA
