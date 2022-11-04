@@ -2,7 +2,7 @@
 % Please edit documentation in R/fnReload.R
 \name{fnReload}
 \alias{fnReload}
-\title{Reload the PsychometricGP package}
+\title{Reload the PsychometricsGP package}
 \usage{
 fnReload()
 }
