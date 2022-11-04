@@ -2,7 +2,7 @@
 #'
 #' @description Use this function to reload the current package (psychometricsGP). This function is useful when changes have been made and uploaded to the package repository. This function takes no arguments. NOTE: the authorisation token must be defined under the hidden variable '.githubToken'
 #'
-#' @return Nothing is returned TEST
+#' @return Nothing is returned
 #' @export
 #'
 #' @examples fnReload()
