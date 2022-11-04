@@ -20,7 +20,7 @@ fnRptAddPlot <-
            plotCount = NULL,
            caption = NULL,
            stopTrailingLine = FALSE,
-           dimensions = c(18, 12)) {
+           dimensions = c(15.24, 10.16)) {
     if (is.null(report) == TRUE | is.null(plot) == TRUE |
         is.null(caption) == TRUE |
         is.null(plotCount) == TRUE)    {
