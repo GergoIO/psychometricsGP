@@ -61,8 +61,8 @@ fnTagAnalysis <-
 
       .tabIA[is.na(.tabIA)] <- 0
       .tabIA <- data.frame(t(.tabIA))
-      colnames(.tabIA) <- .tabIA[1,]
-      .tabIA <- .tabIA[-1,]
+      colnames(.tabIA) <- .tabIA[1, ]
+      .tabIA <- .tabIA[-1, ]
       rownames(.tabIA) <- variableOptions
 
       # For use with later plotting of item specific responses
@@ -80,7 +80,7 @@ fnTagAnalysis <-
       colnames(.tabIA)[1] <- variableName
 
       # Order by most incorrect answers at top
-      .tabIA <- .tabIA[order(-.tabIA[, 3]),]
+      .tabIA <- .tabIA[order(-.tabIA[, 3]), ]
 
       # Add a col for tag number
       .tabIA <-
@@ -110,7 +110,7 @@ fnTagAnalysis <-
       .tabIALong <-
         rownames_to_column(.tabIALong, "VarName")
       # Order by most incorrect answers at top
-      .tabIALong <- .tabIALong[order(-.tabIALong[, 2]),]
+      .tabIALong <- .tabIALong[order(-.tabIALong[, 2]), ]
 
       # Suppression of messages stops a "Using Stage as id variables" text being displayed each loop
       .tabIALong <- suppressMessages(melt(.tabIALong))
@@ -127,7 +127,7 @@ fnTagAnalysis <-
                          fill = factor(
                            Response,
                            levels = c(-0.25, 0, 1),
-                           labels = c("Incorrect", "Correct", "Don't Know")
+                           labels = c("Incorrect", "Don't Know", "Correct")
                          )
                        )) +
         scale_fill_manual(values = c("#ff4d4d", "#b5bfc9", "#86BB6A")) +
