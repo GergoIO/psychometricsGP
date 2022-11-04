@@ -9,7 +9,8 @@ fnRptAddPlot(
   plot = NULL,
   plotCount = NULL,
   caption = NULL,
-  stopTrailingLine = FALSE
+  stopTrailingLine = FALSE,
+  dimensions = c(18, 12)
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ fnRptAddPlot(
 \item{caption}{The caption to add (string)}
 
 \item{stopTrailingLine}{TRUE/FALSE - decides whether to add an empty line below the plot (default is FALSE if undeclared)}
+
+\item{dimensions}{(OPTIONAL) A vector defining the width and height (in cm) for the image. Defaults to 18cm wide and 12cm high}
 }
 \value{
 The plot is added with an accompanying formatted caption to the configured report. The variable storing the number of plots in the report is incremented by 1 and a single trailing line is added following the caption (if requested)
