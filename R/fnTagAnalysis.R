@@ -1,169 +1,214 @@
 #' Tag Analysis Table and Plot
 #'
-#' @param lReturn Define a list where generated analysis will be saved to. This list must already be defined (even if just an empty, list()) prior to use in this function
+# @param lReturn Define a list where generated analysis will be saved to. This list must already be defined (even if just an empty, list()) prior to use in this function
 #' @param data ***
-#' @param scoreOptions ***
 #' @param variableName ***
 #' @param variableOptions ***
 #' @param variableNQuestions The number of times a question on each variable occurs. The first col contains the variables (should be titled "Var1") and the second col contains the number of times each occurs (should be titled "Number\nof\nQuestions")
+#' @param scoreOptions ***
 #' @param textLabels Boolean (TRUE/FALSE). Set to TRUE to add the specific tag names to the x-axis on the plot. Otherwise each tag will be given a number (with a corresponding number also in the generated table)
+#' @param savePlot (Optional - if not set, plots are saved by default) A boolean (TRUE/FALSE, default TRUE) determines whether the plot will be saved. Useful for controlling overall save behaviour.
+#' @param plotsFolder (Optional - if not set, no plots are saved but they are still created and returned) The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function
 #'
-#' @return ***
+#' @return A list of plots is returned. The list contains all the plots generated. To use the generated plots in your working environment, follow the example which uses the append function. Separately, if requested, the generated plots are also saved to a specified folder.
 #' @export
 #'
-#' @examples ***
+#' @examples
+#' tagResults <- list() # Do not include if the list already exists, this will clear it
+#' tagResults <- append(
+#' tagResults,
+#' fnTagAnalysis(
+#'   data = tag$scoresAllNegSpeciality,
+#'   variableName = "Speciality",
+#'   variableOptions = tag$lSpecialities,
+#'   variableNQuestions = tag$nQuestionsSpeciality,
+#'   scoreOptions = tag$scoreOptions,
+#'   textLabels = FALSE
+#'   )
+#' )
 #'
 ################################################################################
 #'
 fnTagAnalysis <-
-  function(lReturn = NULL,
-           data = NULL,
+  function(data = NULL,
            variableName = NULL,
            variableOptions = NULL,
            variableNQuestions = NULL,
            scoreOptions = NULL,
-           textLabels = NULL) {
-    if (is.null(lReturn) == TRUE |
-        is.null(data) == TRUE |
-        is.null(scoreOptions) == TRUE |
+           textLabels = NULL,
+           savePlot = NULL,
+           plotsFolder = NULL) {
+    if (is.null(data) == TRUE |
         is.null(variableName) == TRUE |
         is.null(variableOptions) == TRUE |
         is.null(variableNQuestions) == TRUE |
+        is.null(scoreOptions) == TRUE |
         is.null(textLabels) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
-    } else{
-      variableNameNoSpace <- gsub(" ", "", variableName)
-
-      #   __________________________________________________________________________
-      #   TABLE                                                                 ####
-
-      ##  ..........................................................................
-      ##  Prep                                                                  ####
-
-      # Prepping Tag Specific Response PCTs
-      for (i in 1:length(variableOptions)) {
-        .responses <-
-          data.frame(100 * prop.table(table(unlist(data[data[[variableName]] == variableOptions[i], -1]))))
-        if (i == 1) {
-          .tabIA = suppressWarnings(merge(
-            scoreOptions,
-            .responses,
-            by = "Var1",
-            all.x = TRUE
-          ))
-        } else {
-          .tabIA = suppressWarnings(merge(.tabIA,
-                                          .responses,
-                                          by = "Var1",
-                                          all.x = TRUE))
-        }
-      }
-
-      .tabIA[is.na(.tabIA)] <- 0
-      .tabIA <- data.frame(t(.tabIA))
-      colnames(.tabIA) <- .tabIA[1, ]
-      .tabIA <- .tabIA[-1, ]
-      rownames(.tabIA) <- variableOptions
-
-      # For use with later plotting of item specific responses
-      .tabIALong <- .tabIA
-
-      colnames(.tabIA) <-
-        c("Incorrect\n(%)", "Don't\nKnow\n(%)", "Correct\n(%)")
-      .tabIA <- fnRound(.tabIA, 2)
-      # Move tags to their own col
-      .tabIA <- rownames_to_column(.tabIA, "Var1")
-
-      .tabIA <- merge(variableNQuestions,
-                      .tabIA,
-                      by = "Var1")
-      colnames(.tabIA)[1] <- variableName
-
-      # Order by most incorrect answers at top
-      .tabIA <- .tabIA[order(-.tabIA[, 3]), ]
-
-      # Add a col for tag number
-      .tabIA <-
-        cbind(c(1:length(variableOptions)), .tabIA)
-      colnames(.tabIA)[1] <- paste0(variableName, "\nNumber")
-
-      # Save table to be returned (before converting to flextable)
-      lReturn[[glue("tab{variableNameNoSpace}")]] <- .tabIA
-
-      # TABLE
-      .tabIA <- qflextable(.tabIA)
-      # Change background of correct response to green
-      .tabIA <-
-        bg(.tabIA, j = 4, bg = "#ff4d4d") # Red
-      .tabIA <-
-        bg(.tabIA, j = 5, bg = "#b5bfc9") # Gray
-      .tabIA <-
-        bg(.tabIA, j = 6, bg = "#86BB6A") # Green
-
-      # Save flextable to be returned
-      lReturn[[glue("flextab{variableNameNoSpace}")]] <- .tabIA
-
-      #   ____________________________________________________________________________
-      #   PLOTS                                                                   ####
-
-      # Reformat stage specific responses using melt for bar plotting
-      .tabIALong <-
-        rownames_to_column(.tabIALong, "VarName")
-      # Order by most incorrect answers at top
-      .tabIALong <- .tabIALong[order(-.tabIALong[, 2]), ]
-
-      # Suppression of messages stops a "Using Stage as id variables" text being displayed each loop
-      .tabIALong <- suppressMessages(melt(.tabIALong))
-      colnames(.tabIALong) <-
-        c("VarName", "Response", "Proportion")
-
-      # Assigns a number to each variable
-      .tabIALong$variable <- c(1:length(variableOptions))
-
-      .pltIA <- ggplot(data = .tabIALong,
-                       aes(
-                         x = variable,
-                         y = Proportion,
-                         fill = factor(
-                           Response,
-                           levels = c(-0.25, 0, 1),
-                           labels = c("Incorrect", "Don't Know", "Correct")
-                         )
-                       )) +
-        scale_fill_manual(values = c("#ff4d4d", "#b5bfc9", "#86BB6A")) +
-        geom_bar(width = 0.85,
-                 stat = "identity",
-                 position = "stack") +
-        scale_y_continuous(limits = c(0, 100.1), expand = c(0, 0)) +
-        theme_psmd()
-
-
-      if (textLabels == TRUE) {
-        .pltIA <-  .pltIA +
-          scale_x_continuous(
-            breaks = c(1:length(variableOptions)),
-            expand = c(0, 0),
-            labels = variableOptions
-          ) +
-          labs(x = glue("{variableName}"),
-               y = "Proportion (%)",
-               fill = "Response")
-      } else{
-        .pltIA <- .pltIA +
-          scale_x_continuous(breaks = c(1:length(variableOptions)),
-                             expand = c(0, 0)) +
-          labs(
-            x = glue("{variableName} Number"),
-            y = "Proportion (%)",
-            fill = "Response"
-          )
-      }
-
-      # Save table to be returned
-      lReturn[[glue("plt{variableNameNoSpace}")]] <- .pltIA
-
-      return(lReturn)
     }
+    if (is.null(savePlot) == TRUE &&
+        is.null(plotsFolder) == FALSE) {
+      message(
+        "fnPltHistoricStatsMultiple: The 'savePlot' variable has not been set. Defaulting to saving the plots."
+      )
+      savePlot <- TRUE
+    }
+    if (is.null(plotsFolder) == TRUE) {
+      message(
+        "fnPltHistoricStatsMultiple: The 'plotsFolder' variable has not been set (there is nowhere to save the plots). Defaulting to not saving any plots regardless of if 'savePlot' is set."
+      )
+      # Changing 'savePlot' to FALSE here stops any attempts at saving plots to a folder
+      savePlot <- FALSE
+    }
+
+    # MAIN CODE STARTS HERE:
+
+    # Create a duplicate of the variable name (the tag type) without spaces
+    variableNameNoSpace <- gsub(" ", "", variableName)
+
+    # Create a list to store the plots generated by this function
+    listOfPlots <- list()
+
+    #   ________________________________________________________________________
+    #   TABLE                                                               ####
+
+    ##  ........................................................................
+    ##  Prep                                                                ####
+
+    # Prepping Tag Specific Response PCTs
+    for (i in 1:length(variableOptions)) {
+      .responses <-
+        data.frame(100 * prop.table(table(unlist(data[data[[variableName]] == variableOptions[i], -1]))))
+      if (i == 1) {
+        .tabIA = suppressWarnings(merge(
+          scoreOptions,
+          .responses,
+          by = "Var1",
+          all.x = TRUE
+        ))
+      } else {
+        .tabIA = suppressWarnings(merge(.tabIA,
+                                        .responses,
+                                        by = "Var1",
+                                        all.x = TRUE))
+      }
+    }
+
+    .tabIA[is.na(.tabIA)] <- 0
+    .tabIA <- data.frame(t(.tabIA))
+    colnames(.tabIA) <- .tabIA[1,]
+    .tabIA <- .tabIA[-1,]
+    rownames(.tabIA) <- variableOptions
+
+    # For use with later plotting of item specific responses
+    .tabIALong <- .tabIA
+
+    colnames(.tabIA) <-
+      c("Incorrect\n(%)", "Don't\nKnow\n(%)", "Correct\n(%)")
+    .tabIA <- fnRound(.tabIA, 2)
+    # Move tags to their own col
+    .tabIA <- rownames_to_column(.tabIA, "Var1")
+
+    .tabIA <- merge(variableNQuestions,
+                    .tabIA,
+                    by = "Var1")
+    colnames(.tabIA)[1] <- variableName
+
+    # Order by most incorrect answers at top
+    .tabIA <- .tabIA[order(-.tabIA[, 3]),]
+
+    # Add a col for tag number
+    .tabIA <-
+      cbind(c(1:length(variableOptions)), .tabIA)
+    colnames(.tabIA)[1] <- paste0(variableName, "\nNumber")
+
+    # Save table to be returned (before converting to flextable)
+    listOfPlots[[glue("tab{variableNameNoSpace}")]] <- .tabIA
+
+    # TABLE
+    .tabIA <- qflextable(.tabIA)
+    # Change background of correct response to green
+    .tabIA <-
+      bg(.tabIA, j = 4, bg = "#ff4d4d") # Red
+    .tabIA <-
+      bg(.tabIA, j = 5, bg = "#b5bfc9") # Gray
+    .tabIA <-
+      bg(.tabIA, j = 6, bg = "#86BB6A") # Green
+
+    # Save flextable to be returned
+    listOfPlots[[glue("flextab{variableNameNoSpace}")]] <- .tabIA
+
+    #   ________________________________________________________________________
+    #   PLOTS                                                               ####
+
+    # Reformat stage specific responses using melt for bar plotting
+    .tabIALong <-
+      rownames_to_column(.tabIALong, "VarName")
+    # Order by most incorrect answers at top
+    .tabIALong <- .tabIALong[order(-.tabIALong[, 2]),]
+
+    # Suppression of messages stops a "Using Stage as id variables" text being displayed each loop
+    .tabIALong <- suppressMessages(melt(.tabIALong))
+    colnames(.tabIALong) <-
+      c("VarName", "Response", "Proportion")
+
+    # Assigns a number to each variable
+    .tabIALong$variable <- c(1:length(variableOptions))
+
+    .pltIA <- ggplot(data = .tabIALong,
+                     aes(
+                       x = variable,
+                       y = Proportion,
+                       fill = factor(
+                         Response,
+                         levels = c(-0.25, 0, 1),
+                         labels = c("Incorrect", "Don't Know", "Correct")
+                       )
+                     )) +
+      scale_fill_manual(values = c("#ff4d4d", "#b5bfc9", "#86BB6A")) +
+      geom_bar(width = 0.85,
+               stat = "identity",
+               position = "stack") +
+      scale_y_continuous(limits = c(0, 100.1), expand = c(0, 0)) +
+      theme_psmd()
+
+
+    if (textLabels == TRUE) {
+      .pltIA <-  .pltIA +
+        scale_x_continuous(
+          breaks = c(1:length(variableOptions)),
+          expand = c(0, 0),
+          labels = variableOptions
+        ) +
+        labs(x = glue("{variableName}"),
+             y = "Proportion (%)",
+             fill = "Response")
+    } else{
+      .pltIA <- .pltIA +
+        scale_x_continuous(breaks = c(1:length(variableOptions)),
+                           expand = c(0, 0)) +
+        labs(
+          x = glue("{variableName} Number"),
+          y = "Proportion (%)",
+          fill = "Response"
+        )
+    }
+
+    # Save table to be returned
+    listOfPlots[[glue("plt{variableNameNoSpace}")]] <- .pltIA
+
+    # Only save if requested and the folder is defined
+    if (savePlot == TRUE && is.null(plotsFolder) == FALSE) {
+      fnPltSave(
+        savePlot = savePlot,
+        plot = .pltIA,
+        filePath =  glue(
+          '{plotsFolder}\\{fnTimestamp()}_Tag_Analysis_{variableName}.jpg'
+        )
+      )
+    }
+
+    return(listOfPlots)
   }
 
 # The Data variable -

@@ -5,18 +5,17 @@
 \title{Tag Analysis Table and Plot}
 \usage{
 fnTagAnalysis(
-  lReturn = NULL,
   data = NULL,
   variableName = NULL,
   variableOptions = NULL,
   variableNQuestions = NULL,
   scoreOptions = NULL,
-  textLabels = NULL
+  textLabels = NULL,
+  savePlot = NULL,
+  plotsFolder = NULL
 )
 }
 \arguments{
-\item{lReturn}{Define a list where generated analysis will be saved to. This list must already be defined (even if just an empty, list()) prior to use in this function}
-
 \item{data}{***}
 
 \item{variableName}{***}
@@ -28,15 +27,30 @@ fnTagAnalysis(
 \item{scoreOptions}{***}
 
 \item{textLabels}{Boolean (TRUE/FALSE). Set to TRUE to add the specific tag names to the x-axis on the plot. Otherwise each tag will be given a number (with a corresponding number also in the generated table)}
+
+\item{savePlot}{(Optional - if not set, plots are saved by default) A boolean (TRUE/FALSE, default TRUE) determines whether the plot will be saved. Useful for controlling overall save behaviour.}
+
+\item{plotsFolder}{(Optional - if not set, no plots are saved but they are still created and returned) The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function}
 }
 \value{
-***
+A list of plots is returned. The list contains all the plots generated. To use the generated plots in your working environment, follow the example which uses the append function. Separately, if requested, the generated plots are also saved to a specified folder.
 }
 \description{
 Tag Analysis Table and Plot
 }
 \examples{
-***
+tagResults <- list() # Do not include if the list already exists, this will clear it
+tagResults <- append(
+tagResults,
+fnTagAnalysis(
+  data = tag$scoresAllNegSpeciality,
+  variableName = "Speciality",
+  variableOptions = tag$lSpecialities,
+  variableNQuestions = tag$nQuestionsSpeciality,
+  scoreOptions = tag$scoreOptions,
+  textLabels = FALSE
+  )
+)
 
 
 }
