@@ -21,7 +21,7 @@ fnPltHistoricStatsMultiple(
 \item{plotsFolder}{(Optional - if not set, no plots are saved but they are still created and returned) The root folder where images should be saved. Individual saved images are given unique names within that folder as part of this function}
 }
 \value{
-A list of plots is returned. The list contains all the plots generated. Separately, if requested, the generated plots are also saved to a specified folder.
+A list of plots is returned. The list contains all the plots generated. To use the generated plots in your working environment, follow the example which uses the append function. Separately, if requested, the generated plots are also saved to a specified folder.
 }
 \description{
 Plot multiple historic stats for multiple datasets
@@ -31,7 +31,7 @@ data1 <- list(statsAll, statsStagesA, statsStagesB)
 names(.data1) <- c("All", "StagesA", "StagesB")
 stats <- c("Mean", "Correct", "Incorrect", "DontKnow", "Phi")
 
-pltList <- list()
+pltList <- list() # Do not include if the list already exists, this will clear it
 pltList <- append(pltList,
   fnPltHistoricStatsMultiple(
       data = data1,
@@ -40,7 +40,7 @@ pltList <- append(pltList,
       plotsFolder = lFiles$pathImages)
       )
 
-pltList2 <- list()
+pltList2 <- list() # Do not include if the list already exists, this will clear it
 pltList2 <- append(pltList2,
   fnPltHistoricStatsMultiple(
       data = dfData,
