@@ -69,7 +69,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     # listOfPlots Score Distr. for STAGES B
     fnRptAddPlot(
       report = report,
-      plot = listOfPlots[[glue('HistogramScoresStage{stage}')]],
+      plot = listOfPlots[[glue('histogramScoresStage{stage}')]],
       plotCount = plotCount,
       caption = glue('Distribution of Stage {stage} test scores')
     )
