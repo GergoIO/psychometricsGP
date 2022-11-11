@@ -88,6 +88,7 @@ fnReliability <-  function(stages = NULL,
     message("fnReliability: Analysing reliability across multiple stages")
     for (i in stages) {
       stage <- glue("stage{i}")
+      stageColName <- glue("Stage {i}")
       loopDf <- scoresData[[stage]]
 
       loopScoresLong <-
@@ -139,7 +140,7 @@ fnReliability <-  function(stages = NULL,
           "Phi Coefficient",
           "Absolute SEM"
         )
-      reliability[, stage] <- c(
+      reliability[, stageColName] <- c(
         dim(resultsData[resultsData$Stage == i, ])[1],
         cronbach.alpha(scoresData[[stage]])[[1]],
         relCalcs$varianceCandidate,
