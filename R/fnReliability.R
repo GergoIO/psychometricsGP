@@ -1,8 +1,8 @@
 #' Test Reliability Parameters (Non/Stage Specific)
 #'
 #' @param stages (Optional) Vector containing all the stages being considered. If undefined, only a single dataset (scoresData) is expected/considered.
-#' @param scoresData If stage specific: A list of dataframes with students scores for each stage. Each data frame in the list should be named "Stage #" where # is the relevant stage.
-#'    If non stage specific: A single dataframe containing what would otherwise be contained in one of the dataframes in the list of stage specific dataframes. In any dataframe the columns should be the items and the rows should be the index of each student (actual value unimportant). Each data point should represent the score for a particular student on a particular item. All students with NA scores and excluded items should be removed prior to use in this function
+#' @param scoresData If stage specific: A list of dataframes with students scores for each stage. Each data frame in the list should be named "stage#" where # is the relevant stage.
+#' If non stage specific: A single dataframe containing what would otherwise be contained in one of the dataframes in the list of stage specific dataframes. In any dataframe the columns should be the items and the rows should be the index of each student (actual value unimportant). Each data point should represent the score for a particular student on a particular item. All students with NA scores and excluded items should be removed prior to use in this function
 #' @param resultsData A dataframe containing student results. This variable must contain a "Stage" column in which the stage of each student is entered in a new row. This is used to add the number of students assessed in each Stage to the resultant export of reliability data.
 #'
 #' @return A dataframe containing the reliability data for each considered stage is returned
@@ -87,7 +87,7 @@ fnReliability <-  function(stages = NULL,
   } else{
     message("fnReliability: Analysing reliability across multiple stages")
     for (i in stages) {
-      stage <- glue("Stage {i}")
+      stage <- glue("stage{i}")
       loopDf <- scoresData[[stage]]
 
       loopScoresLong <-
