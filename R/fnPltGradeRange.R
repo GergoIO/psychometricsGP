@@ -288,7 +288,6 @@ fnPltGradeRange <-
         message(
           "fnPltGradeRange: There are one or more grade/stage combinations which no students belong to. This will result in missing boxes on the plot."
         )
-        message(dataPlt)
       }
       return(plot)
     }
