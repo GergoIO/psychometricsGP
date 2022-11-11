@@ -275,8 +275,9 @@ fnPltGradeRange <-
       # print(dataPlt)
       if (any(is.na(dataPlt) == TRUE)) {
         message(
-          "fnPltGradeRange: One of the score extremes or grade boundaries has not been defined. The plot will be incomplete. Check that all input <- values are defined."
+          "fnPltGradeRange: One of the score extremes or grade boundaries has not been defined. The plot will be incomplete. Check that all input values are defined."
         )
+        message(dataPlt)
       }
       return(plot)
     }
