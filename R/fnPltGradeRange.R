@@ -68,7 +68,7 @@ fnPltGradeRange <-
       #   ______________________________________________________________________
       #   Ensure Data is Numeric                                            ####
 
-      data <- mutate_all(data, function(x) as.numeric(as.character(x)))
+      data <- all(data, function(x) as.numeric(as.character(x)))
 
       #   ______________________________________________________________________
       #   Define Constants                                                  ####
@@ -100,22 +100,19 @@ fnPltGradeRange <-
           x - (x %% abs(y))
         }
       }
-
       # -ve y rounds down.
-      # using y = -20 to round down to the next lowest multiple of 20
-      # this keeps the method of using a break separation of 20 working
+      # using y = -20 to round down to the next lowest multiple of 20 this keeps the method of using a break separation of 20 working
       # eg fnRounder(-3.4, -20) = -20
-      # Function for use as part of the function fnPltGradeRange
-      # This function removes bar segments below the min achieved score for each group (stage)
-      # Input data has columns: group (the stage for each bar),
-      # yMin and yMax (The min and max y values of each bar segment) and
-      # Grade which is the grade assigned to each bar segment
 
-      # Within each group (stage)
-      # If in a row yMin < yMax, set the next row's yMin to the current row's yMin and
-      # also set the current yMin and yMax to NA (so they aren't plotted) yMin = yMax = NA
-      # This propagates the min score through so the bottom of the lowest bar is at the actual min achieved val
-      # It may be that noone was grated U so there need not be a U bar
+
+      # Define minimum setting function
+      # This function removes bar segments below the min achieved score for each group (stage)
+      # Input data has columns: group (the stage for each bar), yMin and yMax (The min and max y values of each bar segment) and Grade which is the grade assigned to each bar segment.
+
+      # Within each group (stage):
+      # If in a row yMin < yMax, set the next row's yMin to the current row's yMin and also set the current yMin and yMax to NA (so they aren't plotted) yMin = yMax = NA.
+      # This propagates the min score through so the bottom of the lowest bar is at the actual min achieved val.
+      # It may be that no-one was graded U so there need not be a U bar
       # Instead the bar should start from the actual min achieved in B (not from the B boundary)
       fnSetMin <- function(data, nGroups, nGradesPerGroup) {
         for (i in 1:nGroups) {
@@ -164,7 +161,7 @@ fnPltGradeRange <-
           Grade = rep(unlist(gradesLong), nGroups)
         )
 
-        # Use a function to remove bar segments below the min achieved score
+        # Use the fnSetMin function to remove bar segments below the min achieved score
         dataPlt <- fnSetMin(data = dataPlt,
                             nGroups = 4,
                             nGradesPerGroup = nGradesPerGroup)
@@ -174,7 +171,8 @@ fnPltGradeRange <-
                                      ordered = TRUE)
 
         # Set min y axis limit
-        # If all min scores are >=0, set to 0. Otherwise, round the min value to the nearest 20 and subtract 20 so it is definitely included. Eg for a min yMin value of -3 the min y axis limit will be -20 and for a min yMin value of -32 (unlikely!) it would be -40.
+        # If all min scores are >=0, set to 0.
+        # Otherwise, round the min value to the nearest 20 and subtract 20 so it is definitely included. Eg for a min yMin value of -3 the min y axis limit will be -20 and for a min yMin value of -22 (unlikely!) it would be -40.
         limitMinY <- ifelse(min(dataPlt$yMin, na.rm = TRUE) >= 0,
                             0,
                             fnRounder(min(dataPlt$yMin, na.rm = TRUE), -20))
@@ -187,6 +185,7 @@ fnPltGradeRange <-
                          ymin = yMin,
                          ymax = yMax
                        )) +
+          theme_psmd() +
           geom_rect(aes(fill = Grade), colour = "black") +
           scale_fill_manual(
             values = c("#3D52A1", # Blue/Green/Orange/Red
@@ -230,7 +229,7 @@ fnPltGradeRange <-
           Grade = rep(unlist(gradesLong), nGroups)
         )
 
-        # Use a function to remove bar segments below the min achieved score
+        # Use the fnSetMin function to remove bar segments below the min achieved score
         dataPlt <- fnSetMin(data = dataPlt,
                             nGroups = nGroups,
                             nGradesPerGroup = nGradesPerGroup)
@@ -252,6 +251,7 @@ fnPltGradeRange <-
                          ymin = yMin,
                          ymax = yMax
                        )) +
+          theme_psmd() +
           geom_rect(aes(fill = Grade), colour = "black") +
           scale_fill_manual(
             # Green/Blue
@@ -275,7 +275,7 @@ fnPltGradeRange <-
       # print(dataPlt)
       if (any(is.na(dataPlt) == TRUE)) {
         message(
-          "fnPltGradeRange: One of the score extremes or grade boundaries has not been defined. The plot will be incomplete. Check that all input data values are defined."
+          "fnPltGradeRange: One of the score extremes or grade boundaries has not been defined. The plot will be incomplete. Check that all input <- values are defined."
         )
       }
       return(plot)
