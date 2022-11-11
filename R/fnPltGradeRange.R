@@ -68,7 +68,7 @@ fnPltGradeRange <-
       #   ______________________________________________________________________
       #   Ensure Data is Numeric                                            ####
 
-      data <- all(data, function(x) as.numeric(as.character(x)))
+      data <- mutate_all(data, function(x) as.numeric(as.character(x)))
 
       #   ______________________________________________________________________
       #   Define Constants                                                  ####
@@ -185,7 +185,7 @@ fnPltGradeRange <-
                          ymin = yMin,
                          ymax = yMax
                        )) +
-          # theme_psmd() +
+          theme_psmd() +
           geom_rect(aes(fill = Grade), colour = "black") +
           scale_fill_manual(
             values = c("#3D52A1", # Blue/Green/Orange/Red
@@ -251,7 +251,7 @@ fnPltGradeRange <-
                          ymin = yMin,
                          ymax = yMax
                        )) +
-          # theme_psmd() +
+          theme_psmd() +
           geom_rect(aes(fill = Grade), colour = "black") +
           scale_fill_manual(
             # Green/Blue
