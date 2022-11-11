@@ -147,7 +147,7 @@ fnTestRetestMatrix <-
           "Borderline",
           "Satisfactory",
           "Excellent")
-      dataAnalysis[[glue('MatrixStage{stage}')]] <- testRetestMatrix
+      dataAnalysis[[glue('matrixStage{stage}')]] <- testRetestMatrix
       return(dataAnalysis)
     }
   }
