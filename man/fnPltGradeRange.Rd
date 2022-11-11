@@ -14,7 +14,7 @@ fnPltGradeRange(
 \arguments{
 \item{data}{A dataframe containing score data. For each group (stage) to be plotted, values should be added to a new column in the following order: First - minimum achieved score, then - grade boundaries in increasing order, finally - the maximum achieved score}
 
-\item{grades}{The possible grades. Currently either "UBSE" (default) or "US}
+\item{grades}{Either "UBSE" (DEFAULT) or "US. The possible grades.}
 
 \item{xLabels}{A vector (of strings or numerics). The labels to be added along the x-axis for each bar. Must be the same length as the number of columns (separate groups/stages) in the 'data' variable}
 

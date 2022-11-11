@@ -1,7 +1,7 @@
 #' Plot: Grade ranges for scores across multiple stages
 #'
 #' @param data A dataframe containing score data. For each group (stage) to be plotted, values should be added to a new column in the following order: First - minimum achieved score, then - grade boundaries in increasing order, finally - the maximum achieved score
-#' @param grades The possible grades. Currently either "UBSE" (default) or "US
+#' @param grades Either "UBSE" (DEFAULT) or "US. The possible grades.
 #' @param xLabels A vector (of strings or numerics). The labels to be added along the x-axis for each bar. Must be the same length as the number of columns (separate groups/stages) in the 'data' variable
 #' @param axisTitles A vector (length 2), the x and the y axis titles (in that order)
 #'
@@ -65,10 +65,22 @@ fnPltGradeRange <-
     {
       stop("One of the required variables for this function has not been specified.")
     } else {
+
+      #   ______________________________________________________________________
+      #   Warning For Missing Data                                          ####
+
+      if (any(is.na(data) == TRUE)) {
+        message(
+          "fnPltGradeRange: One of the score extremes or grade boundaries has not been defined. The plot will be incomplete. Check that all input values are defined."
+        )
+      }
+
       #   ______________________________________________________________________
       #   Ensure Data is Numeric                                            ####
 
-      data <- mutate_all(data, function(x) as.numeric(as.character(x)))
+      data <-
+        mutate_all(data, function(x)
+          as.numeric(as.character(x)))
 
       #   ______________________________________________________________________
       #   Define Constants                                                  ####
@@ -117,7 +129,7 @@ fnPltGradeRange <-
       fnSetMin <- function(data, nGroups, nGradesPerGroup) {
         for (i in 1:nGroups) {
           # Subset a single group (stage)
-          dfSubset <- data[data$group == i,]
+          dfSubset <- data[data$group == i, ]
 
           for (j in 1:nGradesPerGroup) {
             if (is.na(dfSubset[j, "yMin"]) == TRUE |
@@ -155,9 +167,9 @@ fnPltGradeRange <-
           # Eg for 3 stages graded US this col will be 1,1,2,2,3,3
           group = sort(rep(1:nGroups, nGradesPerGroup)),
           # 1:4 covers Min - Excellent
-          yMin = unlist(data[1:4,], use.names = FALSE),
+          yMin = unlist(data[1:4, ], use.names = FALSE),
           # 2-5 covers Borderline - Max
-          yMax = unlist(data[2:5,], use.names = FALSE),
+          yMax = unlist(data[2:5, ], use.names = FALSE),
           Grade = rep(unlist(gradesLong), nGroups)
         )
 
@@ -223,9 +235,9 @@ fnPltGradeRange <-
           # Eg for 3 stages graded US this col will be 1,1,2,2,3,3
           group = sort(rep(1:nGroups, nGradesPerGroup)),
           # 1:2 covers Min - Satisfactory
-          yMin = unlist(data[1:2,], use.names = FALSE),
+          yMin = unlist(data[1:2, ], use.names = FALSE),
           # 2-3 covers Satisfactory - Max
-          yMax = unlist(data[2:3,], use.names = FALSE),
+          yMax = unlist(data[2:3, ], use.names = FALSE),
           Grade = rep(unlist(gradesLong), nGroups)
         )
 
@@ -272,10 +284,9 @@ fnPltGradeRange <-
             expand = c(0, 0)
           )
       }
-      # print(dataPlt)
       if (any(is.na(dataPlt) == TRUE)) {
         message(
-          "fnPltGradeRange: One of the score extremes or grade boundaries has not been defined. The plot will be incomplete. Check that all input values are defined."
+          "fnPltGradeRange: There are one or more grade/stage combinations which no students belong to. This will result in missing boxes on the plot."
         )
         message(dataPlt)
       }
