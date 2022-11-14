@@ -75,16 +75,13 @@ fnRptCoverSheet <-
           body_replace_all_text(
             reportVar,
             old_value = "StagePlaceholder",
-            new_value = as.character(as.character(
-              sub(
-                ",([^,]*)$",
-                " and\\1",
-                paste0(listOfDetails$stages, collapse = ", ")
-              )
+            new_value = as.character(sub(
+              ",([^,]*)$",
+              " and\\1",
+              paste0(listOfDetails$stages, collapse = ", ")
             )),
             only_at_cursor = FALSE
           )
-
       }
       reportVar <-
         body_replace_all_text(
