@@ -8,7 +8,7 @@ Description: Gathers all custom commonly-used functions
 License: Private
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.2
 Suggests: 
     knitr,
     rmarkdown
