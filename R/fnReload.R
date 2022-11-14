@@ -2,7 +2,7 @@
 #'
 #' @description Use this function to reload the current package (psychometricsGP). This function is useful when changes have been made and uploaded to the package repository. This function takes no arguments. NOTE: the authorisation token must be defined under the hidden variable '.githubToken'
 #'
-#' @return Nothing is returned
+#' @return Nothing is returned, a message alerts the user when reloading is complete
 #' @export
 #'
 #' @examples fnReload()
@@ -19,4 +19,6 @@ fnReload <- function() {
                            quiet = TRUE)
   # Start using the custom package
   library(psychometricsGP)
+
+  message("fnReload: Reloading complete")
 }
