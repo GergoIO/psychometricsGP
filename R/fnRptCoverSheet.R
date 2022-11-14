@@ -61,7 +61,12 @@ fnRptCoverSheet <-
           new_value = listOfDetails$programme,
           only_at_cursor = FALSE
         )
-      if (is.null(listOfDetails$stage) == FALSE) {
+      # Reason for additional is_scalar_character check
+      # cnst$stage can be defined even though it is not for a single stage (not identified why this happens yet)
+      # if cnst$stage = "2, 3, 4, 5" etc then the stages version should be used even though cnst$stage is defined
+      # this first version can only be used when cnst$stage is a single number
+      if (is.null(listOfDetails$stage) == FALSE  &&
+          is_scalar_character(as.character(listOfDetails$stage)) == TRUE) {
         reportVar <-
           body_replace_all_text(
             reportVar,
