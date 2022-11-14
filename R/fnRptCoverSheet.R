@@ -79,7 +79,7 @@ fnRptCoverSheet <-
               sub(
                 ",([^,]*)$",
                 " and\\1",
-                paste0(cnst$stages, collapse = ", ")
+                paste0(listOfDetails$stages, collapse = ", ")
               )
             )),
             only_at_cursor = FALSE
