@@ -12,7 +12,7 @@
 ################################################################################
 #'
 fnListsFromVector <- function(listsToCreate = NULL) {
-  if (in.null(listsToCreate) == TRUE) {
+  if (is.null(listsToCreate) == TRUE) {
     stop(
       "fnListsFromVector: One of the required variables for this function has not been specified."
     )
