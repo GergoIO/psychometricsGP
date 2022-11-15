@@ -74,8 +74,7 @@ fnRptCoverSheet <-
             new_value = as.character(listOfDetails$stage),
             only_at_cursor = FALSE
           )
-      } else if (is.null(listOfDetails$stage) == TRUE &&
-                 is.null(listOfDetails$stages) == FALSE) {
+      } else if (is.null(listOfDetails$stages) == FALSE) {
         reportVar <-
           body_replace_all_text(
             reportVar,
