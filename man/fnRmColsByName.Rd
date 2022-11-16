@@ -2,12 +2,12 @@
 % Please edit documentation in R/fnRmColsByName.R
 \name{fnRmColsByName}
 \alias{fnRmColsByName}
-\title{Remove Rows By Name}
+\title{Remove Columns by Name}
 \usage{
-fnRmColsByName(df, itemsToRm)
+fnRmColsByName(input, itemsToRm)
 }
 \arguments{
-\item{df}{The name of the data frame.}
+\item{input}{The name of the data frame.}
 
 \item{itemsToRm}{(Vector of numerics) The items to remove. Can be an empty vector, c()}
 }

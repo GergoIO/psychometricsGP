@@ -1,4 +1,4 @@
-#' Remove Rows By Name
+#' Remove Rows by Name
 #'
 #' @description Removes specific rows by name from a dataframe or list. Additional functionality to handle scenarios where no columns need to be removed. Works for 1D lists and 2D data frames.
 #'
@@ -23,6 +23,7 @@ fnRmRowsByName <- function(input, itemsToRm) {
   } else if (is.null(dim(input)) == TRUE) {
     return(input[-itemsToRm]) # for 1D lists etc
   } else {
-    return(input[-itemsToRm, ]) # for 2D dfs etc
+    return(input[!(rownames(input) %in% itemsToRm), ])
+    # return(input[-itemsToRm, ]) # for 2D dfs etc
   }
 } # END

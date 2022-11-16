@@ -1,8 +1,8 @@
-#' Remove Rows By Name
+#' Remove Columns by Name
 #'
 #' @description Removes specific columns by name from a dataframe. Additional functionality to handle scenarios where no columns need to be removed.
 #'
-#' @param df The name of the data frame.
+#' @param input The name of the data frame.
 #' @param itemsToRm (Vector of numerics) The items to remove. Can be an empty vector, c()
 #'
 #' @return This function will return a dataframe with the selected columns removed
@@ -12,14 +12,15 @@
 
 ################################################################################
 
-fnRmColsByName <- function(df, itemsToRm) {
-  if (is.null(df) == TRUE) {
+fnRmColsByName <- function(input, itemsToRm) {
+  if (is.null(input) == TRUE) {
     stop("Please specify the dataframe")
   }
   if (is.null(itemsToRm) == TRUE) {
     message("fnRmColsByName: There are no items to remove, no columns will be deleted")
-    return(df)
+    return(input)
   } else {
-    return(df[, -itemsToRm])
+    return(input[, !(colnames(input) %in% itemsToRm)])
+    # return(input[, -itemsToRm])
   }
 } # THE END

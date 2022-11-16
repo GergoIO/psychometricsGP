@@ -2,7 +2,7 @@
 % Please edit documentation in R/fnRmRowsByName.R
 \name{fnRmRowsByName}
 \alias{fnRmRowsByName}
-\title{Remove Rows By Name}
+\title{Remove Rows by Name}
 \usage{
 fnRmRowsByName(input, itemsToRm)
 }
