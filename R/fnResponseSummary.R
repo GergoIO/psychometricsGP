@@ -16,10 +16,10 @@ fnResponseSummary <- function(stages = NULL,
       is.null(results) == TRUE) {
     stop("One of the required variables for this function has not been specified.")
   } else{
+    responseSummary <- data.frame(stringsAsFactors = FALSE)
+
     for (i in stages) {
       .stageCol <- glue("Stage {i}")
-
-      responseSummary <- data.frame(stringsAsFactors = FALSE)
 
       responseSummary["Number Correct", .stageCol] <-
         mean(results$nCorr[results$Stage == i])
@@ -33,7 +33,6 @@ fnResponseSummary <- function(stages = NULL,
         mean(results$pctIncorr[results$Stage == i])
       responseSummary["Percentage Don't Know", .stageCol] <-
         mean(results$pctDontKnow[results$Stage == i])
-
     }
     return(responseSummary)
   }
