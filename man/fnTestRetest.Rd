@@ -4,12 +4,19 @@
 \alias{fnTestRetest}
 \title{Test Retest Dataframe Creation}
 \usage{
-fnTestRetest(listOfDetails = NULL, results = NULL, resultsPrevious = NULL)
+fnTestRetest(
+  assessment = NULL,
+  assessmentPrev = NULL,
+  results = NULL,
+  resultsPrevious = NULL
+)
 }
 \arguments{
-\item{listOfDetails}{This variable should be a list containing as least the following defined variables: assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)}
+\item{assessment}{A string - the current assessment being analysed (eg ADK38)}
 
-\item{results}{A dataframe - containing results data for the current assessment with at least the following columns: "StudentID", "Stage", assessement score (of the form "assessement_Score" where assessment matches the variable defined in listOfDetails) and assessment grade (of the form "assessment_Grade" where assessment grade matched the variable defined in listOfDetails)}
+\item{assessmentPrev}{A string - the previous assessment (prior to the one being analysed - eg ADK37)}
+
+\item{results}{A dataframe - containing results data for the current assessment with at least the following columns: "StudentID", "Stage", assessement score (of the form "assessement_Score" where assessment matches the variable defined in the "assessment" parameter) and assessment grade (of the form "assessment_Grade" where assessment matched the variable defined in the "assessment" parameter)}
 
 \item{resultsPrevious}{A dataframe - containing results data for the previous assessment, in a similar fashion to the "results" dataframe}
 }
@@ -20,5 +27,5 @@ A dataframe is returned. It contains the student ID, stage and current and previ
 Test Retest Dataframe Creation
 }
 \examples{
-dfTestRetest <- fnTestRetest(listOfDetails = cnst, results = dfRes, resultsPrevious = dfPrevTestData)
+dfTestRetest <- fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData)
 }
