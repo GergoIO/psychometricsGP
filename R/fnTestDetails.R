@@ -36,9 +36,9 @@ fnTestDetails <-
                 demogData$Year_Status %!in% c("Interrupted", "Withdrawn")
             )
           )
-        testDetails["Students Assessed", glue("Stage {i}")] <-
+        testDetails["Students Assessed", stage] <-
           dim(results[results$Stage == i, ])[1]
-        testDetails["Students Absent", glue("Stage {i}")] <-
+        testDetails["Students Absent", stage] <-
           dim(resultsAbsent[resultsAbsent$Stage == i, ])[1]
 
         fnStatsScores <- function(x) {
