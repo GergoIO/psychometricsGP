@@ -6,6 +6,7 @@
 \usage{
 fnTestDetails(
   stages = NULL,
+  programme = NULL,
   demogData = NULL,
   results = NULL,
   resultsAbsent = NULL
@@ -13,6 +14,8 @@ fnTestDetails(
 }
 \arguments{
 \item{stages}{A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.)}
+
+\item{programme}{A string - the programme of the students (Must match what is in the "Programme" col in the demogData dataframe (see below) eg "BMBS" etc.)}
 
 \item{demogData}{A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included. Make sure to use a df containing demographics data for all students and not one which has been filtered to include present students only}
 
@@ -27,5 +30,5 @@ A dataframe is returned (testDetails) containing the calculated test details. A 
 Test Details Parameters (Stage Specific)
 }
 \examples{
-fnTestDetails(stages = cnst$stages, demog = dfDemog, results = dfRes, resultsAbsent = dfResAbsent)
+fnTestDetails(stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, resultsAbsent = dfResAbsent)
 }
