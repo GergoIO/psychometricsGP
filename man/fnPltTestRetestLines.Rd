@@ -37,6 +37,7 @@ Add Grade Boundary Lines to Test Retest Plots
 }
 \examples{
 plt[[glue('testRetestStage{i}')]] <- fnPltTestRetestLines(plot = plt[[glue('testRetestStage{i}')]], stage = i, testInYear = cnst$testInYear, gradeBounds = tab$gradeBoundaries, gradeBoundsPrev = tab$gradeBoundariesPrev, nBounds = 3, nBoundsPrev = 3)
+Use ifelse when setting nBounds and nBoundsPrev to avoid having multiple loops in the main script dependent on the test in year
 
 
 }
