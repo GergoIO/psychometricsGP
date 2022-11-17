@@ -94,3 +94,5 @@ fnPltTestRetestLines <- function(plot = NULL,
     return(plot)
   }
 }
+
+# *** Note: Can return to this and use scale_x_continuous(limits= c(-10,100)) for example if any x vals are negative. Could look to round to the next lowest (most negative) 10 for example. Something similar using a function was done previous for the grade box plotss
