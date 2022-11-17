@@ -34,7 +34,7 @@ fnResponseSummary <- function(stages = NULL,
       responseSummary["Percentage Don't Know", .stageCol] <-
         mean(results$pctDontKnow[results$Stage == i])
 
-      return(responseSummary)
     }
+    return(responseSummary)
   }
 }
