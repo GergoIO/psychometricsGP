@@ -6,15 +6,18 @@
 \usage{
 fnTestRetestMatrix(
   stage = NULL,
-  lstOfDetails = NULL,
+  assessment = NULL,
+  assessmentPrev = NULL,
   dataAnalysis = NULL,
   dataRaw = NULL
 )
 }
 \arguments{
-\item{stage}{A number or string (optional). If a stage is defined, the stage will be appended to the saved list items.  If a stage is not defined, no stage info will be appended.}
+\item{stage}{A number or string (OPTIONAL). If a stage is defined, the stage will be appended to the saved list items.  If a stage is not defined, no stage info will be appended.}
 
-\item{lstOfDetails}{A list - containing as least the following defined variables: assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)}
+\item{assessment}{A string - the current assessment being analysed (eg ADK38)}
+
+\item{assessmentPrev}{A string - the previous assessment (prior to the one being analysed - eg ADK37)}
 
 \item{dataAnalysis}{A list - the name of the variable storing all the test retest data analysis results. The output this function (fnTestRetestMatrix) should be the saved to same dataAnalysis variable. It is also defined as an input variable here so that prior data saved to this list is not overwritten. This list must be defined (even as an empty list eg: testRetest <- list()) in the main script prior to calling this function.}
 
@@ -27,5 +30,5 @@ A list is returned. The list contains all the test retest analysis. Analysis is 
 Test Retest Data Matrix Creation
 }
 \examples{
-testRetest <- fnTestRetestMatrix(stage = 1, lstOfDetails = cnst, dataAnalysis = testRetest, dataRaw = dfResTestRetestStages[["Stage 1"]])
+testRetest <- fnTestRetestMatrix(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataAnalysis = testRetest, dataRaw = dfResTestRetestStages[["Stage 1"]])
 }
