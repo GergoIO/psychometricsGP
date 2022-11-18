@@ -68,5 +68,5 @@ fnItemAnalysis <- function(stages = NULL,
         cbind(itemAnalysis$facilitySummary, .tabFacSummary)
     }
   }
-  return(listOfItemAnalysis)
+  return(itemAnalysis)
 }
