@@ -1,5 +1,7 @@
 #' Add Grade Boundary Lines to Test Retest Plots
 #'
+#' @description A function for adding grade boundary lines to existing scatter plots of test retest data. The function handles changing the stage for the previous test when the current test is the first test in the year. If used in a loop, the number of bounds (previous and current) must be correct for each possible stage to be considered. If there are stages with a different number of grade bounds, use ifelse statements to account for that when setting nBounds and nBoundsPrev
+#'
 #' @param plot A plot - a scatterplot of the stage specific test retest data
 #' @param stage Numeric (integer) - the current stage being plotted
 #' @param testInYear Numeric (integer) - the test in the academic year of this assessment. 1 for the first assessment

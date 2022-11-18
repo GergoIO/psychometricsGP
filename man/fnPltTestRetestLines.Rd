@@ -33,7 +33,7 @@ fnPltTestRetestLines(
 An updated plot is returned. The new plot should be saved under the old plot (see examples)
 }
 \description{
-Add Grade Boundary Lines to Test Retest Plots
+A function for adding grade boundary lines to existing scatter plots of test retest data. The function handles changing the stage for the previous test when the current test is the first test in the year. If used in a loop, the number of bounds (previous and current) must be correct for each possible stage to be considered. If there are stages with a different number of grade bounds, use ifelse statements to account for that when setting nBounds and nBoundsPrev
 }
 \examples{
 plt[[glue('testRetestStage{i}')]] <- fnPltTestRetestLines(plot = plt[[glue('testRetestStage{i}')]], stage = i, testInYear = cnst$testInYear, gradeBounds = tab$gradeBoundaries, gradeBoundsPrev = tab$gradeBoundariesPrev, nBounds = 3, nBoundsPrev = 3)
