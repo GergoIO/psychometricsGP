@@ -16,7 +16,7 @@ fnItemAnalysis <- function(stages = NULL,
                            excludedItems = NULL) {
   itemAnalysis <- list()
 
-  for (i in 1:stages) {
+  for (i in stages) {
     .stage <- glue("stage{i}")
     # .stageCol <- glue("Stage {i}")
     .stageScoresAll <- scores[[.stage]]
@@ -31,20 +31,20 @@ fnItemAnalysis <- function(stages = NULL,
     itemAnalysis$stagesFacilityAll[[.stage]] <-
       apply(matrixStageAll, 2, mean)
     itemAnalysis$stagesFacility[[.stage]] <-
-      fnRmColsByName(itemAnalysis$stagesFacilityAll[[.stage]], excludedItems)
+      apply(matrixStage, 2, mean)
 
     #   ____________________________________________________________________________
     #   PtBis                                                                   ####
 
     matrixTotAll <- apply(matrixStageAll, 1, sum)
-    matrixTotNoIndexAll <- .matTotAll - (matrixStageAll)
+    matrixTotNoIndexAll <- matrixTotAll - (matrixStageAll)
     itemAnalysis$stagesPtBisAll[[.stage]] <-
       diag(cor(matrixStageAll, matrixTotNoIndexAll))
 
-    .matTot <- apply(.matCorrIncorr, 1, sum)
-    .matTotNoIndex <- .matTot - (.matCorrIncorr)
-    itemAnalysis$ptBis[[.loopStage]] <-
-      diag(cor(.matCorrIncorr, .matTotNoIndex))
+    matrixTot <- apply(matrixStage, 1, sum)
+    matrixTotNoIndex <- matrixTot - (matrixStage)
+    itemAnalysis$stagesPtBis[[.stage]] <-
+      diag(cor(matrixStage, matrixTotNoIndex))
 
     #   ____________________________________________________________________________
     #   TAB: Facility Summary                                                   ####
