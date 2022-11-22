@@ -49,8 +49,12 @@ fnItemAnalysis <- function(stages = NULL,
 
       itemAnalysis$facilityAll <-
         as.data.frame(do.call("cbind", itemAnalysis$stagesFacilityAll))
+      colnames(itemAnalysis$facilityAll) <-
+        gsub("stage", "Stage ", colnames(itemAnalysis$facilityAll), fixed = TRUE)
       itemAnalysis$facility <-
         as.data.frame(do.call("cbind", itemAnalysis$stagesFacility))
+      colnames(itemAnalysis$facility) <-
+        gsub("stage", "Stage ", colnames(itemAnalysis$facility), fixed = TRUE)
 
       #   ______________________________________________________________________
       #   PtBis                                                             ####
