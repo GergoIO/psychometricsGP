@@ -4,23 +4,30 @@
 \alias{fnItemAnalysis}
 \title{Item Analysis}
 \usage{
-fnItemAnalysis(stages = NULL, scores = NULL, excludedItems = NULL)
+fnItemAnalysis(
+  stages = NULL,
+  scoresAll = NULL,
+  excludedItems = NULL,
+  facilityBounds = NULL
+)
 }
 \arguments{
-\item{stages}{***}
+\item{stages}{A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.). It makes sense to set all stages that sat the assessment.}
 
-\item{scores}{*** Stage separated (each list item should be stage1 etc. with all items showing non-negatively marked item (col) scores for each student (row) in that stage lResults$stagesScoresAll}
+\item{scoresAll}{Stage separated (each list item should be stage1 etc. with ALL (including excluded items) items showing non-negatively marked item (col) scores for each student (row) in that stage (lResults$stagesScoresAll)}
 
-\item{excludedItems}{***}
+\item{excludedItems}{A vector - denoting the items to remove decided post-test. If empty, the data marked 'all' will be the same as data without the 'all' demarkation}
+
+\item{facilityBounds}{A two-element vector (usually c(0.2, 0.8)) containing the thresholds where item facilities are deemed low or high respectively. (0.2 corresponds to a 20% item facility etc.)}
 }
 \value{
-***
+A list of dataframes is returned containing all the item analysis info. If saving this list to an existing list of dataframes, make sure to use the append function. Otherwise, this returned list can be saved directly to an empty variable.
 }
 \description{
 Item Analysis
 }
 \examples{
-***
+itemAnalysis <- fnItemAnalysis(stages = cnst$stages, scoresAll = lResults$stagesScoresAll, excludedItems = cnst$itemsExcl, facilityBounds = c(0.2,0.8))
 
 
 }
