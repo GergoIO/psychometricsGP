@@ -61,7 +61,8 @@ fnStartPackages <- function(githubToken = NULL) {
       tictoc,
       tidyverse,
       viridis,
-      tjmahr / WrapRmd
+      tjmahr / WrapRmd,
+      usethis
     )
   }
 } # END
