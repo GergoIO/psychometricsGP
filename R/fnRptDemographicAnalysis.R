@@ -21,7 +21,7 @@ fnRptDemographicAnalysis <- function(report = NULL,
       is.null(tabDemog) == TRUE |
       is.null(tableCount) == TRUE) {
     stop(
-      "fnRptDemographicAnalysis: One of the required variables for this function has not been specified."
+      "One of the required variables for this function has not been specified."
     )
   } else{
     fnRptSectionHeading(report, glue("Demographic Analysis"))
