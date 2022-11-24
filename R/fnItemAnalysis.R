@@ -62,12 +62,12 @@ fnItemAnalysis <- function(stages = NULL,
       matrixTotAll <- apply(matrixStageAll, 1, sum)
       matrixTotNoIndexAll <- matrixTotAll - (matrixStageAll)
       itemAnalysis$stagesPtBisAll[[.stage]] <-
-        diag(cor(matrixStageAll, matrixTotNoIndexAll))
+        suppressWarnings(diag(cor(matrixStageAll, matrixTotNoIndexAll)))
 
       matrixTot <- apply(matrixStage, 1, sum)
       matrixTotNoIndex <- matrixTot - (matrixStage)
       itemAnalysis$stagesPtBis[[.stage]] <-
-        diag(cor(matrixStage, matrixTotNoIndex))
+        suppressWarnings(diag(cor(matrixStage, matrixTotNoIndex)))
 
       #   ______________________________________________________________________
       #   TAB: Facility Summary                                             ####
