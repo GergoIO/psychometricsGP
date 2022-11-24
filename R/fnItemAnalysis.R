@@ -50,11 +50,17 @@ fnItemAnalysis <- function(stages = NULL,
       itemAnalysis$facilityAll <-
         as.data.frame(do.call("cbind", itemAnalysis$stagesFacilityAll))
       colnames(itemAnalysis$facilityAll) <-
-        gsub("stage", "Stage ", colnames(itemAnalysis$facilityAll), fixed = TRUE)
+        gsub("stage",
+             "Stage ",
+             colnames(itemAnalysis$facilityAll),
+             fixed = TRUE)
       itemAnalysis$facility <-
         as.data.frame(do.call("cbind", itemAnalysis$stagesFacility))
       colnames(itemAnalysis$facility) <-
-        gsub("stage", "Stage ", colnames(itemAnalysis$facility), fixed = TRUE)
+        gsub("stage",
+             "Stage ",
+             colnames(itemAnalysis$facility),
+             fixed = TRUE)
 
       #   ______________________________________________________________________
       #   PtBis                                                             ####
@@ -62,12 +68,26 @@ fnItemAnalysis <- function(stages = NULL,
       matrixTotAll <- apply(matrixStageAll, 1, sum)
       matrixTotNoIndexAll <- matrixTotAll - (matrixStageAll)
       itemAnalysis$stagesPtBisAll[[.stage]] <-
-        suppressWarnings(diag(cor(matrixStageAll, matrixTotNoIndexAll)))
+        suppressWarnings(diag(cor(
+          matrixStageAll, matrixTotNoIndexAll
+        )))
 
       matrixTot <- apply(matrixStage, 1, sum)
       matrixTotNoIndex <- matrixTot - (matrixStage)
       itemAnalysis$stagesPtBis[[.stage]] <-
         suppressWarnings(diag(cor(matrixStage, matrixTotNoIndex)))
+
+      #   ______________________________________________________________________
+      #   PtBis: Combined                                                   ####
+      # Combined calculated stage-specific PtBis
+
+      itemAnalysis$ptBis <-
+        as.data.frame(do.call("cbind", itemAnalysis$stagesPtBis))
+      colnames(itemAnalysis$stagesPtBis) <-
+        gsub("stage",
+             "Stage ",
+             colnames(itemAnalysis$stagesPtBis),
+             fixed = TRUE)
 
       #   ______________________________________________________________________
       #   TAB: Facility Summary                                             ####
