@@ -31,8 +31,10 @@ fnTestAngoffCorr <- function(angoffScores = NULL,
       cor.test(angoffScores,
                testFacility)
 
+    # Add desired values to the list of returns test angoff corr details
     testAngoffList$testAngoffCorrVal <- .corrTest$estimate[[1]]
     testAngoffList$testAngoffCorrLowCI <- .corrTest$conf.int[1]
     testAngoffList$testAngoffCorrHighCI <- .corrTest$conf.int[2]
   }
+  return(testAngoffList)
 }
