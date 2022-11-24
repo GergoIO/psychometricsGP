@@ -34,7 +34,7 @@ fnItemReview <- function(assessmentType = NULL,
       # Negative Growth Items
       listOfItemReview$itemReviewNegGrowth <-
         unique(sort(as.numeric(c(
-          na.omit(tab$itemAnalysisData$Item[itemAnalysisData[["Stage 5 vs 2 Growth"]] < 0])
+          na.omit(itemAnalysisData$Item[itemAnalysisData[["Stage 5 vs 2 Growth"]] < 0])
         ))))
       listOfItemReview$itemReviewNegGrowth <-
         toString(listOfItemReview$itemReviewNegGrowth, sep = ",")
