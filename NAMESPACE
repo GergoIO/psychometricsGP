@@ -2,6 +2,7 @@
 
 export(fnAcademicYearFormat)
 export(fnAnova)
+export(fnDocument)
 export(fnIDSScoreSummary)
 export(fnItemAnalysis)
 export(fnListsFromVector)
