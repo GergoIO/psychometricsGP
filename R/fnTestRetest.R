@@ -5,10 +5,10 @@
 #' @param results A dataframe - containing results data for the current assessment with at least the following columns: "StudentID", "Stage", assessement score (of the form "assessement_Score" where assessment matches the variable defined in the "assessment" parameter) and assessment grade (of the form "assessment_Grade" where assessment matched the variable defined in the "assessment" parameter)
 #' @param resultsPrevious A dataframe - containing results data for the previous assessment, in a similar fashion to the "results" dataframe
 #'
-#' @return A dataframe is returned. It contains the student ID, stage and current and previous assessment grades and scores.
+#' @return A list of dataframes is returned. The results dataframe contains the student ID, stage and current and previous assessment grades and scores. The stagesResults list of dataframes contains the same data as the results dataframe with additional stage separation
 #' @export
 #'
-#' @examples dfTestRetest <- fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData)
+#' @examples testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData)
 
 ################################################################################
 # Used in:
@@ -26,9 +26,14 @@ fnTestRetest <-
         is.null(resultsPrevious) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     } else{
-      testRetest <- results
+      # Create list to save testResults data
+      testRetest <- list()
+
+      #   ______________________________________________________________________
+      #   testRetest$results                                                ####
+
       # Merge previous and present assessment results (in that order, previous to the left)
-      testRetest <-
+      testRetest$results <-
         merge(resultsPrevious,
               testRetest,
               by = "StudentID",
@@ -38,18 +43,18 @@ fnTestRetest <-
       # Use the Stage.y col going forwards
       # The Stage.x column contains the stage students were at the time of the previous assessment
       # Important to label this data with each students present Stage, especially in first test in year
-      names(testRetest)[names(testRetest) == "Stage.y"] <-
+      names(testRetest$results)[names(testRetest$results) == "Stage.y"] <-
         "Stage"
 
       #Remove any rows with NA for present or previous test score
-      testRetest <-
-        testRetest[!is.na(testRetest[[glue('{assessment}_Score')]]),]
-      testRetest <-
-        testRetest[!is.na(testRetest[[glue('{assessmentPrev}_Score')]]),]
+      testRetest$results <-
+        testRetest$results[!is.na(testRetest$results[[glue('{assessment}_Score')]]),]
+      testRetest$results <-
+        testRetest$results[!is.na(testRetest$results[[glue('{assessmentPrev}_Score')]]),]
 
       # Only keep the required columns
-      testRetest <-
-        testRetest[, c(
+      testRetest$results <-
+        testRetest$results[, c(
           "StudentID",
           "Stage",
           glue('{assessment}_Score'),
@@ -57,6 +62,15 @@ fnTestRetest <-
           glue('{assessmentPrev}_Score'),
           glue('{assessmentPrev}_Grade')
         )]
-      return(testRetest)
+
+      #   ______________________________________________________________________
+      #   testRetest$stagesResults                                          ####
+
+      # Stage separate TRT data
+      testRetest$stagesResults <-
+        split(testRetest$results, testRetest$results$Stage)
+      names(testRetest$stagesResults) <-
+        glue("stage{sort(unique(testRetest$results$Stage))}")
     }
+    return(testRetest)
   }

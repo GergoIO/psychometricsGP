@@ -21,11 +21,11 @@ fnTestRetest(
 \item{resultsPrevious}{A dataframe - containing results data for the previous assessment, in a similar fashion to the "results" dataframe}
 }
 \value{
-A dataframe is returned. It contains the student ID, stage and current and previous assessment grades and scores.
+A list of dataframes is returned. The results dataframe contains the student ID, stage and current and previous assessment grades and scores. The stagesResults list of dataframes contains the same data as the results dataframe with additional stage separation
 }
 \description{
 Test Retest Dataframe Creation
 }
 \examples{
-dfTestRetest <- fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData)
+testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData)
 }
