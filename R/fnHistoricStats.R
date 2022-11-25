@@ -62,6 +62,10 @@ fnHistoricStats <- function(listOfConstants = NULL,
       "AngoffCorrel" = c("", "", "", lC$testAngoffCorrVal),
       "Comments" = rep(lC$historicStatsComment, lC$nStages)
     )
+
+    # Bind all vector elements of list to a df:
+    historicStats <- suppressWarnings(data.frame(do.call(cbind, historicStats)))
+
     return(historicStats)
   }
 }
