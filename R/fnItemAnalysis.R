@@ -83,10 +83,10 @@ fnItemAnalysis <- function(stages = NULL,
 
       itemAnalysis$ptBis <-
         as.data.frame(do.call("cbind", itemAnalysis$stagesPtBis))
-      colnames(itemAnalysis$stagesPtBis) <-
+      colnames(itemAnalysis$ptBis) <-
         gsub("stage",
              "Stage ",
-             colnames(itemAnalysis$stagesPtBis),
+             colnames(itemAnalysis$ptBis),
              fixed = TRUE)
 
       #   ______________________________________________________________________
