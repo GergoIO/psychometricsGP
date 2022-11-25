@@ -18,11 +18,9 @@ fnTestRetestMatrix <-
   function(stage = NULL,
            assessment = NULL,
            assessmentPrev = NULL,
-           trtData = NULL,
            dataRaw = NULL) {
     if (is.null(assessment) == TRUE |
         is.null(assessmentPrev) == TRUE |
-        is.null(trtData) == TRUE |
         is.null(dataRaw) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     } else{

@@ -8,7 +8,6 @@ fnTestRetestMatrix(
   stage = NULL,
   assessment = NULL,
   assessmentPrev = NULL,
-  trtData = NULL,
   dataRaw = NULL
 )
 }
