@@ -8,7 +8,7 @@ fnTestRetestMatrix(
   stage = NULL,
   assessment = NULL,
   assessmentPrev = NULL,
-  dataAnalysis = NULL,
+  trtData = NULL,
   dataRaw = NULL
 )
 }
@@ -19,16 +19,14 @@ fnTestRetestMatrix(
 
 \item{assessmentPrev}{A string - the previous assessment (prior to the one being analysed - eg ADK37)}
 
-\item{dataAnalysis}{A list - the name of the variable storing all the test retest data analysis results. The output this function (fnTestRetestMatrix) should be the saved to same dataAnalysis variable. It is also defined as an input variable here so that prior data saved to this list is not overwritten. This list must be defined (even as an empty list eg: testRetest <- list()) in the main script prior to calling this function.}
-
 \item{dataRaw}{A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test grades for the current assessement and the previous assessment in the form: "####_Grade" (eg for analysis of PT36: "PT35_Grade", "PT36_Grade")}
 }
 \value{
-A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified
+A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified. If saving this data to an existing list, use the append function (as shown in the example)
 }
 \description{
 Test Retest Data Matrix Creation
 }
 \examples{
-testRetest <- fnTestRetestMatrix(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataAnalysis = testRetest, dataRaw = dfResTestRetestStages[["Stage 1"]])
+testRetest <- append(testRetest, fnTestRetestMatrix(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
 }
