@@ -81,6 +81,13 @@ fnItemAnalysis <- function(stages = NULL,
       #   PtBis: Combined                                                   ####
       # Combined calculated stage-specific PtBis
 
+      itemAnalysis$ptBisAll <-
+        as.data.frame(do.call("cbind", itemAnalysis$stagesPtBisAll))
+      colnames(itemAnalysis$ptBisAll) <-
+        gsub("stage",
+             "Stage ",
+             colnames(itemAnalysis$ptBisAll),
+             fixed = TRUE)
       itemAnalysis$ptBis <-
         as.data.frame(do.call("cbind", itemAnalysis$stagesPtBis))
       colnames(itemAnalysis$ptBis) <-
