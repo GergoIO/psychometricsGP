@@ -3,6 +3,7 @@
 export(fnAcademicYearFormat)
 export(fnAnova)
 export(fnDocument)
+export(fnHistoricStats)
 export(fnIDSScoreSummary)
 export(fnItemAnalysis)
 export(fnItemReview)
