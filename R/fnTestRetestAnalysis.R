@@ -8,7 +8,7 @@
 #' @return A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified. If saving this data to an existing list, use the append function (as shown in the example)
 #' @export
 #'
-#' @examples testRetest <- append(testRetest, fnTestRetestAnalysis(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataRaw = dfResTestRetestStages[["Stage 1"]])
+#' @examples testRetest <- append(testRetest, fnTestRetestAnalysis(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
 
 ################################################################################
 

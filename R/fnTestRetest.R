@@ -8,7 +8,7 @@
 #' @return A list of dataframes is returned. The results dataframe contains the student ID, stage and current and previous assessment grades and scores. The stagesResults list of dataframes contains the same data as the results dataframe with additional stage separation
 #' @export
 #'
-#' @examples testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData)
+#' @examples testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData))
 
 ################################################################################
 # Used in:

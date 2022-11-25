@@ -27,5 +27,5 @@ A list of dataframes is returned. The results dataframe contains the student ID,
 Test Retest Dataframe Creation
 }
 \examples{
-testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData)
+testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData))
 }

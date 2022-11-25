@@ -27,5 +27,5 @@ A list is returned. The list contains all the test retest analysis. Analysis is 
 Test Retest Data Analysis
 }
 \examples{
-testRetest <- append(testRetest, fnTestRetestAnalysis(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataRaw = dfResTestRetestStages[["Stage 1"]])
+testRetest <- append(testRetest, fnTestRetestAnalysis(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
 }
