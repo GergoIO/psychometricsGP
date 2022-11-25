@@ -26,16 +26,17 @@ fnTestRetest <-
         is.null(resultsPrevious) == TRUE) {
       stop("One of the required variables for this function has not been specified.")
     } else{
-      # Create list to save testResults data
-      testRetest <- list()
+
+      # Create list to save test retest data
+      trtData <- list()
 
       #   ______________________________________________________________________
-      #   testRetest$results                                                ####
+      #   trtData$results                                                ####
 
       # Merge previous and present assessment results (in that order, previous to the left)
-      testRetest$results <-
+      trtData$results <-
         merge(resultsPrevious,
-              testRetest,
+              results,
               by = "StudentID",
               na.rm = TRUE)
 
@@ -43,18 +44,18 @@ fnTestRetest <-
       # Use the Stage.y col going forwards
       # The Stage.x column contains the stage students were at the time of the previous assessment
       # Important to label this data with each students present Stage, especially in first test in year
-      names(testRetest$results)[names(testRetest$results) == "Stage.y"] <-
+      names(trtData$results)[names(trtData$results) == "Stage.y"] <-
         "Stage"
 
       #Remove any rows with NA for present or previous test score
-      testRetest$results <-
-        testRetest$results[!is.na(testRetest$results[[glue('{assessment}_Score')]]),]
-      testRetest$results <-
-        testRetest$results[!is.na(testRetest$results[[glue('{assessmentPrev}_Score')]]),]
+      trtData$results <-
+        trtData$results[!is.na(trtData$results[[glue('{assessment}_Score')]]),]
+      trtData$results <-
+        trtData$results[!is.na(trtData$results[[glue('{assessmentPrev}_Score')]]),]
 
       # Only keep the required columns
-      testRetest$results <-
-        testRetest$results[, c(
+      trtData$results <-
+        trtData$results[, c(
           "StudentID",
           "Stage",
           glue('{assessment}_Score'),
@@ -64,13 +65,13 @@ fnTestRetest <-
         )]
 
       #   ______________________________________________________________________
-      #   testRetest$stagesResults                                          ####
+      #   trtData$stagesResults                                          ####
 
       # Stage separate TRT data
-      testRetest$stagesResults <-
-        split(testRetest$results, testRetest$results$Stage)
-      names(testRetest$stagesResults) <-
-        glue("stage{sort(unique(testRetest$results$Stage))}")
+      trtData$stagesResults <-
+        split(trtData$results, trtData$results$Stage)
+      names(trtData$stagesResults) <-
+        glue("stage{sort(unique(trtData$results$Stage))}")
     }
-    return(testRetest)
+    return(trtData)
   }
