@@ -30,12 +30,16 @@ fnAnova(
 \item{reportObsMeanForAllVars}{Boolean (TRUE/FALSE) - TRUE: Report observed means for all the demographics (varsAll). FALSE: Report observed means for only the demographics which were not included in the Anova}
 }
 \value{
-A list of dataframes with the anova results, summarised anova results, adjusted means table and observed means table
+A list of dataframes with the anova results, summarised anova results, adjusted means table and observed means table. Use the append function to add results to tabDemog if multiple fnAnova functions are to be run (see examples).
 }
 \description{
 Perform ANOVA, save ANOVA results, adjusted means and observed means for different stages
 }
 \examples{
-fnAnova(demogData = df, colScore = "ScoreTotal", varsAll = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability"), stages = c(2,3,4,5), reportObsMeanForAllVars = FALSE)
+#With stage separation:
+    tabDemog <- append(tabDemog,fnAnova(demogData = dfDemog, stages = cnst$stages, colScore = glue("{cnst$assessment}_Score"), varsAll = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability"), reportObsMeanForAllVars = FALSE))
+# Without stage separation:
+    tabDemog <- append(tabDemog,fnAnova(demogData = dfDemog, colScore = glue("{cnst$assessment}_Score"), appendName = "All", varsAll = c("Gender", "Ethnicity", "Disability", "Stage", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability", "Stage"), reportObsMeanForAllVars = FALSE)))
+
 
 }
