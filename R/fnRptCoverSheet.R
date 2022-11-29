@@ -2,7 +2,7 @@
 #'
 #' @param reportVar The variable name of the report
 #' @param reportTitle This string will be the report title, shown prominently on the coverpage
-#' @param listOfDetails This variable should be a list containing as least the following defined variables: academicYear, programme, stage/stages (the function automatically handles either scenario with the default being to use stage), module, assessmentNumber, assessmentDate. These variables will be input on the cover page.
+#' @param listOfDetails This variable should be a list containing as least the following defined variables: academicYear, programme (OPTIONAL: programme is overridden by programmeLong so long as programmeLong is defined) stage/stages (the function automatically handles either scenario with the default being to use stage), module, assessmentNumber, assessmentDate. These variables will be input on the cover page.
 #'
 #' @return Nothing is explicitly returned, rather the cover page of the variable containing the report is populated with the required information.
 #' @export
@@ -54,13 +54,24 @@ fnRptCoverSheet <-
           new_value = fnAcademicYearFormat(listOfDetails$academicYear, "Short Slash"),
           only_at_cursor = FALSE
         )
-      reportVar <-
-        body_replace_all_text(
-          reportVar,
-          old_value = "ProgrammePlaceholder",
-          new_value = listOfDetails$programme,
-          only_at_cursor = FALSE
-        )
+      # If "programmeLong" is defined, use that instead of "programme"
+      if (is.null(listOfDetails$programmeLong) == FALSE) {
+        reportVar <-
+          body_replace_all_text(
+            reportVar,
+            old_value = "ProgrammePlaceholder",
+            new_value = listOfDetails$programmeLong,
+            only_at_cursor = FALSE
+          )
+      } else{
+        reportVar <-
+          body_replace_all_text(
+            reportVar,
+            old_value = "ProgrammePlaceholder",
+            new_value = listOfDetails$programme,
+            only_at_cursor = FALSE
+          )
+      }
       # Reason for additional is_scalar_character check
       # cnst$stage can be defined even though it is not for a single stage (not identified why this happens yet)
       # if cnst$stage = "2, 3, 4, 5" etc then the stages version should be used even though cnst$stage is defined
