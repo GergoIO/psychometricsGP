@@ -9,7 +9,7 @@ fnItemReview(assessmentType = NULL, itemAnalysisData = NULL)
 \arguments{
 \item{assessmentType}{A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review}
 
-\item{itemAnalysisData}{A dataframe. This dataframe must contain at least the following columns: "Item" (the items number), "Stage 5 Facility" (for ADK), "Stage 5 vs 2 Growth" (for ADK), "Stage 5 PtBis" (for ADK)}
+\item{itemAnalysisData}{A dataframe. This dataframe must contain at least the following columns: "Item" (the items number), "Stage 5 Facility" (for ADK), "Stage 5 vs 2 Growth" (for ADK), "Stage 5 PtBis" (for ADK) or "Stage 3 Facility" (for ADTK), "Stage 3 vs 2 Growth" (for ADTK), "Stage 3 PtBis" (for ADTK)}
 }
 \value{
 A list of the detected items to review is returned.
@@ -18,7 +18,7 @@ A list of the detected items to review is returned.
 Detect Items to Review
 }
 \examples{
-#For ADK:
+#For ADK/ADTK:
  cnst <- append(
  cnst,
   fnItemReview(assessmentType = cnst$assessmentType, itemAnalysisData = tab$itemAnalysis)
