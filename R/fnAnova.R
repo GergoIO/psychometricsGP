@@ -1,7 +1,8 @@
 #' Perform ANOVA, save ANOVA results, adjusted means and observed means for different stages
 #'
 #' @param demogData A dataframe - containing demographics data columns (independent variables) and the student score (dependent variable) in another column and the relevant stage of each student row (if multiple stages are to be considered)
-#' @param stages A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData
+#' @param stages A vector (OPTIONAL) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData. If not defined, no stage separation occurs - instead the user can set the appendName variable to define what string is added to results
+#' @param appendName A string (OPTIONAL) - this string is appended to all results (only if the stages variable is not set)
 #' @param colScore A string - the name of the column containing the student scores (the dependent variable)
 #' @param varsAll A vector of strings - all the column names of the demographic properties to consider
 #' @param varsAnova A vector of strings - all the column names of the demographic properties to consider for the Anova
@@ -21,12 +22,12 @@ fnAnova <-
            varsAll = NULL,
            varsAnova = NULL,
            stages = NULL,
+           appendName = NULL,
            reportObsMeanForAllVars = NULL) {
     if (is.null(demogData) == TRUE |
         is.null(colScore) == TRUE |
         is.null(varsAll) == TRUE |
         is.null(varsAnova) == TRUE |
-        is.null(stages) == TRUE |
         is.null(reportObsMeanForAllVars) == TRUE) {
       stop("fnAnova: One of the required variables for this function has not been specified.")
     } else{
@@ -144,7 +145,7 @@ fnAnova <-
           }
           return(lReturn)
         }
-      } else{
+      } else {
         #   ____________________________________________________________________
         #   No Stage Separation                                             ####
 
@@ -160,7 +161,7 @@ fnAnova <-
           (aov(Score ~ ., data = na.omit(dfDemog[, c("Score", varsAnova)])))
 
         # Add the raw anova result to the list of data returned
-        lReturn$RawAnova <- aov
+        lReturn[[glue('RawAnova{appendName}')]] <- aov
 
         # Format and save Anova results
         tabAov <- drop1(aov, test = "F")
@@ -176,7 +177,7 @@ fnAnova <-
             "P-value")
         tabAov <- rownames_to_column(tabAov, "Factor")
 
-        lReturn$Anova <- tabAov
+        lReturn[[glue('Anova{appendName}')]] <- tabAov
 
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
         ### Adjusted Means                                                  ####
@@ -191,7 +192,7 @@ fnAnova <-
         colnames(tabMeansAdj) <-
           c("Factor", "Level", "N", "Adjusted\nMean")
 
-        lReturn$MeansAdj <- tabMeansAdj
+        lReturn[[glue('MeansAdj{appendName}')]] <- tabMeansAdj
 
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
         ### Observed Means                                                  ####
@@ -235,7 +236,7 @@ fnAnova <-
           )
         tabObsMeans$Factor[duplicated(tabObsMeans$Factor)] <- ""
 
-        lReturn$MeansObs <- tabObsMeans
+        lReturn[[glue('MeansObs{appendName}')]] <- tabObsMeans
         return(lReturn)
       }
     }

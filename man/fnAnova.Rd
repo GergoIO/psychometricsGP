@@ -10,6 +10,7 @@ fnAnova(
   varsAll = NULL,
   varsAnova = NULL,
   stages = NULL,
+  appendName = NULL,
   reportObsMeanForAllVars = NULL
 )
 }
@@ -22,7 +23,9 @@ fnAnova(
 
 \item{varsAnova}{A vector of strings - all the column names of the demographic properties to consider for the Anova}
 
-\item{stages}{A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData}
+\item{stages}{A vector (OPTIONAL) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData. If not defined, no stage separation occurs - instead the user can set the appendName variable to define what string is added to results}
+
+\item{appendName}{A string (OPTIONAL) - this string is appended to all results (only if the stages variable is not set)}
 
 \item{reportObsMeanForAllVars}{Boolean (TRUE/FALSE) - TRUE: Report observed means for all the demographics (varsAll). FALSE: Report observed means for only the demographics which were not included in the Anova}
 }
