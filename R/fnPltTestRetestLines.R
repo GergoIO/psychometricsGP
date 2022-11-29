@@ -37,11 +37,12 @@ fnPltTestRetestLines <- function(plot = NULL,
     .stage <- glue("stage{stage}")
     .stageCol <- glue("Stage {stage}")
     .stagePrevCol <- glue("Stage {stage-1}")
+
     if (testInYear == 1) {
       # Test in Year = 1. Use the previous stage for previous assessment grade bounds.
       # eg A current Stage 3 student's prev grade bound data is the Stage 2 data in the prev grade bound data
       if (nBounds == 3 && nBoundsPrev == 3) {
-        # Example (TiY 1): AMK Stages2/3/4/5, ADK Stages3/4/5
+        # Example (TiY 1): AMK Stages2/3/4/5, ADK Stages3/4/5, ADTK Stages2/3
         plot <- plot +
           geom_hline(yintercept = gradeBounds["Excellent", .stageCol],
                      colour = "blue") +
@@ -71,7 +72,7 @@ fnPltTestRetestLines <- function(plot = NULL,
       # Test in Year = 2/3/4. Use the same stage for current and previous assessment grade bounds.
       # eg A current Stage 3 student's prev grade bound data is the Stage 3 data in the prev grade bound data because everyone has already sat an assessment in their current stage.
       if (nBounds == 3 && nBoundsPrev == 3) {
-        # Example (TiY 2/3/4): AMK Stages1/2/3/4, ADK Stages2/3/4/5
+        # Example (TiY 2/3/4): AMK Stages1/2/3/4, ADK Stages2/3/4/5, ADTK Stages2/3
         plot <- plot +
           geom_hline(yintercept = gradeBounds["Excellent", .stageCol],
                      colour = "blue") +
@@ -97,5 +98,4 @@ fnPltTestRetestLines <- function(plot = NULL,
     return(plot)
   }
 }
-
-# *** Note: Can return to this and use scale_x_continuous(limits= c(-10,100)) for example if any x vals are negative. Could look to round to the next lowest (most negative) 10 for example. Something similar using a function was done previous for the grade box plotss
+# *** Note: Can return to this and use scale_x_continuous(limits= c(-10,100)) for example if any x vals are negative. Could look to round to the next lowest (most negative) 10 for example. Something similar using a function was done previous for the grade box plots
