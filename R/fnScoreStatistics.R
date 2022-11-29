@@ -42,10 +42,6 @@ fnScoreStatistics <- function(assessmentType = NULL,
           "Stage 2 Standard" = fnRnd(passMarks[["Stage 2"]], 2)
         )
       )
-      # Set cols and names
-      scoreStatistics <-
-        rownames_to_column(scoreStatistics, "Test Detail")
-      colnames(scoreStatistics)[2] <- "Value"
     } else if (cnst$assessmentType %in% c("ADTK")) {
       #   ______________________________________________________________________
       #   ADTK                                                              ####
@@ -60,6 +56,11 @@ fnScoreStatistics <- function(assessmentType = NULL,
         )
       )
     }
+    # Set cols and names for ADK/ADTK variants
+    scoreStatistics <-
+      rownames_to_column(scoreStatistics, "Test Detail")
+    colnames(scoreStatistics)[2] <- "Value"
+
     return(scoreStatistics)
   }
 }
