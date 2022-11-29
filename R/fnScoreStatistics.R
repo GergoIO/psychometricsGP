@@ -26,6 +26,8 @@ fnScoreStatistics <- function(assessmentType = NULL,
     scoreStatistics <- data.frame(stringsAsFactors = FALSE)
 
     if (cnst$assessmentType %in% c("ADK")) {
+      #   ______________________________________________________________________
+      #   ADK                                                               ####
       # ADK Create df of score stats
       scoreStatistics = data.frame(
         c(
@@ -44,6 +46,19 @@ fnScoreStatistics <- function(assessmentType = NULL,
       scoreStatistics <-
         rownames_to_column(scoreStatistics, "Test Detail")
       colnames(scoreStatistics)[2] <- "Value"
+    } else if (cnst$assessmentType %in% c("ADTK")) {
+      #   ______________________________________________________________________
+      #   ADTK                                                              ####
+      # ADTK Create df of score stats
+      scoreStatistics = data.frame(
+        c(
+          "Test Number" = listOfConstants$assessment,
+          "Number of Candidates" = listOfConstants$nPresent,
+          "Original Number of Items" = listOfConstants$nItems,
+          "Number of Items Removed" = listOfConstants$nItemsExcl,
+          "Items Removed" = listOfConstants$itemsExclStr
+        )
+      )
     }
     return(scoreStatistics)
   }
