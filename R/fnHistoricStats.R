@@ -59,12 +59,13 @@ fnHistoricStats <- function(listOfConstants = NULL,
       "Borderline" = as.numeric(lT$gradeBoundaries["Borderline", ]),
       "Satisfactory" = as.numeric(lT$gradeBoundaries["Satisfactory", ]),
       "Excellent" = as.numeric(lT$gradeBoundaries["Excellent", ]),
-      "AngoffCorrel" = c("", "", "", lC$testAngoffCorrVal),
+      # For AngoffCorrel, only want a value in the highest stage so fill the rest with empty cells
+      "AngoffCorrel" = c(rep("", lC$nStages - 1), lC$testAngoffCorrVal),
       "Comments" = rep(lC$historicStatsComment, lC$nStages)
     )
-
     # Bind all vector elements of list to a df:
-    historicStats <- suppressWarnings(data.frame(do.call(cbind, historicStats)))
+    historicStats <-
+      suppressWarnings(data.frame(do.call(cbind, historicStats)))
 
     return(historicStats)
   }
