@@ -4,19 +4,24 @@
 \alias{fnListsFromVector}
 \title{Create Empty Lists From a Vector of Strings}
 \usage{
-fnListsFromVector(listsToCreate = NULL)
+fnListsFromVector(assessmentType = NULL, listsToCreate)
 }
 \arguments{
-\item{listsToCreate}{A vector of strings.}
+\item{assessmentType}{(OPTIONAL) A string - the current assessment being analysed (either "ADK" or "ADTK"). Setting this overrides any set}
+
+\item{listsToCreate}{(OPTIONAL) A vector of strings.}
 }
 \value{
-Creates the required lists from the input vector in the main (global) environment
+Creates the required empty lists based on the assessment type in the main (global) environment
 }
 \description{
-This function requires an input of a vector of strings. Each element of the vector is checked. If the element does not already exist as a variable, then a new variable (with the name of the vector element) is created. The variable is assigned as an empty list.
+This function uses an input of the assessment type ('assessmentType') being analysed. Then, the empty lists to create are set (as a vector) based on the assessment type. Each element of the vector is checked. If the element does not already exist as a variable, then a new variable (an empty list, with the name of the vector element) is created. Alternatively, if the required 'assessmentType' is not configured, set a variable 'listsToCreate' as the vector of strings to create lists from. One of 'assessmentType' or 'listsToCreate' must be defined. Setting 'listsToCreate' overrides a defined 'assessmentType'. If 'assessmentType' is not defined and 'listsToCreate' is defined, the function will create empty lists with the name of the items stored in the 'listsToCreate' vector of strings.
 }
 \examples{
-fnListsFromVector(listsToCreate = c("itemAnalysis", "lReliab", "lResults", "plt", "rpt", "rpt$tabAll", "tab", "tabPulse", "testRetest", "testAngoff", "tabDemog"))
+# If using a preconfigured assessmentType:
+fnListsFromVector(assessmentType = "ADK")
+#if manually setting the list of strings to create empty lists from:
+fnListsFromVector(listsToCreate = c("list1", "list2"))
 
 
 }
