@@ -60,7 +60,7 @@ fnListsFromVector <- function(assessmentType = NULL,
 
   # Overwrite with new list if it was defined in the input of the function
   # Default use of function sets listsToCreate to NA in the input unless its otherwise defined
-  if (!is.na(listsToCreate)) {
+  if (!any(is.na(listsToCreate))) {
     message(
       "fnListsFromVector: Using the defined names in the 'listsToCreate' variable to create lists"
     )
