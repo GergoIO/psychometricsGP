@@ -26,7 +26,7 @@ fnListsFromVector <- function(assessmentType = NULL,
   #   Check error conditions                                                ####
 
   # Error condition - if the defined assessmentType is not in the list of preconfigured types and a manually configured variable storing the lists to create ('listsToCreate') has also not been set
-  if (assessmentType %!in% configuredAssessmentTypes %% is.na(listsToCreate)) {
+  if (assessmentType %!in% configuredAssessmentTypes && is.na(listsToCreate)) {
     stop(
       "The configured assessment type has not been preconfigured in this function and the variable 'listsToCreate' has not been defined. To use the currently configured assessment type, define the input variable 'listsToCreate' to be a vector of strings of the names of any empty lists that must be created for later analysis."
     )
