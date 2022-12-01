@@ -53,6 +53,7 @@ fnListsFromVector <- function(assessmentType = NULL,
       message("fnListsFromVector: Creating the default lists for ADK/ADTK assessments")
     }
     # NOTE: Add more assessment types with the corresponding lists here using 'else if'
+    print(vectorOfLists)
   }
 
   #   __________________________________________________________________________
@@ -62,10 +63,12 @@ fnListsFromVector <- function(assessmentType = NULL,
   # Default use of function sets listsToCreate to NA in the input unless its otherwise defined
   if (!any(is.na(listsToCreate))) {
     message(
-      "fnListsFromVector: Using the defined names in the 'listsToCreate' variable to create lists"
+      "fnListsFromVector: Overwriting any preconfigured lists and using the defined names in the 'listsToCreate' variable to create lists"
     )
     vectorOfLists <- listsToCreate
   }
+
+  print(vectorOfLists)
 
   #   __________________________________________________________________________
   #   Create empty lists                                                    ####
