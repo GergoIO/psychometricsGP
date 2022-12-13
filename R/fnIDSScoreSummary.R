@@ -18,11 +18,11 @@ fnIDSScoreSummary <- function(stage,
                               dfRes,
                               dfResAbsent,
                               programmes) {
-  if (is.null(stage) == TRUE |
-      is.null(dfDemographics) == TRUE |
-      is.null(dfRes) == TRUE |
-      is.null(dfResAbsent) == TRUE |
-      is.null(programmes) == TRUE) {
+  if (is.null(stage) |
+      is.null(dfDemographics) |
+      is.null(dfRes) |
+      is.null(dfResAbsent) |
+      is.null(programmes)) {
     stop("Please specify each of the required variables.")
   } else {
     # Get cohort size from original demographics file

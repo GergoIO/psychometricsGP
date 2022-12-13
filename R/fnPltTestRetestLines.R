@@ -25,13 +25,13 @@ fnPltTestRetestLines <- function(plot = NULL,
                                  gradeBoundsPrev = NULL,
                                  nBounds = NULL,
                                  nBoundsPrev = NULL) {
-  if (is.null(plot) == TRUE |
-      is.null(stage) == TRUE |
-      is.null(testInYear) == TRUE |
-      is.null(gradeBounds) == TRUE |
-      is.null(gradeBoundsPrev) == TRUE |
-      is.null(nBounds) == TRUE |
-      is.null(nBoundsPrev) == TRUE) {
+  if (is.null(plot) |
+      is.null(stage) |
+      is.null(testInYear) |
+      is.null(gradeBounds) |
+      is.null(gradeBoundsPrev) |
+      is.null(nBounds) |
+      is.null(nBoundsPrev)) {
     stop("One of the required variables for this function has not been specified.")
   } else {
     .stage <- glue("stage{stage}")

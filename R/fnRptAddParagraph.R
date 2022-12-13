@@ -7,7 +7,7 @@
 #'
 #' @examples fnRptAddParagraph(rptVar = rpt$All)
 fnRptAddParagraph <- function(rptVar = NULL) {
-  if (is.null(rptVar) == TRUE)
+  if (is.null(rptVar))
   {
     stop("One of the required variables for this function has not been specified.")
   } else{

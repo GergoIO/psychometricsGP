@@ -26,11 +26,11 @@ fnAnova <-
            stages = NULL,
            appendName = NULL,
            reportObsMeanForAllVars = NULL) {
-    if (is.null(demogData) == TRUE |
-        is.null(colScore) == TRUE |
-        is.null(varsAll) == TRUE |
-        is.null(varsAnova) == TRUE |
-        is.null(reportObsMeanForAllVars) == TRUE) {
+    if (is.null(demogData) |
+        is.null(colScore) |
+        is.null(varsAll) |
+        is.null(varsAnova) |
+        is.null(reportObsMeanForAllVars)) {
       stop("fnAnova: One of the required variables for this function has not been specified.")
     } else{
       lReturn <- list() # For returning multiple dfs and other objects
@@ -105,7 +105,7 @@ fnAnova <-
             ### Observed Means                                              ####
 
             # Set which columns with be included in the observed means table
-            if (reportObsMeanForAllVars == TRUE) {
+            if (reportObsMeanForAllVars) {
               obsMeans <- varsAll
             } else {
               obsMeans <- setdiff(varsAll, varsAnova)
@@ -200,7 +200,7 @@ fnAnova <-
         ### Observed Means                                                  ####
 
         # Set which columns with be included in the observed means table
-        if (reportObsMeanForAllVars == TRUE) {
+        if (reportObsMeanForAllVars) {
           obsMeans <- varsAll
         } else {
           obsMeans <- setdiff(varsAll, varsAnova)

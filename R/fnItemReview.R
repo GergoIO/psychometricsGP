@@ -16,8 +16,8 @@
 #'
 fnItemReview <- function(assessmentType = NULL,
                          itemAnalysisData = NULL) {
-  if (is.null(assessmentType) == TRUE |
-      is.null(itemAnalysisData) == TRUE) {
+  if (is.null(assessmentType) |
+      is.null(itemAnalysisData)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     listOfItemReview <- list()

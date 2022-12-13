@@ -27,8 +27,8 @@
 #'
 fnHistoricStats <- function(listOfConstants = NULL,
                             listOfTables = NULL) {
-  if (is.null(listOfConstants) == TRUE |
-      is.null(listOfTables) == TRUE) {
+  if (is.null(listOfConstants) |
+      is.null(listOfTables)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     # Rename incoming var for brevity and readability

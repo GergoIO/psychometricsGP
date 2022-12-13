@@ -13,10 +13,10 @@
 ################################################################################
 
 fnRmColsByName <- function(input, itemsToRm) {
-  if (is.null(input) == TRUE) {
+  if (is.null(input)) {
     stop("Please specify the dataframe")
   }
-  if (is.null(itemsToRm) == TRUE) {
+  if (is.null(itemsToRm)) {
     message("fnRmColsByName: There are no items to remove, no columns will be deleted")
     return(input)
   } else {

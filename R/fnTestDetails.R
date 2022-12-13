@@ -19,10 +19,10 @@ fnTestDetails <-
            demogData = NULL,
            results = NULL,
            resultsAbsent = NULL) {
-    if (is.null(stages) == TRUE |
-        is.null(programme) == TRUE |
-        is.null(demogData) == TRUE |
-        is.null(results) == TRUE | is.null(resultsAbsent) == TRUE) {
+    if (is.null(stages) |
+        is.null(programme) |
+        is.null(demogData) |
+        is.null(results) | is.null(resultsAbsent)) {
       stop("One of the required variables for this function has not been specified.")
     } else{
       testDetails <- data.frame(stringsAsFactors = FALSE)

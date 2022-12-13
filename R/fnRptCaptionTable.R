@@ -16,8 +16,9 @@ fnRptCaptionTable <-
            tableCount = NULL,
            caption = NULL
   ) {
-    if (is.null(report) == TRUE |
-        is.null(caption) == TRUE | is.null(tableCount) == TRUE)
+    if (is.null(report) |
+        is.null(caption) |
+        is.null(tableCount))
     {
       stop("One of the required variables for this function has not been specified.")
     } else{

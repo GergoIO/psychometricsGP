@@ -33,16 +33,16 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
                                        stageSpecificScores = NULL,
                                        plotCount = NULL,
                                        tableCount = NULL) {
-  if (is.null(stage) == TRUE |
-      is.null(report) == TRUE |
-      is.null(listOfDetails) == TRUE |
-      is.null(listOfPlots) == TRUE |
-      is.null(listOfTables) == TRUE |
-      is.null(listOfDemographics) == TRUE |
-      is.null(listOfTestRetest) == TRUE |
-      is.null(stageSpecificScores) == TRUE |
-      is.null(plotCount) == TRUE |
-      is.null(tableCount) == TRUE) {
+  if (is.null(stage) |
+      is.null(report) |
+      is.null(listOfDetails) |
+      is.null(listOfPlots) |
+      is.null(listOfTables) |
+      is.null(listOfDemographics) |
+      is.null(listOfTestRetest) |
+      is.null(stageSpecificScores) |
+      is.null(plotCount) |
+      is.null(tableCount)) {
     stop(
       "fnRptStageSpecificAnalysis: One of the required variables for this function has not been specified."
     )

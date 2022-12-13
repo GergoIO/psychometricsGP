@@ -18,8 +18,8 @@
 #'
 fnTestAngoffCorr <- function(angoffScores = NULL,
                              testFacility = NULL) {
-  if (is.null(angoffScores) == TRUE |
-      is.null(testFacility) == TRUE) {
+  if (is.null(angoffScores) |
+      is.null(testFacility)) {
     stop(
       "One of the required variables for this function has not been specified."
     )

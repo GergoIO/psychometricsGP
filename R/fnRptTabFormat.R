@@ -20,19 +20,19 @@ fnRptTabFormat <-
            decimals = NULL,
            editColumnsNotRows = NULL,
            integerColumnsOrRows = NULL) {
-    if (is.null(table) == TRUE |
-        is.null(decimals) == TRUE)
+    if (is.null(table) |
+        is.null(decimals))
     {
       stop("One of the required variables for this function has not been specified.")
     } else if (# Check if only one of 'editColumnsNotRows' and 'integerColumnsOrRows' are defined
       ((
-        is.null(editColumnsNotRows) == TRUE &&
-        is.null(integerColumnsOrRows) == FALSE
+        is.null(editColumnsNotRows) &&
+        !is.null(integerColumnsOrRows)
       ) |
       (
-        is.null(editColumnsNotRows) == FALSE &&
-        is.null(integerColumnsOrRows) == TRUE
-      )) == TRUE) {
+        !is.null(editColumnsNotRows) &&
+        is.null(integerColumnsOrRows)
+      ))) {
       stop(
         'Only one of the variables ("editColumnsNotRows" or "integerColumnsOrRows") has not been defined. To convert some rounded columns or rows back to integer, both variables must be defined. Alternatively, if neither variable is defined, then no columns or rows are converted back to integer following rounding.'
       )
@@ -46,9 +46,9 @@ fnRptTabFormat <-
         table %>% format(round(decimals), signif(decimals), nsmall = decimals)
 
       # Check if columns or rows should be converted to integer
-      if (is.null(integerColumnsOrRows) == FALSE) {
+      if (!is.null(integerColumnsOrRows)) {
         # Convert required cols/rows to integer
-        if (editColumnsNotRows == TRUE) {
+        if (editColumnsNotRows) {
           # Convert specified COLUMNS to integer
           table[, integerColumnsOrRows] <-
             sapply(table[, integerColumnsOrRows], as.integer)

@@ -9,8 +9,8 @@
 #' @examples fnRptSectionTitle(rptVar = rpt$All, sectionTitle = "Grade Distributions")
 fnRptSectionTitle <- function(rptVar = NULL,
                                 sectionTitle = NULL) {
-  if (is.null(rptVar) == TRUE |
-      is.null(sectionTitle) == TRUE)
+  if (is.null(rptVar) |
+      is.null(sectionTitle))
   {
     stop("One of the required variables for this function has not been specified.")
   } else{

@@ -17,9 +17,9 @@
 fnScoreStatistics <- function(assessmentType = NULL,
                               listOfConstants = NULL,
                               passMarks = NULL) {
-  if (is.null(assessmentType) == TRUE |
-      is.null(listOfConstants) == TRUE |
-      is.null(passMarks) == TRUE) {
+  if (is.null(assessmentType) |
+      is.null(listOfConstants) |
+      is.null(passMarks)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     # Create empty df to store tab

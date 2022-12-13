@@ -38,22 +38,22 @@ fnTagAnalysis <-
            textLabels = NULL,
            savePlot = NULL,
            plotsFolder = NULL) {
-    if (is.null(data) == TRUE |
-        is.null(variableName) == TRUE |
-        is.null(variableOptions) == TRUE |
-        is.null(variableNQuestions) == TRUE |
-        is.null(scoreOptions) == TRUE |
-        is.null(textLabels) == TRUE) {
+    if (is.null(data) |
+        is.null(variableName) |
+        is.null(variableOptions) |
+        is.null(variableNQuestions) |
+        is.null(scoreOptions) |
+        is.null(textLabels)) {
       stop("One of the required variables for this function has not been specified.")
     }
-    if (is.null(savePlot) == TRUE &&
-        is.null(plotsFolder) == FALSE) {
+    if (is.null(savePlot) &&
+        !is.null(plotsFolder)) {
       message(
         "fnPltHistoricStatsMultiple: The 'savePlot' variable has not been set. Defaulting to saving the plots."
       )
       savePlot <- TRUE
     }
-    if (is.null(plotsFolder) == TRUE) {
+    if (is.null(plotsFolder)) {
       message(
         "fnPltHistoricStatsMultiple: The 'plotsFolder' variable has not been set (there is nowhere to save the plots). Defaulting to not saving any plots regardless of if 'savePlot' is set."
       )
@@ -173,7 +173,7 @@ fnTagAnalysis <-
       theme_psmd()
 
 
-    if (textLabels == TRUE) {
+    if (textLabels) {
       .pltIA <-  .pltIA +
         scale_x_continuous(
           breaks = c(1:length(variableOptions)),
@@ -198,7 +198,7 @@ fnTagAnalysis <-
     listOfPlots[[glue("plt{variableNameNoSpace}")]] <- .pltIA
 
     # Only save if requested and the folder is defined
-    if (savePlot == TRUE && is.null(plotsFolder) == FALSE) {
+    if (savePlot && !is.null(plotsFolder)) {
       fnPltSave(
         savePlot = savePlot,
         plot = .pltIA,

@@ -15,8 +15,8 @@ fnAcademicYearFormat <-
            type = NULL) {
     `%!in%` <- Negate(`%in%`)
 
-    if (is.null(academicYearShort) == TRUE |
-        is.null(type) == TRUE) {
+    if (is.null(academicYearShort) |
+        is.null(type)) {
       stop("One of the required variables for this function has not been specified.")
     } else if (type %!in% c("Long Dash", "Long Slash", "Short Dash", "Short Slash")) {
       stop(

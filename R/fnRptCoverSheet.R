@@ -15,34 +15,34 @@ fnRptCoverSheet <-
   function (reportVar = NULL,
             reportTitle = NULL,
             listOfDetails = NULL) {
-    if (is.null(reportVar) == TRUE |
-        is.null(reportTitle) == TRUE |
-        is.null(listOfDetails) == TRUE) {
+    if (is.null(reportVar) |
+        is.null(reportTitle) |
+        is.null(listOfDetails)) {
       stop(
         "fnRptCoverSheet: One of the required variables for this function has not been specified."
       )
     }
-    if (is.null(listOfDetails$academicYear) == TRUE) {
+    if (is.null(listOfDetails$academicYear)) {
       stop(
         "fnRptCoverSheet: An item named 'academicYear' must defined in the provided 'listOfDetails' list (use listOfDetails$academicYear <- *** and replace 'listOfDetails' with actual variable name."
       )
     }
-    if (is.null(listOfDetails$programme) == TRUE) {
+    if (is.null(listOfDetails$programme)) {
       stop(
         "fnRptCoverSheet: An item named 'programme' must defined in the provided 'listOfDetails' list (use listOfDetails$programme <- *** and replace 'listOfDetails' with actual variable name."
       )
     }
-    if (is.null(listOfDetails$module) == TRUE) {
+    if (is.null(listOfDetails$module)) {
       stop(
         "fnRptCoverSheet: An item named 'module' must defined in the provided 'listOfDetails' list (use listOfDetails$module <- *** and replace 'listOfDetails' with actual variable name."
       )
     }
-    if (is.null(listOfDetails$assessment) == TRUE) {
+    if (is.null(listOfDetails$assessment)) {
       stop(
         "fnRptCoverSheet: An item named 'assessment' must defined in the provided 'listOfDetails' list (use listOfDetails$assessment <- *** and replace 'listOfDetails' with actual variable name."
       )
     }
-    if (is.null(listOfDetails$assessmentDate) == TRUE) {
+    if (is.null(listOfDetails$assessmentDate)) {
       stop(
         "fnRptCoverSheet: An item named 'assessmentDate' must defined in the provided 'listOfDetails' list (use listOfDetails$assessmentDate <- *** and replace 'listOfDetails' with actual variable name."
       )
@@ -55,7 +55,7 @@ fnRptCoverSheet <-
           only_at_cursor = FALSE
         )
       # If "programmeLong" is defined, use that instead of "programme"
-      if (is.null(listOfDetails$programmeLong) == FALSE) {
+      if (!is.null(listOfDetails$programmeLong)) {
         reportVar <-
           body_replace_all_text(
             reportVar,
@@ -76,8 +76,8 @@ fnRptCoverSheet <-
       # cnst$stage can be defined even though it is not for a single stage (not identified why this happens yet)
       # if cnst$stage = "2, 3, 4, 5" etc then the stages version should be used even though cnst$stage is defined
       # this first version can only be used when cnst$stage is a single number
-      if (is.null(listOfDetails$stage) == FALSE  &&
-          is_scalar_character(as.character(listOfDetails$stage)) == TRUE) {
+      if (!is.null(listOfDetails$stage)  &&
+          is_scalar_character(as.character(listOfDetails$stage))) {
         reportVar <-
           body_replace_all_text(
             reportVar,
@@ -85,7 +85,7 @@ fnRptCoverSheet <-
             new_value = as.character(listOfDetails$stage),
             only_at_cursor = FALSE
           )
-      } else if (is.null(listOfDetails$stages) == FALSE) {
+      } else if (!is.null(listOfDetails$stages)) {
         reportVar <-
           body_replace_all_text(
             reportVar,

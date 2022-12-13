@@ -10,7 +10,7 @@
 ################################################################################
 
 fnStartPackages <- function(githubToken = NULL) {
-  if (is.null(githubToken) == TRUE) {
+  if (is.null(githubToken)) {
     stop("Please specify the github personal access token for file retrieval.")
   } else {
 

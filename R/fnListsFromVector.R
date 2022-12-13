@@ -76,7 +76,7 @@ fnListsFromVector <- function(assessmentType = NULL,
   # Check all elements of input vector
   for (i in 1:length(vectorOfLists)) {
     # Only run for elements of the input vector where a corresponding variable does not already exist
-    if (exists(as.character(vectorOfLists[i])) == FALSE) {
+    if (!exists(as.character(vectorOfLists[i]))) {
       assign(vectorOfLists[i], list(), envir = globalenv())
     }
   }

@@ -13,18 +13,18 @@
 
 fnRmExclItems <- function(df = NULL, itemColName = NULL, itemsToRm = NULL) {
   continue <- TRUE
-  if (is.null(df) == TRUE |
-      is.null(itemColName) == TRUE) {
+  if (is.null(df) |
+      is.null(itemColName)) {
     continue <- FALSE
     stop(
       "Please specify the dataframe, the column name where items are stored and the items to remove"
     )
-  } else if (is.null(itemsToRm) == TRUE) {
+  } else if (is.null(itemsToRm)) {
     continue <- FALSE
     message("There are no items to remove, no rows will be deleted")
     return(df)
   }
-  if (continue == TRUE) {
+  if (continue) {
     if (length(which(df[, itemColName] %in% itemsToRm)) == 0) {
       continue <- FALSE
       message("None of the items to remove appear in the dataframe. No rows will be deleted")

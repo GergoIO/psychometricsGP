@@ -17,19 +17,19 @@ fnPltSave <-
            plot = NULL,
            dimensions = c(15, 15, "cm"),
            filePath = NULL) {
-    if (is.null(plot) == TRUE) {
+    if (is.null(plot)) {
       stop("One of the required variables for this function has not been specified.")
-    } else if (is.null(savePlot) == TRUE) {
+    } else if (is.null(savePlot)) {
       message(
         "fnPltSave: The 'savePlot' variable has not been set. The plot will be saved by default."
       )
       savePlot <- TRUE
     } # If saving is requested but no file path is declared
-    else if (is.null(filePath) == TRUE && savePlot != FALSE) {
+    else if (is.null(filePath) && savePlot != FALSE) {
       message("fnPltSave: The 'filePath' variable has not been set (there is nowhere to save the plot. The plot will not be saved regardless of if 'savePlot' is set.")
       savePlot <- FALSE
     }
-    if (savePlot == TRUE) {
+    if (savePlot) {
       ggsave(
         plot,
         file = filePath,
@@ -46,22 +46,22 @@ fnPltSave <-
 #            plot = NULL,
 #            dimensions = NULL,
 #            filePath = NULL) {
-#     if (is.null(plot) == TRUE |
-#         is.null(filePath) == TRUE | is.null(dimensions) == TRUE)    {
+#     if (is.null(plot) |
+#         is.null(filePath) | is.null(dimensions))    {
 #       stop("One of the required variables for this function has not been specified.")
-#     } else if (is.null(controls) == TRUE) {
+#     } else if (is.null(controls)) {
 #       message("fnPltSave: The controls variable has not been set. Proceeding with default values")
 #       controls = list()
 #       controls$stopAllOutputs <- FALSE
 #       controls$stopImageSaving <- FALSE
 #     }
-#     else if (is.null(controls$stopAllOutputs) == TRUE) {
+#     else if (is.null(controls$stopAllOutputs)) {
 #       message(
 #         "fnPltSave: The control list does not contain a 'stopAllOutputs' variable. Proceeding with the default of FALSE"
 #       )
 #       conrols$stopAllOutputs <- FALSE
 #     }
-#     else if (is.null(controls$stopImageSaving) == TRUE) {
+#     else if (is.null(controls$stopImageSaving)) {
 #       message(
 #         "fnPltSave: The control list does not contain a 'stopAllOutputs' variable. Proceeding with the default of FALSE"
 #       )

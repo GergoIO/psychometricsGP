@@ -38,17 +38,17 @@ fnPltHistoricStatsMultiple <-
            listOfStats = NULL,
            savePlot = NULL,
            plotsFolder = NULL) {
-    if (is.null(data) == TRUE |
-        is.null(listOfStats) == TRUE) {
+    if (is.null(data) |
+        is.null(listOfStats)) {
       stop("One of the required variables for this function has not been specified.")
     }
-    if (is.null(savePlot) == TRUE && is.null(plotsFolder) == FALSE) {
+    if (is.null(savePlot) && !is.null(plotsFolder)) {
       message(
         "fnPltHistoricStatsMultiple: The 'savePlot' variable has not been set. Defaulting to saving the plots."
       )
       savePlot <- TRUE
     }
-    if (is.null(plotsFolder) == TRUE) {
+    if (is.null(plotsFolder)) {
       message(
         "fnPltHistoricStatsMultiple: The 'plotsFolder' variable has not been set (there is nowhere to save the plots). Defaulting to not saving any plots regardless of if 'savePlot' is set."
       )
@@ -76,7 +76,7 @@ fnPltHistoricStatsMultiple <-
           fnPltHistoricStats(data, loopStat)
 
         # Only save if requested and the folder is defined
-        if (savePlot == TRUE && is.null(plotsFolder) == FALSE) {
+        if (savePlot && !is.null(plotsFolder)) {
           fnPltSave(
             savePlot = savePlot,
             plot = loopPlt,
@@ -110,7 +110,7 @@ fnPltHistoricStatsMultiple <-
             fnPltHistoricStats(loopDf, loopStat)
 
           # Only save if requested and the folder is defined
-          if (savePlot == TRUE && is.null(plotsFolder) == FALSE) {
+          if (savePlot && is.null(plotsFolder)) {
             fnPltSave(
               savePlot = savePlot,
               plot = loopPlt,

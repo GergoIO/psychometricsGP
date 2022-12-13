@@ -11,7 +11,8 @@
 ################################################################################
 
 fnRptAddText <- function(report = NULL, text = NULL) {
-  if (is.null(report) == TRUE | is.null(text) == TRUE)
+  if (is.null(report) |
+      is.null(text))
   {
     stop("One of the required variables for this function has not been specified.")
   } else{

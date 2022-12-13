@@ -20,17 +20,17 @@ fnStartFolders <- function(workingDirectory = NULL,
                            createOutputFolder = NULL,
                            createPulseSubfolder = NULL,
                            createImagesFolder = NULL) {
-  if (is.null(workingDirectory) == TRUE) {
+  if (is.null(workingDirectory)) {
     stop(
       "fnStartFolders: Please specify the variable 'workingDirectory' to set the working directory."
     )
-  } else if (is.null(verNum) == TRUE) {
+  } else if (is.null(verNum)) {
     stop(
       "fnStartFolders: Please specify the variable 'verNum' - a version number for file naming."
     )
-  } else if (is.null(createOutputFolder) == TRUE |
-             is.null(createImagesFolder) == TRUE |
-             is.null(createPulseSubfolder) == TRUE) {
+  } else if (is.null(createOutputFolder) |
+             is.null(createImagesFolder) |
+             is.null(createPulseSubfolder)) {
     warning(
       "fnStartFolders: Please specify the booleans createOutputFolder, createImagesFolder and createPulseSubfolder to determine which folders should be created. By default, folders will be created for any undefined booleans."
     )

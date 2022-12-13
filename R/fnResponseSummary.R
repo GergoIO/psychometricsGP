@@ -12,8 +12,8 @@
 #'
 fnResponseSummary <- function(stages = NULL,
                               results = NULL) {
-  if (is.null(stages) == TRUE |
-      is.null(results) == TRUE) {
+  if (is.null(stages) |
+      is.null(results)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     responseSummary <- data.frame(stringsAsFactors = FALSE)

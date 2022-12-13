@@ -14,13 +14,13 @@
 
 fnRmRowsByName <- function(input, itemsToRm) {
   continue <- TRUE
-  if (is.null(input) == TRUE) {
+  if (is.null(input)) {
     stop("fnRmRowsByName: No data is specified. Please specify the data")
   }
-  if (is.null(itemsToRm) == TRUE) {
+  if (is.null(itemsToRm)) {
     message("fnRmRowsByName: There are no items to remove, no rows will be deleted")
     return(input)
-  } else if (is.null(dim(input)) == TRUE) {
+  } else if (is.null(dim(input))) {
     return(input[-itemsToRm]) # for 1D lists etc
   } else {
     return(input[!(rownames(input) %in% itemsToRm), ])

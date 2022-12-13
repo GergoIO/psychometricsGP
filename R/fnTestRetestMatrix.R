@@ -19,9 +19,9 @@ fnTestRetestMatrix <-
            assessment = NULL,
            assessmentPrev = NULL,
            dataRaw = NULL) {
-    if (is.null(assessment) == TRUE |
-        is.null(assessmentPrev) == TRUE |
-        is.null(dataRaw) == TRUE) {
+    if (is.null(assessment) |
+        is.null(assessmentPrev) |
+        is.null(dataRaw)) {
       stop("One of the required variables for this function has not been specified.")
     } else{
       # Create list to save test retest data
@@ -29,7 +29,7 @@ fnTestRetestMatrix <-
 
       #   ______________________________________________________________________
       #   No Stage Defined                                                  ####
-      if (is.null(stage) == TRUE) {
+      if (is.null(stage)) {
         message(
           "fnTestRetestMatrix: No stage is specified. Continuing without stage specificity"
         )

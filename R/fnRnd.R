@@ -21,10 +21,10 @@
 fnRnd <- function(value = NULL,
                   decimals = NULL,
                   valueIfNA = NULL) {
-  if (is.null(value) == TRUE |
-      is.null(decimals) == TRUE) {
+  if (is.null(value) |
+      is.null(decimals)) {
     stop("fnRnd: One of the required variables for this function has not been specified.")
-  } else if (is.numeric(decimals) == FALSE) {
+  } else if (!is.numeric(decimals)) {
     stop("fnRnd: The decimals variable must be numeric.")
   } else {
     # First convert all items to numeric and round + format it (to string)
@@ -34,7 +34,7 @@ fnRnd <- function(value = NULL,
                                            decimals), nsmall = decimals))
     # Convert all instances of NA (string) to just NA (not string)
     value <-
-      gsub("NA", ifelse(is.null(valueIfNA) == TRUE, NA, valueIfNA), value)
+      gsub("NA", ifelse(is.null(valueIfNA), NA, valueIfNA), value)
     # Sometimes spaces were introduced before a number. This removes them
     value <- gsub(" ", "", value)
     return(value)

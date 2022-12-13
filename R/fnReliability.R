@@ -18,10 +18,10 @@ fnReliability <-  function(stages = NULL,
   relCalcs = list() # To save intermediary calculations which are not returned as part of the function
   reliability = data.frame(matrix(nrow = 9, ncol = 0), stringsAsFactors = FALSE) # To save final reliability calculations
 
-  if (is.null(scoresData) == TRUE | is.null(resultsData) == TRUE) {
+  if (is.null(scoresData) | is.null(resultsData)) {
     stop("One of the required variables for this function has not been specified.")
   }
-  if (is.null(stages) == TRUE) {
+  if (is.null(stages)) {
     message("fnReliability: Analysing reliability across a single dataset (single stage)")
     scoresLong <-
       transform(scoresData, Candidate = c(1:nrow(scoresData)))

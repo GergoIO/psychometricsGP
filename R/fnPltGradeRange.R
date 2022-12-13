@@ -59,9 +59,9 @@ fnPltGradeRange <-
     #   ________________________________________________________________________
     #   Check all required variables are defined                            ####
 
-    if (is.null(data) == TRUE |
-        is.null(xLabels) == TRUE |
-        is.null(axisTitles) == TRUE)
+    if (is.null(data) |
+        is.null(xLabels) |
+        is.null(axisTitles))
     {
       stop("One of the required variables for this function has not been specified.")
     } else {
@@ -69,7 +69,7 @@ fnPltGradeRange <-
       #   ______________________________________________________________________
       #   Warning For Missing Data                                          ####
 
-      if (any(is.na(data) == TRUE)) {
+      if (any(is.na(data))) {
         message(
           "fnPltGradeRange: One of the score extremes or grade boundaries has not been defined. The plot will be incomplete. Check that all input values are defined."
         )
@@ -132,8 +132,8 @@ fnPltGradeRange <-
           dfSubset <- data[data$group == i, ]
 
           for (j in 1:nGradesPerGroup) {
-            if (is.na(dfSubset[j, "yMin"]) == TRUE |
-                is.na(dfSubset[j, "yMax"]) == TRUE) {
+            if (is.na(dfSubset[j, "yMin"]) |
+                is.na(dfSubset[j, "yMax"])) {
               # Do Nothing - If any cells in the row are NA
             }
             else if (as.numeric(dfSubset[j, "yMin"]) <= as.numeric(dfSubset[j, "yMax"])) {
@@ -284,7 +284,7 @@ fnPltGradeRange <-
             expand = c(0, 0)
           )
       }
-      if (any(is.na(dataPlt) == TRUE)) {
+      if (any(is.na(dataPlt))) {
         message(
           "fnPltGradeRange: There are one or more grade/stage combinations which no students belong to. This will result in missing boxes on the plot."
         )

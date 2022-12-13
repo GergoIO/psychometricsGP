@@ -20,10 +20,10 @@ fnPltHistogram <-
            binWidth = NULL,
            labelX = NULL,
            labelY = NULL) {
-    if (is.null(data) == TRUE |
-        is.null(binWidth) == TRUE |
-        is.null(labelX) == TRUE |
-        is.null(labelY) == TRUE)    {
+    if (is.null(data) |
+        is.null(binWidth) |
+        is.null(labelX) |
+        is.null(labelY))    {
       stop("One of the required variables for this function has not been specified.")
     } else {
       plot <- ggplot(data.frame(data),

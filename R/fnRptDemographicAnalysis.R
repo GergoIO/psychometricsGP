@@ -15,11 +15,11 @@ fnRptDemographicAnalysis <- function(report = NULL,
                                        tab = NULL,
                                        tabDemog = NULL,
                                        tableCount = NULL) {
-  if (is.null(report) == TRUE |
-      is.null(cnst) == TRUE |
-      is.null(tab) == TRUE |
-      is.null(tabDemog) == TRUE |
-      is.null(tableCount) == TRUE) {
+  if (is.null(report) |
+      is.null(cnst) |
+      is.null(tab) |
+      is.null(tabDemog) |
+      is.null(tableCount)) {
     stop(
       "One of the required variables for this function has not been specified."
     )

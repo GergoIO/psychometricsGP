@@ -46,13 +46,14 @@ fnStartup <- function(githubToken = NULL,
   #   ____________________________________________________________________________
   #   Install Packages                                                        ####
 
-  if (is.null(githubToken) == TRUE | is.null(verNum) == TRUE) {
+  if (is.null(githubToken) |
+      is.null(verNum)) {
     stop(
       "Please specify the github personal access token for file retrieval and a version number for file naming."
     )
-  } else if (is.null(createOutputFolder) == TRUE |
-             is.null(createImagesFolder) == TRUE |
-             is.null(createPulseSubfolder) == TRUE) {
+  } else if (is.null(createOutputFolder) |
+             is.null(createImagesFolder) |
+             is.null(createPulseSubfolder)) {
     warning(
       "Please specify the booleans createOutputFolder, createImagesFolder and createPulseSubfolder to determine which folders should be created. No folders will be created for any undefined booleans."
     )

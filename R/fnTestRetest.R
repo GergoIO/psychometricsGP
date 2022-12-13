@@ -20,10 +20,10 @@ fnTestRetest <-
            results = NULL,
            resultsPrevious = NULL)
   {
-    if (is.null(assessment) == TRUE |
-        is.null(assessmentPrev) == TRUE |
-        is.null(results) == TRUE |
-        is.null(resultsPrevious) == TRUE) {
+    if (is.null(assessment) |
+        is.null(assessmentPrev) |
+        is.null(results) |
+        is.null(resultsPrevious)) {
       stop("One of the required variables for this function has not been specified.")
     } else{
 

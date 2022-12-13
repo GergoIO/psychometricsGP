@@ -23,9 +23,9 @@ fnRptAddTable <-
            stopTrailingLine = FALSE,
            stopFlextableConversion = FALSE,
            ...) {
-    if (is.null(report) == TRUE | is.null(table) == TRUE |
-        is.null(caption) == TRUE |
-        is.null(tableCount) == TRUE)
+    if (is.null(report) | is.null(table) |
+        is.null(caption) |
+        is.null(tableCount))
     {
       stop("One of the required variables for this function has not been specified.")
     } else if (is.logical(report)) {
@@ -39,7 +39,7 @@ fnRptAddTable <-
       # Ensure that the variable fed through as 'tableCount' is updated in main script
       # The below line already appears in 'fnRptCaptionTable' - however it must be repeated in the top level function so that the 'tableCount' variable is updated in the main script too
       assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
-      if (stopFlextableConversion == TRUE) {
+      if (stopFlextableConversion) {
         report <-
           body_add_flextable(x = report,
                              value = table,
@@ -50,7 +50,7 @@ fnRptAddTable <-
                              value = qflextable(table),
                              ...)
       }
-      if (stopTrailingLine == TRUE) {
+      if (stopTrailingLine) {
 
       } else if (stopTrailingLine %in% c(NULL, FALSE)) {
         fnRptAddParagraph(report)

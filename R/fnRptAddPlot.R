@@ -21,9 +21,9 @@ fnRptAddPlot <-
            caption = NULL,
            stopTrailingLine = FALSE,
            dimensions = c(15.24, 10.16)) {
-    if (is.null(report) == TRUE | is.null(plot) == TRUE |
-        is.null(caption) == TRUE |
-        is.null(plotCount) == TRUE)    {
+    if (is.null(report) | is.null(plot) |
+        is.null(caption) |
+        is.null(plotCount))    {
       stop("One of the required variables for this function has not been specified.")
     } else{
       # The /2.54 is to convert from the defined cm to inches which the body_add_gg requires

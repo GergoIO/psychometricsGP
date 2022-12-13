@@ -94,17 +94,17 @@ fnPltScatter<-function(Data=NULL, x=NULL, y=NULL, Grouping=NULL, Type=NULL, Item
 
   # Check Data, x, and y are specified, switch Continue to "No" if not, and display warning
 
-  if(is.null(Data)==TRUE){
+  if(is.null(Data)){
     Continue<-"No"
     warning("Please specify the dataframe to use.")}else{
-      if(is.null(x)==TRUE | is.null(y)==TRUE){
+      if(is.null(x) | is.null(y)){
         Continue<-"No"
         warning("Please specify both x and y variables, using \"[variable name]\".")}}
 
   # Check an acceptable Type has been specified, switch to Continue=="No" and display warning if not.
 
   if(Continue=="Yes"){
-    if(is.null(Type)==TRUE){
+    if(is.null(Type)){
       Continue<-"No"
       warning("Plese specify a Type (\"TRT\" for Test-Retest or \"IA\" for Item Anlysis/Facility by Response Rate)")}else{
         if(Type=="TRT" | Type=="IA"){Continue<-"Yes"}else{
@@ -114,7 +114,7 @@ fnPltScatter<-function(Data=NULL, x=NULL, y=NULL, Grouping=NULL, Type=NULL, Item
   # Check Item variable has been specified if Type=="IA"
 
   if(Continue=="Yes"){
-    if(Type=="IA" & is.null(Items)==TRUE){
+    if(Type=="IA" & is.null(Items)){
       Continue<-"No"
       warning("Please specify a variable of Item numbers for Items argument for use with IA plots, using the format \"[variable name]\"")}}
 
@@ -125,31 +125,31 @@ fnPltScatter<-function(Data=NULL, x=NULL, y=NULL, Grouping=NULL, Type=NULL, Item
     # Check x and y appear in Data
 
     if(Continue=="Yes"){
-      if(is.null(Data[x])==TRUE){
+      if(is.null(Data[x])){
         warning("x specifies a column not in Data")
         Continue<-"No"}
-      if(is.null(Data[y])==TRUE){
+      if(is.null(Data[y])){
         warning("y specifies a column not in Data")
         Continue<-"No"}}
 
     # Check Items appears in Data
 
     if(Continue=="Yes"){
-      if(is.null(Items)==FALSE){
-        if(is.null(Data[[Items]])==TRUE){
+      if(!is.null(Items)){
+        if(is.null(Data[[Items]])){
           warning("Items specifies a column not in Data")
           Continue<-"No"}}}
 
     # Format x, y, and Grouping if needed
 
-    if(is.null(Grouping)==FALSE){Grouping.Name<-as.character(Grouping)}
+    if(!is.null(Grouping)){Grouping.Name<-as.character(Grouping)}
 
     if(Continue=="Yes"){
       x<-as.numeric(as.character(Data[[x]]))
       y<-as.numeric(as.character(Data[[y]]))
-      if(is.null(Grouping)==FALSE){
+      if(!is.null(Grouping)){
         Grouping<-Data[[Grouping]]
-        if(is.factor(Grouping)==FALSE){
+        if(!is.factor(Grouping)){
           Grouping<-factor(as.numeric(as.character(Grouping)))}}}
 
   } # Close Continue Conditional
@@ -158,7 +158,7 @@ fnPltScatter<-function(Data=NULL, x=NULL, y=NULL, Grouping=NULL, Type=NULL, Item
   # TO BE EXPANDED
 
   if(Continue=="Yes"){
-    if(is.null(Type)==TRUE){
+    if(is.null(Type)){
       warning("Please specify a valid Type (\"TRT\" or \"IA\")")
       Type.Given<-"No"
       Type<-"Unknown"}else{
@@ -177,7 +177,7 @@ fnPltScatter<-function(Data=NULL, x=NULL, y=NULL, Grouping=NULL, Type=NULL, Item
 
     #### TRT with no grouping ####
 
-    if(Type=="TRT" & is.null(Grouping)==TRUE){
+    if(Type=="TRT" & is.null(Grouping)){
       Plot<-Plot+
         geom_point(size=3)+
         xlab("Test1")+
@@ -210,7 +210,7 @@ fnPltScatter<-function(Data=NULL, x=NULL, y=NULL, Grouping=NULL, Type=NULL, Item
       if(max(x)<=1){x<-(100*x)}
       if(max(y)<=1){y<-(100*y)}
 
-      if(is.null(Items)==TRUE){
+      if(is.null(Items)){
         Plot<-Plot+
           geom_point(size=3)+
           xlab("Facility (%)")+

@@ -124,17 +124,17 @@ fnPltBarChart<-function(Data="MinaHarker", Type="LucyWestenra", Force.Scheme="Re
 
   # Check if Data or Type arguments are factors, and un-factorise if yes.
 
-  if(is.factor(Data)==TRUE){Data<-as.character(Data)}
-  if(is.factor(Type)==TRUE){Type<-as.character(Type)}
+  if(is.factor(Data)){Data<-as.character(Data)}
+  if(is.factor(Type)){Type<-as.character(Type)}
 
   # Correct any Type typos or variations (in single-item Type arguments; otherwise leave for error chekcs that follow)
   # Single-item factors vectors, lists, and dataframes are accepted; multiple-item vectors, lists, and dataframes are skipped and checked later (Type-gormat error message generated)
 
-  if(is.vector(Type)==TRUE){
+  if(is.vector(Type)){
     if(length(Type)==1){
       Table.TypeRefs<-data.frame(Type=c("Percentage","percentage","percent","Percent","perc","Perc","p","Percentages","percentages","percents","Percents","percs","Percs","ps","Frequency","frequency","freq","Freq","F","f","Frequencies","frequencies","freqs","Freqs","Fs","fs"),Replacement=c(rep("Percentage",14),rep("Frequency",12)))
       if(length(Table.TypeRefs$Type[Table.TypeRefs$Type==Type])>=1){Type<-Table.TypeRefs$Replacement[Table.TypeRefs$Type==Type]}
-      if(is.factor(Type)==TRUE){Type<-as.character(Type)}
+      if(is.factor(Type)){Type<-as.character(Type)}
     }}
 
   # Tabulate inputs and proprties to create reference table for conditional checks.
@@ -145,28 +145,28 @@ fnPltBarChart<-function(Data="MinaHarker", Type="LucyWestenra", Force.Scheme="Re
 
   # Check if Data has been specified (nested conditionals to handle checking dataframes and lists)
 
-  if(exists("Data")==TRUE & is.vector(Data)==FALSE){
+  if(exists("Data") & !is.vector(Data)){
     if(Data[1,1]=="MinaHarker"){Table.Checks$Specified[1]<-"No"}
     if(Data[1,1]!="MinaHarker"){Table.Checks$Specified[1]<-"Yes"}}
-  if(exists("Data")==TRUE & is.vector(Data)==TRUE){if(Data[1]!="MinaHarker"){Table.Checks$Specified[1]<-"Yes"}}
+  if(exists("Data") & is.vector(Data)){if(Data[1]!="MinaHarker"){Table.Checks$Specified[1]<-"Yes"}}
 
   # Check if Data is in the correct format (unfactorised single vector)
 
   if(Table.Checks$Specified[1]=="Yes"){
-    if(is.list(Data)==TRUE & Data[[1]][1]!="MinaHarker"){Table.Checks$Format[1]<-"Incorrect"}
-    if(is.list(Data)==FALSE & is.vector(Data)==TRUE){Table.Checks$Format[1]<-"Correct"}}
+    if(is.list(Data) & Data[[1]][1]!="MinaHarker"){Table.Checks$Format[1]<-"Incorrect"}
+    if(!is.list(Data) & is.vector(Data)){Table.Checks$Format[1]<-"Correct"}}
 
   # Check if Type is specified (nested conditionals to handle checking dataframes and lists)
 
-  if(exists("Type")==TRUE & is.vector(Type)==FALSE){
+  if(exists("Type") & !is.vector(Type)){
     if(Type[1,1]=="LucyWestenra"){Table.Checks$Specified[2]<-"No"}
     if(Type[1,1]!="LucyWestenra"){Table.Checks$Specified[2]<-"Yes"}}
-  if(exists("Type")==TRUE & is.vector(Type)==TRUE){if(Type[1]!="LucyWestenra"){Table.Checks$Specified[2]<-"Yes"}}
+  if(exists("Type") & is.vector(Type)){if(Type[1]!="LucyWestenra"){Table.Checks$Specified[2]<-"Yes"}}
 
   # Check if Type is in the correct format and one of the valid options
 
   if(Table.Checks$Specified[2]=="Yes"){
-    if(is.vector(Type)==TRUE &  length(Type)==1){
+    if(is.vector(Type) &  length(Type)==1){
       if(Type[1]!="LucyWestenra"){
         if(Type[1]=="Percentage" | Type[1]=="Frequency"){
           Table.Checks$Format[2]<-"Correct"}}}}
@@ -369,7 +369,7 @@ fnPltBarChart<-function(Data="MinaHarker", Type="LucyWestenra", Force.Scheme="Re
       # Conditionals for handling Force.Scheme=="CIDK"/"CNINC"
 
       if(Force.Scheme=="CIDK" | Force.Scheme=="CNINC"){
-        if(exists("Scheme")==FALSE){
+        if(!exists("Scheme")){
           Scheme<-Force.Scheme
           Scheme.Text<-(paste("Scheme overridden. Using: ",Scheme,sep=""))}}
 

@@ -16,10 +16,10 @@ fnItemAnalysis <- function(stages = NULL,
                            scoresAll = NULL,
                            excludedItems = NULL,
                            facilityBounds = NULL) {
-  if (is.null(stages) == TRUE |
-      is.null(scoresAll) == TRUE |
-      is.null(excludedItems) == TRUE |
-      is.null(facilityBounds) == TRUE) {
+  if (is.null(stages) |
+      is.null(scoresAll) |
+      is.null(excludedItems) |
+      is.null(facilityBounds)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     itemAnalysis <- list()
