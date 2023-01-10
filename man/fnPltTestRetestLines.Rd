@@ -11,7 +11,8 @@ fnPltTestRetestLines(
   gradeBounds = NULL,
   gradeBoundsPrev = NULL,
   nBounds = NULL,
-  nBoundsPrev = NULL
+  nBoundsPrev = NULL,
+  assessmentType = NULL
 )
 }
 \arguments{
@@ -25,15 +26,19 @@ fnPltTestRetestLines(
 
 \item{gradeBoundsPrev}{A dataframe of the grade boundaries for the previous assessment. Cols should be named "Stage 1" etc. Rows should be named "Unsatisfactory", "Borderline", "Satisfactory", "Excellent"}
 
-\item{nBounds}{The number of grade boundaries to add for the current assessment (3 means plot the B, S and E boundaries, 1 means plot only the S boundary)}
+\item{nBounds}{(OPTIONAL - if assessmentType is set) The number of grade boundaries to add for the current assessment (3 means plot the B, S and E boundaries, 1 means plot only the S boundary)}
 
-\item{nBoundsPrev}{The number of grade boundaries to add for the previous assessment}
+\item{nBoundsPrev}{(OPTIONAL - if assessmentType is set) The number of grade boundaries to add for the previous assessment}
+
+\item{assessmentType}{The assessment type. Currently configured options are: "ADK", "ADTK", "AMK"}
 }
 \value{
 An updated plot is returned. The new plot should be saved under the old plot (see examples)
 }
 \description{
 A function for adding grade boundary lines to existing scatter plots of test retest data. The function handles changing the stage for the previous test when the current test is the first test in the year. If used in a loop, the number of bounds (previous and current) must be correct for each possible stage to be considered. If there are stages with a different number of grade bounds, use ifelse statements to account for that when setting nBounds and nBoundsPrev
+
+NEW FUNCTIONALITY: If the assessment type is defined (along with the stage and the test in year), the number of current and previous grade boundaries to apply is automatically set.
 }
 \examples{
 plt[[glue('testRetestStage{i}')]] <- fnPltTestRetestLines(plot = plt[[glue('testRetestStage{i}')]], stage = i, testInYear = cnst$testInYear, gradeBounds = tab$gradeBoundaries, gradeBoundsPrev = tab$gradeBoundariesPrev, nBounds = 3, nBoundsPrev = 3)
