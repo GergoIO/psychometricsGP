@@ -56,7 +56,7 @@ fnPltTestRetestLines <- function(plot = NULL,
                      colour = "green") +
           geom_vline(xintercept = gradeBoundsPrev["Borderline", .stagePrevCol],
                      colour = "orange")
-      } else if (nBound == 1 && nBoundsPrev == 3) {
+      } else if (nBounds == 1 && nBoundsPrev == 3) {
         # Example (TiY 1): AMK Stage5
         plot <- plot +
           geom_hline(yintercept = gradeBounds["Satisfactory", .stageCol],
