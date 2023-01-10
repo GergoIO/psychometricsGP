@@ -4,12 +4,14 @@
 \alias{fnItemReview}
 \title{Detect Items to Review}
 \usage{
-fnItemReview(assessmentType = NULL, itemAnalysisData = NULL)
+fnItemReview(assessmentType = NULL, itemAnalysisData = NULL, testInYear = NULL)
 }
 \arguments{
 \item{assessmentType}{A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review}
 
 \item{itemAnalysisData}{A dataframe. This dataframe must contain at least the following columns: "Item" (the items number), "Stage 5 Facility" (for ADK), "Stage 5 vs 2 Growth" (for ADK), "Stage 5 PtBis" (for ADK) or "Stage 3 Facility" (for ADTK), "Stage 3 vs 2 Growth" (for ADTK), "Stage 3 PtBis" (for ADTK)}
+
+\item{testInYear}{(OPTIONAL) - Required for AMK assessments so the stage to use for item review can be determined}
 }
 \value{
 A list of the detected items to review is returned.
@@ -22,6 +24,12 @@ Detect Items to Review
  cnst <- append(
  cnst,
   fnItemReview(assessmentType = cnst$assessmentType, itemAnalysisData = tab$itemAnalysis)
+  )
+
+# For AMK:
+ cnst <- append(
+ cnst,
+  fnItemReview(assessmentType = cnst$assessmentType, itemAnalysisData = tab$itemAnalysis, testInYear = cnst$testInYear)
   )
 
 
