@@ -17,18 +17,21 @@
 #' testDetails
 #' reliability
 #' gradeBoundaries
+#' @param assessmentType The type of assessment (currently configured options: "ADK", "ADTK", "AMK")
 #'
 #' @return Returns a formatted dataframe of historic stats
 #' @export
 #'
-#' @examples historicStats <- fnHistoricStats(listOfConstants = cnst, listOfTables = tab)
+#' @examples historicStats <- fnHistoricStats(listOfConstants = cnst, listOfTables = tab, assessmentType = cnst$assessmentType)
 #'
 ################################################################################
 #'
 fnHistoricStats <- function(listOfConstants = NULL,
-                            listOfTables = NULL) {
+                            listOfTables = NULL,
+                            assessmentType = NULL) {
   if (is.null(listOfConstants) |
-      is.null(listOfTables)) {
+      is.null(listOfTables) |
+      is.null(assessmentType)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     # Rename incoming var for brevity and readability
@@ -36,6 +39,12 @@ fnHistoricStats <- function(listOfConstants = NULL,
     lC <- listOfConstants
     # Shorten list of tables var
     lT <- listOfTables
+
+    if (assessmentType %in% c("AMK")) {
+      # For AMK, the reliability table must be reconstructed from the Stages A and Stages B tables
+      lT$reliability <-
+        cbind(lT$reliabilityStagesA, lT$reliabilityStagesB)
+    }
 
     historicStats <- list(
       "Test" = rep(lC$assessment, lC$nStages),
