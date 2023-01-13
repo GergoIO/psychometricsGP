@@ -70,7 +70,8 @@ fnHistoricStats <- function(listOfConstants = NULL,
       "Excellent" = as.numeric(lT$gradeBoundaries["Excellent", ]),
       # For AngoffCorrel, only want a value in the highest stage so fill the rest with empty cells
       "AngoffCorrel" = c(rep("", lC$nStages - 1), lC$testAngoffCorrVal),
-      "Comments" = rep(lC$historicStatsComment, lC$nStages)
+      "Comments" = lC$historicStatsComment
+      # "Comments" = rep(lC$historicStatsComment, lC$nStages)
     )
     # Bind all vector elements of list to a df:
     historicStats <-
