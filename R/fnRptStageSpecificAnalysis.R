@@ -105,7 +105,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
       # listOfTables Test Retest Matrix STAGES A
       fnRptAddTable(
         report = report,
-        table = listOfTestRetest[[glue('MatrixStage{stage}')]],
+        table = listOfTestRetest[[glue('matrixStage{stage}')]],
         tableCount = tableCount,
         caption = glue(
           'Stage {stage} students by grade awarded in {listOfDetails$assessment} (row) and {listOfDetails$assessmentPrev} (column)'
