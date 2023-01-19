@@ -11,6 +11,8 @@
 #'
 fnReload <- function() {
   tryCatch({
+    # Detach the package first
+    detach("package:psychometricsGP", unload = TRUE)
     # Reload the package from the online repo
     devtools::install_github("GergoIO/psychometricsGP",
                              auth_token = .githubToken,
