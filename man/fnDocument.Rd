@@ -18,5 +18,5 @@ fnReload()
 
 }
 \author{
-Gergo Pinter, [gergo.pinter@plymouth.ac.uk](mailto:gergo.pinter@plymouth.ac.uk), <gergo.io>
+Gergo Pinter, \email{gergo.pinter@plymouth.ac.uk}, \url{gergo.io}
 }
