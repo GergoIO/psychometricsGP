@@ -1,5 +1,7 @@
 #' Score Statistics Table
 #'
+#' @author Gergo Pinter, \email{gergo.pinter@@plymouth.ac.uk}, \url{https://www.gergo.io}
+#'
 #' @param assessmentType A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review
 #' @param listOfConstants A list of contants. At least the following must be defined as list elements: assessment (Eg "ADK38"), nPresent (the number of students who sat the assessment), nItems (the original number of items), nItemsExcl (the number of items excluded), itemsExclStr (a string of the specific item numbers removed)
 #' @param passMarks A data frame containing the relevant passmarks. Usually a single row with cols for each stage (named "Stage 1", "Stage 2" etc.) The code of this function can be changed to match the specific formats that this table can take for different assessmentTypes.
