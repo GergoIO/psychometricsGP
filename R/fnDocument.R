@@ -5,8 +5,8 @@
 #' @author Gergo Pinter, [gergo.pinter@plymouth.ac.uk](mailto:gergo.pinter@plymouth.ac.uk), <gergo.io>
 #'
 #' @return Nothing is returned, a message alerts the user when documenting is complete
-#' @use_package devtools
-#' @use_package roxygen2
+#' @import devtools
+#' @import roxygen2
 
 #' @export
 #'
