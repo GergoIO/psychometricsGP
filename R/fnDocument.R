@@ -2,7 +2,7 @@
 #'
 #' @description Use this function to run the document command when updates are made in the PyschometricsGP package. The required packages (devtools, roxygen2) are both loaded and then the document() command is run.
 #'
-#' @author Gergo Pinter, \email{gergo.pinter@@plymouth.ac.uk}, {https://www.gergo.io}
+#' @author Gergo Pinter, \email{gergo.pinter@@plymouth.ac.uk}, <www.gergo.io> <https://www.gergo.io> \url{https://www.gergo.io} \url(www.gergo.io)
 #'
 #' @return Nothing is returned, a message alerts the user when documenting is complete
 #' @import devtools
