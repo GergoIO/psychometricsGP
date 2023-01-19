@@ -17,3 +17,6 @@ fnReload()
 
 
 }
+\author{
+Gergo Pinter, [gergo.pinter@plymouth.ac.uk](mailto:gergo.pinter@plymouth.ac.uk), <gergo.io>
+}
