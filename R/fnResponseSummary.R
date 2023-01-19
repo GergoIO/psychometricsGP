@@ -27,11 +27,11 @@ fnResponseSummary <- function(stages = NULL,
         mean(results$nIncorr[results$Stage == i])
       responseSummary["Number Don't Know", .stageCol] <-
         mean(results$nDontKnow[results$Stage == i])
-      responseSummary["Percentage Correct", .stageCol] <-
+      responseSummary["Percentage Correct (%)", .stageCol] <-
         mean(results$pctCorr[results$Stage == i])
-      responseSummary["Percentage Incorrect", .stageCol] <-
+      responseSummary["Percentage Incorrect (%)", .stageCol] <-
         mean(results$pctIncorr[results$Stage == i])
-      responseSummary["Percentage Don't Know", .stageCol] <-
+      responseSummary["Percentage Don't Know (%)", .stageCol] <-
         mean(results$pctDontKnow[results$Stage == i])
     }
     return(responseSummary)
