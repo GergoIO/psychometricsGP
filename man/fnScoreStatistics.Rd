@@ -31,3 +31,6 @@ passMarks =tab$passMarks)
 
 
 }
+\author{
+Gergo Pinter, \email{gergo.pinter@plymouth.ac.uk}, \url{https://www.gergo.io}
+}
