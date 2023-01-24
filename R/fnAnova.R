@@ -64,6 +64,8 @@ fnAnova <-
             ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
             ### ANOVA                                                       ####
 
+            # Check if all vars have at least two factors
+
             aov <-
               (aov(Score ~ ., data = na.omit(loopDemogData[, c("Score", varsAnova)])))
 
