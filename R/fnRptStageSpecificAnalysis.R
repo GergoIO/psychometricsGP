@@ -108,7 +108,7 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
         table = listOfTestRetest[[glue('matrixStage{stage}')]],
         tableCount = tableCount,
         caption = glue(
-          'Stage {stage} students by grade awarded in {listOfDetails$assessment} (row) and {listOfDetails$assessmentPrev} (column)'
+          'Stage {stage} students by grade awarded in {listOfDetails$assessment} (column) and {listOfDetails$assessmentPrev} (row)'
         )
       )
       # Manually increment table count
