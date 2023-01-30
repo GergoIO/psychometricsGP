@@ -32,7 +32,6 @@ fnStartPackages <- function(githubToken = NULL) {
     library("librarian")
     librarian::shelf(
       Amelia,
-      dplyr,
       flextable,
       forcats,
       ggplot2,
@@ -62,7 +61,14 @@ fnStartPackages <- function(githubToken = NULL) {
       tidyverse,
       viridis,
       tjmahr / WrapRmd,
-      usethis
+      usethis,
+      dplyr # Need to load dplyr LAST, plyr and ggplot2 have to be BEFORE IT
     )
   }
 } # END
+
+# ### SCORING
+# detach(package:plyr)
+# detach(package:dplyr)
+# library(plyr)
+# library(dplyr)
