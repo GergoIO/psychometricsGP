@@ -8,7 +8,7 @@
 #' @return Returns the demographics file if it could be loaded or an error message otherwise
 #' @export
 #'
-#' @examples fnLoadDemographics(pathDemographics = "P:/2223/Demographics/2223 Demographics.xlsx", pathSharedFolder = "P:")
+#' @examples .dfDemogOrig <- fnLoadDemographics(pathDemographics = "P:/2223/Demographics/2223 Demographics.xlsx", pathSharedFolder = "P:")
 #'
 fnLoadDemographics <-
   function(pathDemographics, pathSharedFolder = "P:") {

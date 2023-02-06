@@ -18,6 +18,6 @@ Returns the demographics file if it could be loaded or an error message otherwis
 Load in the demographics file. If the demographics file is in the shared folder and VPN is not configured, the demographics file is sometimes inaccessible. When the VPN is functional but the shared folder has not yet been opened in the session, R cannot load the demographics file. This functions tries to open the root shared folder if the demographics file is inaccessible. If, after opening the shared folder, the demographics file is still inaccessible a stop error is thrown. Otherwise, messages relay the stage at which the demographics file was loaded (the shared folder is not opened if the demographics file is immediately accessible.)
 }
 \examples{
-fnLoadDemographics(pathDemographics = "P:/2223/Demographics/2223 Demographics.xlsx", pathSharedFolder = "P:")
+.dfDemogOrig <- fnLoadDemographics(pathDemographics = "P:/2223/Demographics/2223 Demographics.xlsx", pathSharedFolder = "P:")
 
 }
