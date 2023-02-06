@@ -48,6 +48,7 @@ fnStartPackages <- function(githubToken = NULL) {
       psychometric,
       # psychometricsGP, # No longer needed since this is loaded prior to this function running
       psychometricsTNG,
+      purrr,
       # reshape,
       readxl,
       reshape2,
@@ -64,6 +65,10 @@ fnStartPackages <- function(githubToken = NULL) {
       usethis,
       dplyr # Need to load dplyr LAST, plyr and ggplot2 have to be BEFORE IT
     )
+    # Stop message when using dplyr - summarise (to do with grouping)
+    # https://rstats-tips.net/2020/07/31/get-rid-of-info-of-dplyr-when-grouping-summarise-regrouping-output-by-species-override-with-groups-argument/
+    options(dplyr.summarise.inform = FALSE)
+
   }
 } # END
 
