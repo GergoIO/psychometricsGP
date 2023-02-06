@@ -5,7 +5,7 @@
 #' @param pathDemographics Full path to the demographics file (eg "P:/2223/Demographics/2223 Demographics.xlsx")
 #' @param pathSharedFolder Root path to shared folder (defaults to "P:")
 #'
-#' @return
+#' @return Returns the demographics file if it could be loaded or an error message otherwise
 #' @export
 #'
 #' @examples fnLoadDemographics(pathDemographics = "P:/2223/Demographics/2223 Demographics.xlsx", pathSharedFolder = "P:")
