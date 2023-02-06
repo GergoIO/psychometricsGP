@@ -51,7 +51,7 @@ fnLoadDemographics <-
           # Likely that VPN is not working
           stop(
             glue(
-              "Demographics file still inaccessible. Make sure path {pathDemographics} points to an accessible demographics file and try again."
+              "Demographics file still inaccessible. Make sure the path \"{pathDemographics}\" points to an accessible demographics file and try again."
             )
           )
         })
