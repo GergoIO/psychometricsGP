@@ -39,6 +39,7 @@ fnStartPackages <- function(githubToken = NULL) {
       # glue,
       tidyverse / glue,
       hrbrthemes,
+      janitor,
       ltm,
       lme4,
       mirt,
