@@ -40,7 +40,10 @@ fnLoadDemographics <-
         # If shared folder not accessible, try opening the shared folder
         # (If VPN is connected but shared folder has not been opened in session, folder will show as inaccessible. Opening folder makes it accessible)
         message("Demographics file path inaccessible, trying to open shared folder")
-        utils::browseURL(pathSharedFolder)
+
+        # NEW way to open dir
+        shell.exec(pathSharedFolder)
+        # utils::browseURL(pathSharedFolder)
         # Try to read the demographics file again
         tryCatch({
           .dfDemogOrig <-
