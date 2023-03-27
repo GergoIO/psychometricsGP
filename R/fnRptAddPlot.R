@@ -33,15 +33,18 @@ fnRptAddPlot <-
         width = as.numeric(dimensions[1] / 2.54),
         height = as.numeric(dimensions[2] / 2.54)
       )
-      # Caption goes below the plot
-      fnRptCaptionPlot(report = report,
-                       plotCount = plotCount,
-                       caption = caption)
+      # Caption goes below the Plot
+      report <-
+        body_add_par(report,
+                     glue("Plot {plotCount}: {caption}"),
+                     style = "caption")
       # Ensure that the variable fed through as 'plotCount' is updated in main script
       # The below line already appears in 'fnRptCaptionPlot' - however it must be repeated in the top level function so that the 'plotCount' variable is updated in the main script too
-      assign(deparse(substitute(plotCount)), plotCount + 1, envir = globalenv())
+      assign(deparse(substitute(plotCount)),
+             plotCount + 1,
+             envir = globalenv())
       if (stopTrailingLine %in% c(NULL, FALSE)) {
-        fnRptAddParagraph(report)
+        report <- body_add_par(report, "")
       }
     }
   } # END

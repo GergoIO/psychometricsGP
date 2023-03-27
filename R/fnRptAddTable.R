@@ -34,10 +34,13 @@ fnRptAddTable <-
     else{
       # Caption goes above Table
       report <-
-        body_add_par(report, glue("Table {tableCount}: {caption}"),
+        body_add_par(report,
+                     glue("Table {tableCount}: {caption}"),
                      style = "caption")
       # Ensure that the variable fed through as 'tableCount' is updated in main script
-      assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+      assign(deparse(substitute(tableCount)),
+             tableCount + 1,
+             envir = globalenv())
       if (stopFlextableConversion) {
         report <-
           body_add_flextable(x = report,
