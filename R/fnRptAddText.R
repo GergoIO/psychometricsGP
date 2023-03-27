@@ -2,6 +2,8 @@
 #'
 #' @param report The variable name of the report
 #' @param text The text to add to the report
+#' @param style The style of the text to add (DEFAULT = Normal)
+#'
 #'
 #' @return Nothing is explicitly returned, rather the configured text is added to the configured report
 #' @export
@@ -10,7 +12,7 @@
 
 ################################################################################
 
-fnRptAddText <- function(report = NULL, text = NULL) {
+fnRptAddText <- function(report = NULL, text = NULL, style = "Normal") {
   if (is.null(report) |
       is.null(text))
   {
@@ -18,6 +20,6 @@ fnRptAddText <- function(report = NULL, text = NULL) {
   } else{
     report <- body_add_par(report,
                            text,
-                           style = "Normal")
+                           style = style)
   }
 }

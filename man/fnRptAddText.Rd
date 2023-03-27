@@ -4,12 +4,14 @@
 \alias{fnRptAddText}
 \title{Add Text to a Report}
 \usage{
-fnRptAddText(report = NULL, text = NULL)
+fnRptAddText(report = NULL, text = NULL, style = "Normal")
 }
 \arguments{
 \item{report}{The variable name of the report}
 
 \item{text}{The text to add to the report}
+
+\item{style}{The style of the text to add (DEFAULT = Normal)}
 }
 \value{
 Nothing is explicitly returned, rather the configured text is added to the configured report
