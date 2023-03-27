@@ -32,12 +32,11 @@ fnRptAddTable <-
       stop("The variable 'addTrailingLine' must be set to either 'TRUE' or 'FALSE'.")
     }
     else{
-      # Caption goes above table
-      fnRptCaptionTable(report = report,
-                        tableCount = tableCount,
-                        caption = caption)
+      # Caption goes above Table
+      report <-
+        body_add_par(report, glue("Table {tableCount}: {caption}"),
+                     style = "caption")
       # Ensure that the variable fed through as 'tableCount' is updated in main script
-      # The below line already appears in 'fnRptCaptionTable' - however it must be repeated in the top level function so that the 'tableCount' variable is updated in the main script too
       assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
       if (stopFlextableConversion) {
         report <-
@@ -53,7 +52,34 @@ fnRptAddTable <-
       if (stopTrailingLine) {
 
       } else if (stopTrailingLine %in% c(NULL, FALSE)) {
-        fnRptAddParagraph(report)
+        report <- body_add_par(report, "")
       }
     }
   } # END
+
+#   else{
+#     # Caption goes above table
+#     fnRptCaptionTable(report = report,
+#                       tableCount = tableCount,
+#                       caption = caption)
+#     # Ensure that the variable fed through as 'tableCount' is updated in main script
+#     # The below line already appears in 'fnRptCaptionTable' - however it must be repeated in the top level function so that the 'tableCount' variable is updated in the main script too
+#     assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
+#     if (stopFlextableConversion) {
+#       report <-
+#         body_add_flextable(x = report,
+#                            value = table,
+#                            ...)
+#     } else if (stopFlextableConversion %in% c(NULL, FALSE)) {
+#       report <-
+#         body_add_flextable(x = report,
+#                            value = qflextable(table),
+#                            ...)
+#     }
+#     if (stopTrailingLine) {
+#
+#     } else if (stopTrailingLine %in% c(NULL, FALSE)) {
+#       fnRptAddParagraph(report)
+#     }
+#   }
+# } # END
