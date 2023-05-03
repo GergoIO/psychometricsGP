@@ -84,157 +84,218 @@
 
 #### Start Function####
 
-fnPltScatter<-function(Data=NULL, x=NULL, y=NULL, Grouping=NULL, Type=NULL, Items=NULL){
+fnPltScatter <-
+  function(Data = NULL,
+           x = NULL,
+           y = NULL,
+           Grouping = NULL,
+           Type = NULL,
+           Items = NULL) {
+    #### Check Inputs ####
 
-  #### Check Inputs ####
+    # Default to Continue=="Yes"
 
-  # Default to Continue=="Yes"
+    Continue <- "Yes"
 
-  Continue<-"Yes"
+    # Check Data, x, and y are specified, switch Continue to "No" if not, and display warning
 
-  # Check Data, x, and y are specified, switch Continue to "No" if not, and display warning
+    if (is.null(Data)) {
+      Continue <- "No"
+      warning("Please specify the dataframe to use.")
+    } else{
+      if (is.null(x) | is.null(y)) {
+        Continue <- "No"
+        warning("Please specify both x and y variables, using \"[variable name]\".")
+      }
+    }
 
-  if(is.null(Data)){
-    Continue<-"No"
-    warning("Please specify the dataframe to use.")}else{
-      if(is.null(x) | is.null(y)){
-        Continue<-"No"
-        warning("Please specify both x and y variables, using \"[variable name]\".")}}
+    # Check an acceptable Type has been specified, switch to Continue=="No" and display warning if not.
 
-  # Check an acceptable Type has been specified, switch to Continue=="No" and display warning if not.
+    if (Continue == "Yes") {
+      if (is.null(Type)) {
+        Continue <- "No"
+        warning(
+          "Plese specify a Type (\"TRT\" for Test-Retest or \"IA\" for Item Anlysis/Facility by Response Rate)"
+        )
+      } else{
+        if (Type == "TRT" | Type == "IA") {
+          Continue <- "Yes"
+        } else{
+          Continue <- "No"
+          warning(
+            "Please specify a valid Type (\"TRT\" for Test-Retest or \"IA\" for Item Anlysis/Facility by Response Rate)"
+          )
+        }
+      }
+    }
 
-  if(Continue=="Yes"){
-    if(is.null(Type)){
-      Continue<-"No"
-      warning("Plese specify a Type (\"TRT\" for Test-Retest or \"IA\" for Item Anlysis/Facility by Response Rate)")}else{
-        if(Type=="TRT" | Type=="IA"){Continue<-"Yes"}else{
-          Continue<-"No"
-          warning("Please specify a valid Type (\"TRT\" for Test-Retest or \"IA\" for Item Anlysis/Facility by Response Rate)")}}}
+    # Check Item variable has been specified if Type=="IA"
 
-  # Check Item variable has been specified if Type=="IA"
+    if (Continue == "Yes") {
+      if (Type == "IA" & is.null(Items)) {
+        Continue <- "No"
+        warning(
+          "Please specify a variable of Item numbers for Items argument for use with IA plots, using the format \"[variable name]\""
+        )
+      }
+    }
 
-  if(Continue=="Yes"){
-    if(Type=="IA" & is.null(Items)){
-      Continue<-"No"
-      warning("Please specify a variable of Item numbers for Items argument for use with IA plots, using the format \"[variable name]\"")}}
+    #### Format Inputs ####
 
-  #### Format Inputs ####
+    if (Continue == "Yes") {
+      # Check x and y appear in Data
 
-  if(Continue=="Yes"){
+      if (Continue == "Yes") {
+        if (is.null(Data[x])) {
+          warning("x specifies a column not in Data")
+          Continue <- "No"
+        }
+        if (is.null(Data[y])) {
+          warning("y specifies a column not in Data")
+          Continue <- "No"
+        }
+      }
 
-    # Check x and y appear in Data
+      # Check Items appears in Data
 
-    if(Continue=="Yes"){
-      if(is.null(Data[x])){
-        warning("x specifies a column not in Data")
-        Continue<-"No"}
-      if(is.null(Data[y])){
-        warning("y specifies a column not in Data")
-        Continue<-"No"}}
+      if (Continue == "Yes") {
+        if (!is.null(Items)) {
+          if (is.null(Data[[Items]])) {
+            warning("Items specifies a column not in Data")
+            Continue <- "No"
+          }
+        }
+      }
 
-    # Check Items appears in Data
+      # Format x, y, and Grouping if needed
 
-    if(Continue=="Yes"){
-      if(!is.null(Items)){
-        if(is.null(Data[[Items]])){
-          warning("Items specifies a column not in Data")
-          Continue<-"No"}}}
+      if (!is.null(Grouping)) {
+        Grouping.Name <- as.character(Grouping)
+      }
 
-    # Format x, y, and Grouping if needed
+      if (Continue == "Yes") {
+        x <- as.numeric(as.character(Data[[x]]))
+        y <- as.numeric(as.character(Data[[y]]))
+        if (!is.null(Grouping)) {
+          Grouping <- Data[[Grouping]]
+          if (!is.factor(Grouping)) {
+            Grouping <- factor(as.numeric(as.character(Grouping)))
+          }
+        }
+      }
 
-    if(!is.null(Grouping)){Grouping.Name<-as.character(Grouping)}
+    } # Close Continue Conditional
 
-    if(Continue=="Yes"){
-      x<-as.numeric(as.character(Data[[x]]))
-      y<-as.numeric(as.character(Data[[y]]))
-      if(!is.null(Grouping)){
-        Grouping<-Data[[Grouping]]
-        if(!is.factor(Grouping)){
-          Grouping<-factor(as.numeric(as.character(Grouping)))}}}
+    ####  Determine plot type; TRT, IA, or Unknown  ####
+    # TO BE EXPANDED
 
-  } # Close Continue Conditional
+    if (Continue == "Yes") {
+      if (is.null(Type)) {
+        warning("Please specify a valid Type (\"TRT\" or \"IA\")")
+        Type.Given <- "No"
+        Type <- "Unknown"
+      } else{
+        if (Type != "TRT" & Type != "IA") {
+          Type.Given <- "No"
+          Type <- "Unknown"
+          warning("Please specify a valid Type (\"TRT\" or \"IA\")")
+        } else{
+          Type.Given <- "Yes"
+        }
+      }
+    }
 
-  ####  Determine plot type; TRT, IA, or Unknown  ####
-  # TO BE EXPANDED
+    #### Basic blank Plot ####
 
-  if(Continue=="Yes"){
-    if(is.null(Type)){
-      warning("Please specify a valid Type (\"TRT\" or \"IA\")")
-      Type.Given<-"No"
-      Type<-"Unknown"}else{
-        if(Type!="TRT" & Type!="IA"){
-          Type.Given<-"No"
-          Type<-"Unknown"
-          warning("Please specify a valid Type (\"TRT\" or \"IA\")")}else{Type.Given<-"Yes"}}}
+    if (Continue == "Yes") {
+      if (Type.Given == "Yes") {
+        Plot <- ggplot(Data, aes(x = x, y = y)) + theme_psmd()
+      }
 
-  #### Basic blank Plot ####
+      #### Conditional additions to Plot ####
 
-  if(Continue=="Yes"){
+      #### TRT with no grouping ####
 
-    if(Type.Given=="Yes"){Plot<-ggplot(Data, aes(x=x, y=y))+theme_psmd()}
+      if (Type == "TRT" & is.null(Grouping)) {
+        Plot <- Plot +
+          geom_point(size = 3) +
+          xlab("Test1") +
+          ylab("Test2") +
+          xlim(0, 100) +
+          ylim(0, 100) +
+          theme(legend.position = "none")
+      }
 
-    #### Conditional additions to Plot ####
+      #### TRT with grouping ####
 
-    #### TRT with no grouping ####
+      if (Type == "TRT" & is.null(Grouping) != TRUE) {
+        StageColours <- fnColours("Stage")
+        Plot <- Plot +
+          geom_point(aes(
+            colour = Grouping,
+            shape = Grouping,
+            fill = Grouping
+          ),
+          size = 3) +
+          xlab("Test1") +
+          ylab("Test2") +
+          xlim(0, 100) +
+          ylim(0, 100) +
+          scale_colour_manual(values = StageColours) +
+          scale_fill_manual(values = StageColours) +
+          scale_shape_manual(values = c(15, 16, 17, 23, 25)) +
+          guides(color = guide_legend(title = Grouping.Name)) +
+          guides(shape = guide_legend(title = Grouping.Name)) +
+          guides(fill = guide_legend(title = Grouping.Name))
+      }
 
-    if(Type=="TRT" & is.null(Grouping)){
-      Plot<-Plot+
-        geom_point(size=3)+
-        xlab("Test1")+
-        ylab("Test2")+
-        xlim(0,100)+
-        ylim(0,100)+
-        theme(legend.position="none")}
+      #### ItemAnalysis ####
 
-    #### TRT with grouping ####
+      if (Type == "IA") {
+        if (max(x) <= 1) {
+          x <- (100 * x)
+        }
+        if (max(y) <= 1) {
+          y <- (100 * y)
+        }
 
-    if(Type=="TRT" & is.null(Grouping)!=TRUE){
-      StageColours<-fnColours("Stage")
-      Plot<-Plot+
-        geom_point(aes(colour=Grouping, shape=Grouping, fill=Grouping), size=3)+
-        xlab("Test1")+
-        ylab("Test2")+
-        xlim(0,100)+
-        ylim(0,100)+
-        scale_colour_manual(values=StageColours)+
-        scale_fill_manual(values=StageColours)+
-        scale_shape_manual(values=c(15,16,17,23,25))+
-        guides(color=guide_legend(title=Grouping.Name))+
-        guides(shape=guide_legend(title=Grouping.Name))+
-        guides(fill=guide_legend(title=Grouping.Name))}
+        if (is.null(Items)) {
+          Plot <- Plot +
+            geom_point(size = 3) +
+            xlab("Facility (%)") +
+            ylab("Response Rate (%)") +
+            xlim(-5, 105) + # so plot format matches jittered version below
+            ylim(-5, 105) + # so plot format matches jittered version below
+            geom_smooth(formula = y ~ x,
+                        method = lm,
+                        se = FALSE)
+        } # GP - added formula = y ~ x,
 
-    #### ItemAnalysis ####
+        if (is.null(Items) != TRUE) {
+          Plot <- Plot +
+            xlab("Facility") +
+            ylab("Response Rate (%)") +
+            xlim(-5, 105) + # so all ploints plot after any combination of jitter
+            ylim(-5, 105) + # so all ploints plot after any combination of jitter
+            geom_smooth(formula = y ~ x,
+                        method = lm,
+                        se = FALSE) + # GP - added formula = y ~ x
+            geom_text(
+              aes(label = Data[[Items]]),
+              position = position_jitter(width = 3.5, height = 3.5),
+              size = 4
+            )
+        }
 
-    if(Type=="IA"){
+      } # Close ItemAnalysis conditional
 
-      if(max(x)<=1){x<-(100*x)}
-      if(max(y)<=1){y<-(100*y)}
+      #### Returns ####
 
-      if(is.null(Items)){
-        Plot<-Plot+
-          geom_point(size=3)+
-          xlab("Facility (%)")+
-          ylab("Response Rate (%)")+
-          xlim(-5,105)+ # so plot format matches jittered version below
-          ylim(-5,105)+ # so plot format matches jittered version below
-          geom_smooth(formula = y ~ x, method=lm,se=FALSE)} # GP - added formula = y ~ x,
-
-      if(is.null(Items)!=TRUE){
-        Plot<-Plot+
-          xlab("Facility")+
-          ylab("Response Rate (%)")+
-          xlim(-5,105)+ # so all ploints plot after any combination of jitter
-          ylim(-5,105)+ # so all ploints plot after any combination of jitter
-          geom_smooth(formula = y ~ x, method=lm,se=FALSE)+ # GP - added formula = y ~ x
-          geom_text(aes(label=Data[[Items]]),position = position_jitter(width=3.5, height=3.5), size=4)}
-
-    } # Close ItemAnalysis conditional
-
-    #### Returns ####
-
-    if(Type.Given=="Yes"){return(Plot)}
-  } # close continue conditional
-} # close function
+      if (Type.Given == "Yes") {
+        return(Plot)
+      }
+    } # close continue conditional
+  } # close function
 
 #### End Function ####
 
