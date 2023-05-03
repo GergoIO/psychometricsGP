@@ -36,5 +36,5 @@ The table is added with an accompanying formatted caption to the configured repo
 Add a table with accompanying caption
 }
 \examples{
-fnRptAddTable(report = rpt$All, table = table1, tableCount = countTab, caption = "This caption", addTrailingLine = TRUE)
+rpt <- fnRptAddTable(report = rpt$All, table = table1, tableCount = countTab, caption = "This caption", addTrailingLine = TRUE)
 }
