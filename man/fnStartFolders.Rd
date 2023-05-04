@@ -19,7 +19,7 @@ fnStartFolders(
 
 \item{createOutputFolder}{(TRUE/FALSE/NULL) Create an outputs folder in the working directory (with appended version number) if TRUE}
 
-\item{createImagesFolder}{(TRUE/FALSE/NULL) Create an Images folder in the working directory (with appended version number) if TRUE}
+\item{createImagesFolder}{(TRUE/FALSE/NULL) Create an Images folder in the Outpiut folder (with appended version number) if TRUE}
 
 \item{createPulseFolder}{(TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE}
 }

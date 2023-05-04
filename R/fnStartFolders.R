@@ -4,7 +4,7 @@
 #' @param verNum Set a version number - appended to save folders and file names
 #' @param createOutputFolder (TRUE/FALSE/NULL) Create an outputs folder in the working directory (with appended version number) if TRUE
 #' @param createPulseFolder (TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE
-#' @param createImagesFolder (TRUE/FALSE/NULL) Create an Images folder in the working directory (with appended version number) if TRUE
+#' @param createImagesFolder (TRUE/FALSE/NULL) Create an Images folder in the Outpiut folder (with appended version number) if TRUE
 #'
 #' @return A list of the paths to the created folders (for Outputs, Images and Pulse Files) is returned.
 #' @export
@@ -63,7 +63,7 @@ fnStartFolders <- function(workingDirectory = NULL,
           mode = "0777"
         ))
     listOfPaths$pathImages <-
-      file.path(glue('{workingDirectory}\\Images ({verNum})'))
+      file.path(glue('{workingDirectory}\\Output ({verNum})\\Images'))
   }
 
   if (createPulseSubfolder != FALSE) {
