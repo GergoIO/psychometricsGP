@@ -54,7 +54,7 @@ fnStartFolders <- function(workingDirectory = NULL,
   }
 
   if (createImagesFolder != FALSE) {
-    lapply(c(glue('Images ({verNum})')), function(x)
+    lapply(c(glue('Output ({verNum})\\Images')), function(x)
       if (!dir.exists(x))
         dir.create(
           x,
