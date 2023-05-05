@@ -2,20 +2,20 @@
 % Please edit documentation in R/fnStartFolders.R
 \name{fnStartFolders}
 \alias{fnStartFolders}
-\title{Run functions to create and set variables for save folders}
+\title{Create Output, Pulse and Images folders.}
 \usage{
 fnStartFolders(
   workingDirectory = NULL,
-  verNum = NULL,
-  createOutputFolder = NULL,
-  createPulseSubfolder = NULL,
-  createImagesFolder = NULL
+  versionNumber = NULL,
+  createOutputFolder = TRUE,
+  createPulseSubfolder = TRUE,
+  createImagesFolder = TRUE
 )
 }
 \arguments{
 \item{workingDirectory}{Define the working directory, where save folders will be created}
 
-\item{verNum}{Set a version number - appended to save folders and file names}
+\item{versionNumber}{Set a version number - appended to save folders and file names}
 
 \item{createOutputFolder}{(TRUE/FALSE/NULL) Create an outputs folder in the working directory (with appended version number) if TRUE}
 
@@ -27,8 +27,8 @@ fnStartFolders(
 A list of the paths to the created folders (for Outputs, Images and Pulse Files) is returned.
 }
 \description{
-Run functions to create and set variables for save folders
+Create Output, Pulse and Images folders.
 }
 \examples{
-listOfPaths <- fnStartFolders(workingDirectory = getwd(), verNum = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
+listOfPaths <- fnStartFolders(workingDirectory = lFiles$pathWorkingDir #or getwd(), versionNumber = "v1", createOutputFolder = TRUE, createPulseSubfolder = FALSE, createImagesFolder = TRUE)
 }
