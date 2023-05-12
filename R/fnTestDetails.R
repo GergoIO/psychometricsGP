@@ -26,68 +26,85 @@ fnTestDetails <-
       stop("One of the required variables for this function has not been specified.")
     } else{
       testDetails <- data.frame(stringsAsFactors = FALSE)
-      for (i in stages) {
-        stage <- glue("Stage {i}")
-        testDetails["Students in Stage", stage] <-
-          length(
-            which(
-              demogData$Programme == programme &
-                demogData$Stage == i &
-                demogData$Year_Status %!in% c("Interrupted", "Withdrawn")
-            )
-          )
-        testDetails["Students Assessed", stage] <-
-          dim(results[results$Stage == i, ])[1]
-        testDetails["Students Absent", stage] <-
-          dim(resultsAbsent[resultsAbsent$Stage == i, ])[1]
 
-        fnStatsScores <- function(x) {
-          c(mean(x),
-            median(x),
-            sd(x),
-            min(x),
-            max(x),
-            max(x) - min(x),
-            IQR(x))
+      if (programme != "IDS") {
+        for (i in stages) {
+          stage <- glue("Stage {i}")
+          testDetails["Students in Stage", stage] <-
+            length(
+              which(
+                demogData$Programme == programme &
+                  demogData$Stage == i &
+                  demogData$Year_Status %!in% c("Interrupted", "Withdrawn")
+              )
+            )
+          testDetails["Students Assessed", stage] <-
+            dim(results[results$Stage == i, ])[1]
+          testDetails["Students Absent", stage] <-
+            dim(resultsAbsent[resultsAbsent$Stage == i, ])[1]
+
+          fnStatsScores <- function(x) {
+            c(mean(x),
+              median(x),
+              sd(x),
+              min(x),
+              max(x),
+              max(x) - min(x),
+              IQR(x))
+          }
+          testDetails[c(
+            "Mean Score (%)",
+            "Median Score (%)",
+            "Std. Dev",
+            "Min Score (%)",
+            "Max Score (%)",
+            "Range",
+            "IQR"
+          ), stage] <-
+            sapply(list(results[results$Stage == i, ]$pctScoreTotal), fnStatsScores)
         }
-        testDetails[c(
-          "Mean Score (%)",
-          "Median Score (%)",
-          "Std. Dev",
-          "Min Score (%)",
-          "Max Score (%)",
-          "Range",
-          "IQR"
-        ), stage] <-
-          sapply(list(results[results$Stage == i, ]$pctScoreTotal), fnStatsScores)
+      } else{
+        # This is for IDS only
+        # Overall: 1 col entry for each Programmes and a final col for All Programmes
+        resultsAll <- bind_rows(dfResults, dfAbsent) %>%
+          select(Programme, pctScoreTotal)
+
+        detailsProgrammes <- resultsAll %>%
+          group_by(Programme) %>%
+          summarise(
+            `Number in Cohort` = n(),
+            `Number Present` = sum(!is.na(pctScoreTotal)),
+            `Number Absent` = sum(is.na(pctScoreTotal)),
+            Mean = mean(pctScoreTotal, na.rm = TRUE),
+            Median = median(pctScoreTotal, na.rm = TRUE),
+            STDev = sd(pctScoreTotal, na.rm = TRUE),
+            Min = min(pctScoreTotal, na.rm = TRUE),
+            Max = max(pctScoreTotal, na.rm = TRUE),
+            Range = max(pctScoreTotal, na.rm = TRUE) - min(pctScoreTotal, na.rm = TRUE),
+            IQR = IQR(pctScoreTotal, na.rm = TRUE)
+          )
+
+        detailsAll <- resultsAll %>%
+          summarise(
+            Programme = "All",
+            `Number in Cohort` = n(),
+            `Number Present` = sum(!is.na(pctScoreTotal)),
+            `Number Absent` = sum(is.na(pctScoreTotal)),
+            Mean = mean(pctScoreTotal, na.rm = TRUE),
+            Median = median(pctScoreTotal, na.rm = TRUE),
+            STDev = sd(pctScoreTotal, na.rm = TRUE),
+            Min = min(pctScoreTotal, na.rm = TRUE),
+            Max = max(pctScoreTotal, na.rm = TRUE),
+            Range = max(pctScoreTotal, na.rm = TRUE) - min(pctScoreTotal, na.rm = TRUE),
+            IQR = IQR(pctScoreTotal, na.rm = TRUE)
+          )
+
+        testDetails <- bind_rows(detailsProgrammes, detailsAll) %>%
+          t() %>%
+          as.data.frame() %>%
+          set_names(.[1, ]) %>%
+          slice(-1)
       }
       return(testDetails)
     }
   }# END
-
-
-
-# dfResAll <- bind_rows(dfResults, dfAbsent) %>%
-#dfAbsent bring in programme that we don't want yet
-# select(-Programme) %>%
-#   left_join(.dfDemogOrig %>%
-#               select(c(StudentID, Programme)),
-#             by = "StudentID") %>%
-#   select(c(Programme, pctScoreTotal)) %>%
-#   group_by(Programme) %>%
-#   summarise(
-#     Num = n(),
-#     NumPres = sum(!is.na(pctScoreTotal)),
-#     NumAbs = sum(is.na(pctScoreTotal)),
-#     Mean = mean(pctScoreTotal),
-#     Median = median(pctScoreTotal),
-#     STDev = sd(pctScoreTotal),
-#     Min = min(pctScoreTotal),
-#     Max = max(pctScoreTotal),
-#     Range = max(pctScoreTotal) - min(pctScoreTotal),
-#     IQR = IQR(pctScoreTotal)
-#   )
-#
-#
-#
-# dfResAll
