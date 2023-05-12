@@ -44,6 +44,11 @@ fnScoreStatistics <- function(assessmentType = NULL,
           "Stage 2 Standard" = fnRnd(passMarks[["Stage 2"]], 2)
         )
       )
+      # Set cols and names for ADK/ADTK variants
+      scoreStatistics <-
+        rownames_to_column(scoreStatistics, "Test Detail")
+      colnames(scoreStatistics)[2] <- "Value"
+
     } else if (cnst$assessmentType %in% c("ADTK")) {
       #   ______________________________________________________________________
       #   ADTK                                                              ####
@@ -57,12 +62,31 @@ fnScoreStatistics <- function(assessmentType = NULL,
           "Items Removed" = listOfConstants$itemsExclStr
         )
       )
+      # Set cols and names for ADK/ADTK variants
+      scoreStatistics <-
+        rownames_to_column(scoreStatistics, "Test Detail")
+      colnames(scoreStatistics)[2] <- "Value"
+    } else if (cnst$assessmentType %in% c("IDS")) {
+      scoreStatistics <-
+        tibble(
+          `Test Detail` = c(
+            "Test Number",
+            "Number in Cohort",
+            "Original Number of Items",
+            "Number of Items Removed",
+            "Items Removed",
+            "Pass Mark"
+          ),
+          `Value` = c(
+            listOfConstants$assessment,
+            listOfConstants$nCohort,
+            listOfConstants$nItems,
+            listOfConstants$nItemsExcl,
+            listOfConstants$itemsExclStr,
+            listOfConstants$passMark
+          )
+        )
     }
-    # Set cols and names for ADK/ADTK variants
-    scoreStatistics <-
-      rownames_to_column(scoreStatistics, "Test Detail")
-    colnames(scoreStatistics)[2] <- "Value"
-
     return(scoreStatistics)
   }
 }
