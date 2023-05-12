@@ -205,8 +205,6 @@ fnAnova <-
         tabMeansAdj <-
           tabMeansAdj %>%  mutate(Level = gsub("Stage Stage Stage", "Stage", Level))
 
-        view(tabMeansAdj)
-
         lReturn[[glue('MeansAdj{appendName}')]] <- tabMeansAdj
 
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
