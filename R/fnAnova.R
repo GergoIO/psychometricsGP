@@ -160,9 +160,10 @@ fnAnova <-
 
         # If Stage is still requested to be added to the ANOVA (though not including stage separation),
         # Then modify the values so they are characters and not numeric so the anova picks them up properly
-        dfDemog <- dfDemog %>%
-          mutate(Stage = if_else(exists("Stage"), paste0("Stage ", Stage), Stage))
-
+        if (exists("Stage", where = dfDemog)) {
+          dfDemog <- dfDemog %>%
+            mutate(Stage = paste0("Stage ", Stage))
+        }
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
         ### ANOVA                                                           ####
 
@@ -200,6 +201,11 @@ fnAnova <-
           }))
         colnames(tabMeansAdj) <-
           c("Factor", "Level", "N", "Adjusted\nMean")
+        # Manual fix for Stage section which has a triple repeated of "Stage"
+        tabMeansAdj <-
+          tabMeansAdj %>%  mutate(Level = gsub("Stage Stage Stage", "Stage", Level))
+
+        view(tabMeansAdj)
 
         lReturn[[glue('MeansAdj{appendName}')]] <- tabMeansAdj
 
