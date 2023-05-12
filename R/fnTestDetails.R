@@ -1,5 +1,6 @@
 #' Test Details Parameters (Stage Specific)
 #'
+#' @param assessment (OPTIONAL) A string - must define when used for IDS assessment for special conditions for that assessment type
 #' @param stages A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.)
 #' @param programme A string - the programme of the students (Must match what is in the "Programme" col in the demogData dataframe (see below) eg "BMBS" etc.)
 #' @param demogData A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included. Make sure to use a df containing demographics data for all students and not one which has been filtered to include present students only
@@ -9,12 +10,13 @@
 #' @return A dataframe is returned (testDetails) containing the calculated test details. A new column is generated for each stage considered
 #' @export
 #'
-#' @examples fnTestDetails(stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, resultsAbsent = dfResAbsent)
+#' @examples fnTestDetails(assessment = cnst$assessmentType, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, resultsAbsent = dfResAbsent)
 
 ################################################################################
 
 fnTestDetails <-
-  function(stages = NULL,
+  function(assessment = NULL,
+           stages = NULL,
            programme = NULL,
            demogData = NULL,
            results = NULL,
@@ -26,8 +28,8 @@ fnTestDetails <-
       stop("One of the required variables for this function has not been specified.")
     } else{
       testDetails <- data.frame(stringsAsFactors = FALSE)
-
-      if (programme != "IDS") {
+      # Continue as normal except for IDS assessment
+      if (assessment != "IDS") {
         for (i in stages) {
           stage <- glue("Stage {i}")
           testDetails["Students in Stage", stage] <-

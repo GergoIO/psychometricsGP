@@ -5,6 +5,7 @@
 \title{Test Details Parameters (Stage Specific)}
 \usage{
 fnTestDetails(
+  assessment = NULL,
   stages = NULL,
   programme = NULL,
   demogData = NULL,
@@ -13,6 +14,8 @@ fnTestDetails(
 )
 }
 \arguments{
+\item{assessment}{(OPTIONAL) A string - must define when used for IDS assessment for special conditions for that assessment type}
+
 \item{stages}{A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.)}
 
 \item{programme}{A string - the programme of the students (Must match what is in the "Programme" col in the demogData dataframe (see below) eg "BMBS" etc.)}
@@ -30,5 +33,5 @@ A dataframe is returned (testDetails) containing the calculated test details. A 
 Test Details Parameters (Stage Specific)
 }
 \examples{
-fnTestDetails(stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, resultsAbsent = dfResAbsent)
+fnTestDetails(assessment = cnst$assessmentType, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, resultsAbsent = dfResAbsent)
 }
