@@ -64,3 +64,30 @@ fnTestDetails <-
       return(testDetails)
     }
   }# END
+
+
+
+# dfResAll <- bind_rows(dfResults, dfAbsent) %>%
+#dfAbsent bring in programme that we don't want yet
+# select(-Programme) %>%
+#   left_join(.dfDemogOrig %>%
+#               select(c(StudentID, Programme)),
+#             by = "StudentID") %>%
+#   select(c(Programme, pctScoreTotal)) %>%
+#   group_by(Programme) %>%
+#   summarise(
+#     Num = n(),
+#     NumPres = sum(!is.na(pctScoreTotal)),
+#     NumAbs = sum(is.na(pctScoreTotal)),
+#     Mean = mean(pctScoreTotal),
+#     Median = median(pctScoreTotal),
+#     STDev = sd(pctScoreTotal),
+#     Min = min(pctScoreTotal),
+#     Max = max(pctScoreTotal),
+#     Range = max(pctScoreTotal) - min(pctScoreTotal),
+#     IQR = IQR(pctScoreTotal)
+#   )
+#
+#
+#
+# dfResAll
