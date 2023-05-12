@@ -32,6 +32,7 @@ fnStartPackages <- function(githubToken = NULL) {
     library("librarian")
     librarian::shelf(
       Amelia,
+      beepr, # beep sound
       flextable,
       forcats,
       ggplot2,
