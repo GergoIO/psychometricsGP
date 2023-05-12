@@ -158,6 +158,11 @@ fnAnova <-
         # Rename the col storing the scores (needed for manual input in aov fn)
         names(dfDemog)[names(dfDemog) == colScore] <- "Score"
 
+        # If Stage is still requested to be added to the ANOVA (though not including stage separation),
+        # Then modify the values so they are characters and not numeric so the anova picks them up properly
+        dfDemog <- dfDemog %>%
+          mutate(Stage = if_else(exists("Stage"), paste0("Stage ", Stage), Stage))
+
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
         ### ANOVA                                                           ####
 
