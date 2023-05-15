@@ -66,14 +66,14 @@ fnGPHofstee<-function(x,pars=c(62.5,75,0,20),cutDigits=2){
     assign("HofsteeFail",TRUE,.GlobalEnv)
     failRate<-sum(x<minCut)/length(x)*100
     if(failRate>maxFail) {
-      maxFailNew<-fnRound(ceiling(failRate*100)/100,2)
+      maxFailNew<-fnGPRound(ceiling(failRate*100)/100,2)
       assign("HofsteeFailText",paste0("Using the maximum failure rate of ",maxFail,
                                       "% the method was unsuccessful so the Hofstee cut score was set to the minimum value of ",
                                       minCut,"."),.GlobalEnv)
       assign("HofsteePoint",c(x=minCut,y=maxFailNew),.GlobalEnv)
     } else {
       failRate<-sum(x<maxCut)/length(x)*100
-      minFailNew<-fnRound(floor(failRate*100)/100,2)
+      minFailNew<-fnGPRound(floor(failRate*100)/100,2)
       assign("HofsteeFailText",paste0("Using the minimum failure rate of ",minFail,
                                       "% the method was unsuccessful so the Hofstee cut score was set to the maximum value of ",
                                       maxCut,"."),.GlobalEnv)
@@ -88,7 +88,7 @@ fnGPHofstee<-function(x,pars=c(62.5,75,0,20),cutDigits=2){
   print(HofsteePoint)
   box<-data.frame(x=c(minCut,maxCut),y=c(minFail,maxFail))
   hofsteeText1 <- "Hofstee cut score = "
-  hofsteeText2 <- formatC(fnRound(HofsteePoint[1],cutDigits), digits=cutDigits, format="f")
+  hofsteeText2 <- formatC(fnGPRound(HofsteePoint[1],cutDigits), digits=cutDigits, format="f")
   redLineHeight<-ifelse(HofsteeFail,max(HofsteePoint[2]+10,maxFail*2),maxFail*2)
   plot<-ggplot() + theme_psmd() +
     theme(plot.margin=margin(0.3,0.5,0.3,0.5,"cm")) +
