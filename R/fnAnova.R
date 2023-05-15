@@ -76,7 +76,7 @@ fnAnova <-
             tabAov <- drop1(aov, test = "F")
             tabAov <- tabAov[-1,]
             tabAov <-
-              cbind(fnRound(tabAov[, 1:5], 2), (fnRound(tabAov[, 6], 3)))
+              cbind(fnGPRound(tabAov[, 1:5], 2), (fnGPRound(tabAov[, 6], 3)))
             colnames(tabAov) <-
               c("Df",
                 "Sum of Sq",
@@ -118,7 +118,7 @@ fnAnova <-
               apply(loopDemogData[, obsMeans], 2, function(x)
               {
                 tapply(loopDemogData$Score, x, function(x) {
-                  c(length(x), fnRound(mean(x), 2))
+                  c(length(x), fnGPRound(mean(x), 2))
                 })
               })
 
@@ -177,7 +177,7 @@ fnAnova <-
         tabAov <- drop1(aov, test = "F")
         tabAov <- tabAov[-1, ]
         tabAov <-
-          cbind(fnRound(tabAov[, 1:5], 2), (fnRound(tabAov[, 6], 3)))
+          cbind(fnGPRound(tabAov[, 1:5], 2), (fnGPRound(tabAov[, 6], 3)))
         colnames(tabAov) <-
           c("Df",
             "Sum of Sq",
@@ -222,7 +222,7 @@ fnAnova <-
           apply(dfDemog[, obsMeans], 2, function(x)
           {
             tapply(dfDemog$Score, x, function(x) {
-              c(length(x), fnRound(mean(x), 2))
+              c(length(x), fnGPRound(mean(x), 2))
             })
           })
 
