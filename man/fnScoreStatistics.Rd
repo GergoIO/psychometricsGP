@@ -13,7 +13,7 @@ fnScoreStatistics(
 \arguments{
 \item{assessmentType}{A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review}
 
-\item{listOfConstants}{A list of contants. At least the following must be defined as list elements: assessment (Eg "ADK38"), nPresent (the number of students who sat the assessment), nItems (the original number of items), nItemsExcl (the number of items excluded), itemsExclStr (a string of the specific item numbers removed)}
+\item{listOfConstants}{A list of constants. At least the following must be defined as list elements: assessment (Eg "ADK38"), nPresent (the number of students who sat the assessment), nItems (the original number of items), nItemsExcl (the number of items excluded), itemsExclStr (a string of the specific item numbers removed)}
 
 \item{passMarks}{(OPTIONAL - Required for ADK, ADTK) A data frame containing the relevant passmarks. Usually a single row with cols for each stage (named "Stage 1", "Stage 2" etc.) The code of this function can be changed to match the specific formats that this table can take for different assessmentTypes.}
 }
