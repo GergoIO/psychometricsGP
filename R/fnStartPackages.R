@@ -58,6 +58,7 @@ fnStartPackages <- function(githubToken = NULL) {
       cvarrichio / rowr,
       rstudioapi,
       spatstat,
+      spatstat.linnet,
       lorenzwalthert / strcode,
       stringi,
       tictoc,
