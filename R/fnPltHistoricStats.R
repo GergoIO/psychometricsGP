@@ -133,7 +133,7 @@ fnPltHistoricStats <-
              colour = Cohort,
              shape = Cohort
            )) +
-      theme_psmd() + theme(plot.title = element_text(
+      themeGP() + theme(plot.title = element_text(
         size = 12,
         face = "bold",
         hjust = 0.5

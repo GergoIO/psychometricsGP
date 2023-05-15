@@ -280,7 +280,7 @@ fnGPHofstee <- function(x,
     xlab("Score (%)") + ylab("Cumulative Frequency (%)")
   assign("HofsteePlot", plot, .GlobalEnv)
   cat(
-    "\nNOTE 2: The graph showing the Hofstee method is saved as 'HofsteePlot' (ggplot object).\n"
+    "\nNOTE 2: The graph showing the Hofstee method is saved as 'HofsteePlot' (ggplot object).\n" <-
   )
   print(HofsteePlot)
   if (HofsteeFail) {

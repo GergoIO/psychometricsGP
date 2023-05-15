@@ -33,6 +33,6 @@ fnPltHistogram <-
                        binwidth = binWidth) +
         xlab(labelX) +
         ylab(labelY) +
-        theme_psmd()
+        themeGP()
     }
   } # END

@@ -103,7 +103,7 @@ fnPltHistogramScores <-
     outliers <-
       boxplot.stats(x)$out 	#Vector of x coordinates to add outliers to boxplot
     ggplot() +
-      theme_psmd() +
+      themeGP() +
       theme(
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),

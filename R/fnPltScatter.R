@@ -209,7 +209,7 @@ fnPltScatter <-
 
     if (Continue == "Yes") {
       if (Type.Given == "Yes") {
-        Plot <- ggplot(Data, aes(x = x, y = y)) + theme_psmd()
+        Plot <- ggplot(Data, aes(x = x, y = y)) + themeGP()
       }
 
       #### Conditional additions to Plot ####
