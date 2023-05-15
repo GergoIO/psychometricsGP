@@ -54,8 +54,8 @@ fnPltCumulativeFreq<-function(df,stage=NULL){
   dataCumFac$Cum<-dataCumFac$Cum*100
 
   plot1<-ggplot(dataCumFac, aes(x=value, y=Cum)) + geom_line(aes(group=Stage, colour=Stage), size=1) +
-    scale_colour_manual(values = fnGPColours("Stage")) + theme_psmd() +
+    scale_colour_manual(values = fnGPColours("Stage")) + themeGP() +
     xlab("Item Facility") + scale_x_continuous(breaks=c(0,0.2,0.4,0.6,0.8,1)) +
-    ylab("Cumulative Frequency (% of items)") + theme_psmd() + scale_y_continuous(breaks=c(0,20,40,60,80,100))
+    ylab("Cumulative Frequency (% of items)") + themeGP() + scale_y_continuous(breaks=c(0,20,40,60,80,100))
   plot1
 }
