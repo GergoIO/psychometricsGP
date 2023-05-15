@@ -94,15 +94,15 @@ fnGPColours <-
 
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     #### Set options(stringsAsFactors = FALSE) ####
-
-    FactorSettings <- options()$stringsAsFactors
-    if (FactorSettings == TRUE) {
-      OriginalSettings <- "TRUE"
-      options(stringsAsFactors = FALSE)
-    } else{
-      OriginalSettings <- "FALSE"
-      options(stringsAsFactors = FALSE)
-    } # shouldnt need this else part, but just to make sure.
+    # Removed by GP
+    # FactorSettings <- options()$stringsAsFactors
+    # if (FactorSettings == TRUE) {
+    #   OriginalSettings <- "TRUE"
+    #   options(stringsAsFactors = FALSE)
+    # } else{
+    #   OriginalSettings <- "FALSE"
+    #   options(stringsAsFactors = FALSE)
+    # } # shouldnt need this else part, but just to make sure.
 
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     #### Create reference table/list for colours-in-schemes and hex codes ####
@@ -1204,10 +1204,10 @@ fnGPColours <-
 
           #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           ####  Re-Set options(stringsAsFactors = FALSE) ####
-
-          if (OriginalSettings == "TRUE") {
-            options(stringsAsFactors = TRUE)
-          }
+          # Removed by GP
+          # if (OriginalSettings == "TRUE") {
+          #   options(stringsAsFactors = TRUE)
+          # }
 
           #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
           #### Output from function ####
