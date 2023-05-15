@@ -91,7 +91,7 @@ fnAnova <-
             ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
             ### Adjusted Means                                              ####
 
-            tabMeansAdj <- fnEmMeans(aov)
+            tabMeansAdj <- fnGPEmMeans(aov)
 
             # Precautionary measure - if cols in original input demog file have repeats, they may have suffixes like .x and .y etc. This step removes them
             tabMeansAdj <-
@@ -192,7 +192,7 @@ fnAnova <-
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
         ### Adjusted Means                                                  ####
 
-        tabMeansAdj <- fnEmMeans(aov)
+        tabMeansAdj <- fnGPEmMeans(aov)
 
         # Precautionary measure - if cols in original input demog file have repeats, they may have suffixes like .x and .y etc. This step removes them
         tabMeansAdj <-
