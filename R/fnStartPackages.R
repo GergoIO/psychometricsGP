@@ -18,10 +18,10 @@ fnStartPackages <- function(githubToken = NULL) {
     `%!in%` <- Negate(`%in%`)
 
     # Install psychometricsTNG packages from private Github
-    devtools::install_github("GergoIO/psychometricsTNG",
-                             auth_token = githubToken,
-                             quiet = TRUE) # So no warning if skipping
-    # psychometric package no longer on CRAN so hosting it myself
+    # devtools::install_github("GergoIO/psychometricsGPTNG",
+    #                          auth_token = githubToken,
+    #                          quiet = TRUE) # So no warning if skipping
+    # # psychometric package no longer on CRAN so hosting it myself
     devtools::install_github("GergoIO/psychometric",
                              auth_token = githubToken,
                              quiet = TRUE)
