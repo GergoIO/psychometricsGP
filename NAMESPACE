@@ -3,6 +3,7 @@
 export(fnAcademicYearFormat)
 export(fnAnova)
 export(fnDocument)
+export(fnGPColours)
 export(fnGPEmMeans)
 export(fnGPHofstee)
 export(fnGPRound)
