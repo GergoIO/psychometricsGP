@@ -49,7 +49,7 @@ fnStartPackages <- function(githubToken = NULL) {
       plyr,
       psychometric,
       # psychometricsGP, # No longer needed since this is loaded prior to this function running
-      psychometricsTNG,
+      # psychometricsTNG, # No longer needed - not installed and fns from there are copied to pyschometricsGP instead
       purrr,
       # reshape,
       readxl,
