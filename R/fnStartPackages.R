@@ -22,9 +22,9 @@ fnStartPackages <- function(githubToken = NULL) {
     #                          auth_token = githubToken,
     #                          quiet = TRUE) # So no warning if skipping
     # # psychometric package no longer on CRAN so hosting it myself
-    devtools::install_github("GergoIO/psychometric",
-                             auth_token = githubToken,
-                             quiet = TRUE)
+    # devtools::install_github("GergoIO/psychometric",
+    #                          auth_token = githubToken,
+    #                          quiet = TRUE)
     if (!require("librarian")) {
       #Needed for loading the other packages
       install.packages("librarian", dependencies = TRUE)
@@ -47,7 +47,7 @@ fnStartPackages <- function(githubToken = NULL) {
       officer,
       openxlsx,
       plyr,
-      psychometric,
+      # psychometric,
       # psychometricsGP, # No longer needed since this is loaded prior to this function running
       # psychometricsTNG, # No longer needed - not installed and fns from there are copied to pyschometricsGP instead
       purrr,
