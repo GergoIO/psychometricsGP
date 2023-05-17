@@ -122,7 +122,7 @@ fnPltHistoricStats <-
     }	# If hi not specified ensures max data point is plotted
     # PLOTTING
     plotCols <-
-      rep(fnColours("Cohort"), 5)	# Plotting colour for each cohort
+      rep(fnGPColours("Cohort"), 5)	# Plotting colour for each cohort
     plotShapes <-
       rep(c(19, 5, 17, 15, 25, 8, 1, 18, 24, 11, 0), 3)	# Plotting shape for each cohort
     ggplot(data = plotData,
