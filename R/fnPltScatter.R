@@ -229,7 +229,7 @@ fnPltScatter <-
       #### TRT with grouping ####
 
       if (Type == "TRT" & is.null(Grouping) != TRUE) {
-        StageColours <- fnColours("Stage")
+        StageColours <- fnGPColours("Stage")
         Plot <- Plot +
           geom_point(aes(
             colour = Grouping,
