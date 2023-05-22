@@ -8,27 +8,39 @@
 #' @examples fnReload()
 #'
 ################################################################################
-#'
-fnReload <- function() {
-  tryCatch({
-    # Detach the package first
-    detach("package:psychometricsGP", unload = TRUE)
-    # Reload the package from the online repo
-    devtools::install_github("GergoIO/psychometricsGP",
-                             auth_token = .githubToken,
-                             quiet = TRUE)
-    # Start using the custom package
-    library(psychometricsGP)
 
-    message("fnReload: Reloading complete")
-  }, warning = function(w) {
-    message("fnReload: Warning - ", w$message)
-  }, error = function(e) {
-    message("fnReload: Error - ", e$message)
-  })
+fnReload <- function() {
+  detach("package:psychometricsGP", unload = TRUE)
+  devtools::install_github("GergoIO/psychometricsGP",
+                           auth_token = .githubToken,
+                           quiet = TRUE,
+                           dependencies = FALSE)
+  library(psychometricsGP, quietly = TRUE, character.only = TRUE)
+
+  message("fnReload: Reloading complete")
 }
 
-# OLD
+ # OLD
+# fnReload <- function() {
+#   tryCatch({
+#     # Detach the package first
+#     detach("package:psychometricsGP", unload = TRUE)
+#     # Reload the package from the online repo
+#     devtools::install_github("GergoIO/psychometricsGP",
+#                              auth_token = .githubToken,
+#                              quiet = TRUE)
+#     # Start using the custom package
+#     library(psychometricsGP)
+#
+#     message("fnReload: Reloading complete")
+#   }, warning = function(w) {
+#     message("fnReload: Warning - ", w$message)
+#   }, error = function(e) {
+#     message("fnReload: Error - ", e$message)
+#   })
+# }
+
+# OLD - OLD
 # fnReload <- function() {
 #   # Detach the package first
 #   detach("package:psychometricsGP", unload = TRUE)
