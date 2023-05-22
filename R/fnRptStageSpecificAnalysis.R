@@ -63,7 +63,9 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     ##  Score Distribution                                                  ####
 
     report <-
-      fnRptSectionHeading(report, glue("Stage {stage} Score Distribution"))
+      body_add_par(report,
+                   glue("Stage {stage} Score Distribution"),
+                   style = "heading 3")
 
     report <- fnRptAddText(
       report = report,
@@ -87,7 +89,9 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     ##  Test Retest                                                         ####
 
     report <-
-      fnRptSectionHeading(report, glue("Stage {stage} Test-Retest Statistics"))
+      body_add_par(report,
+                   glue("Stage {stage} Test-Retest Statistics"),
+                   style = "heading 3")
 
     if (listOfDetails$testInYear == 1 && stage == 1) {
       report <- fnRptAddText(report = report,
@@ -130,7 +134,9 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     ##  ANOVA                                                               ####
 
     report <-
-      fnRptSectionHeading(report, glue("Stage {stage} Subgroup Analysis (ANOVA)"))
+      body_add_par(report,
+                   glue("Stage {stage} Subgroup Analysis (ANOVA)"),
+                   style = "heading 3")
 
     report <- fnRptAddText(
       report = report,
