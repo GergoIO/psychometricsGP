@@ -5,7 +5,7 @@
 \title{Report: Stage Specific Analysis}
 \usage{
 fnRptStageSpecificAnalysis(
-  stage = NULL,
+  stages = NULL,
   report = NULL,
   listOfDetails = NULL,
   listOfPlots = NULL,
@@ -18,7 +18,7 @@ fnRptStageSpecificAnalysis(
 )
 }
 \arguments{
-\item{stage}{Numeric (integer) - the stage to compile analysis for}
+\item{stages}{Numeric (integer list) - the stages to compile analysis for. Looping is performed within the function}
 
 \item{report}{String - the variable name of the report which the analysis should be added to}
 
