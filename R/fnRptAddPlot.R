@@ -36,7 +36,7 @@ fnRptAddPlot <-
       # Caption goes below the Plot
       report <-
         body_add_par(report,
-                     glue("Plot {plotCount}: {caption}"),
+                     glue("Figure {plotCount}: {caption}"),
                      style = "caption")
       # Ensure that the variable fed through as 'plotCount' is updated in main script
       # The below line already appears in 'fnRptCaptionPlot' - however it must be repeated in the top level function so that the 'plotCount' variable is updated in the main script too
