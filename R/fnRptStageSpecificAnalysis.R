@@ -84,10 +84,10 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         caption = glue('Distribution of Stage {stage} test scores')
       )
       # Manually increment plot count
-      # plotCount <- plotCount + 1
-      assign(deparse(substitute(plotCount)),
-             tableCount + 1,
-             envir = globalenv())
+      plotCount <<- plotCount + 1
+      # assign(deparse(substitute(plotCount)),
+      #        plotCount + 1,
+      #        envir = globalenv())
 
       ##  ........................................................................
       ##  Test Retest                                                         ####
@@ -119,11 +119,10 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
           )
         )
         # Manually increment plot count
-        # plotCount <- plotCount + 1
-
-        assign(deparse(substitute(plotCount)),
-               tableCount + 1,
-               envir = globalenv())
+        plotCount <<- plotCount + 1
+        # assign(deparse(substitute(plotCount)),
+        #        plotCount + 1,
+        #        envir = globalenv())
 
         # listOfTables Test Retest Matrix STAGES A
         report <- fnRptAddTable(
@@ -135,10 +134,10 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
           )
         )
         # Manually increment table count
-        # tableCount <- tableCount + 1
-        assign(deparse(substitute(tableCount)),
-               tableCount + 1,
-               envir = globalenv())
+        tableCount <<- tableCount + 1
+        # assign(deparse(substitute(tableCount)),
+        #        tableCount + 1,
+        #        envir = globalenv())
       }
 
       ##  ........................................................................
@@ -167,10 +166,10 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         )
       )
       # Manually increment table count
-      # tableCount <- tableCount + 1
-      assign(deparse(substitute(tableCount)),
-             tableCount + 1,
-             envir = globalenv())
+      tableCount <<- tableCount + 1
+      # assign(deparse(substitute(tableCount)),
+      #        tableCount + 1,
+      #        envir = globalenv())
 
       # listOfTables Adj Means STAGES B
       report <- fnRptAddTable(
@@ -182,10 +181,10 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         )
       )
       # Manually increment table count
-      # tableCount <- tableCount + 1
-      assign(deparse(substitute(tableCount)),
-             tableCount + 1,
-             envir = globalenv())
+      tableCount <<- tableCount + 1
+      # assign(deparse(substitute(tableCount)),
+      #        tableCount + 1,
+      #        envir = globalenv())
 
       report <- fnRptAddText(
         report = report,
@@ -201,10 +200,10 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         caption = glue("Observed mean percentage scores")
       )
       # Manually increment table count
-      # tableCount <- tableCount + 1
-      assign(deparse(substitute(tableCount)),
-             tableCount + 1,
-             envir = globalenv())
+      tableCount <<- tableCount + 1
+      # assign(deparse(substitute(tableCount)),
+      #        tableCount + 1,
+      #        envir = globalenv())
     }
   }
   # For now- must return plotCount and tableCount so that they can be manually assigned in the main script. Global assignment not currently working and values are not updated between loops
