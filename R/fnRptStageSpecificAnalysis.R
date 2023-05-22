@@ -181,7 +181,11 @@ fnRptStageSpecificAnalysis <- function(stage = NULL,
     tableCount <- tableCount + 1
   }
   # For now- must return plotCount and tableCount so that they can be manually assigned in the main script. Global assignment not currently working and values are not updated between loops
-  return(c(report, plotCount, tableCount))
+  return(list(
+    report = report,
+    plotCount = plotCount,
+    tableCount = tableCount
+  ))
   # Update plot and table counts in the global environment
   # assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
   # assign(deparse(substitute(tableCount)), tableCount, envir = globalenv())
