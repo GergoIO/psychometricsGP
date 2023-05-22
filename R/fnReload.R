@@ -10,17 +10,23 @@
 ################################################################################
 
 fnReload <- function() {
+  # Detach
   detach("package:psychometricsGP", unload = TRUE)
-  devtools::install_github("GergoIO/psychometricsGP",
-                           auth_token = .githubToken,
-                           quiet = TRUE,
-                           dependencies = FALSE)
-  library(psychometricsGP, quietly = TRUE, character.only = TRUE)
+  # Reinstall
+  devtools::install_github(
+    "GergoIO/psychometricsGP",
+    auth_token = .githubToken,
+    quiet = TRUE,
+    dependencies = FALSE
+  )
+  # Load
+  suppressWarnings(library(psychometricsGP, quietly = TRUE))
 
+  # Message
   message("fnReload: Reloading complete")
 }
 
- # OLD
+# OLD
 # fnReload <- function() {
 #   tryCatch({
 #     # Detach the package first

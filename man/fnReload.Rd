@@ -15,5 +15,4 @@ Use this function to reload the current package (psychometricsGP). This function
 \examples{
 fnReload()
 
-
 }
