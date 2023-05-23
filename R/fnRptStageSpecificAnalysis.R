@@ -60,9 +60,8 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
       # The relevant functions (fnRptAddPlot and fnRptAddTable) increment the counts in the global environment of the script which call this function
       # The counts are not incremented within the scope of this script so it must be manually done here after each use of fnRptAddPlot and fnRptAddTable
 
-      ##  ........................................................................
-      ##  Score Distribution                                                  ####
-
+      ##  ......................................................................
+      ##  Score Distribution                                                ####
       report <-
         body_add_par(report,
                      glue("Stage {stage} Score Distribution"),
@@ -84,7 +83,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         caption = glue('Distribution of Stage {stage} test scores')
       )
       # Manually increment plot count
-      plotCount <<- plotCount + 1
+      plotCount <- plotCount + 1
       # assign(deparse(substitute(plotCount)),
       #        plotCount + 1,
       #        envir = globalenv())
@@ -119,7 +118,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
           )
         )
         # Manually increment plot count
-        plotCount <<- plotCount + 1
+        plotCount <- plotCount + 1
         # assign(deparse(substitute(plotCount)),
         #        plotCount + 1,
         #        envir = globalenv())
@@ -134,7 +133,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
           )
         )
         # Manually increment table count
-        tableCount <<- tableCount + 1
+        tableCount <- tableCount + 1
         # assign(deparse(substitute(tableCount)),
         #        tableCount + 1,
         #        envir = globalenv())
@@ -166,7 +165,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         )
       )
       # Manually increment table count
-      tableCount <<- tableCount + 1
+      tableCount <- tableCount + 1
       # assign(deparse(substitute(tableCount)),
       #        tableCount + 1,
       #        envir = globalenv())
@@ -181,7 +180,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         )
       )
       # Manually increment table count
-      tableCount <<- tableCount + 1
+      tableCount <- tableCount + 1
       # assign(deparse(substitute(tableCount)),
       #        tableCount + 1,
       #        envir = globalenv())
@@ -200,15 +199,18 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         caption = glue("Observed mean percentage scores")
       )
       # Manually increment table count
-      tableCount <<- tableCount + 1
+      tableCount <- tableCount + 1
       # assign(deparse(substitute(tableCount)),
       #        tableCount + 1,
       #        envir = globalenv())
     }
   }
   # For now- must return plotCount and tableCount so that they can be manually assigned in the main script. Global assignment not currently working and values are not updated between loops
-  return(report)
-
+  return(list(
+    report = report,
+    tableCount = tableCount,
+    plotCount = plotCount
+  ))
   # Update plot and table counts in the global environment
   # assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
   # assign(deparse(substitute(tableCount)), tableCount, envir = globalenv())
