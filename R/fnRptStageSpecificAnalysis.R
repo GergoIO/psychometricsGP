@@ -165,7 +165,8 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         tableCount = tableCount,
         caption = glue(
           "Analysis of variance table (Type III sums of squares, dependent variable: ({listOfDetails$assessment} % Score))"
-        )
+        ),
+        stopFlextableConversion = TRUE
       )
       # Manually increment table count
       tableCount <- tableCount + 1
