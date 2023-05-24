@@ -156,9 +156,12 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         body_add_par("")
 
       # listOfTables ANOVA STAGES B
+      # Statistically significant rows are yellow
       report <- fnRptAddTable(
         report = report,
-        table = listOfDemographics[[glue('AnovaStage{stage}')]],
+        table = listOfDemographics[[glue('AnovaStage{stage}')]] %>%
+          qflextable() %>%
+          bg(i = ~ `P-value` < 0.05, bg = "yellow"),
         tableCount = tableCount,
         caption = glue(
           "Analysis of variance table (Type III sums of squares, dependent variable: ({listOfDetails$assessment} % Score))"
