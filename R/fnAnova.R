@@ -47,9 +47,10 @@ fnAnova <-
           )
         } else {
           # Store data separately so the original df is not modified
-          dfDemog <- demogData
-          # Rename the col storing the scores (needed for manual input in aov fn)
-          names(dfDemog)[names(dfDemog) == colScore] <- "Score"
+          dfDemog <- demogData %>%
+            # Rename the col storing the scores (needed for manual input in aov fn)
+            rename(Score = colScore)
+          # names(dfDemog)[names(dfDemog) == colScore] <- "Score"
 
           demogDataStages <- split(dfDemog, dfDemog$Stage)
           names(demogDataStages) <-
@@ -154,14 +155,17 @@ fnAnova <-
         #   No Stage Separation                                             ####
 
         # Store data separately so the original df is not modified
-        dfDemog <- demogData
-        # Rename the col storing the scores (needed for manual input in aov fn)
-        names(dfDemog)[names(dfDemog) == colScore] <- "Score"
+        dfDemog <- demogData %>%
+          # Rename the col storing the scores (needed for manual input in aov fn)
+          rename(Score = colScore)
+        # names(dfDemog)[names(dfDemog) == colScore] <- "Score"
 
         # If Stage is still requested to be added to the ANOVA (though not including stage separation),
         # Then modify the values so they are characters and not numeric so the anova picks them up properly
         if (exists("Stage", where = dfDemog)) {
           dfDemog <- dfDemog %>%
+            # Still filter to make sure that only the specified stage exists in dfDemog
+            filter(Stage %in% stages) %>%
             mutate(Stage = paste0("Stage ", Stage))
         }
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
