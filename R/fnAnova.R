@@ -154,6 +154,11 @@ fnAnova <-
         #   ____________________________________________________________________
         #   No Stage Separation                                             ####
 
+        # If only a single stage is defined in 'stages' and 'appendName' is NOT defined
+        if(is.null(appendName)){
+          appendName <- glue("Stage{stages}")
+        }
+
         # Store data separately so the original df is not modified
         dfDemog <- demogData %>%
           # Rename the col storing the scores (needed for manual input in aov fn)
