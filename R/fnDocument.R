@@ -30,4 +30,5 @@ fnDocument <- function() {
   document()
 
   message("fnDocument: Documenting complete")
+  beep(10) # Make a system noise
 }

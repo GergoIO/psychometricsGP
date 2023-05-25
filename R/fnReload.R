@@ -24,6 +24,7 @@ fnReload <- function() {
 
   # Message
   message("fnReload: Reloading complete")
+  beep(10) # Make a system noise
 }
 
 # OLD
