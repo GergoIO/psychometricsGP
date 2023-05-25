@@ -34,31 +34,42 @@
 
 # Version 1.02
 
-fnPltBarChartScore = function (data = NULL, scoreVar = NULL, maxScore = NULL, outcomeVar = NULL)
+fnPltBarChartScore = function (data = NULL,
+                               scoreVar = NULL,
+                               maxScore = NULL,
+                               outcomeVar = NULL)
 {
-
-
-  if (!is.null(outcomeVar)) { # if there is a grade outcome present
-    whichScheme <- fnSchemeDetect(data[[outcomeVar]])$Scheme #detect correct scheme
-    data <- data.frame(xAxis = data[[scoreVar]], fill = factor(data[[outcomeVar]],
-                                                               levels = c("Fail", "Pass", "Excellent"))) #make dataframe for plot
+  if (!is.null(outcomeVar)) {
+    # if there is a grade outcome present
+    whichScheme <-
+      fnGPSchemeDetect(data[[outcomeVar]])$Scheme #detect correct scheme
+    data <-
+      data.frame(xAxis = data[[scoreVar]], fill = factor(data[[outcomeVar]],
+                                                         levels = c("Fail", "Pass", "Excellent"))) #make dataframe for plot
 
     legPos <- c(0.2, 0.8) # set legend position
 
-    cols<-fnColours(DataOrScheme = whichScheme[length(whichScheme)]) #extract the theme colours
-    cols<-strsplit(cols, " ") # spli the character string into a list
+    cols <-
+      fnGPColours(DataOrScheme = whichScheme[length(whichScheme)]) #extract the theme colours
+    cols <-
+      strsplit(cols, " ") # spli the character string into a list
 
-    colours<-c("Fail"=cols[[1]], "Pass"=cols[[2]], "Excellent"=cols[[3]]) #assign the list elements to levels of factor
+    colours <-
+      c("Fail" = cols[[1]],
+        "Pass" = cols[[2]],
+        "Excellent" = cols[[3]]) #assign the list elements to levels of factor
 
   }
-  else { #if there is not a grade outcome
+  else {
+    #if there is not a grade outcome
     whichScheme <- "Maroon" #set colour
-    data <- data.frame(xAxis = data[[scoreVar]], fill = as.factor(0)) #make dataframe for plot
+    data <-
+      data.frame(xAxis = data[[scoreVar]], fill = as.factor(0)) #make dataframe for plot
     legPos <- "none" # no legend
-    colours<-whichScheme
+    colours <- whichScheme
   }
 
-  data<-data[complete.cases(data),]
+  data <- data[complete.cases(data),]
 
   # draw the plot
   ggplot(data, aes(x = xAxis, fill = fill)) +
@@ -66,7 +77,11 @@ fnPltBarChartScore = function (data = NULL, scoreVar = NULL, maxScore = NULL, ou
     theme_psmd() +
     scale_fill_manual(values = colours) +
     scale_y_continuous(name = "Frequency", breaks = seq(0, maxScore, 2)) +
-    scale_x_continuous(name = "Score",breaks = seq(0, maxScore, 1), limits = c(0, maxScore + 1 ), expand = c(0, 0)) +
+    scale_x_continuous(
+      name = "Score",
+      breaks = seq(0, maxScore, 1),
+      limits = c(0, maxScore + 1),
+      expand = c(0, 0)
+    ) +
     theme(legend.title = element_blank(), legend.position = legPos)
 }
-
