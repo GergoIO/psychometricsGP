@@ -90,7 +90,7 @@ fnPltBorderlineRegression <- function(x,
     )        # Text for plot
   bRegText2 <-
     paste0("Pass mark = ", formatC(passMark, digits = 2, format = "f"))        # Text for plot
-  ggplot(data = plotData, aes(x = nGrade, y = Score)) + theme_psmd() +
+  ggplot(data = plotData, aes(x = nGrade, y = Score)) + themeGP() +
     scale_shape_manual(values = 18) +
     geom_count(colour = "gray20", alpha = 0.7) +
     scale_size_area(max_size = 8) +   # Plot duplicate points as bubbles, area ~ number of multiple points
