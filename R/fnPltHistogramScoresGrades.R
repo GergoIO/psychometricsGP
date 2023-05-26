@@ -30,7 +30,7 @@ fnPltHistogramScoresGradeFreq <- function(data = NULL,
     stop("One of the required variables for this function has not been specified.")
   } else {
     plot <-
-      ggplot(dfRes, aes(x = .data[[colScore]], fill = .data[[colGrade]])) +
+      ggplot(data, aes(x = .data[[colScore]], fill = .data[[colGrade]])) +
       geom_histogram(colour = "black", binwidth = 1) +
       xlab("Score") +
       ylab("Frequency") +
