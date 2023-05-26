@@ -38,7 +38,6 @@ fnStartPackages <- function(githubToken = NULL) {
       ggplot2,
       ggThemeAssist,
       # glue,
-      tidyverse / glue,
       hrbrthemes,
       janitor,
       ltm,
