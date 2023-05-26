@@ -188,7 +188,7 @@ fnGPSchemeDetect<-function(Data=NULL, Force.Scheme=NULL){
 
   return(SchemeDetect<-list(Scheme=DeterminedScheme, Data=StandardisedData))
 
-} #Close funstion wrapper
+} #Close function wrapper
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
