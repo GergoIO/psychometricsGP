@@ -64,6 +64,7 @@ fnStartPackages <- function(githubToken = NULL) {
       viridis,
       tjmahr / WrapRmd,
       usethis,
+      tidyverse/glue,
       tidyverse # tidyverse should load dplyr
       # dplyr # Need to load dplyr LAST, plyr and ggplot2 have to be BEFORE IT
     )
