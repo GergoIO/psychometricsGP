@@ -61,11 +61,11 @@ fnStartPackages <- function(githubToken = NULL) {
       lorenzwalthert / strcode,
       stringi,
       tictoc,
-      tidyverse,
       viridis,
       tjmahr / WrapRmd,
       usethis,
-      dplyr # Need to load dplyr LAST, plyr and ggplot2 have to be BEFORE IT
+      tidyverse # tidyverse should load dplyr
+      # dplyr # Need to load dplyr LAST, plyr and ggplot2 have to be BEFORE IT
     )
     # Stop message when using dplyr - summarise (to do with grouping)
     # https://rstats-tips.net/2020/07/31/get-rid-of-info-of-dplyr-when-grouping-summarise-regrouping-output-by-species-override-with-groups-argument/
