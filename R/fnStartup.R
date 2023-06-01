@@ -90,7 +90,7 @@ fnStartup <- function(githubToken = NULL,
     plyr,
     psychometric,
     # psychometricsGP, # No longer needed since this is loaded prior to this function running
-    psychometricsTNG,
+    # psychometricsTNG,
     # reshape,
     readxl,
     reshape2,
