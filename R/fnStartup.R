@@ -75,6 +75,7 @@ fnStartup <- function(githubToken = NULL,
   librarian::shelf(
     Amelia,
     dplyr,
+    english,
     flextable,
     forcats,
     ggplot2,
