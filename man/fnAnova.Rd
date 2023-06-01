@@ -5,13 +5,13 @@
 \title{Perform ANOVA, save ANOVA results, adjusted means and observed means for different stages}
 \usage{
 fnAnova(
-  demogData = NULL,
-  colScore = NULL,
-  varsAll = NULL,
-  varsAnova = NULL,
+  demogData,
+  colScore,
+  varsAll,
+  varsAnova,
   stages = NULL,
-  appendName = NULL,
-  reportObsMeanForAllVars = NULL
+  appendName,
+  reportObsMeanForAllVars
 )
 }
 \arguments{
