@@ -49,7 +49,7 @@ fnGPHofstee <- function(x,
     stop(
       paste0(
         "Your percentage score vector contains ",
-        fnNumToWord(nonPC),
+        fnGPNumToWord(nonPC),
         " value",
         if (nonPC > 1) {
           "s"
