@@ -51,7 +51,7 @@ fnRoundTable <-
     }
     if (replaceNA) {
       data <- data %>%
-        mutate(across(everything(), ~ replace_na(., 0)))
+        mutate(across(where(is.numeric), ~ replace_na(., 0)))
     }
     # Rounding ROWS/COLS?
     if (!is.null(rows)) {
@@ -74,7 +74,7 @@ fnRoundTable <-
       }
       # Round cols
       data <- data %>%
-        mutate(across(cols, ~ trimws(format(
+        mutate(across(all_of(cols), ~ trimws(format(
           round(., decimals), nsmall = decimals
         ))))
     }
