@@ -33,6 +33,7 @@ fnStartPackages <- function(githubToken = NULL) {
     librarian::shelf(
       Amelia,
       beepr, # beep sound
+      english,
       flextable,
       forcats,
       ggplot2,
