@@ -147,7 +147,7 @@ fnItemReview <- function(assessmentType = NULL,
         ))))
       listOfItemReview$itemReviewNegPtBis <-
         toString(listOfItemReview$itemReviewNegPtBis, sep = ",")
-    } else if (assessmentType %in% c("IDS", "Y1KY")) {
+    } else if (assessmentType %in% c("IDS", "Y1KT")) {
       #   ______________________________________________________________________
       #   IDS/Y1KT                                                          ####
 
