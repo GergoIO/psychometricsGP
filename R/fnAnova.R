@@ -24,7 +24,7 @@ fnAnova <-
            varsAll,
            varsAnova,
            stages = NULL,
-           appendName,
+           appendName = NULL,
            reportObsMeanForAllVars) {
     lReturn <- list() # For returning multiple dfs and other objects
     # Check if multiple stages are being considered

@@ -10,7 +10,7 @@ fnAnova(
   varsAll,
   varsAnova,
   stages = NULL,
-  appendName,
+  appendName = NULL,
   reportObsMeanForAllVars
 )
 }
