@@ -1,13 +1,13 @@
 #' Detect Items to Review
 #'
 #' @param assessmentType A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review
-#' @param itemAnalysisData A dataframe. This dataframe must contain at least the following columns: "Item" (the items number), "Stage 5 Facility" (for ADK), "Stage 5 vs 2 Growth" (for ADK), "Stage 5 PtBis" (for ADK) OR "Stage 3 Facility" (for ADTK), "Stage 3 vs 2 Growth" (for ADTK), "Stage 3 PtBis" (for ADTK) OR "Stage 2 Facility" (for PAPT), "Stage 2 vs 1 Growth" (for PAPT), "Stage 2 PtBis" (for PAPT) OR "Facility" (for IDS), "PtBis" (for IDS)
+#' @param itemAnalysisData A dataframe. This dataframe must contain at least the following columns: "Item" (the items number), "Stage 5 Facility" (for ADK), "Stage 5 vs 2 Growth" (for ADK), "Stage 5 PtBis" (for ADK) OR "Stage 3 Facility" (for ADTK), "Stage 3 vs 2 Growth" (for ADTK), "Stage 3 PtBis" (for ADTK) OR "Stage 2 Facility" (for PAPT), "Stage 2 vs 1 Growth" (for PAPT), "Stage 2 PtBis" (for PAPT) OR "Facility" (for IDS/Y1KT), "PtBis" (for IDS/Y1KY)
 #' @param testInYear (OPTIONAL) - Required for AMK assessments so the stage to use for item review can be determined
 #'
 #' @return A list of the detected items to review is returned.
 #' @export
 #'
-#' @examples #For ADK/ADTK/PAPT/IDS:
+#' @examples #For ADK/ADTK/PAPT/IDS/Y1KT:
 #'  cnst <- append(
 #'  cnst,
 #'   fnItemReview(assessmentType = cnst$assessmentType, itemAnalysisData = tab$itemAnalysis)
@@ -147,9 +147,9 @@ fnItemReview <- function(assessmentType = NULL,
         ))))
       listOfItemReview$itemReviewNegPtBis <-
         toString(listOfItemReview$itemReviewNegPtBis, sep = ",")
-    } else if (assessmentType %in% c("IDS")) {
+    } else if (assessmentType %in% c("IDS", "Y1KY")) {
       #   ______________________________________________________________________
-      #   IDS                                                               ####
+      #   IDS/Y1KT                                                          ####
 
       # Low (<20%) Facility
       listOfItemReview$itemReviewLowFac <-
