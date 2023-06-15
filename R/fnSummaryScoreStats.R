@@ -68,6 +68,10 @@ fnSummaryScoreStats <- function(data, colScore, colGrade, grades) {
                  values_to = "Value") %>%
     pivot_wider(names_from = Grade,
                 values_from = Value) %>%
+    # Create cols for grades that were not assigned
+    add_column(!!!setNames(rep(NA, length(
+      setdiff(grades, colnames(.))
+    )), setdiff(grades, colnames(.)))) %>%
     select(c("Statistic", all_of(grades), "All"))
   # Return
   return(rtn)
