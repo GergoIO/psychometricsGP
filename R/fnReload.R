@@ -10,6 +10,8 @@
 ################################################################################
 
 fnReload <- function() {
+  message("fnReload: Starting reloading, wait for message to confirm completion")
+
   # Detach
   detach("package:psychometricsGP", unload = TRUE)
   # Reinstall
