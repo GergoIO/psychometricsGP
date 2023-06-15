@@ -47,7 +47,7 @@ fnStartPackages <- function(githubToken = NULL) {
       officer,
       openxlsx,
       plyr,
-      # psychometric,
+      psychometric,
       # psychometricsGP, # No longer needed since this is loaded prior to this function running
       # psychometricsTNG, # No longer needed - not installed and fns from there are copied to pyschometricsGP instead
       purrr,
