@@ -1,9 +1,7 @@
-#Latest ver, c2nd rounding round untested
-
 #' fnRoundTable Comprehensive Rounding of Dataframes for Reporting
 #'
 #' @description
-#' Use this function to round dataframes. Define either rows or cols and the number of decimals to round each value row/col to. Rows/Cols can be given as vector of indexes or names. All cells in target rows/cols that cannot be converted to numerics are left as they were. By default rows are rounded first, followed by cols but this logic can be changed. Additionally, a second set of rows/cols can be defined so that they can be rounded to a different number of decimal places
+#' Use this function to round dataframes. Define either rows or cols and the number of decimals to round each value row/col to. Rows/Cols can be given as vector of indexes or names. All cells in target rows/cols that cannot be converted to numerics are left as they were. By default rows are rounded first, followed by cols but this logic can be changed. Additionally, a second set of rows/cols can be defined so that they can be rounded to a different number of decimal places. Cell rounding is permanent and the original decimals are not recovered if performing subsequent rounding to a greater number of decimal places.
 #'
 #' @param data A data frame to be rounded.
 #' @param rows (Vector) Row indexes or row names to specify the rows for rounding.
@@ -51,7 +49,8 @@
 #' @return A modified data frame with rounded values. The cells are coerced to strings
 #' @export
 #' @keywords rounding table dataframe
-#' @author Gergo Pinter
+#' @author Gergo Pinter, \email{gergo.pinter@@plymouth.ac.uk}, \url{https://www.gergo.io}
+#'
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #'
 fnRoundTable <- function(data,
@@ -102,8 +101,6 @@ fnRoundTable <- function(data,
     stop("Argument 'cols2' must be provided when 'col_decimals2' is specified.")
   }
 
-
-
   # Get the row names from the data frame
   row_names <- row.names(data)
 
@@ -123,7 +120,7 @@ fnRoundTable <- function(data,
     }
   }
 
-  # Convert "NA" string cells to NA
+  # Convert "NA" string cells to actual NA
   data <- data %>%
     mutate(across(where(is.character), ~ ifelse(. == "NA", NA, .)))
 
@@ -136,6 +133,8 @@ fnRoundTable <- function(data,
       # First convert all numeric cells to character
       mutate(across(where(is.numeric), as.character)) %>%
       # Try rounding all character cells (by trying to convert them to numeric)
+      # The ^\\d*.. regex matches strings that represent numeric values (integers/decimals)
+      # ie cells that can be converted to numeric
       mutate(across(
         where(is.character),
         ~ ifelse(
@@ -156,11 +155,15 @@ fnRoundTable <- function(data,
     cols_format <- paste("%.", decimals, "f", sep = "")
 
     data <- data %>%
+      # Try rounding all character cells (by trying to convert them to numeric)
+      # The ^\\d*.. regex matches strings that represent numeric values (integers/decimals)
+      # ie cells that can be converted to numeric
       mutate(across(cols, ~ ifelse(
         !is.na(.), ifelse(grepl("^\\d*\\.?\\d+$", .), suppressWarnings(sprintf(
           cols_format, round(as.numeric(.), digits = decimals)
         )), .), .
       ))) %>%
+      # Convert all rounded numeric cells back to character
       mutate(across(where(is.numeric), as.character))
   }
 

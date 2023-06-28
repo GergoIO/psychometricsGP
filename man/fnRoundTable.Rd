@@ -42,7 +42,7 @@ fnRoundTable(
 A modified data frame with rounded values. The cells are coerced to strings
 }
 \description{
-Use this function to round dataframes. Define either rows or cols and the number of decimals to round each value row/col to. Rows/Cols can be given as vector of indexes or names. All cells in target rows/cols that cannot be converted to numerics are left as they were. By default rows are rounded first, followed by cols but this logic can be changed. Additionally, a second set of rows/cols can be defined so that they can be rounded to a different number of decimal places
+Use this function to round dataframes. Define either rows or cols and the number of decimals to round each value row/col to. Rows/Cols can be given as vector of indexes or names. All cells in target rows/cols that cannot be converted to numerics are left as they were. By default rows are rounded first, followed by cols but this logic can be changed. Additionally, a second set of rows/cols can be defined so that they can be rounded to a different number of decimal places. Cell rounding is permanent and the original decimals are not recovered if performing subsequent rounding to a greater number of decimal places.
 }
 \examples{
 df <- data.frame(
