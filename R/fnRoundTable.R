@@ -24,15 +24,16 @@
 #'   Score3 = c(100.567, NA, 100.923, 902.329),
 #'   Grade = c("A", "B", "C", "A"),
 #'   row.names = c("Row1", "Row2", "Row3", "Row4")
+#'   )
 #'
 #' # Example 1: Round specific rows (by row index) with specified decimals
-#' rounded_rows_ny_index <- fnRoundTable(df, rows = c(1, 3), row_decimals = 1)
+#' rounded_rows_by_index <- fnRoundTable(df, rows = c(1, 3), row_decimals = 1)
 #'
 #' # Example 2: Round specific rows (by row name) with specified decimals
 #' rounded_rows_by_name <- fnRoundTable(df, rows = c("Row1", "Row3"), row_decimals = 2)
 #'
 #' # Example 3: Round specific columns (by col index) with specified decimals
-#' rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), col_decimals = 2)
+#' rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), col_decimals = 1)
 #'
 #' # Example 4: Round specific columns (by col name) with specified decimals
 #' rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), col_decimals = 2)
@@ -40,10 +41,10 @@
 #' # Example 5: Perform row rounding before column rounding (DEFAULT)
 #' rounded_rows_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 4)
 #'
-#' # Example 5: Perform col rounding before row rounding
-#' rounded_rows_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 3, col_decimals = 1, rows_first = FALSE)
+#' # Example 6: Perform col rounding before row rounding
+#' rounded_cols_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 3, col_decimals = 1, rows_first = FALSE)
 #'
-#' # Example 6: Perform a second round of row and column rounding
+#' # Example 7: Perform a second round of row and column rounding
 #' rounded_second_round <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 2,
 #'                                    rows2 = c(3), cols2 = c("Score2"), row_decimals2 = 2, col_decimals2 = 1)
 #'
@@ -67,6 +68,41 @@ fnRoundTable <- function(data,
   if (is.null(rows) && is.null(cols)) {
     stop("At least one of 'rows' or 'cols' must be provided.")
   }
+
+  # If rows is defined then row_decimals must be defined (+ vice versa and extend for other vars)
+  if (!is.null(rows) && is.null(row_decimals)) {
+    stop("Argument 'row_decimals' must be provided when 'rows' is specified.")
+  }
+
+  if (is.null(rows) && !is.null(row_decimals)) {
+    stop("Argument 'rows' must be provided when 'row_decimals' is specified.")
+  }
+
+  if (!is.null(cols) && is.null(col_decimals)) {
+    stop("Argument 'col_decimals' must be provided when 'cols' is specified.")
+  }
+
+  if (is.null(cols) && !is.null(col_decimals)) {
+    stop("Argument 'cols' must be provided when 'col_decimals' is specified.")
+  }
+
+  if (!is.null(rows2) && is.null(row_decimals2)) {
+    stop("Argument 'row_decimals2' must be provided when 'rows2' is specified.")
+  }
+
+  if (is.null(rows2) && !is.null(row_decimals2)) {
+    stop("Argument 'rows2' must be provided when 'row_decimals2' is specified.")
+  }
+
+  if (!is.null(cols2) && is.null(col_decimals2)) {
+    stop("Argument 'col_decimals2' must be provided when 'cols2' is specified.")
+  }
+
+  if (is.null(cols2) && !is.null(col_decimals2)) {
+    stop("Argument 'cols2' must be provided when 'col_decimals2' is specified.")
+  }
+
+
 
   # Get the row names from the data frame
   row_names <- row.names(data)

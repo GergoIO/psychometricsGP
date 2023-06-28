@@ -52,15 +52,16 @@ df <- data.frame(
   Score3 = c(100.567, NA, 100.923, 902.329),
   Grade = c("A", "B", "C", "A"),
   row.names = c("Row1", "Row2", "Row3", "Row4")
+  )
 
 # Example 1: Round specific rows (by row index) with specified decimals
-rounded_rows_ny_index <- fnRoundTable(df, rows = c(1, 3), row_decimals = 1)
+rounded_rows_by_index <- fnRoundTable(df, rows = c(1, 3), row_decimals = 1)
 
 # Example 2: Round specific rows (by row name) with specified decimals
 rounded_rows_by_name <- fnRoundTable(df, rows = c("Row1", "Row3"), row_decimals = 2)
 
 # Example 3: Round specific columns (by col index) with specified decimals
-rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), col_decimals = 2)
+rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), col_decimals = 1)
 
 # Example 4: Round specific columns (by col name) with specified decimals
 rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), col_decimals = 2)
@@ -68,10 +69,10 @@ rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), col_deci
 # Example 5: Perform row rounding before column rounding (DEFAULT)
 rounded_rows_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 4)
 
-# Example 5: Perform col rounding before row rounding
-rounded_rows_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 3, col_decimals = 1, rows_first = FALSE)
+# Example 6: Perform col rounding before row rounding
+rounded_cols_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 3, col_decimals = 1, rows_first = FALSE)
 
-# Example 6: Perform a second round of row and column rounding
+# Example 7: Perform a second round of row and column rounding
 rounded_second_round <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 2,
                                    rows2 = c(3), cols2 = c("Score2"), row_decimals2 = 2, col_decimals2 = 1)
 
