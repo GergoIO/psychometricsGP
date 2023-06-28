@@ -2,52 +2,83 @@
 % Please edit documentation in R/fnRoundTable.R
 \name{fnRoundTable}
 \alias{fnRoundTable}
-\title{fnRoundTable - Round Rows/Cols in a table for reports}
+\title{fnRoundTable Comprehensive Rounding of Dataframes for Reporting}
 \usage{
-fnRoundTable(data, rows = NULL, cols = NULL, decimals, replaceNA = TRUE)
+fnRoundTable(
+  data,
+  rows = NULL,
+  cols = NULL,
+  row_decimals = NULL,
+  col_decimals = NULL,
+  rows2 = NULL,
+  cols2 = NULL,
+  row_decimals2 = NULL,
+  col_decimals2 = NULL,
+  rows_first = TRUE
+)
 }
 \arguments{
-\item{data}{The dataframe to round}
+\item{data}{A data frame to be rounded.}
 
-\item{rows}{(Optional, Vector) Either numeric row indexes OR string row names}
+\item{rows}{(Vector) Row indexes or row names to specify the rows for rounding.}
 
-\item{cols}{(Optional, Vector) Either numeric col indexes OR string col names}
+\item{cols}{(Vector) Column names to specify the columns for rounding.}
 
-\item{decimals}{Numeric, integer - the number of decimals to coerce in the chosen rows/cols}
+\item{row_decimals}{(Integer) The number of decimals for row rounding.}
 
-\item{replaceNA}{(Optional, Default = TRUE) Boolean - decides whether all NAs in the data should be replaced with 0}
+\item{col_decimals}{(Integer) The number of decimals for column rounding.}
+
+\item{rows2}{(Vector) Row indexes or row names for a second round of row rounding.}
+
+\item{cols2}{(Vector) Column names for a second round of column rounding.}
+
+\item{row_decimals2}{(Integer) The number of decimals for the second round of row rounding.}
+
+\item{col_decimals2}{(Integer) The number of decimals for the second round of column rounding.}
+
+\item{rows_first}{(Boolean) Indicating whether row rounding should be performed before column rounding.}
 }
 \value{
-Returns the rounded input data
+A modified data frame with rounded values. The cells are coerced to strings
 }
 \description{
-fnRoundTable - Round Rows/Cols in a table for reports
+Use this function to round dataframes. Define either rows or cols and the number of decimals to round each value row/col to. Rows/Cols can be given as vector of indexes or names. All cells in target rows/cols that cannot be converted to numerics are left as they were. By default rows are rounded first, followed by cols but this logic can be changed. Additionally, a second set of rows/cols can be defined so that they can be rounded to a different number of decimal places
 }
 \examples{
-
-# Create a sample data frame
 df <- data.frame(
-  Value1 = c(10.123, 15.789, 20.456, 25.678, 30.987),
-  Value2 = c(5.678, 8.912, 12.345, 18.901, 23.456),
-  Value3 = c(15.432, 19.876, 24.789, 29.123, 35.678),
-  row.names = c("Row1", "Row2", "Row3", "Row4", "Row5")
-)
+  Name = c("John", "Jane", "Alice", "Bob"),
+  Score1 = c("85.743", 90.123, "NA", 79.862),
+  Score2 = c(92.567, "NA", 88.923, 95.369),
+  Score3 = c(100.567, NA, 100.923, 902.329),
+  Grade = c("A", "B", "C", "A"),
+  row.names = c("Row1", "Row2", "Row3", "Row4")
 
-# Round specific rows (by row name)
-rounded_rows <- fnRoundTable(data = df, rows = c("Row2", "Row4"), decimals = 2)
-print(rounded_rows)
+# Example 1: Round specific rows (by row index) with specified decimals
+rounded_rows_ny_index <- fnRoundTable(df, rows = c(1, 3), row_decimals = 1)
 
-# Round specific columns (by col name)
-rounded_cols <- fnRoundTable(data = df, cols = c("Value2", "Value3"), decimals = 2)
-print(rounded_cols)
+# Example 2: Round specific rows (by row name) with specified decimals
+rounded_rows_by_name <- fnRoundTable(df, rows = c("Row1", "Row3"), row_decimals = 2)
 
-#' # Round specific rows (by row index)
-rounded_rows <- fnRoundTable(data = df, rows = c(1,2), decimals = 1)
-print(rounded_rows)
+# Example 3: Round specific columns (by col index) with specified decimals
+rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), col_decimals = 2)
 
-# Round specific columns (by col index)
-rounded_cols <- fnRoundTable(data = df, cols = c(4,5), decimals = 1)
-print(rounded_cols)
+# Example 4: Round specific columns (by col name) with specified decimals
+rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), col_decimals = 2)
 
+# Example 5: Perform row rounding before column rounding (DEFAULT)
+rounded_rows_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 4)
+
+# Example 5: Perform col rounding before row rounding
+rounded_rows_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 3, col_decimals = 1, rows_first = FALSE)
+
+# Example 6: Perform a second round of row and column rounding
+rounded_second_round <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 2,
+                                   rows2 = c(3), cols2 = c("Score2"), row_decimals2 = 2, col_decimals2 = 1)
 
 }
+\author{
+Gergo Pinter
+}
+\keyword{dataframe}
+\keyword{rounding}
+\keyword{table}
