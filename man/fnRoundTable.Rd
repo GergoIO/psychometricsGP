@@ -8,13 +8,13 @@ fnRoundTable(
   data,
   rows = NULL,
   cols = NULL,
-  row_decimals = NULL,
-  col_decimals = NULL,
+  rowDecimals = NULL,
+  colDecimals = NULL,
   rows2 = NULL,
   cols2 = NULL,
-  row_decimals2 = NULL,
-  col_decimals2 = NULL,
-  rows_first = TRUE
+  rowDecimals2 = NULL,
+  colDecimals2 = NULL,
+  rowsFirst = TRUE
 )
 }
 \arguments{
@@ -24,19 +24,19 @@ fnRoundTable(
 
 \item{cols}{(Vector) Column names to specify the columns for rounding.}
 
-\item{row_decimals}{(Integer) The number of decimals for row rounding.}
+\item{rowDecimals}{(Integer) The number of decimals for row rounding.}
 
-\item{col_decimals}{(Integer) The number of decimals for column rounding.}
+\item{colDecimals}{(Integer) The number of decimals for column rounding.}
 
 \item{rows2}{(Vector) Row indexes or row names for a second round of row rounding.}
 
 \item{cols2}{(Vector) Column names for a second round of column rounding.}
 
-\item{row_decimals2}{(Integer) The number of decimals for the second round of row rounding.}
+\item{rowDecimals2}{(Integer) The number of decimals for the second round of row rounding.}
 
-\item{col_decimals2}{(Integer) The number of decimals for the second round of column rounding.}
+\item{colDecimals2}{(Integer) The number of decimals for the second round of column rounding.}
 
-\item{rows_first}{(Boolean) Indicating whether row rounding should be performed before column rounding.}
+\item{rowsFirst}{(Boolean) Indicating whether row rounding should be performed before column rounding.}
 }
 \value{
 A modified data frame with rounded values. The cells are coerced to strings
@@ -55,30 +55,30 @@ df <- data.frame(
   )
 
 # Example 1: Round specific rows (by row index) with specified decimals
-rounded_rows_by_index <- fnRoundTable(df, rows = c(1, 3), row_decimals = 1)
+rounded_rows_by_index <- fnRoundTable(df, rows = c(1, 3), rowDecimals = 1)
 
 # Example 2: Round specific rows (by row name) with specified decimals
-rounded_rows_by_name <- fnRoundTable(df, rows = c("Row1", "Row3"), row_decimals = 2)
+rounded_rows_by_name <- fnRoundTable(df, rows = c("Row1", "Row3"), rowDecimals = 2)
 
 # Example 3: Round specific columns (by col index) with specified decimals
-rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), col_decimals = 1)
+rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), colDecimals = 1)
 
 # Example 4: Round specific columns (by col name) with specified decimals
-rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), col_decimals = 2)
+rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), colDecimals = 2)
 
 # Example 5: Perform row rounding before column rounding (DEFAULT)
-rounded_rows_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 4)
+rounded_rowsFirst <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowDecimals = 1, colDecimals = 4)
 
 # Example 6: Perform col rounding before row rounding
-rounded_cols_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 3, col_decimals = 1, rows_first = FALSE)
+rounded_cols_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowDecimals = 3, colDecimals = 1, rowsFirst = FALSE)
 
 # Example 7: Perform a second round of row and column rounding
-rounded_second_round <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), row_decimals = 1, col_decimals = 2,
-                                   rows2 = c(3), cols2 = c("Score2"), row_decimals2 = 2, col_decimals2 = 1)
+rounded_second_round <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowDecimals = 1, colDecimals = 2,
+                                   rows2 = c(3), cols2 = c("Score2"), rowDecimals2 = 2, colDecimals2 = 1)
 
 }
 \author{
-Gergo Pinter
+Gergo Pinter, \email{gergo.pinter@plymouth.ac.uk}, \url{https://www.gergo.io}
 }
 \keyword{dataframe}
 \keyword{rounding}
