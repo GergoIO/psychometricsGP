@@ -13,3 +13,8 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+Imports:
+    emmeans,
+    spatstat,
+    ggplot2
+    
