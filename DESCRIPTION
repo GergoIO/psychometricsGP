@@ -16,5 +16,6 @@ VignetteBuilder: knitr
 Imports:
     emmeans,
     spatstat,
-    ggplot2
-    
+    ggplot2,
+    devtools,
+    roxygen2
