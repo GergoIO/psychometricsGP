@@ -46,6 +46,7 @@ fnStartPackages <- function(githubToken = NULL) {
       mirt,
       officer,
       openxlsx,
+      pipebind, # https://github.com/bwiernik/pipebind
       plyr,
       psychometric,
       # psychometricsGP, # No longer needed since this is loaded prior to this function running
