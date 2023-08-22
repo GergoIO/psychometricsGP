@@ -9,6 +9,7 @@
 #' @param x A vector of assessment scores (usually percentages but may exceed 100 or be negative).
 #' @param lo Minimum value for plotting the x axis, best given as an appropriate multiple of 10 because the axis labels are spaced in tens. If min(x)<lo then lo is adjusted downwards (in multiples of 10)
 #' @param hi Maximum value for plotting the x axis, If max(x)>hi then hi is adjusted upwards (in multiples of 10)
+#' @param binwidth (OPTIONAL) Binwidth for the histogram.
 #' @param gradeScheme A character string giving the first letter of the grades, ordered from lowest to highest. e.g. "UBSE" or "FP". Letters other than U, B, S, E, F or P will be displayed but not shaded. If gradeScheme is not specified then the background will be unshaded
 #' @param gradeBounds A numeric vector of grade thresholds. e.g. c(40,50,60). NOTE: length(gradeBounds) must equal nchar(gradeScheme) - 1, otherwise the background will be unshaded
 #' @param main Title for the plot, if required.
@@ -50,6 +51,7 @@ fnPltHistogramScores <-
   function(x,
            lo = 0,
            hi = 100,
+           binwidth = NULL,
            gradeScheme = "",
            gradeBounds = c(),
            main = "",
@@ -164,6 +166,10 @@ fnPltHistogramScores <-
       } +
       geom_histogram(
         aes(x),
+        # Introduce a binwidth if it is defined
+        binwidth = ifelse(is.null(binwidth), NULL, custom_bin_size),
+        # Keep original behaviour if binwidth is not defined
+        breaks = ifelse(is.null(binwidth), seq(lo, hi + 1, 1), NULL),
         breaks = seq(lo, hi + 1, 1),
         col = "black",
         fill = ifelse(plotGrades, "grey40", "maroon"),

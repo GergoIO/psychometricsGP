@@ -16,6 +16,8 @@ fnPltHistogramScores(x,lo=0,hi=100,gradeScheme="",gradeBounds=c(),main="",ylab="
 
 \item{hi}{Maximum value for plotting the x axis, If max(x)>hi then hi is adjusted upwards (in multiples of 10)}
 
+\item{binwidth}{(OPTIONAL) Binwidth for the histogram.}
+
 \item{gradeScheme}{A character string giving the first letter of the grades, ordered from lowest to highest. e.g. "UBSE" or "FP". Letters other than U, B, S, E, F or P will be displayed but not shaded. If gradeScheme is not specified then the background will be unshaded}
 
 \item{gradeBounds}{A numeric vector of grade thresholds. e.g. c(40,50,60). NOTE: length(gradeBounds) must equal nchar(gradeScheme) - 1, otherwise the background will be unshaded}
