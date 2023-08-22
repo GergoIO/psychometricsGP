@@ -12,6 +12,7 @@
 #' @param gradeScheme A character string giving the first letter of the grades, ordered from lowest to highest. e.g. "UBSE" or "FP". Letters other than U, B, S, E, F or P will be displayed but not shaded. If gradeScheme is not specified then the background will be unshaded
 #' @param gradeBounds A numeric vector of grade thresholds. e.g. c(40,50,60). NOTE: length(gradeBounds) must equal nchar(gradeScheme) - 1, otherwise the background will be unshaded
 #' @param main Title for the plot, if required.
+#' @param xlab (OPTIONAL) Label for the x axis.
 #' @param ylab Label for the y axis.
 #' @param plotBox If TRUE (the default) adds a boxplot with mean point above the histogram.
 #' @param pcScore If TRUE (the default) changes the x axis label from "Score" to "Score (percent)".
@@ -52,6 +53,7 @@ fnPltHistogramScores <-
            gradeScheme = "",
            gradeBounds = c(),
            main = "",
+           xlab = NULL,
            ylab = "Frequency (N students)",
            plotBox = TRUE,
            pcScore = TRUE) {
@@ -112,9 +114,9 @@ fnPltHistogramScores <-
         axis.ticks.length = unit(4, "pt")
       ) +
       scale_x_continuous(
-        name = paste("Score", if (pcScore) {
+        name = ifelse(is.null(xlab) == TRUE, paste("Score", if (pcScore) {
           " (%)"
-        }),
+        }), xlab),
         breaks = seq(lo, hi, 10),
         limits = c(lo, hi + 1),
         expand = c(0, 0)

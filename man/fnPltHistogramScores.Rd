@@ -22,6 +22,8 @@ fnPltHistogramScores(x,lo=0,hi=100,gradeScheme="",gradeBounds=c(),main="",ylab="
 
 \item{main}{Title for the plot, if required.}
 
+\item{xlab}{(OPTIONAL) Label for the x axis.}
+
 \item{ylab}{Label for the y axis.}
 
 \item{plotBox}{If TRUE (the default) adds a boxplot with mean point above the histogram.}
