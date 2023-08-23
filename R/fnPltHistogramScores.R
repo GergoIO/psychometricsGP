@@ -74,7 +74,6 @@ fnPltHistogramScores <-
     }	# If max(c(x,gradeBounds))>hi then hi is adjusted accordingly (in multiples of 10)
     maxfreq <-
       max(hist(x, breaks = seq(lo, hi, binwidth), plot = FALSE)$counts)	# maxfreq is the height of the tallest bar in the histogram
-    print(maxfreq)
     gradeLabels <-
       strsplit(gradeScheme, "")[[1]]	#Converts the gradeScheme string into a vector of single characters
     gradeCols = c(
