@@ -51,7 +51,7 @@ fnPltHistogramScores <-
   function(x,
            lo = 0,
            hi = 100,
-           binwidth = NULL,
+           binwidth = 1,
            gradeScheme = "",
            gradeBounds = c(),
            main = "",
@@ -73,7 +73,8 @@ fnPltHistogramScores <-
         10 * ceiling(max(c(x, gradeBounds), na.rm = TRUE) / 10)
     }	# If max(c(x,gradeBounds))>hi then hi is adjusted accordingly (in multiples of 10)
     maxfreq <-
-      max(hist(x, breaks = seq(lo, hi, 1), plot = FALSE)$counts)	# maxfreq is the height of the tallest bar in the histogram
+      max(hist(x, breaks = seq(lo, hi, binwidth), plot = FALSE)$counts)	# maxfreq is the height of the tallest bar in the histogram
+    print(maxfreq)
     gradeLabels <-
       strsplit(gradeScheme, "")[[1]]	#Converts the gradeScheme string into a vector of single characters
     gradeCols = c(
@@ -82,7 +83,8 @@ fnPltHistogramScores <-
       S = '#86BB6A',
       E = '#3D52A1',
       F = '#D92120',
-      P = '#86BB6A'
+      P = '#86BB6A',
+      A = '#86BB6A' # For use with CAPT: U = Under target, A = Above target
     )[gradeLabels]
     Ngrades <- nchar(gradeScheme)
     plotGrades <-
@@ -157,7 +159,8 @@ fnPltHistogramScores <-
             geom = "text",
             x = (rectsGB$xstart + rectsGB$xend) / 2,
             y = rep(maxfreq * 1.2, Ngrades),
-            label = gradeLabels,
+            # For CAPT, rewrite grade labels with custom text
+            label = ifelse(gradeLabels == c("U", "A"), c("Below Target", "Above Target"), gradeLabels),
             col = gradeCols,
             alpha = 0.75,
             size = 6,
@@ -166,11 +169,7 @@ fnPltHistogramScores <-
       } +
       geom_histogram(
         aes(x),
-        # Introduce a binwidth if it is defined
-        binwidth = ifelse(is.null(binwidth), NULL, custom_bin_size),
-        # Keep original behaviour if binwidth is not defined
-        breaks = ifelse(is.null(binwidth), seq(lo, hi + 1, 1), NULL),
-        breaks = seq(lo, hi + 1, 1),
+        breaks = seq(lo, hi, binwidth),
         col = "black",
         fill = ifelse(plotGrades, "grey40", "maroon"),
         na.rm = TRUE,
