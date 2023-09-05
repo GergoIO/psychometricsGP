@@ -9,7 +9,7 @@
 #' @return The plot is returned
 #' @export
 #'
-#' @examples fnPltHistogramScoresGradeFreq(  data = dfRes,  colScore = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
+#' @examples fnPltHistogramScoresGradeFreq(data = dfRes,  colScore = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
 #'
 ################################################################################
 #'
