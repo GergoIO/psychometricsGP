@@ -38,6 +38,7 @@ fnStartPackages <- function(githubToken = NULL) {
       forcats,
       ggplot2,
       ggThemeAssist,
+      ggprism, # For minor ticks
       # glue,
       hrbrthemes,
       janitor,
@@ -46,8 +47,10 @@ fnStartPackages <- function(githubToken = NULL) {
       mirt,
       officer,
       openxlsx,
+      patchwork, # For minor ticks https://cran.r-project.org/web/packages/ggprism/vignettes/axes.html
       pipebind, # https://github.com/bwiernik/pipebind
       plyr,
+      psych, # For CAPT PtBis
       psychometric,
       # psychometricsGP, # No longer needed since this is loaded prior to this function running
       # psychometricsTNG, # No longer needed - not installed and fns from there are copied to pyschometricsGP instead
