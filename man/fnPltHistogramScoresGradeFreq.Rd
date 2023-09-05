@@ -30,7 +30,7 @@ The plot is returned
 fnPltHistogramScoresGradeFreq
 }
 \examples{
-fnPltHistogramScoresGradeFreq(  data = dfRes,  colScore = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
+fnPltHistogramScoresGradeFreq(data = dfRes,  colScore = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
 
 
 }
