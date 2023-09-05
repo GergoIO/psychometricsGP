@@ -56,7 +56,7 @@ fnPltHistogramScores <-
            gradeBounds = c(),
            main = "",
            xlab = NULL,
-           ylab = "Frequency (N students)",
+           ylab = "Frequency (N Students)",
            plotBox = TRUE,
            pcScore = TRUE) {
     # Written by: Martin Roberts
@@ -122,19 +122,15 @@ fnPltHistogramScores <-
         }), xlab),
         breaks = seq(lo, hi, 10),
         limits = c(lo, hi + 1),
-        expand = c(0, 0)
+        expand = c(0, 0),
+        guide = "prism_minor", # Minor ticks
+        minor_breaks = seq(lo,hi,1)
       ) +
-      annotate(
-        geom = "segment",
-        x = seq(lo, hi + 1, 1),
-        xend = seq(lo, hi + 1, 1),
-        y = 0,
-        yend = -0.1
-      ) +  # Adds minor ticks
       scale_y_continuous(
         name = ylab,
         breaks = seq(0, maxfreq, ifelse(maxfreq > 20, 10 * ceiling(maxfreq / 100), 2)),
-        expand = c(0, 0)
+        expand = c(0, 0),
+        guide = "prism_minor" # Minor ticks
       ) +
       {
         if (plotGrades)
