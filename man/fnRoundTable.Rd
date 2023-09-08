@@ -26,7 +26,7 @@ fnRoundTable(
 
 \item{rows}{(Vector) Row indexes or row names to specify the rows for rounding.}
 
-\item{cols}{(Vector) Column names to specify the columns for rounding.}
+\item{cols}{(Vector) Column indexes or column names to specify the columns for rounding.}
 
 \item{rowDecimals}{(Integer) The number of decimals for row rounding.}
 
@@ -34,7 +34,7 @@ fnRoundTable(
 
 \item{rows2}{(Vector) Row indexes or row names for a second round of row rounding.}
 
-\item{cols2}{(Vector) Column names for a second round of column rounding.}
+\item{cols2}{(Vector) Column indexes or column names for a second round of column rounding.}
 
 \item{rowDecimals2}{(Integer) The number of decimals for the second round of row rounding.}
 
@@ -42,7 +42,7 @@ fnRoundTable(
 
 \item{rows3}{(Vector) Row indexes or row names for a third round of row rounding.}
 
-\item{cols3}{(Vector) Column names for a third round of column rounding.}
+\item{cols3}{(Vector) Column indexes or column names for a third round of column rounding.}
 
 \item{rowDecimals3}{(Integer) The number of decimals for the third round of row rounding.}
 

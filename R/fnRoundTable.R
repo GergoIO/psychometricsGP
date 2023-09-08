@@ -5,15 +5,15 @@
 #'
 #' @param data A data frame to be rounded.
 #' @param rows (Vector) Row indexes or row names to specify the rows for rounding.
-#' @param cols (Vector) Column names to specify the columns for rounding.
+#' @param cols (Vector) Column indexes or column names to specify the columns for rounding.
 #' @param rowDecimals (Integer) The number of decimals for row rounding.
 #' @param colDecimals (Integer) The number of decimals for column rounding.
 #' @param rows2 (Vector) Row indexes or row names for a second round of row rounding.
-#' @param cols2 (Vector) Column names for a second round of column rounding.
+#' @param cols2 (Vector) Column indexes or column names for a second round of column rounding.
 #' @param rowDecimals2 (Integer) The number of decimals for the second round of row rounding.
 #' @param colDecimals2 (Integer) The number of decimals for the second round of column rounding.
 #' @param rows3 (Vector) Row indexes or row names for a third round of row rounding.
-#' @param cols3 (Vector) Column names for a third round of column rounding.
+#' @param cols3 (Vector) Column indexes or column names for a third round of column rounding.
 #' @param rowDecimals3 (Integer) The number of decimals for the third round of row rounding.
 #' @param colDecimals3 (Integer) The number of decimals for the third round of column rounding.
 #' @param rowsFirst (Boolean) Indicating whether row rounding should be performed before column rounding.
