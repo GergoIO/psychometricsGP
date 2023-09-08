@@ -12,13 +12,17 @@
 #' @param cols2 (Vector) Column names for a second round of column rounding.
 #' @param rowDecimals2 (Integer) The number of decimals for the second round of row rounding.
 #' @param colDecimals2 (Integer) The number of decimals for the second round of column rounding.
+#' @param rows3 (Vector) Row indexes or row names for a third round of row rounding.
+#' @param cols3 (Vector) Column names for a third round of column rounding.
+#' @param rowDecimals3 (Integer) The number of decimals for the third round of row rounding.
+#' @param colDecimals3 (Integer) The number of decimals for the third round of column rounding.
 #' @param rowsFirst (Boolean) Indicating whether row rounding should be performed before column rounding.
 #'
 #' @examples
 #' df <- data.frame(
 #'   Name = c("John", "Jane", "Alice", "Bob"),
-#'   Score1 = c("85.743", 90.123, "NA", 79.862),
-#'   Score2 = c(92.567, "NA", 88.923, 95.369),
+#'   Score1 = c("85.743", -90.123, "NA", -79.862),
+#'   Score2 = c(92.567, "NA", -88.923, 95.369),
 #'   Score3 = c(100.567, NA, 100.923, 902.329),
 #'   Grade = c("A", "B", "C", "A"),
 #'   row.names = c("Row1", "Row2", "Row3", "Row4")
@@ -62,6 +66,10 @@ fnRoundTable <- function(data,
                          cols2 = NULL,
                          rowDecimals2 = NULL,
                          colDecimals2 = NULL,
+                         rows3 = NULL,
+                         cols3 = NULL,
+                         rowDecimals3 = NULL,
+                         colDecimals3 = NULL,
                          rowsFirst = TRUE) {
   # Check if both rows and cols are NULL
   if (is.null(rows) && is.null(cols)) {
@@ -101,6 +109,22 @@ fnRoundTable <- function(data,
     stop("Argument 'cols2' must be provided when 'colDecimals2' is specified.")
   }
 
+    if (!is.null(rows3) && is.null(rowDecimals3)) {
+    stop("Argument 'rowDecimals3' must be provided when 'rows3' is specified.")
+  }
+
+  if (is.null(rows3) && !is.null(rowDecimals3)) {
+    stop("Argument 'rows3' must be provided when 'rowDecimals3' is specified.")
+  }
+
+  if (!is.null(cols3) && is.null(colDecimals3)) {
+    stop("Argument 'colDecimals3' must be provided when 'cols3' is specified.")
+  }
+
+  if (is.null(cols3) && !is.null(colDecimals3)) {
+    stop("Argument 'cols3' must be provided when 'colDecimals3' is specified.")
+  }
+
   # Get the row names from the data frame
   row_names <- row.names(data)
 
@@ -133,14 +157,14 @@ fnRoundTable <- function(data,
       # First convert all numeric cells to character
       mutate(across(where(is.numeric), as.character)) %>%
       # Try rounding all character cells (by trying to convert them to numeric)
-      # The ^\\d*.. regex matches strings that represent numeric values (integers/decimals)
+      # The ^-?\\d*.. regex matches strings that represent numeric values (integers/decimals/negatives)
       # ie cells that can be converted to numeric
       mutate(across(
         where(is.character),
         ~ ifelse(
           row_number() %in% rows &
             !is.na(.),
-          ifelse(grepl("^\\d*\\.?\\d+$", .), suppressWarnings(sprintf(
+          ifelse(grepl("^-?\\d*\\.?\\d+$", .), suppressWarnings(sprintf(
             rows_format, round(as.numeric(.), digits = decimals)
           )), .),
           .
@@ -156,10 +180,10 @@ fnRoundTable <- function(data,
 
     data <- data %>%
       # Try rounding all character cells (by trying to convert them to numeric)
-      # The ^\\d*.. regex matches strings that represent numeric values (integers/decimals)
+      # The ^-?\\d*.. regex matches strings that represent numeric values (integers/decimals/negatives)
       # ie cells that can be converted to numeric
       mutate(across(cols, ~ ifelse(
-        !is.na(.), ifelse(grepl("^\\d*\\.?\\d+$", .), suppressWarnings(sprintf(
+        !is.na(.), ifelse(grepl("^-?\\d*\\.?\\d+$", .), suppressWarnings(sprintf(
           cols_format, round(as.numeric(.), digits = decimals)
         )), .), .
       ))) %>%
@@ -215,6 +239,35 @@ fnRoundTable <- function(data,
       # Perform row rounding if rows are specified
       if (!is.null(rows2) && !is.null(rowDecimals2)) {
         data <- round_rows(data, rows2, rowDecimals2)
+      }
+    }
+  }
+
+  # Check if a third round of rounding should be performed
+  if (!is.null(rows3) ||
+      !is.null(cols3) ||
+      !is.null(rowDecimals3) ||
+      !is.null(colDecimals3)) {
+    # Perform third round of rounding based on rowsFirst parameter
+    if (rowsFirst) {
+      # Perform row rounding if rows are specified
+      if (!is.null(rows3) && !is.null(rowDecimals3)) {
+        data <- round_rows(data, rows3, rowDecimals3)
+      }
+
+      # Perform column rounding if columns are specified
+      if (!is.null(cols3) && !is.null(colDecimals3)) {
+        data <- round_cols(data, cols3, colDecimals3)
+      }
+    } else {
+      # Perform column rounding if columns are specified
+      if (!is.null(cols3) && !is.null(colDecimals3)) {
+        data <- round_cols(data, cols3, colDecimals3)
+      }
+
+      # Perform row rounding if rows are specified
+      if (!is.null(rows3) && !is.null(rowDecimals3)) {
+        data <- round_rows(data, rows3, rowDecimals3)
       }
     }
   }

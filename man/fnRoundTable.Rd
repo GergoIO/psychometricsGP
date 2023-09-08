@@ -14,6 +14,10 @@ fnRoundTable(
   cols2 = NULL,
   rowDecimals2 = NULL,
   colDecimals2 = NULL,
+  rows3 = NULL,
+  cols3 = NULL,
+  rowDecimals3 = NULL,
+  colDecimals3 = NULL,
   rowsFirst = TRUE
 )
 }
@@ -36,6 +40,14 @@ fnRoundTable(
 
 \item{colDecimals2}{(Integer) The number of decimals for the second round of column rounding.}
 
+\item{rows3}{(Vector) Row indexes or row names for a third round of row rounding.}
+
+\item{cols3}{(Vector) Column names for a third round of column rounding.}
+
+\item{rowDecimals3}{(Integer) The number of decimals for the third round of row rounding.}
+
+\item{colDecimals3}{(Integer) The number of decimals for the third round of column rounding.}
+
 \item{rowsFirst}{(Boolean) Indicating whether row rounding should be performed before column rounding.}
 }
 \value{
@@ -47,8 +59,8 @@ Use this function to round dataframes. Define either rows or cols and the number
 \examples{
 df <- data.frame(
   Name = c("John", "Jane", "Alice", "Bob"),
-  Score1 = c("85.743", 90.123, "NA", 79.862),
-  Score2 = c(92.567, "NA", 88.923, 95.369),
+  Score1 = c("85.743", -90.123, "NA", -79.862),
+  Score2 = c(92.567, "NA", -88.923, 95.369),
   Score3 = c(100.567, NA, 100.923, 902.329),
   Grade = c("A", "B", "C", "A"),
   row.names = c("Row1", "Row2", "Row3", "Row4")
