@@ -158,7 +158,7 @@ fnPltHistogramScores <-
             label = ifelse(gradeLabels == c("U", "A"), c("Below Target", "Above Target"), gradeLabels),
             col = gradeCols,
             alpha = 0.75,
-            size = 6,
+            size = 5,
             fontface = 2
           )
       } +
