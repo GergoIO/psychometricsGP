@@ -33,7 +33,7 @@ fnRptAddTable(
 The table is added with an accompanying formatted caption to the configured report. The variable storing the number of tables in the report is incremented by 1 and a single trailing line is added following the caption (if requested)
 }
 \description{
-Add a table with accompanying caption
+Add a flextable (with autofit applied by default) to an Officer report
 }
 \examples{
 rpt <- fnRptAddTable(report = rpt$All, table = table1, tableCount = countTab, caption = "This caption", addTrailingLine = TRUE)

@@ -1,5 +1,9 @@
 #' Add a table with accompanying caption
 #'
+#' @description
+#' Add a flextable (with autofit applied by default) to an Officer report
+#'
+#'
 #' @param report The variable name of the report
 #' @param table The variable name of the table
 #' @param tableCount The variable name in the document which stores the current number of tables already in the report (integer, usually named 'countTab')
@@ -43,14 +47,22 @@ fnRptAddTable <-
              envir = globalenv())
       if (stopFlextableConversion) {
         report <-
-          body_add_flextable(x = report,
-                             value = table,
-                             ...)
+          body_add_flextable(
+            x = report,
+            value = table |>
+              # Default to using autofit for all tables
+              set_table_properties(layout = "autofit"),
+            ...
+          )
       } else if (stopFlextableConversion %in% c(NULL, FALSE)) {
         report <-
-          body_add_flextable(x = report,
-                             value = qflextable(table),
-                             ...)
+          body_add_flextable(
+            x = report,
+            value = qflextable(table) |>
+              # Default to using autofit for all tables
+              set_table_properties(layout = "autofit"),
+            ...
+          )
       }
       if (stopTrailingLine) {
 
