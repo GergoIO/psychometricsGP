@@ -61,6 +61,7 @@ fnStartPackages <- function(githubToken = NULL) {
       rlang,
       cvarrichio / rowr,
       rstudioapi,
+      scales, # for col_numeric
       spatstat,
       spatstat.linnet,
       lorenzwalthert / strcode,
