@@ -4,10 +4,7 @@
 \alias{fnStartPackages}
 \title{Run functions to install and load required packages}
 \usage{
-fnStartPackages(githubToken = NULL)
-}
-\arguments{
-\item{githubToken}{The authorization token needed to access the relevant github repos}
+fnStartPackages()
 }
 \value{
 Required packages are installed and loaded if they are not already.
@@ -16,5 +13,5 @@ Required packages are installed and loaded if they are not already.
 Run functions to install and load required packages
 }
 \examples{
-fnStartPackages(githubToken = .githubToken)
+fnStartPackages()
 }

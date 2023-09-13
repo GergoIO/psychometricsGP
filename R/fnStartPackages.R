@@ -1,30 +1,13 @@
 #' Run functions to install and load required packages
 #'
-#' @param githubToken The authorization token needed to access the relevant github repos
-#'
 #' @return Required packages are installed and loaded if they are not already.
 #' @export
 #'
-#' @examples fnStartPackages(githubToken = .githubToken)
+#' @examples fnStartPackages()
 
 ################################################################################
 
-fnStartPackages <- function(githubToken = NULL) {
-  if (is.null(githubToken)) {
-    stop("Please specify the github personal access token for file retrieval.")
-  } else {
-
-    # Define the 'not in' operator
-    `%!in%` <- Negate(`%in%`)
-
-    # Install psychometricsTNG packages from private Github
-    # devtools::install_github("GergoIO/psychometricsGPTNG",
-    #                          auth_token = githubToken,
-    #                          quiet = TRUE) # So no warning if skipping
-    # # psychometric package no longer on CRAN so hosting it myself
-    # devtools::install_github("GergoIO/psychometric",
-    #                          auth_token = githubToken,
-    #                          quiet = TRUE)
+fnStartPackages <- function() {
     if (!require("librarian")) {
       #Needed for loading the other packages
       install.packages("librarian", dependencies = TRUE)
@@ -52,8 +35,6 @@ fnStartPackages <- function(githubToken = NULL) {
       plyr,
       psych, # For CAPT PtBis
       psychometric,
-      # psychometricsGP, # No longer needed since this is loaded prior to this function running
-      # psychometricsTNG, # No longer needed - not installed and fns from there are copied to pyschometricsGP instead
       purrr,
       # reshape,
       readxl,
@@ -77,9 +58,7 @@ fnStartPackages <- function(githubToken = NULL) {
     # Stop message when using dplyr - summarise (to do with grouping)
     # https://rstats-tips.net/2020/07/31/get-rid-of-info-of-dplyr-when-grouping-summarise-regrouping-output-by-species-override-with-groups-argument/
     options(dplyr.summarise.inform = FALSE)
-
   }
-} # END
 
 # ### SCORING
 # detach(package:plyr)
