@@ -61,7 +61,11 @@ fnCAPTResponsesPivotWider <- function(data,
                                  colTopicCode = TopicCode,
                                  listTopicCodes = sort(unique(tab$blueprintCurr$TopicCode))) {
   data |>
+    # Change the TopicCode col to a factor
+    # Set the factors to be all the possible Topic Codes from the blueprint (some may not have come up at all so far)
     mutate({{colTopicCode}} := factor({{colTopicCode}}, levels = listTopicCodes)) |>
+    # Create a summary table of the topic scores (StudentID in the first col then each Topic code gets a col).
+    # If there are multiple responses, the cell will be a list
     pivot_wider(
       names_from = {{colTopicCode}},
       values_from = {{colIsCorrect}},
