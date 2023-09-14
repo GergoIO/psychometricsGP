@@ -1,11 +1,11 @@
-#' Pivoting CAPT responses dataframes
+#' Pivoting CAPT responses to make wide dataframes from long
 #'
-#' @param data (dataframe) Incoming data eg a dataframe with cols StudentID, TopicCode, IsCorrect
+#' @param data (dataframe) Incoming long data eg a dataframe with cols StudentID, TopicCode, IsCorrect
 #' @param colIsCorrect (default = IsCorrect), String/variable. The name of the column containing the item scores in each row
 #' @param colTopicCode (default = TopicCode), String/variable. The name of the column containing the topic codes in each row
 #' @param listTopicCodes (default = sort(unique(tab$blueprintCurr$TopicCode))). List of all topic codes (either answered/unanswered)
 #'
-#' @return returns a new dataframe that has been pivotted to be wider
+#' @return returns a new dataframe that has been pivoted to be wider
 #' @export
 #'
 #' @examples
@@ -56,7 +56,7 @@
 #'
 ################################################################################
 #'
-fnCAPTResponsesPivot <- function(data,
+fnCAPTResponsesPivotWider <- function(data,
                                  colIsCorrect = IsCorrect,
                                  colTopicCode = TopicCode,
                                  listTopicCodes = sort(unique(tab$blueprintCurr$TopicCode))) {
