@@ -2,6 +2,7 @@
 
 export(fnAcademicYearFormat)
 export(fnAnova)
+export(fnCAPTResponsesPivot)
 export(fnDocument)
 export(fnGPColours)
 export(fnGPEmMeans)
