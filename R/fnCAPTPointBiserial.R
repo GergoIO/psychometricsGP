@@ -4,11 +4,60 @@
 #' @param colStudentID (default = "StudentID"), String The name of the column containing the Student ID number
 #' @param colQuestionNumber (default = "QuestionNumber"), String. The name of the column containing the question number in each row
 #' @param colIsCorrect (default = "IsCorrect"), String. The name of the column containing the item score in each row
+#' @param significanceLevel (default = 0.05, 5%) Numeric. Set the significance level for each point biserial correlation
 #'
 #' @return returns a new dataframe storing the point biserial info for all input items
 #' @export
 #'
-#' @examples ***
+#' @examples df <- data.frame(
+# StudentID = c(
+#   "001",
+#   "001",
+#   "001",
+#   "001",
+#   "001",
+#   "002",
+#   "002",
+#   "002",
+#   "002",
+#   "002",
+#   "003",
+#   "003",
+#   "003",
+#   "003",
+#   "003",
+#   "004",
+#   "004",
+#   "004",
+#   "004",
+#   "004"
+# ),
+# QuestionNumber = c(
+#   "B",
+#   "C",
+#   "D",
+#   "E",
+#   "F",
+#   "B",
+#   "C",
+#   "D",
+#   "E",
+#   "F",
+#   "A",
+#   "B",
+#   "D",
+#   "E",
+#   "F",
+#   "B",
+#   "C",
+#   "D",
+#   "E",
+#   "F"
+# ),
+# IsCorrect = c(1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0)
+# )
+#
+# df |> fnCAPTPointBiserial()
 #'
 ################################################################################
 #'
@@ -16,7 +65,8 @@ fnCAPTPointBiserial <-
   function(data,
            colStudentID = "StudentID",
            colIsCorrect = "IsCorrect",
-           colQuestionNumber = "QuestionNumber") {
+           colQuestionNumber = "QuestionNumber",
+           significanceLevel = 0.05) {
     # Modify the incoming data
     # Leave cols: StudentID, QuestionNumber, IsCorrect, TotalScore
     data <-
@@ -92,7 +142,7 @@ fnCAPTPointBiserial <-
           QuestionNumber = itemNumber,
           CorrelationCoefficient = correlationResult$r,
           PValue = correlationResult$p,
-          CorrelationCoefficientSig = ifelse(correlationResult$p < 0.05, correlationResult$r, NA)
+          CorrelationCoefficientSignificant = ifelse(correlationResult$p < significanceLevel, correlationResult$r, NA)
         )
       )
 

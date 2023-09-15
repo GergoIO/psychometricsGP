@@ -8,7 +8,8 @@ fnCAPTPointBiserial(
   data,
   colStudentID = "StudentID",
   colIsCorrect = "IsCorrect",
-  colQuestionNumber = "QuestionNumber"
+  colQuestionNumber = "QuestionNumber",
+  significanceLevel = 0.05
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ fnCAPTPointBiserial(
 \item{colIsCorrect}{(default = "IsCorrect"), String. The name of the column containing the item score in each row}
 
 \item{colQuestionNumber}{(default = "QuestionNumber"), String. The name of the column containing the question number in each row}
+
+\item{significanceLevel}{(default = 0.05, 5%) Numeric. Set the significance level for each point biserial correlation}
 }
 \value{
 returns a new dataframe storing the point biserial info for all input items
@@ -27,7 +30,7 @@ returns a new dataframe storing the point biserial info for all input items
 Calculate PtBis for CAPT Items
 }
 \examples{
-***
+df <- data.frame(
 
 
 }
