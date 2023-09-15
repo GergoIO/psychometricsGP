@@ -1,8 +1,8 @@
 #' Pivoting CAPT responses to make wide dataframes from long
 #'
 #' @param data (dataframe) Incoming long data eg a dataframe with cols StudentID, TopicCode, IsCorrect
-#' @param colIsCorrect (default = IsCorrect), String/variable. The name of the column containing the item scores in each row
-#' @param colTopicCode (default = TopicCode), String/variable. The name of the column containing the topic codes in each row
+#' @param colIsCorrect (default = "IsCorrect"), String. The name of the column containing the item score in each row
+#' @param colTopicCode (default = "TopicCode"), String. The name of the column containing the topic code in each row
 #' @param listTopicCodes (default = sort(unique(tab$blueprintCurr$TopicCode))). List of all topic codes (either answered/unanswered)
 #'
 #' @return returns a new dataframe that has been pivoted to be wider
@@ -48,17 +48,17 @@
 #' )
 #'
 #' pivotDf <- df %>%
-#'   responsesPivot(
-#'     colIsCorrect = IsCorrect,
-#'     colTopicCode = TopicCode,
+#'   fnCAPTResponsesPivotWider(
+#'     colIsCorrect = "IsCorrect",
+#'     colTopicCode = "TopicCode",
 #'     listTopicCodes = c("A", "B", "C", "D", "E", "F")
 #'   )
 #'
 ################################################################################
 #'
 fnCAPTResponsesPivotWider <- function(data,
-                                 colIsCorrect = IsCorrect,
-                                 colTopicCode = TopicCode,
+                                 colIsCorrect = "IsCorrect",
+                                 colTopicCode = "TopicCode",
                                  listTopicCodes = sort(unique(tab$blueprintCurr$TopicCode))) {
   data |>
     # Change the TopicCode col to a factor

@@ -6,17 +6,17 @@
 \usage{
 fnCAPTResponsesPivotWider(
   data,
-  colIsCorrect = IsCorrect,
-  colTopicCode = TopicCode,
+  colIsCorrect = "IsCorrect",
+  colTopicCode = "TopicCode",
   listTopicCodes = sort(unique(tab$blueprintCurr$TopicCode))
 )
 }
 \arguments{
 \item{data}{(dataframe) Incoming long data eg a dataframe with cols StudentID, TopicCode, IsCorrect}
 
-\item{colIsCorrect}{(default = IsCorrect), String/variable. The name of the column containing the item scores in each row}
+\item{colIsCorrect}{(default = "IsCorrect"), String. The name of the column containing the item score in each row}
 
-\item{colTopicCode}{(default = TopicCode), String/variable. The name of the column containing the topic codes in each row}
+\item{colTopicCode}{(default = "TopicCode"), String. The name of the column containing the topic code in each row}
 
 \item{listTopicCodes}{(default = sort(unique(tab$blueprintCurr$TopicCode))). List of all topic codes (either answered/unanswered)}
 }
@@ -66,9 +66,9 @@ IsCorrect = c(1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0)
 )
 
 pivotDf <- df \%>\%
-  responsesPivot(
-    colIsCorrect = IsCorrect,
-    colTopicCode = TopicCode,
+  fnCAPTResponsesPivotWider(
+    colIsCorrect = "IsCorrect",
+    colTopicCode = "TopicCode",
     listTopicCodes = c("A", "B", "C", "D", "E", "F")
   )
 
