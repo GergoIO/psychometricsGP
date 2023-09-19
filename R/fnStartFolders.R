@@ -19,10 +19,10 @@
 # and version number. If the directory already exists, it will not create it again.
 # Returns a list of paths to the created directories.
 fnStartFolders <- function(workingDirectory = NULL,
-                            versionNumber = NULL,
-                            createOutputFolder = TRUE,
-                            createPulseSubfolder = TRUE,
-                            createImagesFolder = TRUE) {
+                           versionNumber = NULL,
+                           createOutputFolder = TRUE,
+                           createPulseSubfolder = TRUE,
+                           createImagesFolder = TRUE) {
   # Check that the working directory and version number are not NULL
   if (is.null(workingDirectory)) {
     stop(
