@@ -1,8 +1,8 @@
 #' Calculate PtBis for CAPT Items
 #'
-#' @param data (dataframe) Incoming long data eg a dataframe with cols StudentID, QuestionNumber and IsCorrect
+#' @param data (dataframe) Incoming long data eg a dataframe with cols StudentID, ItemID and IsCorrect
 #' @param colStudentID (default = "StudentID"), String The name of the column containing the Student ID number
-#' @param colQuestionNumber (default = "QuestionNumber"), String. The name of the column containing the question number in each row
+#' @param colItemID (default = "ItemID"), String. The name of the column containing the ItemID in each row
 #' @param colIsCorrect (default = "IsCorrect"), String. The name of the column containing the item score in each row
 #' @param significanceLevel (default = 0.05, 5%) Numeric. Set the significance level for each point biserial correlation
 #'
@@ -32,7 +32,7 @@
 #   "004",
 #   "004"
 # ),
-# QuestionNumber = c(
+# ItemID = c(
 #   "B",
 #   "C",
 #   "D",
@@ -65,15 +65,15 @@ fnCAPTPointBiserial <-
   function(data,
            colStudentID = "StudentID",
            colIsCorrect = "IsCorrect",
-           colQuestionNumber = "QuestionNumber",
+           colItemID = "ItemID",
            significanceLevel = 0.05) {
     # Modify the incoming data
-    # Leave cols: StudentID, QuestionNumber, IsCorrect, TotalScore
+    # Leave cols: StudentID, ItemID, IsCorrect, TotalScore
     data <-
       data |>
       select(all_of(c(
         colStudentID,
-        colQuestionNumber,
+        colItemID,
         colIsCorrect
       ))) |>
       # Use group_by_at so that the group_by can have a variable as the col name
@@ -83,7 +83,7 @@ fnCAPTPointBiserial <-
     # Create an empty data frame to store the results
     dataPtBis <- data.frame(
       Test = character(),
-      QuestionNumber = character(),
+      ItemID = character(),
       CorrelationCoefficient = numeric(),
       PValue = numeric(),
       stringsAsFactors = FALSE
@@ -95,20 +95,20 @@ fnCAPTPointBiserial <-
 
     # Save the unique item numbers present in the input data
     # These are the items that the below loop will loop over and try to calculate the PtBis
-    listItemNumbers <- unique(data[[colQuestionNumber]])
+    listItemNumbers <- unique(data[[colItemID]])
 
-    # Loop through each question
+    # Loop through each item
     for (itemNumber in listItemNumbers) {
-      # Filter data for the current question for this loop
+      # Filter data for the current item for this loop
       dataItem <-
         data |>
-        filter(QuestionNumber == itemNumber)
+        filter(ItemID == itemNumber)
 
       # Calculate the point-biserial correlation coefficient and p-value for the current item with IsCorrect
       # PtBis cannot be calculate in some circumstances eg
       # if no-one got the item correct /
       # if everyone got the item correct /
-      # if the student only got that question correct /
+      # if the student only got that item correct /
       # if there are two or fewer responses for that item
       if (sum(dataItem[[colIsCorrect]]) == 0 |
           sum(dataItem[[colIsCorrect]]) == nrow(dataItem) |
@@ -139,7 +139,7 @@ fnCAPTPointBiserial <-
         dataPtBis,
         data.frame(
           Test = cnst$assessment,
-          QuestionNumber = itemNumber,
+          ItemID = itemNumber,
           CorrelationCoefficient = correlationResult$r,
           PValue = correlationResult$p,
           CorrelationCoefficientSignificant = ifelse(correlationResult$p < significanceLevel, correlationResult$r, NA)
@@ -150,7 +150,7 @@ fnCAPTPointBiserial <-
       nItemsProcessed <- nItemsProcessed + 1
       pctItemsProcessedCurr <-
         # Get fraction of the total items processed
-        nItemsProcessed / length(unique(lResponses$main$QuestionNumber)) * 100
+        nItemsProcessed / length(unique(lResponses$main$ItemID)) * 100
       if (pctItemsProcessedCurr >= pctItemsProgressedNext) {
         print(paste(
           "PtBis Calculation Progress:",

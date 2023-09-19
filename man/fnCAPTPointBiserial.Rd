@@ -8,18 +8,18 @@ fnCAPTPointBiserial(
   data,
   colStudentID = "StudentID",
   colIsCorrect = "IsCorrect",
-  colQuestionNumber = "QuestionNumber",
+  colItemID = "ItemID",
   significanceLevel = 0.05
 )
 }
 \arguments{
-\item{data}{(dataframe) Incoming long data eg a dataframe with cols StudentID, QuestionNumber and IsCorrect}
+\item{data}{(dataframe) Incoming long data eg a dataframe with cols StudentID, ItemID and IsCorrect}
 
 \item{colStudentID}{(default = "StudentID"), String The name of the column containing the Student ID number}
 
 \item{colIsCorrect}{(default = "IsCorrect"), String. The name of the column containing the item score in each row}
 
-\item{colQuestionNumber}{(default = "QuestionNumber"), String. The name of the column containing the question number in each row}
+\item{colItemID}{(default = "ItemID"), String. The name of the column containing the ItemID in each row}
 
 \item{significanceLevel}{(default = 0.05, 5%) Numeric. Set the significance level for each point biserial correlation}
 }
