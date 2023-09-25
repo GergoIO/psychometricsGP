@@ -13,9 +13,9 @@ fnStartFolders(
 )
 }
 \arguments{
-\item{workingDirectory}{Define the working directory, where save folders will be created}
+\item{workingDirectory}{(Path) Define the working directory, where save folders will be created}
 
-\item{versionNumber}{Set a version number - appended to save folders and file names}
+\item{versionNumber}{(String) Set a version number - appended to save folders and file names}
 
 \item{createOutputFolder}{(TRUE/FALSE/NULL) Create an outputs folder in the working directory (with appended version number) if TRUE}
 

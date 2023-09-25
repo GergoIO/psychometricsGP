@@ -1,7 +1,7 @@
 #' Create Output, Pulse and Images folders.
 #'
-#' @param workingDirectory Define the working directory, where save folders will be created
-#' @param versionNumber Set a version number - appended to save folders and file names
+#' @param workingDirectory (Path) Define the working directory, where save folders will be created
+#' @param versionNumber (String) Set a version number - appended to save folders and file names
 #' @param createOutputFolder (TRUE/FALSE/NULL) Create an outputs folder in the working directory (with appended version number) if TRUE
 #' @param createPulseFolder (TRUE/FALSE/NULL) Create a folder called Pulse in the Output folder if TRUE
 #' @param createImagesFolder (TRUE/FALSE/NULL) Create an Images folder in the Output folder if TRUE
@@ -53,7 +53,6 @@ fnStartFolders <- function(workingDirectory = NULL,
     dir.create(file.path(workingDirectory,
                          paste0("Output (", versionNumber, ")")),
                recursive = TRUE)
-
   }
   #   __________________________________________________________________________
   #   Pulse Folder                                                          ####
