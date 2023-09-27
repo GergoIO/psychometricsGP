@@ -147,10 +147,21 @@ fnAnova <-
       #   ____________________________________________________________________
       #   No Stage Separation                                             ####
 
-      # If only a single stage is defined in 'stages' and 'appendName' is NOT defined
+      # If 'appendName' is NOT defined
       if (is.null(appendName)) {
-        appendName <- glue("Stage{stages}")
+        # If 'stages' is ALSO NOT defined
+        if (is.null(stages)) {
+          appendName <- ""
+        } else{
+          # If 'stages' IS defined
+          appendName <- glue("Stage{stages}")
+        }
       }
+
+      # If only a single stage is defined in 'stages' and 'appendName' is NOT defined
+      # if (is.null(appendName)) {
+        # appendName <- glue("Stage{stages}")
+      # }
 
       # Store data separately so the original df is not modified
       dfDemog <- demogData %>%
