@@ -36,6 +36,7 @@ fnStartPackages <- function() {
       psych, # For CAPT PtBis
       psychometric,
       purrr,
+      ragg, # potentially threw errors when adding plots to reports without it (flextable dependency?)
       # reshape,
       readxl,
       reshape2,
