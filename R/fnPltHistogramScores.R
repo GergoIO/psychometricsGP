@@ -196,7 +196,7 @@ fnPltHistogramScores <-
             ),
             fill = ifelse(plotGrades, "grey80", "maroon"),
             col = "grey20",
-            size = 1
+            linewidth = 1
           )
       } +
       {
