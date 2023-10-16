@@ -36,6 +36,7 @@ fnStartPackages <- function() {
       psych, # For CAPT PtBis
       psychometric,
       purrr,
+      randomcoloR, # for Clinical Area colouring
       ragg, # potentially threw errors when adding plots to reports without it (flextable dependency?)
       # reshape,
       readxl,
