@@ -149,13 +149,25 @@ fnPltHistogramScores <-
           )
       } +
       {
-        if (plotGrades)
+        # For CAPT, rewrite grade labels with custom text
+        if (plotGrades && gradeScheme == "UA")
           annotate(
             geom = "text",
             x = (rectsGB$xstart + rectsGB$xend) / 2,
             y = rep(maxfreq * 1.2, Ngrades),
-            # For CAPT, rewrite grade labels with custom text
-            label = ifelse(gradeLabels == c("U", "A"), c("Below Target", "Above Target"), gradeLabels),
+            label = c("Below Target", "Above Target"),
+            col = gradeCols,
+            alpha = 0.75,
+            size = 5,
+            fontface = 2
+          )
+        # For NON CAPT, add grades as normal
+        else if(plotGrades)
+          annotate(
+            geom = "text",
+            x = (rectsGB$xstart + rectsGB$xend) / 2,
+            y = rep(maxfreq * 1.2, Ngrades),
+            label = gradeLabels,
             col = gradeCols,
             alpha = 0.75,
             size = 5,
