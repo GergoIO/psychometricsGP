@@ -8,16 +8,16 @@ fnRoundTable(
   data,
   rows = NULL,
   cols = NULL,
-  rowDecimals = NULL,
-  colDecimals = NULL,
+  rowsDecimal = NULL,
+  colsDecimal = NULL,
   rows2 = NULL,
   cols2 = NULL,
-  rowDecimals2 = NULL,
-  colDecimals2 = NULL,
+  rowsDecimal2 = NULL,
+  colsDecimal2 = NULL,
   rows3 = NULL,
   cols3 = NULL,
-  rowDecimals3 = NULL,
-  colDecimals3 = NULL,
+  rowsDecimal3 = NULL,
+  colsDecimal3 = NULL,
   rowsFirst = TRUE
 )
 }
@@ -28,25 +28,25 @@ fnRoundTable(
 
 \item{cols}{(Vector) Column indexes or column names to specify the columns for rounding.}
 
-\item{rowDecimals}{(Integer) The number of decimals for row rounding.}
+\item{rowsDecimal}{(Integer) The number of decimals for row rounding.}
 
-\item{colDecimals}{(Integer) The number of decimals for column rounding.}
+\item{colsDecimal}{(Integer) The number of decimals for column rounding.}
 
 \item{rows2}{(Vector) Row indexes or row names for a second round of row rounding.}
 
 \item{cols2}{(Vector) Column indexes or column names for a second round of column rounding.}
 
-\item{rowDecimals2}{(Integer) The number of decimals for the second round of row rounding.}
+\item{rowsDecimal2}{(Integer) The number of decimals for the second round of row rounding.}
 
-\item{colDecimals2}{(Integer) The number of decimals for the second round of column rounding.}
+\item{colsDecimal2}{(Integer) The number of decimals for the second round of column rounding.}
 
 \item{rows3}{(Vector) Row indexes or row names for a third round of row rounding.}
 
 \item{cols3}{(Vector) Column indexes or column names for a third round of column rounding.}
 
-\item{rowDecimals3}{(Integer) The number of decimals for the third round of row rounding.}
+\item{rowsDecimal3}{(Integer) The number of decimals for the third round of row rounding.}
 
-\item{colDecimals3}{(Integer) The number of decimals for the third round of column rounding.}
+\item{colsDecimal3}{(Integer) The number of decimals for the third round of column rounding.}
 
 \item{rowsFirst}{(Boolean) Indicating whether row rounding should be performed before column rounding.}
 }
@@ -67,26 +67,26 @@ df <- data.frame(
   )
 
 # Example 1: Round specific rows (by row index) with specified decimals
-rounded_rows_by_index <- fnRoundTable(df, rows = c(1, 3), rowDecimals = 1)
+rounded_rows_by_index <- fnRoundTable(df, rows = c(1, 3), rowsDecimal = 1)
 
 # Example 2: Round specific rows (by row name) with specified decimals
-rounded_rows_by_name <- fnRoundTable(df, rows = c("Row1", "Row3"), rowDecimals = 2)
+rounded_rows_by_name <- fnRoundTable(df, rows = c("Row1", "Row3"), rowsDecimal = 2)
 
 # Example 3: Round specific columns (by col index) with specified decimals
-rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), colDecimals = 1)
+rounded_cols_by_index <- fnRoundTable(df, cols = c(2, 3), colsDecimal = 1)
 
 # Example 4: Round specific columns (by col name) with specified decimals
-rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), colDecimals = 2)
+rounded_cols_by_index <- fnRoundTable(df, cols = c("Score1", "Score3"), colsDecimal = 2)
 
 # Example 5: Perform row rounding before column rounding (DEFAULT)
-rounded_rowsFirst <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowDecimals = 1, colDecimals = 4)
+rounded_rowsFirst <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowsDecimal = 1, colsDecimal = 4)
 
 # Example 6: Perform col rounding before row rounding
-rounded_cols_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowDecimals = 3, colDecimals = 1, rowsFirst = FALSE)
+rounded_cols_first <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowsDecimal = 3, colsDecimal = 1, rowsFirst = FALSE)
 
 # Example 7: Perform a second round of row and column rounding
-rounded_second_round <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowDecimals = 1, colDecimals = 2,
-                                   rows2 = c(3), cols2 = c("Score2"), rowDecimals2 = 2, colDecimals2 = 1)
+rounded_second_round <- fnRoundTable(df, rows = c(1), cols = c("Score1", "Score3"), rowsDecimal = 1, colsDecimal = 2,
+                                   rows2 = c(3), cols2 = c("Score2"), rowsDecimal2 = 2, colsDecimal2 = 1)
 
 }
 \author{
