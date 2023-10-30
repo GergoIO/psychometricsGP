@@ -105,7 +105,7 @@ fnTagAnalysis <-
 
     colnames(.tabIA) <-
       c("Incorrect\n(%)", "Don't\nKnow\n(%)", "Correct\n(%)")
-    .tabIA <- fnRound(.tabIA, 2)
+    .tabIA <- fnRnd(.tabIA, 2)
     # Move tags to their own col
     .tabIA <- rownames_to_column(.tabIA, "Var1")
 
