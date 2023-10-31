@@ -20,7 +20,7 @@ A list of the detected items to review is returned.
 Detect Items to Review
 }
 \examples{
-#For ADK/ADTK/PAPT/IDS/Y1KT:
+#For ADK/ADTK/PAPT/IDS/Y1KT/AMK/AKT:
  cnst <- append(
  cnst,
   fnItemReview(assessmentType = cnst$assessmentType, itemAnalysisData = tab$itemAnalysis)
