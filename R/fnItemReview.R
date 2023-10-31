@@ -7,7 +7,7 @@
 #' @return A list of the detected items to review is returned.
 #' @export
 #'
-#' @examples #For ADK/ADTK/PAPT/IDS/Y1KT:
+#' @examples #For ADK/ADTK/PAPT/IDS/Y1KT/AMK/AKT:
 #'  cnst <- append(
 #'  cnst,
 #'   fnItemReview(assessmentType = cnst$assessmentType, itemAnalysisData = tab$itemAnalysis)
@@ -147,7 +147,7 @@ fnItemReview <- function(assessmentType = NULL,
         ))))
       listOfItemReview$itemReviewNegPtBis <-
         toString(listOfItemReview$itemReviewNegPtBis, sep = ",")
-    } else if (assessmentType %in% c("IDS", "Y1KT")) {
+    } else if (assessmentType %in% c("IDS", "Y1KT", "AKT")) {
       #   ______________________________________________________________________
       #   IDS/Y1KT                                                          ####
 
