@@ -29,7 +29,7 @@ fnRptAnova <- function(stage = NULL,
       is.null(listOfDemographics) |
       is.null(tableCount)) {
     stop(
-      "fnRptStageSpecificAnalysis: One of the required variables for this function has not been specified."
+      "fnRptAnova: One of the required variables for this function has not been specified."
     )
   } else{
     #   ________________________________________________________________________
@@ -37,7 +37,7 @@ fnRptAnova <- function(stage = NULL,
 
     message(
       glue(
-        "fnRptStageSpecificAnalysis: Adding stage specific analysis to the specified report for Stage {stage}"
+        "fnRptAnova: Adding stage specific analysis to the specified report for Stage {stage}"
       )
     )
     # NOTE on incrementing tableCount:
