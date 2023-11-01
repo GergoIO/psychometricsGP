@@ -9,7 +9,6 @@ fnRptAnova(
   report = NULL,
   listOfDetails = NULL,
   listOfDemographics = NULL,
-  plotCount = NULL,
   tableCount = NULL
 )
 }
@@ -22,8 +21,6 @@ fnRptAnova(
 testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.) and assessment (the current assessment number - eg: PT36)}
 
 \item{listOfDemographics}{A list of dataframes - containing 'AnovaStage#', 'MeansAdjStage#', MeansObsStage#'}
-
-\item{plotCount}{Numeric (integer) - the current number of plots in the report (will be incremented as more plots are added)}
 
 \item{tableCount}{Numeric (integer) - the current number of tables in the report (will be incremented as more tables are added)}
 }

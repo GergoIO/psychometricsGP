@@ -8,7 +8,6 @@
 #' testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.) and assessment (the current assessment number - eg: PT36)
 #' @param listOfDemographics A list of dataframes - containing 'AnovaStage#', 'MeansAdjStage#', MeansObsStage#'
 #' @param tableCount Numeric (integer) - the current number of tables in the report (will be incremented as more tables are added)
-#' @param plotCount Numeric (integer) - the current number of plots in the report (will be incremented as more plots are added)
 #'
 #' @return The latest values of the plot and table counts are returned as a vector (with the table count as the first item). This is to enable those values to be updated in the main script while this function is used inside a loop
 #' @export
@@ -23,13 +22,11 @@ fnRptAnova <- function(stage = NULL,
                                        report = NULL,
                                        listOfDetails = NULL,
                                        listOfDemographics = NULL,
-                                       plotCount = NULL,
                                        tableCount = NULL) {
   if (is.null(stage) |
       is.null(report) |
       is.null(listOfDetails) |
       is.null(listOfDemographics) |
-      is.null(plotCount) |
       is.null(tableCount)) {
     stop(
       "fnRptStageSpecificAnalysis: One of the required variables for this function has not been specified."
@@ -43,9 +40,9 @@ fnRptAnova <- function(stage = NULL,
         "fnRptStageSpecificAnalysis: Adding stage specific analysis to the specified report for Stage {stage}"
       )
     )
-    # NOTE on increment plotCount and tableCount:
-    # The relevant functions (fnRptAddPlot and fnRptAddTable) increment the counts in the global environment of the script which call this function
-    # The counts are not incremented within the scope of this script so it must be manually done here after each use of fnRptAddPlot and fnRptAddTable
+    # NOTE on incrementing tableCount:
+    # The relevant function (fnRptAddTable) increments the counts in the global environment of the script which call this function
+    # The counts are not incremented within the scope of this script so it must be manually done here after each use of fnRptAddTable
 
     ##  ........................................................................
     ##  ANOVA                                                               ####
@@ -108,13 +105,9 @@ fnRptAnova <- function(stage = NULL,
     tableCount <- tableCount + 1
   }
 
-  # For now- must return plotCount and tableCount so that they can be manually assigned in the main script. Global assignment not currently working and values are not updated between loops
+  # For now- must return tableCount so that it can be manually assigned in the main script. Global assignment not currently working and values are not updated between loops
   return(list(
     report = report,
-    tableCount = tableCount,
-    plotCount = plotCount
-  ))
-  # Update plot and table counts in the global environment
-  # assign(deparse(substitute(plotCount)), plotCount, envir = globalenv())
-  # assign(deparse(substitute(tableCount)), tableCount, envir = globalenv())
+    tableCount = tableCount
+    ))
 }
