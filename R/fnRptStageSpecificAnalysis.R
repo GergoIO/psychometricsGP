@@ -17,8 +17,23 @@
 #' @return The latest values of the plot and table counts are returned as a vector (with the table count as the first item). This is to enable those values to be updated in the main script while this function is used inside a loop
 #' @export
 #'
-#' @examples ***
-
+#' @examples
+#' .rtn <- fnRptStageSpecificAnalysis(
+#'   stages = cnst$stagesA,
+#'   report = rptAll,
+#'   listOfDetails = cnst,
+#'   listOfPlots = plt,
+#'   listOfTables = tab,
+#'   listOfDemographics = tabDemog,
+#'   listOfTestRetest = testRetest,
+#'   stageSpecificScores = lResults$stagesScores,
+#'   plotCount = nPlt,
+#'   tableCount = nTab
+#' )
+#' rptAll <- .rtn$report
+#' nPlt <- .rtn$plotCount
+#' nTab <- .rtn$tableCount
+#'
 #   ____________________________________________________________________________
 #   Variables                                                               ####
 # Currently only testing on AMK
