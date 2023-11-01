@@ -19,7 +19,7 @@
 #   Variables                                                               ####
 # Currently only testing on AMK
 
-fnRptStageSpecificAnalysis <- function(stage = NULL,
+fnRptAnova <- function(stage = NULL,
                                        report = NULL,
                                        listOfDetails = NULL,
                                        listOfDemographics = NULL,
