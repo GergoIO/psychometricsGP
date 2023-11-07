@@ -55,7 +55,7 @@ fnRptAnova <- function(stage = NULL,
     report <- fnRptAddText(
       report = report,
       text = glue(
-        "Analysis of variance of the scores by students gender, ethnicity and disability status showed{ifelse(any(listOfDemographics[[glue('AnovaStage{stage}')]][['P-value']] < 0.05), ' ', ' no ')}statistically significant variation as shown in the table below."
+        "Analysis of variance of the scores by students' gender, ethnicity and disability status showed{ifelse(any(listOfDemographics[[glue('AnovaStage{stage}')]][['P-value']] < 0.05), ' ', ' no ')}statistically significant variation as shown in the table below."
       )
     ) %>%
       body_add_par("")
