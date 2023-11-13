@@ -10,6 +10,7 @@ fnAnova(
   varsAll,
   varsAnova,
   stages = NULL,
+  stagesForFiltering = NULL,
   appendName = NULL,
   reportObsMeanForAllVars
 )
@@ -23,7 +24,9 @@ fnAnova(
 
 \item{varsAnova}{A vector of strings - all the column names of the demographic properties to consider for the Anova}
 
-\item{stages}{A vector (OPTIONAL, if appendName defined. Must define is Stage is to be one of the ANOVA vars) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData. If not defined, no stage separation occurs - instead the user must set the appendName variable to define what string is added to results}
+\item{stages}{A vector (OPTIONAL, if appendName defined. Must define is Stage is to be one of the ANOVA vars) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData. If not defined, no stage separation occurs - instead the user must set the appendName variable to define what string is added to results names. Additionally, if no stage separation but Stage is to be one of the ANOVA variables, 'stagesForFiltering' must be defined.}
+
+\item{stagesForFiltering}{A vector (OPTIONAL, must define if Stage is to be one of the ANOVA vars and stage separation is not requested) - denoting the stages to be considered in the ANOVA. (stagesForFiltering = 2 or stagesForFiltering = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData.}
 
 \item{appendName}{A string (OPTIONAL, REQUIRED if stages is not defined) - this string is appended to all results (only if the stages variable is not set)}
 

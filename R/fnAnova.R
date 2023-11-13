@@ -1,7 +1,8 @@
 #' Perform ANOVA, save ANOVA results, adjusted means and observed means for different stages
 #'
 #' @param demogData A dataframe - containing demographics data columns (independent variables) and the student score (dependent variable) in another column and the relevant stage of each student row (if multiple stages are to be considered)
-#' @param stages A vector (OPTIONAL, if appendName defined. Must define is Stage is to be one of the ANOVA vars) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData. If not defined, no stage separation occurs - instead the user must set the appendName variable to define what string is added to results
+#' @param stages A vector (OPTIONAL, if appendName defined. Must define is Stage is to be one of the ANOVA vars) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData. If not defined, no stage separation occurs - instead the user must set the appendName variable to define what string is added to results names. Additionally, if no stage separation but Stage is to be one of the ANOVA variables, 'stagesForFiltering' must be defined.
+#' @param stagesForFiltering A vector (OPTIONAL, must define if Stage is to be one of the ANOVA vars and stage separation is not requested) - denoting the stages to be considered in the ANOVA. (stagesForFiltering = 2 or stagesForFiltering = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData.
 #' @param appendName A string (OPTIONAL, REQUIRED if stages is not defined) - this string is appended to all results (only if the stages variable is not set)
 #' @param colScore A string - the name of the column containing the student scores (the dependent variable)
 #' @param varsAll A vector of strings - all the column names of the demographic properties to consider
@@ -24,6 +25,7 @@ fnAnova <-
            varsAll,
            varsAnova,
            stages = NULL,
+           stagesForFiltering = NULL,
            appendName = NULL,
            reportObsMeanForAllVars) {
     lReturn <- list() # For returning multiple dfs and other objects
@@ -165,18 +167,19 @@ fnAnova <-
         # If Stage is still requested to be added to the ANOVA (though not including stage separation),
         # Then modify the values so they are characters and not numeric so the anova picks them up properly
         if ("Stage" %in% varsAnova) {
-          if (stages == NULL) {
+          if (stagesForFiltering == NULL) {
             stop(
-              "fnANOVA: 'Stage' is set to be one of the ANOVA vars and stage separation is not requested. But, the 'stages' variable is not defined. The 'stages' variable must be defined to perform the requested action."
+              "fnANOVA: 'Stage' is set to be one of the ANOVA vars and stage separation is not requested. But, the 'stagesForFiltering' variable is not defined. The 'stagesForFiltering' variable must be defined to perform the requested action."
             )
           } else{
             dfDemog <-
               dfDemog |>
               # Still filter to make sure that only the specified stage exists in dfDemog
-              filter(Stage %in% stages) |>
+              filter(Stage %in% stagesForFiltering) |>
               mutate(Stage = paste0("Stage ", Stage))
           }
         }
+
         ### . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ..
         ### ANOVA                                                           ####
 
