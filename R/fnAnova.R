@@ -167,9 +167,9 @@ fnAnova <-
         # If Stage is still requested to be added to the ANOVA (though not including stage separation),
         # Then modify the values so they are characters and not numeric so the anova picks them up properly
         if ("Stage" %in% varsAnova) {
-          if (stagesForFiltering == NULL) {
+          if (is.null(stagesForFiltering)) {
             stop(
-              "fnANOVA: 'Stage' is set to be one of the ANOVA vars and stage separation is not requested. But, the 'stagesForFiltering' variable is not defined. The 'stagesForFiltering' variable must be defined to perform the requested action."
+              "fnANOVA: 'Stage' is set to be one of the ANOVA vars and stage separation is not requested.\nBut, the 'stagesForFiltering' variable is not defined.\nThe 'stagesForFiltering' variable must be defined to perform the requested action."
             )
           } else{
             dfDemog <-
