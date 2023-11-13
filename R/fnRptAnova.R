@@ -170,7 +170,7 @@ fnRptAnova <- function(stage = NULL,
     report <- fnRptAddText(
       report = report,
       text = glue(
-        "Score variation by entry pathway and origin cannot reliably be included in the above ANOVA in the case of low student numbers. The table below presents Stage {stage} students' observed mean scores broken down by Entry Pathway and Origin."
+        "Score variation by entry pathway and origin cannot reliably be included in the above ANOVA in the case of low student numbers. The table below presents students' observed mean scores broken down by Entry Pathway and Origin."
       )
     )
 
