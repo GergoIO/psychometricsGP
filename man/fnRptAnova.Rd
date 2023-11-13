@@ -6,6 +6,7 @@
 \usage{
 fnRptAnova(
   stage = NULL,
+  anovaIncludesAllStages = FALSE,
   report = NULL,
   listOfDetails = NULL,
   listOfDemographics = NULL,
@@ -13,7 +14,9 @@ fnRptAnova(
 )
 }
 \arguments{
-\item{stage}{Numeric the stage to add analysis for}
+\item{stage}{(Numeric, IGNORED/OPTIONAL if anovaIncludesAllStages is TRUE). The stage to add analysis for}
+
+\item{anovaIncludesAllStages}{(Default = FALSE). Set to TRUE if the Anova you are adding is not stage specific and rather also looks at variance by stage}
 
 \item{report}{String - the variable name of the report which the analysis should be added to}
 
@@ -31,5 +34,24 @@ The latest values of the plot and table counts are returned as a vector (with th
 This function will perform all relevant stage specific analysis (currently tested for BMBS AMK Assessments). The stage specific analysis is performed, generated data, plots and dataframes are saved to variables and also added to the specified report along with surround text and other formatting (heading, captions, explanations etc.)
 }
 \examples{
-***
+.rtn <- fnRptAnova(
+stage = cnst$stages,
+report = rptAll,
+listOfDetails = cnst,
+listOfDemographics = tabDemog,
+tableCount = nTab
+)
+rptAll <- .rtn$report
+nTab <- .rtn$tableCount
+
+.rtn <- fnRptAnova(
+anovaIncludesAllStages = TRUE,
+report = rptAll,
+listOfDetails = cnst,
+listOfDemographics = tabDemog,
+tableCount = nTab
+)
+rptAll <- .rtn$report
+nTab <- .rtn$tableCount
+
 }
