@@ -32,48 +32,37 @@ fn_historic_stats <- function(exam_vars = NULL,
       is.null(l_tables)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
-    # Rename incoming var for brevity and readability
-    # Shorten list of constants var
-    exam_vars <- exam_vars
-    # Shorten list of tables var
-    l_tables <- l_tables
-
     if (exam_vars$exam_type %in% c("AMK")) {
       # For AMK, the reliability table must be reconstructed from the Stages A and Stages B tables
       l_tables$reliability <-
         cbind(l_tables$reliabilityStagesA, l_tables$reliabilityStagesB)
     }
 
-    historic_stats <- list(
-      "Test" = rep(exam_vars$exam, exam_vars$n_stages),
-      "AcYear" = rep(exam_vars$academic_year, exam_vars$n_stages),
-      "Cohort" = exam_vars$cohort,
-      "Stage" = exam_vars$stages,
-      "Nstudents" = as.numeric(l_tables$gradeDistribution["All", ]),
-      "Nitems" = rep(exam_vars$n_items_incl, exam_vars$n_stages),
-      "ItemsExc" = rep(exam_vars$items_excl_comma_sep, exam_vars$n_stages),
-      "Correct" = as.numeric(l_tables$responseSummary["Percentage Correct", ]),
-      "Incorrect" = as.numeric(l_tables$responseSummary["Percentage Incorrect", ]),
-      "DontKnow" = as.numeric(l_tables$responseSummary["Percentage Don't Know", ]),
-      "Mean" = as.numeric(l_tables$testDetails["Mean Score (%)", ]),
-      "SD" = as.numeric(l_tables$testDetails["Std. Dev", ]),
-      "Min" = as.numeric(l_tables$testDetails["Min Score (%)", ]),
-      "Max" = as.numeric(l_tables$testDetails["Max Score (%)", ]),
-      "Alpha" = as.numeric(l_tables$reliability["Cronbach's Alpha", ]),
-      "RelativeSEM" = as.numeric(l_tables$reliability["Relative SEM", ]),
-      "Phi" = as.numeric(l_tables$reliability["Phi Coefficient", ]),
-      "AbsoluteSEM" = as.numeric(l_tables$reliability["Absolute SEM", ]),
-      "Borderline" = as.numeric(l_tables$gradeBoundaries["Borderline", ]),
-      "Satisfactory" = as.numeric(l_tables$gradeBoundaries["Satisfactory", ]),
-      "Excellent" = as.numeric(l_tables$gradeBoundaries["Excellent", ]),
-      # For AngoffCorrel, only want a value in the highest stage so fill the rest with empty cells
-      "AngoffCorrel" = c(rep("", exam_vars$n_stages - 1), exam_vars$testAngoffCorrVal),
-      "Comments" = exam_vars$historic_stats_comment
-      # "Comments" = rep(exam_vars$historic_stats_comment, exam_vars$n_stages)
+    historic_stats <- tibble(
+      Test = rep(exam_vars$exam, exam_vars$n_stages),
+      AcYear = rep(exam_vars$academic_year, exam_vars$n_stages),
+      Cohort = exam_vars$cohort,
+      Stage = exam_vars$stages,
+      Nstudents = as.numeric(l_tables$gradeDistribution["All", ]),
+      Nitems = rep(exam_vars$n_items_incl, exam_vars$n_stages),
+      ItemsExc = rep(exam_vars$items_excl_comma_sep, exam_vars$n_stages),
+      Correct = as.numeric(l_tables$responseSummary["Percentage Correct", ]),
+      Incorrect = as.numeric(l_tables$responseSummary["Percentage Incorrect", ]),
+      DontKnow = as.numeric(l_tables$responseSummary["Percentage Don't Know", ]),
+      Mean = as.numeric(l_tables$testDetails["Mean Score (%)", ]),
+      SD = as.numeric(l_tables$testDetails["Std. Dev", ]),
+      Min = as.numeric(l_tables$testDetails["Min Score (%)", ]),
+      Max = as.numeric(l_tables$testDetails["Max Score (%)", ]),
+      Alpha = as.numeric(l_tables$reliability["Cronbach's Alpha", ]),
+      RelativeSEM = as.numeric(l_tables$reliability["Relative SEM", ]),
+      Phi = as.numeric(l_tables$reliability["Phi Coefficient", ]),
+      AbsoluteSEM = as.numeric(l_tables$reliability["Absolute SEM", ]),
+      Borderline = as.numeric(l_tables$gradeBoundaries["Borderline", ]),
+      Satisfactory = as.numeric(l_tables$gradeBoundaries["Satisfactory", ]),
+      Excellent = as.numeric(l_tables$gradeBoundaries["Excellent", ]),
+      AngoffCorrel = c(rep("", exam_vars$n_stages - 1), exam_vars$testAngoffCorrVal),
+      Comments = exam_vars$historic_stats_comment
     )
-    # Bind all vector elements of list to a df:
-    historic_stats <-
-      suppressWarnings(data.frame(do.call(cbind, historic_stats)))
 
     return(historic_stats)
   }
