@@ -11,7 +11,7 @@
 #' stages
 #' n_items_incl
 #' items_excl_comma_sep
-#' testAngoffCorrVal
+#' test_angoff_corr_val
 #' historic_stats_comment
 #' @param l_tables A list of tables (dataframes). At least the following must be defined as list elements:
 #' responseSummary
@@ -36,6 +36,8 @@ fn_historic_stats <- function(exam_vars = NULL,
       # For AMK, the reliability table must be reconstructed from the Stages A and Stages B tables
       l_tables$reliability <-
         cbind(l_tables$reliabilityStagesA, l_tables$reliabilityStagesB)
+      # Need to manually set the Angoff Corr. to blank for AMK
+      exam_vars$test_angoff_corr_val <- ""
     }
 
     historic_stats <- tibble(
@@ -60,7 +62,7 @@ fn_historic_stats <- function(exam_vars = NULL,
       Borderline = as.numeric(l_tables$gradeBoundaries["Borderline", ]),
       Satisfactory = as.numeric(l_tables$gradeBoundaries["Satisfactory", ]),
       Excellent = as.numeric(l_tables$gradeBoundaries["Excellent", ]),
-      AngoffCorrel = c(rep("", exam_vars$n_stages - 1), exam_vars$testAngoffCorrVal),
+      AngoffCorrel = c(rep("", exam_vars$n_stages - 1), exam_vars$test_angoff_corr_val),
       Comments = exam_vars$historic_stats_comment
     )
 

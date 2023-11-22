@@ -16,7 +16,7 @@ cohort
 stages
 n_items_incl
 items_excl_comma_sep
-testAngoffCorrVal
+test_angoff_corr_val
 historic_stats_comment}
 
 \item{l_tables}{A list of tables (dataframes). At least the following must be defined as list elements:
