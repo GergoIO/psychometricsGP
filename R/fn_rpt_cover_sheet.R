@@ -111,7 +111,7 @@ fn_rpt_cover_sheet <-
         body_replace_all_text(
           report_var,
           old_value = "AssessmentPlaceholder",
-          new_value = exam_vars$assessment,
+          new_value = exam_vars$exam,
           only_at_cursor = FALSE
         )
       report_var <-
