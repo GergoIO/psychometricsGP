@@ -50,7 +50,10 @@ fn_rpt_cover_sheet <-
         body_replace_all_text(
           report_var,
           old_value = "YearPlaceholder",
-          new_value = fn_academic_year_format(exam_vars$academic_year, "Short Slash"),
+          new_value = fn_academic_year_format(
+            academic_year_short = exam_vars$academic_year,
+            type = "Short Slash"
+          ),
           only_at_cursor = FALSE
         )
       # If "programme_long" is defined, use that instead of "programme"
@@ -121,7 +124,10 @@ fn_rpt_cover_sheet <-
       report_var <-
         cursor_reach(report_var, keyword = "ReportTitlePlaceholder")
       report_var <-
-        body_add_par(report_var, report_title, style = "heading 1", pos = "on")
+        body_add_par(report_var,
+                     report_title,
+                     style = "heading 1",
+                     pos = "on")
       report_var <-
         body_replace_all_text(
           report_var,
