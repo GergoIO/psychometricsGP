@@ -111,7 +111,7 @@ fnTestDetails <-
 
         testDetails <- bind_rows(detailsProgrammes, detailsAll) |>
           t() |>
-          as.data.frame() |>
+          as.data.frame() %>%
           set_names(.[1, ]) |>
           slice(-1)
       }
