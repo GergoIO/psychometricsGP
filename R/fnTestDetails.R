@@ -67,12 +67,20 @@ fnTestDetails <-
         }
       } else{
         # This is for IDS only
+
+        # If dfAbsent is empty, bind_rows will not work because the Programme name will be logical and not character.
+        # To fix, force the Programme col to be character
+        dfAbsent <- dfAbsent |>
+          mutate(
+            Programme = as.character(Programme)
+          )
+
         # Overall: 1 col entry for each Programmes and a final col for All Programmes
-        resultsAll <- bind_rows(dfResults, dfAbsent) %>%
+        resultsAll <- bind_rows(dfResults, dfAbsent) |>
           select(Programme, pctScoreTotal)
 
-        detailsProgrammes <- resultsAll %>%
-          group_by(Programme) %>%
+        detailsProgrammes <- resultsAll  |>
+          group_by(Programme) |>
           summarise(
             `Number in Cohort` = n(),
             `Number Present` = sum(!is.na(pctScoreTotal)),
@@ -86,7 +94,7 @@ fnTestDetails <-
             IQR = IQR(pctScoreTotal, na.rm = TRUE)
           )
 
-        detailsAll <- resultsAll %>%
+        detailsAll <- resultsAll |>
           summarise(
             Programme = "All",
             `Number in Cohort` = n(),
@@ -101,10 +109,10 @@ fnTestDetails <-
             IQR = IQR(pctScoreTotal, na.rm = TRUE)
           )
 
-        testDetails <- bind_rows(detailsProgrammes, detailsAll) %>%
-          t() %>%
-          as.data.frame() %>%
-          set_names(.[1, ]) %>%
+        testDetails <- bind_rows(detailsProgrammes, detailsAll) |>
+          t() |>
+          as.data.frame() |>
+          set_names(.[1, ]) |>
           slice(-1)
       }
       return(testDetails)
