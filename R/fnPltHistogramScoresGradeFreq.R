@@ -16,12 +16,12 @@
 ################################################################################
 #'
 fnPltHistogramScoresGradeFreq <- function(data = NULL,
-                                          gradeScheme = NULL,
-                                          colScore = NULL,
-                                          colGrade = NULL,
-                                          scoreMax = NULL,
-                                          scorePass = NULL,
-                                          scoreExcellent = NULL) {
+                                           gradeScheme = NULL,
+                                           colScore = NULL,
+                                           colGrade = NULL,
+                                           scoreMax = NULL,
+                                           scorePass = NULL,
+                                           scoreExcellent = NULL) {
   if (is.null(data) ||
       is.null(gradeScheme) ||
       is.null(colScore) ||
@@ -49,7 +49,7 @@ fnPltHistogramScoresGradeFreq <- function(data = NULL,
         xlab("Score") +
         ylab("Frequency") +
         scale_fill_manual(values = fnGPColours("PF"),
-                          guide = guide_legend(reverse = TRUE)) +
+                          guide = guide_legend(reverse = FALSE)) +
         geom_vline(xintercept = ceiling(scorePass) - 0.5,
                    linetype = "dashed") +
         annotate(
@@ -74,14 +74,16 @@ fnPltHistogramScoresGradeFreq <- function(data = NULL,
         geom_histogram(colour = "black", binwidth = binwidth) +
         xlab("Score") +
         ylab("Frequency") +
-        scale_fill_manual(values = fnGPColours("PFE"),
+        scale_fill_manual(values = fnGPColours("PFE")[c(3,1,2)],
                           guide = guide_legend(reverse = TRUE)) +
         geom_vline(xintercept = ceiling(scorePass) - 0.5,
+                   linetype = "dashed") +
+        geom_vline(xintercept = ceiling(scoreExcellent) - 0.5,
                    linetype = "dashed") +
         annotate(
           geom = "text",
           x = ceiling(scorePass) + 0.1,
-          y = max_frequency * 0.65,
+          y = max_frequency,
           label = "Pass Boundary",
           angle = 90,
           hjust = 0,
@@ -90,7 +92,7 @@ fnPltHistogramScoresGradeFreq <- function(data = NULL,
         annotate(
           geom = "text",
           x = ceiling(scoreExcellent) + 0.1,
-          y = max_frequency * 0.65,
+          y = max_frequency,
           label = "Excellent Boundary",
           angle = 90,
           hjust = 0,
