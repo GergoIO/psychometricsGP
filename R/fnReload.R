@@ -17,7 +17,7 @@ fnReload <- function() {
   # Reinstall
   devtools::install_github(
     "GergoIO/psychometricsGP",
-    auth_token = .githubToken,
+    # auth_token = .githubToken,
     quiet = TRUE,
     dependencies = FALSE
   )
