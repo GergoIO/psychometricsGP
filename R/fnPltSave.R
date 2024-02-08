@@ -4,6 +4,7 @@
 #' @param plot The variable name of the plot to save - this must exist in your environment
 #' @param dimensions (Optional) A vector containing the width, height and units of the dimensions of the saved image (in that order). If not set, defaults to 15cm x 15cm
 #' @param filePath The file path where the plot is saved. No plot saved if not declared
+#' @param dpi Numeric, the dpi to save the image as
 #'
 #' @return Nothing is explicitly returned, a plot is saved
 #' @export
@@ -16,7 +17,8 @@ fnPltSave <-
   function(savePlot = NULL,
            plot = NULL,
            dimensions = c(15, 15, "cm"),
-           filePath = NULL) {
+           filePath = NULL,
+           dpi = 300) {
     if (is.null(plot)) {
       stop("One of the required variables for this function has not been specified.")
     } else if (is.null(savePlot)) {
@@ -35,7 +37,8 @@ fnPltSave <-
         file = filePath,
         width = as.numeric(dimensions[1]),
         height = as.numeric(dimensions[2]),
-        units = c(dimensions[3])
+        units = c(dimensions[3]),
+        dpi = dpi
       )
     }
   }
