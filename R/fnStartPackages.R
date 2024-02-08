@@ -27,6 +27,7 @@ fnStartPackages <- function() {
       janitor,
       ltm,
       lme4,
+      minpack.lm, # For nlsLM fn
       mirt,
       officer,
       openxlsx,
