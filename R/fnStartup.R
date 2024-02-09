@@ -80,6 +80,7 @@ fnStartup <- function(githubToken = NULL,
     forcats,
     ggplot2,
     ggThemeAssist,
+    ggtext, # for element_textbox
     # glue,
     tidyverse / glue,
     hrbrthemes,
