@@ -114,7 +114,7 @@ fnItemAnalysis <- function(stages = NULL,
       colnames(.tabFacSummary) <- c(glue("Stage {i}"))
 
       # new_df[,ncol(new_df)+1]
-      if (i == cnst$stages[1]) {
+      if (i == stages[1]) {
         itemAnalysis$facilitySummary <- .tabFacSummary
       } else{
         itemAnalysis$facilitySummary <-
