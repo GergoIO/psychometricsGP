@@ -150,7 +150,7 @@ fnCAPTPointBiserial <-
       nItemsProcessed <- nItemsProcessed + 1
       pctItemsProcessedCurr <-
         # Get fraction of the total items processed
-        nItemsProcessed / length(unique(lResponses$main$ItemID)) * 100
+        nItemsProcessed / length(unique(listItemNumbers)) * 100
       if (pctItemsProcessedCurr >= pctItemsProgressedNext) {
         print(paste(
           "PtBis Calculation Progress:",
