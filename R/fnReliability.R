@@ -32,9 +32,7 @@ fnReliability <-  function(stages = NULL,
       gsub("X", "", scoresLong$Item, fixed = TRUE)
 
     fitLinearMixEffectModel <-
-      lmer(Score ~ (1 |
-                      Candidate) + (1 |
-                                      Item), data = scoresLong)
+      lmer(Score ~ (1 | Candidate) + (1 | Item), data = scoresLong)
 
     relCalcs$varCorr <-
       as.data.frame(VarCorr(fitLinearMixEffectModel))
