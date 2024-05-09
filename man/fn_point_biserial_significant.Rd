@@ -6,6 +6,7 @@
 \usage{
 fn_point_biserial_significant(
   data,
+  test = cnst$assessment,
   colStudentID = "StudentID",
   colIsCorrect = "IsCorrect",
   colItemID = "ItemID",
@@ -15,13 +16,15 @@ fn_point_biserial_significant(
 \arguments{
 \item{data}{(dataframe) Incoming long data eg a dataframe with cols StudentID, ItemID and IsCorrect}
 
+\item{test}{(String) The name of the test.}
+
 \item{colStudentID}{(default = "StudentID"), String The name of the column containing the Student ID number}
 
 \item{colIsCorrect}{(default = "IsCorrect"), String. The name of the column containing the item score in each row}
 
 \item{colItemID}{(default = "ItemID"), String. The name of the column containing the ItemID in each row}
 
-\item{significanceLevel}{(default = 0.05, 5%) Numeric. Set the significance level for each point biserial correlation}
+\item{significanceLevel}{(default = 0.05) Numeric. Set the significance level for each point biserial correlation}
 }
 \value{
 returns a new dataframe storing the point biserial info for all input items
