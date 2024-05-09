@@ -1,7 +1,7 @@
 #' Calculate PtBis and Statistical Significance for Test Items
 #'
 #' @param data (dataframe) Incoming long data eg a dataframe with cols StudentID, ItemID and IsCorrect
-#' @param test (String) The name of the test.
+#' @param assessment (String) The name of the test.
 #' @param colStudentID (default = "StudentID"), String The name of the column containing the Student ID number
 #' @param colIsCorrect (default = "IsCorrect"), String. The name of the column containing the item score in each row
 #' @param colItemID (default = "ItemID"), String. The name of the column containing the ItemID in each row
@@ -65,7 +65,7 @@
 #'
 fn_point_biserial_significant <-
   function(data,
-           test = cnst$assessment,
+           assessment = cnst$assessment,
            colStudentID = "StudentID",
            colIsCorrect = "IsCorrect",
            colItemID = "ItemID",
@@ -149,7 +149,7 @@ fn_point_biserial_significant <-
       dataPtBis <- rbind(
         dataPtBis,
         data.frame(
-          Test = test,
+          Test = assessment,
           ItemID = itemNumber,
           CorrelationCoefficient_cor = correlation_cor,
           PValue_cor = NA,

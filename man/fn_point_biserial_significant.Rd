@@ -6,7 +6,7 @@
 \usage{
 fn_point_biserial_significant(
   data,
-  test = cnst$assessment,
+  assessment = cnst$assessment,
   colStudentID = "StudentID",
   colIsCorrect = "IsCorrect",
   colItemID = "ItemID",
@@ -16,7 +16,7 @@ fn_point_biserial_significant(
 \arguments{
 \item{data}{(dataframe) Incoming long data eg a dataframe with cols StudentID, ItemID and IsCorrect}
 
-\item{test}{(String) The name of the test.}
+\item{assessment}{(String) The name of the test.}
 
 \item{colStudentID}{(default = "StudentID"), String The name of the column containing the Student ID number}
 
