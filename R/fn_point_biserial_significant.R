@@ -149,7 +149,7 @@ fn_point_biserial_significant <-
       dataPtBis <- rbind(
         dataPtBis,
         data.frame(
-          Test = assessment,
+          Assessment = assessment,
           ItemID = itemNumber,
           CorrelationCoefficient_cor = correlation_cor,
           PValue_cor = NA,
