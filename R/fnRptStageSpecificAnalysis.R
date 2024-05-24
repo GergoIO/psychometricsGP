@@ -5,7 +5,7 @@
 #' @param stages Numeric (integer list) - the stages to compile analysis for. Looping is performed within the function
 #' @param report String - the variable name of the report which the analysis should be added to
 #' @param listOfDetails A list - containing at least the following variables must be defined as part of that list:
-#' testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.), assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)
+#' testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.), assessment (the current assessment number - eg: PT36) and assessment_prev (the previous assessment number - eg: PT35)
 #' @param listOfPlots A list - to save any generated plots to
 #' @param listOfTables A list - to save any generated tables to
 #' @param listOfDemographics A list - to save any generated demographics tables
@@ -118,7 +118,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
         report <- fnRptAddText(
           report = report,
           text = glue(
-            "There were {listOfTestRetest[[glue('nTestRetestStage{stage}')]]} Stage {stage} students for whom scores on both this test ({listOfDetails$assessment}) and the previous test ({listOfDetails$assessmentPrev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', listOfTestRetest[[glue('corrValStage{stage}')]])} (95% confidence interval {sprintf('%.2f', listOfTestRetest[[glue('corrLowCIStage{stage}')]])} to {sprintf('%.2f', listOfTestRetest[[glue('corrHighCIStage{stage}')]])})."
+            "There were {listOfTestRetest[[glue('nTestRetestStage{stage}')]]} Stage {stage} students for whom scores on both this test ({listOfDetails$assessment}) and the previous test ({listOfDetails$assessment_prev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', listOfTestRetest[[glue('corrValStage{stage}')]])} (95% confidence interval {sprintf('%.2f', listOfTestRetest[[glue('corrLowCIStage{stage}')]])} to {sprintf('%.2f', listOfTestRetest[[glue('corrHighCIStage{stage}')]])})."
           )
         ) %>%
           body_add_par("")
@@ -144,7 +144,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
           table = listOfTestRetest[[glue('matrixStage{stage}')]],
           tableCount = tableCount,
           caption = glue(
-            'Stage {stage} students by grade awarded in {listOfDetails$assessment} (column) and {listOfDetails$assessmentPrev} (row)'
+            'Stage {stage} students by grade awarded in {listOfDetails$assessment} (column) and {listOfDetails$assessment_prev} (row)'
           )
         )
         # Manually increment table count
@@ -263,7 +263,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
 #   fnRptAddText(
 #     report = rpt$All,
 #     text = glue(
-#       "There were {listOfTestRetest[[glue('nTestRetestStage{i}')]]} Stage {i} students for whom scores on both this test ({listOfDetails$assessment}) and the previous test ({listOfDetails$assessmentPrev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', listOfTestRetest[[glue('corrValStage{i}')]])} (95% confidence interval {sprintf('%.2f', listOfTestRetest[[glue('corrLowCIStage{i}')]])} to {sprintf('%.2f', listOfTestRetest[[glue('corrHighCIStage{i}')]])})."
+#       "There were {listOfTestRetest[[glue('nTestRetestStage{i}')]]} Stage {i} students for whom scores on both this test ({listOfDetails$assessment}) and the previous test ({listOfDetails$assessment_prev}) were available. The Pearson correlation between the test scores was {sprintf('%.2f', listOfTestRetest[[glue('corrValStage{i}')]])} (95% confidence interval {sprintf('%.2f', listOfTestRetest[[glue('corrLowCIStage{i}')]])} to {sprintf('%.2f', listOfTestRetest[[glue('corrHighCIStage{i}')]])})."
 #     )
 #   )
 #   fnRptAddParagraph(rpt$All)
@@ -282,7 +282,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
 #     table = listOfTestRetest[[glue('MatrixStage{i}')]],
 #     tableCount = tableCount,
 #     caption = glue(
-#       'Stage {i} students by grade awarded in {listOfDetails$assessment} (row) and {listOfDetails$assessmentPrev} (column)'
+#       'Stage {i} students by grade awarded in {listOfDetails$assessment} (row) and {listOfDetails$assessment_prev} (column)'
 #     )
 #   )
 #

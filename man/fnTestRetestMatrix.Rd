@@ -7,7 +7,7 @@
 fnTestRetestMatrix(
   stage = NULL,
   assessment = NULL,
-  assessmentPrev = NULL,
+  assessment_prev = NULL,
   dataRaw = NULL
 )
 }
@@ -16,7 +16,7 @@ fnTestRetestMatrix(
 
 \item{assessment}{A string - the current assessment being analysed (eg ADK38)}
 
-\item{assessmentPrev}{A string - the previous assessment (prior to the one being analysed - eg ADK37)}
+\item{assessment_prev}{A string - the previous assessment (prior to the one being analysed - eg ADK37)}
 
 \item{dataRaw}{A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test grades for the current assessement and the previous assessment in the form: "####_Grade" (eg for analysis of PT36: "PT35_Grade", "PT36_Grade")}
 }
@@ -27,5 +27,5 @@ A list is returned. The list contains all the test retest analysis. Analysis is 
 Test Retest Data Matrix Creation
 }
 \examples{
-testRetest <- append(testRetest, fnTestRetestMatrix(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
+testRetest <- append(testRetest, fnTestRetestMatrix(stage = 1, assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
 }

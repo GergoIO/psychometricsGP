@@ -23,7 +23,7 @@ fnRptStageSpecificAnalysis(
 \item{report}{String - the variable name of the report which the analysis should be added to}
 
 \item{listOfDetails}{A list - containing at least the following variables must be defined as part of that list:
-testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.), assessment (the current assessment number - eg: PT36) and assessmentPrev (the previous assessment number - eg: PT35)}
+testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.), assessment (the current assessment number - eg: PT36) and assessment_prev (the previous assessment number - eg: PT35)}
 
 \item{listOfPlots}{A list - to save any generated plots to}
 

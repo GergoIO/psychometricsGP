@@ -6,7 +6,7 @@
 \usage{
 fnTestRetest(
   assessment = NULL,
-  assessmentPrev = NULL,
+  assessment_prev = NULL,
   results = NULL,
   resultsPrevious = NULL
 )
@@ -14,7 +14,7 @@ fnTestRetest(
 \arguments{
 \item{assessment}{A string - the current assessment being analysed (eg ADK38)}
 
-\item{assessmentPrev}{A string - the previous assessment (prior to the one being analysed - eg ADK37)}
+\item{assessment_prev}{A string - the previous assessment (prior to the one being analysed - eg ADK37)}
 
 \item{results}{A dataframe - containing results data for the current assessment with at least the following columns: "StudentID", "Stage", assessement score (of the form "assessement_Score" where assessment matches the variable defined in the "assessment" parameter) and assessment grade (of the form "assessment_Grade" where assessment matched the variable defined in the "assessment" parameter)}
 
@@ -27,5 +27,5 @@ A list of dataframes is returned. The results dataframe contains the student ID,
 Test Retest Dataframe Creation
 }
 \examples{
-testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, results = dfRes, resultsPrevious = dfPrevTestData))
+testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, results = dfRes, resultsPrevious = dfPrevTestData))
 }

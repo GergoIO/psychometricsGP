@@ -2,23 +2,23 @@
 #'
 #' @param stage A number or string (OPTIONAL). If a stage is defined, the stage will be appended to the saved list items.  If a stage is not defined, no stage info will be appended.
 #' @param assessment A string - the current assessment being analysed (eg ADK38)
-#' @param assessmentPrev A string - the previous assessment (prior to the one being analysed - eg ADK37)
+#' @param assessment_prev A string - the previous assessment (prior to the one being analysed - eg ADK37)
 #' @param dataRaw A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and (eg for analysis of PT36: "PT35_Score", PT36_Score")
 #'
 #' @return A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified. If saving this data to an existing list, use the append function (as shown in the example)
 #' @export
 #'
-#' @examples testRetest <- append(testRetest, fnTestRetestAnalysis(stage = 1, assessment = cnst$assessment, assessmentPrev = cnst$assessmentPrev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
+#' @examples testRetest <- append(testRetest, fnTestRetestAnalysis(stage = 1, assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
 
 ################################################################################
 
 fnTestRetestAnalysis <-
   function(stage = NULL,
            assessment = NULL,
-           assessmentPrev = NULL,
+           assessment_prev = NULL,
            dataRaw = NULL) {
     if (is.null(assessment) |
-        is.null(assessmentPrev) |
+        is.null(assessment_prev) |
         is.null(dataRaw)) {
       stop("One of the required variables for this function has not been specified.")
     } else {
@@ -33,7 +33,7 @@ fnTestRetestAnalysis <-
         )
 
         .testScore <- glue('{assessment}_Score')
-        .testScorePrev <- glue('{assessmentPrev}_Score')
+        .testScorePrev <- glue('{assessment_prev}_Score')
 
         # Test Retest Cov
         # Save number of students considered
@@ -57,7 +57,7 @@ fnTestRetestAnalysis <-
         message(glue("fnTestRetestAnalysis: A Stage ({stage}) is specified"))
 
         .testScore <- glue('{assessment}_Score')
-        .testScorePrev <- glue('{assessmentPrev}_Score')
+        .testScorePrev <- glue('{assessment_prev}_Score')
 
         # Test Retest Cov
         # Save number of students considered
