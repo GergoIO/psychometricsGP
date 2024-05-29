@@ -66,7 +66,7 @@ fnTestRetestAnalysis <-
         # Perform correlation test
         .looptestRetestCor <-
           trtData[[glue('corrTestStage{stage}')]] <-
-          cor.test(dataRaw[[.testScorePrev]], dataRaw[[.testScore]])
+          cor.test(as.numeric(dataRaw[[.testScorePrev]]), as.numeric(dataRaw[[.testScore]]))
 
         # Save correlation test results
         trtData[[glue('corrValStage{stage}')]] <-
