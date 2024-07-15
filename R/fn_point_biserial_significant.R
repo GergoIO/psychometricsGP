@@ -105,7 +105,7 @@ fn_point_biserial_significant <-
       # Filter data for the current item for this loop
       dataItem <-
         data |>
-        filter(ItemID == itemNumber)
+        filter(!!sym(colItemID) == itemNumber)
 
       # Calculate the correlation coefficient using cor()
       correlation_cor <-
