@@ -74,7 +74,7 @@ fn_point_biserial_significant <-
     # Leave cols: StudentID, ItemID, IsCorrect, TotalScore
     data <-
       data |>
-      select(all_of(c(colStudentID,
+      dplyr::select(all_of(c(colStudentID,
                       colItemID,
                       colIsCorrect))) |>
       # Use group_by_at so that the group_by can have a variable as the col name
