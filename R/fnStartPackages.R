@@ -19,6 +19,7 @@ fnStartPackages <- function() {
       english,
       flextable,
       forcats,
+      gdata,
       ggplot2,
       ggThemeAssist,
       ggprism, # For minor ticks
@@ -39,7 +40,7 @@ fnStartPackages <- function() {
       purrr,
       randomcoloR, # for Clinical Area colouring
       ragg, # potentially threw errors when adding plots to reports without it (flextable dependency?)
-      # reshape,
+      reshape,
       readxl,
       reshape2,
       rlang,
@@ -63,7 +64,7 @@ fnStartPackages <- function() {
     options(dplyr.summarise.inform = FALSE)
   }
 
-# ### SCORING
+# Old testing
 # detach(package:plyr)
 # detach(package:dplyr)
 # library(plyr)
