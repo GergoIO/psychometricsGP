@@ -8,51 +8,6 @@
 #' @examples
 #' fn_startup_packages()
 fn_startup_packages <- function() {
-  packages <- c(
-    "Amelia",
-    "beepr",
-    "english",
-    "flextable",
-    "forcats",
-    "gdata",
-    "ggplot2",
-    "ggThemeAssist",
-    "ggprism",
-    "hrbrthemes",
-    "janitor",
-    "ltm",
-    "lme4",
-    "minpack.lm",
-    "mirt",
-    "officer",
-    "openxlsx",
-    "patchwork",
-    "pipebind",
-    "plyr",
-    "psych",
-    "psychometric",
-    "purrr",
-    "randomcoloR",
-    "ragg",
-    "reshape",
-    "readxl",
-    "reshape2",
-    "rlang",
-    "rowr",
-    "rstudioapi",
-    "scales",
-    "spatstat",
-    "spatstat.linnet",
-    "strcode",
-    "stringi",
-    "tictoc",
-    "viridis",
-    "WrapRmd",
-    "usethis",
-    "glue",
-    "tidyverse"
-  )
-
   # Install and load librarian if not already installed
   if (!requireNamespace("librarian", quietly = TRUE)) {
     install.packages("librarian", dependencies = TRUE)
@@ -60,7 +15,52 @@ fn_startup_packages <- function() {
   library(librarian)
 
   # Install and load required packages using librarian
-  librarian::shelf(packages)
+  librarian::shelf(
+    Amelia,
+    beepr, # beep sound
+    english,
+    flextable,
+    forcats,
+    gdata,
+    ggplot2,
+    ggThemeAssist,
+    ggprism, # For minor ticks
+    # glue,
+    hrbrthemes,
+    janitor,
+    ltm,
+    lme4,
+    minpack.lm, # For nlsLM fn
+    mirt,
+    officer,
+    openxlsx,
+    patchwork, # For minor ticks https://cran.r-project.org/web/packages/ggprism/vignettes/axes.html
+    pipebind, # https://github.com/bwiernik/pipebind
+    plyr,
+    psych, # For CAPT PtBis
+    psychometric,
+    purrr,
+    randomcoloR, # for Clinical Area colouring
+    ragg, # potentially threw errors when adding plots to reports without it (flextable dependency?)
+    reshape,
+    readxl,
+    reshape2,
+    rlang,
+    cvarrichio / rowr,
+    rstudioapi,
+    scales, # for col_numeric
+    spatstat,
+    spatstat.linnet,
+    lorenzwalthert / strcode,
+    stringi,
+    tictoc,
+    viridis,
+    tjmahr / WrapRmd,
+    usethis,
+    tidyverse/glue,
+    tidyverse # tidyverse should load dplyr
+    # dplyr # Need to load dplyr LAST, plyr and ggplot2 have to be BEFORE IT
+  )
 
   # Suppress dplyr summarise messages
   options(dplyr.summarise.inform = FALSE)
