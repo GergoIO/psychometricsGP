@@ -18,6 +18,7 @@ fn_startup_packages <- function() {
   librarian::shelf(
     Amelia,
     beepr, # beep sound
+    conflicted, # allow setting a default fns from a package
     english,
     flextable,
     forcats,
@@ -64,6 +65,8 @@ fn_startup_packages <- function() {
 
   # Suppress dplyr summarise messages
   options(dplyr.summarise.inform = FALSE)
+
+  conflict_prefer_all("dplyr")
 
   invisible(TRUE)
 }
