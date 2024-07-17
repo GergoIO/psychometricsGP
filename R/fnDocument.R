@@ -27,7 +27,7 @@ fnDocument <- function() {
   library(roxygen2)
 
   # Run the document command
-  document()
+  suppressWarnings(document())
 
   message("fnDocument: Documenting complete")
 }
