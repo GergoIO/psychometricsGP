@@ -26,7 +26,7 @@ fn_reload <- function(repo = "GergoIO/psychometricsGP") {
     message("fn_reload: Package 'psychometricsGP' reinstalled from GitHub")
 
     # Load the package
-    suppressWarnings(library(psychometricsGP, quietly = TRUE, character.only = TRUE))
+    suppressWarnings(library(psychometricsGP, quietly = TRUE))
     message("fn_reload: Package 'psychometricsGP' loaded successfully")
 
     # Notify the user of completion
