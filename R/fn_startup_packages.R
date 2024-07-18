@@ -20,6 +20,7 @@ fn_startup_packages <- function() {
     beepr, # beep sound
     conflicted, # allow setting a default fns from a package
     english,
+    emmeans,
     flextable,
     forcats,
     gdata,
@@ -66,6 +67,12 @@ fn_startup_packages <- function() {
   # Suppress dplyr summarise messages
   options(dplyr.summarise.inform = FALSE)
 
+  # Use the psychometric package for alpha
+  conflicts_prefer(psychometric::alpha, quiet = TRUE)
+  # Use the reshape2 package for melt
+  conflicts_prefer(reshape2::melt, quiet = TRUE)
+
+  # Prefer all dplyr fns
   conflict_prefer_all("dplyr", quiet = TRUE)
 
   invisible(TRUE)
