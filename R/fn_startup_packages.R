@@ -66,7 +66,7 @@ fn_startup_packages <- function() {
   # Suppress dplyr summarise messages
   options(dplyr.summarise.inform = FALSE)
 
-  conflict_prefer_all("dplyr")
+  conflict_prefer_all("dplyr", quiet = TRUE)
 
   invisible(TRUE)
 }

@@ -10,11 +10,11 @@
 
 #' @export
 #'
-#' @examples fnReload()
+#' @examples fn_document()
 #'
 ################################################################################
 #'
-fnDocument <- function() {
+fn_document <- function() {
   if (!require("devtools")) {
     stop("devtools is not installed. Please install devtools to use this function.")
   }
@@ -29,5 +29,5 @@ fnDocument <- function() {
   # Run the document command
   suppressWarnings(document())
 
-  message("fnDocument: Documenting complete")
+  message("fn_document: Documenting complete")
 }
