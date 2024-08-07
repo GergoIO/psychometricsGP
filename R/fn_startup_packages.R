@@ -74,7 +74,7 @@ fn_startup_packages <- function() {
                    .quiet = TRUE)
 
   # Prefer all dplyr fns
-  conflict_prefer_all("dplyr", quiet = FALSE)
+  conflict_prefer_all("dplyr", quiet = TRUE)
 
   invisible(TRUE)
 }
