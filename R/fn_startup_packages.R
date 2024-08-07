@@ -68,12 +68,14 @@ fn_startup_packages <- function() {
   options(dplyr.summarise.inform = FALSE)
 
   # Use the psychometric package for alpha
-  conflicts_prefer(psychometric::alpha, quiet = TRUE)
   # Use the reshape2 package for melt
-  conflicts_prefer(reshape2::melt, quiet = TRUE)
+  conflicts_prefer(psychometric::alpha,
+                   reshape2::melt,
+                   .quiet = TRUE)
 
   # Prefer all dplyr fns
-  conflict_prefer_all("dplyr", quiet = TRUE)
+  conflict_prefer_all("dplyr", quiet = FALSE)
 
   invisible(TRUE)
 }
+
