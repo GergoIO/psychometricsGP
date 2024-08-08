@@ -145,15 +145,17 @@ fnItemReview <- function(assessmentType = NULL,
         unique(sort(as.numeric(c(
           na.omit(itemAnalysisData$Item[itemAnalysisData[["Stage 2 PtBis"]] < 0])
         ))))
+      listOfItemReview$itemReviewNegPtBis <-
+        toString(listOfItemReview$itemReviewNegPtBis, sep = ",")
 
       # Statistically Significant Negative PtBis Items
       listOfItemReview$itemReviewSigNegPtBis <-
         unique(sort(as.numeric(c(
           na.omit(itemAnalysisData$Item[itemAnalysisData[["Stage 2 Sig PtBis"]] < 0])
         ))))
+      listOfItemReview$itemReviewSigNegPtBis <-
+        toString(listOfItemReview$itemReviewSigNegPtBis, sep = ",")
 
-      listOfItemReview$itemReviewNegPtBis <-
-        toString(listOfItemReview$itemReviewNegPtBis, sep = ",")
     } else if (assessmentType %in% c("IDS", "Y1KT", "AKT")) {
       #   ______________________________________________________________________
       #   IDS/Y1KT                                                          ####
