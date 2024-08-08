@@ -2,7 +2,7 @@
 #'
 #' @param assessmentType A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review
 #' @param itemAnalysisData A dataframe. This dataframe must contain at least the following columns: "Item" (the items number), "Stage 5 Facility" (for ADK), "Stage 5 vs 2 Growth" (for ADK), "Stage 5 PtBis" (for ADK) OR "Stage 3 Facility" (for ADTK), "Stage 3 vs 2 Growth" (for ADTK), "Stage 3 PtBis" (for ADTK) OR "Stage 2 Facility" (for PAPT), "Stage 2 vs 1 Growth" (for PAPT), "Stage 2 PtBis" (for PAPT) OR "Facility" (for IDS/Y1KT), "PtBis" (for IDS/Y1KY)
-#' @param testInYear (OPTIONAL) - Required for AMK assessments so the stage to use for item review can be determined
+#' @param testInYear (OPTIONAL unless AMK) - Required for AMK assessments so the stage to use for item review can be determined
 #'
 #' @return A list of the detected items to review is returned.
 #' @export
@@ -145,6 +145,13 @@ fnItemReview <- function(assessmentType = NULL,
         unique(sort(as.numeric(c(
           na.omit(itemAnalysisData$Item[itemAnalysisData[["Stage 2 PtBis"]] < 0])
         ))))
+
+      # Statistically Significant Negative PtBis Items
+      listOfItemReview$itemReviewSigNegPtBis <-
+        unique(sort(as.numeric(c(
+          na.omit(itemAnalysisData$Item[itemAnalysisData[["Stage 2 Sig PtBis"]] < 0])
+        ))))
+
       listOfItemReview$itemReviewNegPtBis <-
         toString(listOfItemReview$itemReviewNegPtBis, sep = ",")
     } else if (assessmentType %in% c("IDS", "Y1KT", "AKT")) {
