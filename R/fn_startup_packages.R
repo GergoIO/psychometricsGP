@@ -72,6 +72,7 @@ fn_startup_packages <- function() {
     # for Clinical Area colouring
     ragg,
     # potentially threw errors when adding plots to reports without it (flextable dependency?)
+    RColorBrewer,
     reshape,
     readxl,
     reshape2,
