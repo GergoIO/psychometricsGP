@@ -13,6 +13,8 @@ fn_startup_packages <- function() {
   }
   library(librarian)
 
+  library(conflicted)
+
   # Set specific function preferences
   conflicts_prefer(
     psychometric::alpha,
