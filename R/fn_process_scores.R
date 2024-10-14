@@ -60,8 +60,8 @@ fn_process_scores <- function(responses,
   results$scores_ids_all_neg <- cbind("StudentID" = responses[, "StudentID"], results$scores_all_neg)
 
   ### scores_neg and scores_ids_neg
-  results$scores_neg <- fnRmColsByName(results$scores_all_neg, items_excluded)
-  results$scores_ids_neg <- fnRmColsByName(results$scores_ids_all_neg, items_excluded)
+  results$scores_neg <- fn_remove_cols_by_name(results$scores_all_neg, items_excluded)
+  results$scores_ids_neg <- fn_remove_cols_by_name(results$scores_ids_all_neg, items_excluded)
 
   ### scores, scores_ids, scores_all, scores_ids_all
   results$scores <- fn_remove_neg_marking(scores_data = results$scores_neg)
