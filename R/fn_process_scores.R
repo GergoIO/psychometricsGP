@@ -87,12 +87,12 @@ process_scores <- function(responses,
 
   # Remove excluded items
   results$stages_scores_neg <- lapply(results$stages_scores_all_neg, function(x) {
-    fnRmColsByName(input = x, items_to_rm = items_excluded)
+    fn_remove_cols_by_name(input = x, items_to_remove = items_excluded)
   })
 
   # Remove excluded items
   results$stages_scores <- lapply(results$stages_scores_all, function(x) {
-    fnRmColsByName(input = x, items_to_rm = items_excluded)
+    fn_remove_cols_by_name(input = x, items_to_remove = items_excluded)
   })
 
   return(results)
