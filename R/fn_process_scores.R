@@ -28,16 +28,16 @@
 #'   \item{stages_scores}{List of data frames, each containing scores for a specific stage after removing excluded items.}
 #'
 #' @examples
-#' # Example usage of process_scores
-#' results <- process_scores(responses = df_responses,
+#' # Example usage of fn_process_scores
+#' results <- fn_process_scores(responses = df_responses,
 #'                            demog = df_demographics,
 #'                            answer_key = df_answer_key,
 #'                            dont_know_value = 6,
-#'                            items_excluded = c("Item1", "Item2"),
+#'                            items_excluded = c(2, 4),
 #'                            stages = 1:3)
 #'
 #' @export
-process_scores <- function(responses,
+fn_process_scores <- function(responses,
                            demog,
                            answer_key,
                            dont_know_value,
