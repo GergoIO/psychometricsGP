@@ -22,7 +22,7 @@ fn_remove_neg_marking <- function(scores_data = NULL,
     # Duplicate the input scores_data dataframe
     new_scores_data <- scores_data
     # Find all instances of 'mark_old' and replace with 'mark_new'
-    new_scores_data[newscores_data == mark_old] <- mark_new
+    new_scores_data[new_scores_data == mark_old] <- mark_new
     # Return the new dataframe with the replaced marks
     return(new_scores_data)
   }
