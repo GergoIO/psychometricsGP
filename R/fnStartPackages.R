@@ -19,6 +19,7 @@ fnStartPackages <- function() {
       english,
       flextable,
       forcats,
+      furrr,
       gdata,
       ggplot2,
       ggThemeAssist,
