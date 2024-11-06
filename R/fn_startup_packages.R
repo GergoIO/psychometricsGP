@@ -91,6 +91,7 @@ fn_startup_packages <- function() {
     viridis,
     tjmahr / WrapRmd,
     usethis,
+    writexl, # For saving xlsx files
     tidyverse / glue,
     tidyverse # tidyverse should load dplyr
     # dplyr # Need to load dplyr LAST, plyr and ggplot2 have to be BEFORE IT
