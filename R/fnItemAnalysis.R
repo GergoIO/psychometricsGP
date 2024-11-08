@@ -28,7 +28,7 @@ fnItemAnalysis <- function(stages = NULL,
       # .stageCol <- glue("Stage {i}")
       .stageScoresAll <- scoresAll[[.stage]]
       .stageScores <-
-        fnRmColsByName(.stageScoresAll, excludedItems)
+        fn_remove_cols_by_name(.stageScoresAll, excludedItems)
 
       matrixStageAll <- na.exclude(as.matrix(.stageScoresAll))
       matrixStage <- na.exclude(as.matrix(.stageScores))
