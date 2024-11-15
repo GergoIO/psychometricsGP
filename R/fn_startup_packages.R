@@ -50,6 +50,7 @@ fn_startup_packages <- function() {
     ggplot2,
     ggThemeAssist,
     ggprism,
+    ggtext,
     # For minor ticks
     # glue,
     hrbrthemes,
