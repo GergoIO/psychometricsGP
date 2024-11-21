@@ -3,12 +3,12 @@
 #' @param stage A number or string (OPTIONAL). If a stage is defined, the stage will be appended to the saved list items.  If a stage is not defined, no stage info will be appended.
 #' @param assessment A string - the current assessment being analysed (eg ADK38)
 #' @param assessment_prev A string - the previous assessment (prior to the one being analysed - eg ADK37)
-#' @param dataRaw A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test grades for the current assessement and the previous assessment in the form: "####_Grade" (eg for analysis of PT36: "PT35_Grade", "PT36_Grade")
+#' @param data_raw A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test grades for the current assessement and the previous assessment in the form: "####_Grade" (eg for analysis of PT36: "PT35_Grade", "PT36_Grade")
 #'
 #' @return A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified. If saving this data to an existing list, use the append function (as shown in the example)
 #' @export
 #'
-#' @examples testRetest <- append(testRetest, fnTestRetestMatrix(stage = 1, assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
+#' @examples testRetest <- append(testRetest, fnTestRetestMatrix(stage = 1, assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, data_raw = testRetest$resultsStages[["Stage 1"]]))
 
 ################################################################################
 # Used in:
@@ -18,10 +18,10 @@ fnTestRetestMatrix <-
   function(stage = NULL,
            assessment = NULL,
            assessment_prev = NULL,
-           dataRaw = NULL) {
+           data_raw = NULL) {
     if (is.null(assessment) |
         is.null(assessment_prev) |
-        is.null(dataRaw)) {
+        is.null(data_raw)) {
       stop("One of the required variables for this function has not been specified.")
     } else{
       # Create list to save test retest data
@@ -39,7 +39,7 @@ fnTestRetestMatrix <-
         # Construct Test Retest Grade Matrix
         trtData[["testGradePrev"]] <-
           factor(
-            dataRaw[[testGradePrev]],
+            data_raw[[testGradePrev]],
             levels = c(
               "Unsatisfactory",
               "Borderline",
@@ -50,7 +50,7 @@ fnTestRetestMatrix <-
           )
         trtData[["testGrade"]] <-
           factor(
-            dataRaw[[testGrade]],
+            data_raw[[testGrade]],
             levels = c(
               "Unsatisfactory",
               "Borderline",
@@ -101,7 +101,7 @@ fnTestRetestMatrix <-
         # Construct Test Retest Grade Matrix
         trtData[[glue('{testGradePrev}Stage{stage}')]] <-
           factor(
-            dataRaw[[testGradePrev]],
+            data_raw[[testGradePrev]],
             levels = c(
               "Unsatisfactory",
               "Borderline",
@@ -112,7 +112,7 @@ fnTestRetestMatrix <-
           )
         trtData[[glue('{testGrade}Stage{stage}')]] <-
           factor(
-            dataRaw[[testGrade]],
+            data_raw[[testGrade]],
             levels = c(
               "Unsatisfactory",
               "Borderline",

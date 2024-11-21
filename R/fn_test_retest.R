@@ -3,27 +3,27 @@
 #' @param assessment A string - the current assessment being analysed (eg ADK38)
 #' @param assessment_prev A string - the previous assessment (prior to the one being analysed - eg ADK37)
 #' @param results A dataframe - containing results data for the current assessment with at least the following columns: "StudentID", "Stage", assessement score (of the form "assessement_Score" where assessment matches the variable defined in the "assessment" parameter) and assessment grade (of the form "assessment_Grade" where assessment matched the variable defined in the "assessment" parameter)
-#' @param resultsPrevious A dataframe - containing results data for the previous assessment, in a similar fashion to the "results" dataframe
+#' @param results_previous A dataframe - containing results data for the previous assessment, in a similar fashion to the "results" dataframe
 #'
 #' @return A list of dataframes is returned. The results dataframe contains the student ID, stage and current and previous assessment grades and scores. The stagesResults list of dataframes contains the same data as the results dataframe with additional stage separation
 #' @export
 #'
-#' @examples testRetest <- append(testRetest, fnTestRetest(assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, results = dfRes, resultsPrevious = dfPrevTestData))
+#' @examples testRetest <- append(testRetest, fn_test_retest(assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, results = dfRes, results_previous = dfPrevTestData))
 
 ################################################################################
 # Used in:
 # AMK, ADK
 
-fnTestRetest <-
+fn_test_retest <-
   function(assessment = NULL,
            assessment_prev = NULL,
            results = NULL,
-           resultsPrevious = NULL)
+           results_previous = NULL)
   {
     if (is.null(assessment) |
         is.null(assessment_prev) |
         is.null(results) |
-        is.null(resultsPrevious)) {
+        is.null(results_previous)) {
       stop("One of the required variables for this function has not been specified.")
     } else{
 
@@ -35,7 +35,7 @@ fnTestRetest <-
 
       # Merge previous and present assessment results (in that order, previous to the left)
       trtData$results <-
-        merge(resultsPrevious,
+        merge(results_previous,
               results,
               by = "StudentID",
               na.rm = TRUE)

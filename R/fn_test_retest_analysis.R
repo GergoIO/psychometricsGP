@@ -3,23 +3,23 @@
 #' @param stage A number or string (OPTIONAL). If a stage is defined, the stage will be appended to the saved list items.  If a stage is not defined, no stage info will be appended.
 #' @param assessment A string - the current assessment being analysed (eg ADK38)
 #' @param assessment_prev A string - the previous assessment (prior to the one being analysed - eg ADK37)
-#' @param dataRaw A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and (eg for analysis of PT36: "PT35_Score", PT36_Score")
+#' @param data_raw A dataframe - all the raw test retest data. When using this function for a specific stage, the input raw data must be for that stage only. No stage separation is performed as part of the function. The following columns must be present: "StudentID" and also the test scores and grades for the current assessement and the previous assessment in the form: "####_Score" and (eg for analysis of PT36: "PT35_Score", PT36_Score")
 #'
 #' @return A list is returned. The list contains all the test retest analysis. Analysis is specific to whatever data is input. Variable names will contain the given stage if it is specified. If saving this data to an existing list, use the append function (as shown in the example)
 #' @export
 #'
-#' @examples testRetest <- append(testRetest, fnTestRetestAnalysis(stage = 1, assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, dataRaw = testRetest$resultsStages[["Stage 1"]]))
+#' @examples testRetest <- append(testRetest, fn_test_retest_analysis(stage = 1, assessment = cnst$assessment, assessment_prev = cnst$assessment_prev, data_raw = testRetest$resultsStages[["Stage 1"]]))
 
 ################################################################################
 
-fnTestRetestAnalysis <-
+fn_test_retest_analysis <-
   function(stage = NULL,
            assessment = NULL,
            assessment_prev = NULL,
-           dataRaw = NULL) {
+           data_raw = NULL) {
     if (is.null(assessment) |
         is.null(assessment_prev) |
-        is.null(dataRaw)) {
+        is.null(data_raw)) {
       stop("One of the required variables for this function has not been specified.")
     } else {
       # Create list to save test retest data
@@ -29,7 +29,7 @@ fnTestRetestAnalysis <-
       #   No Stage Defined                                                  ####
       if (is.null(stage)) {
         message(
-          "fnTestRetestAnalysis: No stage is specified. Continuing without stage specificity"
+          "fn_test_retest_analysis: No stage is specified. Continuing without stage specificity"
         )
 
         .testScore <- glue('{assessment}_Score')
@@ -38,11 +38,11 @@ fnTestRetestAnalysis <-
         # Test Retest Cov
         # Save number of students considered
         trtData[["nTestRetest"]] <-
-          length(dataRaw$StudentID)
+          length(data_raw$StudentID)
         # Perform correlation test
         .looptestRetestCor <-
           trtData[["corrTest"]] <-
-          cor.test(dataRaw[[.testScorePrev]], dataRaw[[.testScore]])
+          cor.test(data_raw[[.testScorePrev]], data_raw[[.testScore]])
 
         # Save correlation test results
         trtData[["corrVal"]] <-
@@ -54,7 +54,7 @@ fnTestRetestAnalysis <-
       } else {
         #   ____________________________________________________________________
         #   Stage Defined                                                   ####
-        message(glue("fnTestRetestAnalysis: A Stage ({stage}) is specified"))
+        message(glue("fn_test_retest_analysis: A Stage ({stage}) is specified"))
 
         .testScore <- glue('{assessment}_Score')
         .testScorePrev <- glue('{assessment_prev}_Score')
@@ -62,11 +62,11 @@ fnTestRetestAnalysis <-
         # Test Retest Cov
         # Save number of students considered
         trtData[[glue('nTestRetestStage{stage}')]] <-
-          length(dataRaw$StudentID)
+          length(data_raw$StudentID)
         # Perform correlation test
         .looptestRetestCor <-
           trtData[[glue('corrTestStage{stage}')]] <-
-          cor.test(as.numeric(dataRaw[[.testScorePrev]]), as.numeric(dataRaw[[.testScore]]))
+          cor.test(as.numeric(data_raw[[.testScorePrev]]), as.numeric(data_raw[[.testScore]]))
 
         # Save correlation test results
         trtData[[glue('corrValStage{stage}')]] <-
