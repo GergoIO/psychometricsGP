@@ -6,11 +6,11 @@
 #' @return A dataframe is returned containing the calculated response summaries A new column is generated for each stage considered
 #' @export
 #'
-#' @examples fnResponseSummary(stages = cnst$stages, results = dfResults)
+#' @examples fn_response_summary(stages = cnst$stages, results = dfResults)
 #'
 ################################################################################
 #'
-fnResponseSummary <- function(stages = NULL,
+fn_response_summary <- function(stages = NULL,
                               results = NULL) {
   if (is.null(stages) |
       is.null(results)) {

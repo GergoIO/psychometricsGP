@@ -87,7 +87,7 @@ fn_reliability <-  function(stages = NULL,
     )
     colnames(reliability) <- "Value"
   } else{
-    message("fn_reliability: Analysing reliability across multiple stages")
+    message(glue("fn_reliability: Analysing reliability across multiple stage(s): {stages}"))
     for (i in stages) {
       stage <- glue("stage{i}")
       stage_col_name <- glue("Stage {i}")
