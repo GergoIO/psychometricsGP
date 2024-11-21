@@ -12,6 +12,13 @@
 fn_reload <- function(repo = "GergoIO/psychometricsGP") {
   message("fn_reload: Starting reloading, wait for message to confirm completion")
 
+  # Attempt to make a system noise using beep
+  if (!requireNamespace("beepr", quietly = TRUE)) {
+    message("fn_reload: 'beepr' package not installed, please install it to enable sound notifications")
+  } else {
+    beepr::beep(10)
+  }
+
   tryCatch({
     # Detach the package if it is loaded
     if ("package:psychometricsGP" %in% search()) {
