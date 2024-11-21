@@ -5,7 +5,7 @@
 \title{Perform ANOVA, save ANOVA results, adjusted means and observed means for different stages}
 \usage{
 fnAnova(
-  demogData,
+  data_demog,
   colScore,
   varsAll,
   varsAnova,
@@ -16,7 +16,7 @@ fnAnova(
 )
 }
 \arguments{
-\item{demogData}{A dataframe - containing demographics data columns (independent variables) and the student score (dependent variable) in another column and the relevant stage of each student row (if multiple stages are to be considered)}
+\item{data_demog}{A dataframe - containing demographics data columns (independent variables) and the student score (dependent variable) in another column and the relevant stage of each student row (if multiple stages are to be considered)}
 
 \item{colScore}{A string - the name of the column containing the student scores (the dependent variable)}
 
@@ -24,9 +24,9 @@ fnAnova(
 
 \item{varsAnova}{A vector of strings - all the column names of the demographic properties to consider for the Anova}
 
-\item{stages}{A vector (OPTIONAL, if appendName defined. Must define is Stage is to be one of the ANOVA vars) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData. If not defined, no stage separation occurs - instead the user must set the appendName variable to define what string is added to results names. Additionally, if no stage separation but Stage is to be one of the ANOVA variables, 'stagesForFiltering' must be defined.}
+\item{stages}{A vector (OPTIONAL, if appendName defined. Must define is Stage is to be one of the ANOVA vars) - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in data_demog. If not defined, no stage separation occurs - instead the user must set the appendName variable to define what string is added to results names. Additionally, if no stage separation but Stage is to be one of the ANOVA variables, 'stagesForFiltering' must be defined.}
 
-\item{stagesForFiltering}{A vector (OPTIONAL, must define if Stage is to be one of the ANOVA vars and stage separation is not requested) - denoting the stages to be considered in the ANOVA. (stagesForFiltering = 2 or stagesForFiltering = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in demogData.}
+\item{stagesForFiltering}{A vector (OPTIONAL, must define if Stage is to be one of the ANOVA vars and stage separation is not requested) - denoting the stages to be considered in the ANOVA. (stagesForFiltering = 2 or stagesForFiltering = c(2,3,4,5) etc.) If multiple stages are to be considered there must be a 'Stage' col in data_demog.}
 
 \item{appendName}{A string (OPTIONAL, REQUIRED if stages is not defined) - this string is appended to all results (only if the stages variable is not set)}
 
@@ -40,9 +40,9 @@ Perform ANOVA, save ANOVA results, adjusted means and observed means for differe
 }
 \examples{
 #With stage separation:
-    tabDemog <- append(tabDemog,fnAnova(demogData = dfDemog, stages = cnst$stages, colScore = glue("{cnst$assessment}_Score"), varsAll = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability"), reportObsMeanForAllVars = FALSE))
+    tabDemog <- append(tabDemog,fnAnova(data_demog = dfDemog, stages = cnst$stages, colScore = glue("{cnst$assessment}_Score"), varsAll = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability"), reportObsMeanForAllVars = FALSE))
 # Without stage separation:
-    tabDemog <- append(tabDemog,fnAnova(demogData = dfDemog, colScore = glue("{cnst$assessment}_Score"), appendName = "All", varsAll = c("Gender", "Ethnicity", "Disability", "Stage", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability", "Stage"), reportObsMeanForAllVars = FALSE)))
+    tabDemog <- append(tabDemog,fnAnova(data_demog = dfDemog, colScore = glue("{cnst$assessment}_Score"), appendName = "All", varsAll = c("Gender", "Ethnicity", "Disability", "Stage", "Entry", "Origin"), varsAnova = c("Gender", "Ethnicity", "Disability", "Stage"), reportObsMeanForAllVars = FALSE)))
 
 
 }

@@ -2,29 +2,29 @@
 #'
 #' @param assessment (OPTIONAL) A string - must define when used for IDS assessment for special conditions for that assessment type
 #' @param stages A vector - denoting the stages to be considered. (stages = 2 or stages = c(2,3,4,5) etc.)
-#' @param programme A string - the programme of the students (Must match what is in the "Programme" col in the demogData dataframe (see below) eg "BMBS" etc.)
-#' @param demogData A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included. Make sure to use a df containing demographics data for all students and not one which has been filtered to include present students only
+#' @param programme A string - the programme of the students (Must match what is in the "Programme" col in the data_demog dataframe (see below) eg "BMBS" etc.)
+#' @param data_demog A dataframe - containing demographics data columns. Columns titled "Programme", "Stage" and "Year_Status" must be included. Make sure to use a df containing demographics data for all students and not one which has been filtered to include present students only
 #' @param results A dataframe - containing results for students. A column titled "Stage" must be included. Each student should have one entry (row) in this dataframe. This will be used to determine the number of students assessed in each stage
-#' @param resultsAbsent A dataframe - containing results for absent students. A column titled "Stage" must be included. Each absent student should have one entry (row) in this dataframe. This will be used to determine the number of absent students who were not assessed in each stage
+#' @param results_absent A dataframe - containing results for absent students. A column titled "Stage" must be included. Each absent student should have one entry (row) in this dataframe. This will be used to determine the number of absent students who were not assessed in each stage
 #'
 #' @return A dataframe is returned (testDetails) containing the calculated test details. A new column is generated for each stage considered
 #' @export
 #'
-#' @examples fnTestDetails(assessment = cnst$assessmentType, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, resultsAbsent = dfResAbsent)
+#' @examples fn_test_details(assessment = cnst$assessmentType, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, results_absent = dfResAbsent)
 
 ################################################################################
 
-fnTestDetails <-
+fn_test_details <-
   function(assessment = NULL,
            stages = NULL,
            programme = NULL,
-           demogData = NULL,
+           data_demog = NULL,
            results = NULL,
-           resultsAbsent = NULL) {
+           results_absent = NULL) {
     if (is.null(stages) |
         is.null(programme) |
-        is.null(demogData) |
-        is.null(results) | is.null(resultsAbsent)) {
+        is.null(data_demog) |
+        is.null(results) | is.null(results_absent)) {
       stop("One of the required variables for this function has not been specified.")
     } else{
       testDetails <- data.frame(stringsAsFactors = FALSE)
@@ -35,17 +35,17 @@ fnTestDetails <-
           testDetails["Students in Stage", stage] <-
             length(
               which(
-                demogData$Programme == programme &
-                  demogData$Stage == i &
-                  demogData$Year_Status %!in% c("Interrupted", "Withdrawn")
+                data_demog$Programme == programme &
+                  data_demog$Stage == i &
+                  data_demog$Year_Status %!in% c("Interrupted", "Withdrawn")
               )
             )
           testDetails["Students Assessed", stage] <-
             dim(results[results$Stage == i, ])[1]
           testDetails["Students Absent", stage] <-
-            dim(resultsAbsent[resultsAbsent$Stage == i, ])[1]
+            dim(results_absent[results_absent$Stage == i, ])[1]
 
-          fnStatsScores <- function(x) {
+          fn_stats_scores <- function(x) {
             c(mean(x),
               median(x),
               sd(x),
@@ -63,7 +63,7 @@ fnTestDetails <-
             "Range",
             "IQR"
           ), stage] <-
-            sapply(list(results[results$Stage == i, ]$pctScoreTotal), fnStatsScores)
+            sapply(list(results[results$Stage == i, ]$pctScoreTotal), fn_stats_scores)
         }
       } else{
         # This is for IDS only
