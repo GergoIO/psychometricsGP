@@ -4,14 +4,18 @@
 \alias{fn_rpt_cover_sheet}
 \title{Initialise the default cover page for a report}
 \usage{
-fn_rpt_cover_sheet(report_var = NULL, report_title = NULL, exam_vars = NULL)
+fn_rpt_cover_sheet(
+  report_var = NULL,
+  report_title = NULL,
+  vars_assessment = NULL
+)
 }
 \arguments{
 \item{report_var}{The variable name of the report}
 
 \item{report_title}{This string will be the report title, shown prominently on the coverpage}
 
-\item{exam_vars}{This variable should be a list containing as least the following defined variables: academic_year, programme (OPTIONAL: programme is overridden by programme_long so long as programme_long is defined) stage/stages (the function automatically handles either scenario with the default being to use stage), module, exam, exam_date. These variables will be input on the cover page.}
+\item{vars_assessment}{This variable should be a list containing as least the following defined variables: academic_year, programme (OPTIONAL: programme is overridden by programme_long so long as programme_long is defined) stage/stages (the function automatically handles either scenario with the default being to use stage), module, assessment, assessment_date. These variables will be input on the cover page.}
 }
 \value{
 Nothing is explicitly returned, rather the cover page of the variable containing the report is populated with the required information.
@@ -20,6 +24,6 @@ Nothing is explicitly returned, rather the cover page of the variable containing
 Initialise the default cover page for a report
 }
 \examples{
-fn_rpt_cover_sheet(report_var, report_title, exam_vars)
+fn_rpt_cover_sheet(report_var, report_title, vars_assessment)
 
 }
