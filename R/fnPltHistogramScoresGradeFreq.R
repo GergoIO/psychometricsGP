@@ -2,7 +2,7 @@
 #'
 #' @param data Dataframe containing the score and grade cols
 #' @param gradeScheme PF/PFE are the only two supported currently
-#' @param colScore A string - name of the score col
+#' @param col_score A string - name of the score col
 #' @param colGrade A string - name of the grade col
 #' @param scoreMax Numeric - The maximum possible score
 #' @param scorePass Numeric - The pass score (added to plot with a line and annotation)
@@ -11,20 +11,20 @@
 #' @return The plot is returned
 #' @export
 #'
-#' @examples fnPltHistogramScoresGradeFreq(data = dfRes, gradeScheme = "PF", colScore = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
+#' @examples fnPltHistogramScoresGradeFreq(data = dfRes, gradeScheme = "PF", col_score = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
 #'
 ################################################################################
 #'
 fnPltHistogramScoresGradeFreq <- function(data = NULL,
                                            gradeScheme = NULL,
-                                           colScore = NULL,
+                                           col_score = NULL,
                                            colGrade = NULL,
                                            scoreMax = NULL,
                                            scorePass = NULL,
                                            scoreExcellent = NULL) {
   if (is.null(data) ||
       is.null(gradeScheme) ||
-      is.null(colScore) ||
+      is.null(col_score) ||
       is.null(colGrade) ||
       is.null(scoreMax) ||
       is.null(scorePass))
@@ -37,14 +37,14 @@ fnPltHistogramScoresGradeFreq <- function(data = NULL,
     # Calc height of max frequency bar - for setting height of pass boundary text
     max_frequency <-
       max(hist(
-        data[[colScore]],
-        breaks = seq(min(data[[colScore]]), max(data[[colScore]]) + binwidth, binwidth),
+        data[[col_score]],
+        breaks = seq(min(data[[col_score]]), max(data[[col_score]]) + binwidth, binwidth),
         plot = FALSE
       )$counts)
 
     if (gradeScheme == "PF") {
       plot <-
-        ggplot(data, aes(x = .data[[colScore]], fill = .data[[colGrade]])) +
+        ggplot(data, aes(x = .data[[col_score]], fill = .data[[colGrade]])) +
         geom_histogram(colour = "black", binwidth = binwidth) +
         xlab("Score") +
         ylab("Frequency") +
@@ -70,7 +70,7 @@ fnPltHistogramScoresGradeFreq <- function(data = NULL,
     } else if (gradeScheme == "PFE") {
       # For PFE, the excellent boundary is also included
       plot <-
-        ggplot(data, aes(x = .data[[colScore]], fill = .data[[colGrade]])) +
+        ggplot(data, aes(x = .data[[col_score]], fill = .data[[colGrade]])) +
         geom_histogram(colour = "black", binwidth = binwidth) +
         xlab("Score") +
         ylab("Frequency") +

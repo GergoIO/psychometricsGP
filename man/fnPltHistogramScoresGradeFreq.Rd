@@ -7,7 +7,7 @@
 fnPltHistogramScoresGradeFreq(
   data = NULL,
   gradeScheme = NULL,
-  colScore = NULL,
+  col_score = NULL,
   colGrade = NULL,
   scoreMax = NULL,
   scorePass = NULL,
@@ -19,7 +19,7 @@ fnPltHistogramScoresGradeFreq(
 
 \item{gradeScheme}{PF/PFE are the only two supported currently}
 
-\item{colScore}{A string - name of the score col}
+\item{col_score}{A string - name of the score col}
 
 \item{colGrade}{A string - name of the grade col}
 
@@ -36,7 +36,7 @@ The plot is returned
 fnPltHistogramScoresGradeFreq
 }
 \examples{
-fnPltHistogramScoresGradeFreq(data = dfRes, gradeScheme = "PF", colScore = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
+fnPltHistogramScoresGradeFreq(data = dfRes, gradeScheme = "PF", col_score = "Score", colGrade = "Outcome",  scoreMax = scoreMax,  scorePass = passMark)
 
 
 }

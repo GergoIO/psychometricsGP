@@ -4,8 +4,8 @@
 #' Create a summary score statistics table (including the count, mean, median, SD, Min, Max, Range and IQR) for all grades
 #'
 #'
-#' @param data The results dataframe (must contain cols corresponding to those defined in the colScore and colGrade vars)
-#' @param colScore String - the name of the column containing the scores
+#' @param data The results dataframe (must contain cols corresponding to those defined in the col_score and colGrade vars)
+#' @param col_score String - the name of the column containing the scores
 #' @param colGrade String - the name of the column containing the grades
 #' @param grades Vector of strings - order of grades for arranging cols
 #'
@@ -21,7 +21,7 @@
 #' summary_stats <-
 #'   fnSummaryScoreStats(
 #'     data = df,
-#'     colScore = "Score",
+#'     col_score = "Score",
 #'     colGrade = "Grade",
 #'     grades = c("A", "B", "C")
 #'   )
@@ -30,7 +30,7 @@
 #'
 ################################################################################
 #'
-fnSummaryScoreStats <- function(data, colScore, colGrade, grades) {
+fnSummaryScoreStats <- function(data, col_score, colGrade, grades) {
   # Make sure the grade col is renamed to be 'Grade' for these calculations
   data <- data %>% rename(Grade = colGrade)
 
@@ -39,27 +39,27 @@ fnSummaryScoreStats <- function(data, colScore, colGrade, grades) {
     # Summary for specific grades
     summarize(
       N = n(),
-      Mean = mean(.data[[colScore]]),
-      Median = median(.data[[colScore]]),
-      StDev = sd(.data[[colScore]]),
-      Min = min(.data[[colScore]]),
-      Max = max(.data[[colScore]]),
-      Range = max(.data[[colScore]]) - min(.data[[colScore]]),
-      IQR = IQR(.data[[colScore]])
+      Mean = mean(.data[[col_score]]),
+      Median = median(.data[[col_score]]),
+      StDev = sd(.data[[col_score]]),
+      Min = min(.data[[col_score]]),
+      Max = max(.data[[col_score]]),
+      Range = max(.data[[col_score]]) - min(.data[[col_score]]),
+      IQR = IQR(.data[[col_score]])
     ) %>%
     # Summary for all grades
     ungroup() %>%
     bind_rows(
       data.frame(
         Grade = "All",
-        N = length(data[[colScore]]),
-        Mean = mean(data[[colScore]]),
-        Median = median(data[[colScore]]),
-        StDev = sd(data[[colScore]]),
-        Min = min(data[[colScore]]),
-        Max = max(data[[colScore]]),
-        Range = max(data[[colScore]]) - min(data[[colScore]]),
-        IQR = IQR(data[[colScore]])
+        N = length(data[[col_score]]),
+        Mean = mean(data[[col_score]]),
+        Median = median(data[[col_score]]),
+        StDev = sd(data[[col_score]]),
+        Min = min(data[[col_score]]),
+        Max = max(data[[col_score]]),
+        Range = max(data[[col_score]]) - min(data[[col_score]]),
+        IQR = IQR(data[[col_score]])
       )
     ) %>%
     # Rotate

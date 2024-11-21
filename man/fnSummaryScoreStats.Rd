@@ -4,12 +4,12 @@
 \alias{fnSummaryScoreStats}
 \title{Summary Score Statistics Table}
 \usage{
-fnSummaryScoreStats(data, colScore, colGrade, grades)
+fnSummaryScoreStats(data, col_score, colGrade, grades)
 }
 \arguments{
-\item{data}{The results dataframe (must contain cols corresponding to those defined in the colScore and colGrade vars)}
+\item{data}{The results dataframe (must contain cols corresponding to those defined in the col_score and colGrade vars)}
 
-\item{colScore}{String - the name of the column containing the scores}
+\item{col_score}{String - the name of the column containing the scores}
 
 \item{colGrade}{String - the name of the column containing the grades}
 
@@ -30,7 +30,7 @@ df <- data.frame(Grade = c("A", "A", "B", "B", "B", "C"),
 summary_stats <-
   fnSummaryScoreStats(
     data = df,
-    colScore = "Score",
+    col_score = "Score",
     colGrade = "Grade",
     grades = c("A", "B", "C")
   )
