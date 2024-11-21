@@ -10,7 +10,7 @@
 #' @return A dataframe is returned (testDetails) containing the calculated test details. A new column is generated for each stage considered
 #' @export
 #'
-#' @examples fn_test_details(assessment = cnst$assessmentType, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, results_absent = dfResAbsent)
+#' @examples fn_test_details(assessment = cnst$assessment_type, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, results_absent = dfResAbsent)
 
 ################################################################################
 

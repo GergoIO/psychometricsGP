@@ -2,7 +2,7 @@
 #'
 #' @author Gergo Pinter, \email{gergo.pinter@@plymouth.ac.uk}, \url{https://www.gergo.io}
 #'
-#' @param assessmentType A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review
+#' @param assessment_type A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review
 #' @param listOfConstants A list of constants. At least the following must be defined as list elements: assessment (Eg "ADK38"), nPresent (the number of students who sat the assessment), nItems (the original number of items), nItemsExcl (the number of items excluded), itemsExclStr (a string of the specific item numbers removed)
 #' @param passMarks (OPTIONAL - Required for ADK, ADTK) A data frame containing the relevant passmarks. Usually a single row with cols for each stage (named "Stage 1", "Stage 2" etc.) The code of this function can be changed to match the specific formats that this table can take for different assessmentTypes.
 #'
@@ -10,23 +10,23 @@
 #' @export
 #'
 #' @examples tab$scoreStatistics <- fnScoreStatistics(
-#' assessmentType = "ADK",
+#' assessment_type = "ADK",
 #' listOfConstants = cnst,
 #' passMarks =tab$passMarks)
 #'
 ################################################################################
 #'
-fnScoreStatistics <- function(assessmentType = NULL,
+fnScoreStatistics <- function(assessment_type = NULL,
                               listOfConstants = NULL,
                               passMarks = data.frame(stringsAsFactors = FALSE)) {
-  if (is.null(assessmentType) |
+  if (is.null(assessment_type) |
       is.null(listOfConstants)) {
     stop("One of the required variables for this function has not been specified.")
   } else{
     # Create empty df to store tab
     scoreStatistics <- data.frame(stringsAsFactors = FALSE)
 
-    if (cnst$assessmentType %in% c("ADK")) {
+    if (cnst$assessment_type %in% c("ADK")) {
       #   ______________________________________________________________________
       #   ADK                                                               ####
       # ADK Create df of score stats
@@ -48,7 +48,7 @@ fnScoreStatistics <- function(assessmentType = NULL,
         rownames_to_column(scoreStatistics, "Test Detail")
       colnames(scoreStatistics)[2] <- "Value"
 
-    } else if (cnst$assessmentType %in% c("ADTK")) {
+    } else if (cnst$assessment_type %in% c("ADTK")) {
       #   ______________________________________________________________________
       #   ADTK                                                              ####
       # ADTK Create df of score stats
@@ -65,7 +65,7 @@ fnScoreStatistics <- function(assessmentType = NULL,
       scoreStatistics <-
         rownames_to_column(scoreStatistics, "Test Detail")
       colnames(scoreStatistics)[2] <- "Value"
-    } else if (cnst$assessmentType %in% c("IDS")) {
+    } else if (cnst$assessment_type %in% c("IDS")) {
       scoreStatistics <-
         tibble(
           `Test Detail` = c(

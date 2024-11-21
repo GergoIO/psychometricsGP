@@ -1,21 +1,21 @@
 #' Create Empty Lists From a Vector of Strings
 #'
-#' @description This function uses an input of the assessment type ('assessmentType') being analysed. Then, the empty lists to create are set (as a vector) based on the assessment type. Each element of the vector is checked. If the element does not already exist as a variable, then a new variable (an empty list, with the name of the vector element) is created. Alternatively, if the required 'assessmentType' is not configured, set a variable 'listsToCreate' as the vector of strings to create lists from. One of 'assessmentType' or 'listsToCreate' must be defined. Setting 'listsToCreate' overrides a defined 'assessmentType'. If 'assessmentType' is not defined and 'listsToCreate' is defined, the function will create empty lists with the name of the items stored in the 'listsToCreate' vector of strings.
+#' @description This function uses an input of the assessment type ('assessment_type') being analysed. Then, the empty lists to create are set (as a vector) based on the assessment type. Each element of the vector is checked. If the element does not already exist as a variable, then a new variable (an empty list, with the name of the vector element) is created. Alternatively, if the required 'assessment_type' is not configured, set a variable 'listsToCreate' as the vector of strings to create lists from. One of 'assessment_type' or 'listsToCreate' must be defined. Setting 'listsToCreate' overrides a defined 'assessment_type'. If 'assessment_type' is not defined and 'listsToCreate' is defined, the function will create empty lists with the name of the items stored in the 'listsToCreate' vector of strings.
 #'
-#' @param assessmentType (OPTIONAL) A string - the current assessment being analysed (either "ADK" or "ADTK"). Setting this overrides any set
+#' @param assessment_type (OPTIONAL) A string - the current assessment being analysed (either "ADK" or "ADTK"). Setting this overrides any set
 #' @param listsToCreate (OPTIONAL) A vector of strings.
 #'
 #' @return Creates the required empty lists based on the assessment type in the main (global) environment
 #' @export
 #'
-#' @examples # If using a preconfigured assessmentType:
-#' fnListsFromVector(assessmentType = "ADK")
+#' @examples # If using a preconfigured assessment_type:
+#' fnListsFromVector(assessment_type = "ADK")
 #' #if manually setting the list of strings to create empty lists from:
 #' fnListsFromVector(listsToCreate = c("list1", "list2"))
 #'
 ################################################################################
 #'
-fnListsFromVector <- function(assessmentType = NULL,
+fnListsFromVector <- function(assessment_type = NULL,
                               listsToCreate) {
   # Define opposite of %in% operator
   `%!in%` <- Negate(`%in%`)
@@ -25,8 +25,8 @@ fnListsFromVector <- function(assessmentType = NULL,
   #   __________________________________________________________________________
   #   Check error conditions                                                ####
 
-  # Error condition - if the defined assessmentType is not in the list of preconfigured types and a manually configured variable storing the lists to create ('listsToCreate') has also not been set
-  if (assessmentType %!in% configuredAssessmentTypes && is.na(listsToCreate)) {
+  # Error condition - if the defined assessment_type is not in the list of preconfigured types and a manually configured variable storing the lists to create ('listsToCreate') has also not been set
+  if (assessment_type %!in% configuredAssessmentTypes && is.na(listsToCreate)) {
     stop(
       "The configured assessment type has not been preconfigured in this function and the variable 'listsToCreate' has not been defined. To use the currently configured assessment type, define the input variable 'listsToCreate' to be a vector of strings of the names of any empty lists that must be created for later analysis."
     )
@@ -36,8 +36,8 @@ fnListsFromVector <- function(assessmentType = NULL,
   #   Set lists to create based on assessment type                          ####
 
   # If assessment type is in configures assessment types
-  if (assessmentType %in% configuredAssessmentTypes) {
-    if (assessmentType %in% c("ADK", "ADTK")) {
+  if (assessment_type %in% configuredAssessmentTypes) {
+    if (assessment_type %in% c("ADK", "ADTK")) {
       vectorOfLists <- c(
         "historicStats",
         "itemAnalysis",

@@ -33,5 +33,5 @@ A dataframe is returned (testDetails) containing the calculated test details. A 
 Test Details Parameters (Stage Specific)
 }
 \examples{
-fn_test_details(assessment = cnst$assessmentType, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, results_absent = dfResAbsent)
+fn_test_details(assessment = cnst$assessment_type, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, results_absent = dfResAbsent)
 }

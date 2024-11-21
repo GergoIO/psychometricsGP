@@ -5,13 +5,13 @@
 \title{Score Statistics Table}
 \usage{
 fnScoreStatistics(
-  assessmentType = NULL,
+  assessment_type = NULL,
   listOfConstants = NULL,
   passMarks = data.frame(stringsAsFactors = FALSE)
 )
 }
 \arguments{
-\item{assessmentType}{A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review}
+\item{assessment_type}{A string. The type of assessment being analysed. This will determine the selection process for finding and returning items to review}
 
 \item{listOfConstants}{A list of constants. At least the following must be defined as list elements: assessment (Eg "ADK38"), nPresent (the number of students who sat the assessment), nItems (the original number of items), nItemsExcl (the number of items excluded), itemsExclStr (a string of the specific item numbers removed)}
 
@@ -25,7 +25,7 @@ Score Statistics Table
 }
 \examples{
 tab$scoreStatistics <- fnScoreStatistics(
-assessmentType = "ADK",
+assessment_type = "ADK",
 listOfConstants = cnst,
 passMarks =tab$passMarks)
 

@@ -6,7 +6,7 @@
 #' @param anovaIncludesAllStages (Default = FALSE). Set to TRUE if the Anova you are adding is not stage specific and rather also looks at variance by stage
 #' @param report String - the variable name of the report which the analysis should be added to
 #' @param listOfDetails A list - containing at least the following variables must be defined as part of that list:
-#' testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.) and assessment (the current assessment number - eg: PT36)
+#' test_in_year (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.) and assessment (the current assessment number - eg: PT36)
 #' @param listOfDemographics A list of dataframes - containing 'AnovaStage#', 'MeansAdjStage#', MeansObsStage#'
 #' @param tableCount Numeric (integer) - the current number of tables in the report (will be incremented as more tables are added)
 #'

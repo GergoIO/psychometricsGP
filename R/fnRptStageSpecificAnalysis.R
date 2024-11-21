@@ -5,7 +5,7 @@
 #' @param stages Numeric (integer list) - the stages to compile analysis for. Looping is performed within the function
 #' @param report String - the variable name of the report which the analysis should be added to
 #' @param listOfDetails A list - containing at least the following variables must be defined as part of that list:
-#' testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.), assessment (the current assessment number - eg: PT36) and assessment_prev (the previous assessment number - eg: PT35)
+#' test_in_year (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.), assessment (the current assessment number - eg: PT36) and assessment_prev (the previous assessment number - eg: PT35)
 #' @param listOfPlots A list - to save any generated plots to
 #' @param listOfTables A list - to save any generated tables to
 #' @param listOfDemographics A list - to save any generated demographics tables
@@ -111,7 +111,7 @@ fnRptStageSpecificAnalysis <- function(stages = NULL,
                      glue("Stage {stage} Test-Retest Statistics"),
                      style = "heading 3")
 
-      if (listOfDetails$testInYear == 1 && stage == 1) {
+      if (listOfDetails$test_in_year == 1 && stage == 1) {
         report <- fnRptAddText(report = report,
                                text = "As this is the first test for this cohort, there are no test-retest statistics available.")
       } else{

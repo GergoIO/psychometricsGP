@@ -21,7 +21,7 @@ fnRptAnova(
 \item{report}{String - the variable name of the report which the analysis should be added to}
 
 \item{listOfDetails}{A list - containing at least the following variables must be defined as part of that list:
-testInYear (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.) and assessment (the current assessment number - eg: PT36)}
+test_in_year (an integer, which test in the years is this, 1 for 1st, 2 for 2nd etc.) and assessment (the current assessment number - eg: PT36)}
 
 \item{listOfDemographics}{A list of dataframes - containing 'AnovaStage#', 'MeansAdjStage#', MeansObsStage#'}
 
