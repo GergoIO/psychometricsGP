@@ -4,10 +4,10 @@
 \alias{fnListsFromVector}
 \title{Create Empty Lists From a Vector of Strings}
 \usage{
-fnListsFromVector(assessment_type = NULL, listsToCreate)
+fnListsFromVector(assessmentType = NULL, listsToCreate)
 }
 \arguments{
-\item{assessment_type}{(OPTIONAL) A string - the current assessment being analysed (either "ADK" or "ADTK"). Setting this overrides any set}
+\item{assessmentType}{(OPTIONAL) A string - the current assessment being analysed (either "ADK" or "ADTK"). Setting this overrides any set}
 
 \item{listsToCreate}{(OPTIONAL) A vector of strings.}
 }
@@ -15,11 +15,11 @@ fnListsFromVector(assessment_type = NULL, listsToCreate)
 Creates the required empty lists based on the assessment type in the main (global) environment
 }
 \description{
-This function uses an input of the assessment type ('assessment_type') being analysed. Then, the empty lists to create are set (as a vector) based on the assessment type. Each element of the vector is checked. If the element does not already exist as a variable, then a new variable (an empty list, with the name of the vector element) is created. Alternatively, if the required 'assessment_type' is not configured, set a variable 'listsToCreate' as the vector of strings to create lists from. One of 'assessment_type' or 'listsToCreate' must be defined. Setting 'listsToCreate' overrides a defined 'assessment_type'. If 'assessment_type' is not defined and 'listsToCreate' is defined, the function will create empty lists with the name of the items stored in the 'listsToCreate' vector of strings.
+This function uses an input of the assessment type ('assessmentType') being analysed. Then, the empty lists to create are set (as a vector) based on the assessment type. Each element of the vector is checked. If the element does not already exist as a variable, then a new variable (an empty list, with the name of the vector element) is created. Alternatively, if the required 'assessmentType' is not configured, set a variable 'listsToCreate' as the vector of strings to create lists from. One of 'assessmentType' or 'listsToCreate' must be defined. Setting 'listsToCreate' overrides a defined 'assessmentType'. If 'assessmentType' is not defined and 'listsToCreate' is defined, the function will create empty lists with the name of the items stored in the 'listsToCreate' vector of strings.
 }
 \examples{
-# If using a preconfigured assessment_type:
-fnListsFromVector(assessment_type = "ADK")
+# If using a preconfigured assessmentType:
+fnListsFromVector(assessmentType = "ADK")
 #if manually setting the list of strings to create empty lists from:
 fnListsFromVector(listsToCreate = c("list1", "list2"))
 

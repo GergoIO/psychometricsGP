@@ -10,7 +10,7 @@
 #' @return A dataframe is returned (testDetails) containing the calculated test details. A new column is generated for each stage considered
 #' @export
 #'
-#' @examples fn_test_details(assessment = cnst$assessment_type, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, results_absent = dfResAbsent)
+#' @examples fn_test_details(assessment = cnst$assessmentType, stages = cnst$stages, programme = cnst$programme, demog = dfDemog, results = dfRes, results_absent = dfResAbsent)
 
 ################################################################################
 
@@ -68,15 +68,17 @@ fn_test_details <-
       } else{
         # This is for IDS only
 
-        # If dfAbsent is empty, bind_rows will not work because the Programme name will be logical and not character.
+        # If results_absent is empty, bind_rows will not work because the Programme name will be logical and not character.
         # To fix, force the Programme col to be character
-        dfAbsent <- dfAbsent |>
+        results_absent <-
+          results_absent |>
           mutate(
             Programme = as.character(Programme)
           )
 
         # Overall: 1 col entry for each Programmes and a final col for All Programmes
-        resultsAll <- bind_rows(dfResults, dfAbsent) |>
+        resultsAll <-
+          bind_rows(results, results_absent) |>
           select(Programme, pctScoreTotal)
 
         detailsProgrammes <- resultsAll  |>

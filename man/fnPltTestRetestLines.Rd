@@ -7,12 +7,12 @@
 fnPltTestRetestLines(
   plot = NULL,
   stage = NULL,
-  test_in_year = NULL,
+  testInYear = NULL,
   gradeBounds = NULL,
   gradeBoundsPrev = NULL,
   nBounds = NULL,
   nBoundsPrev = NULL,
-  assessment_type = NULL
+  assessmentType = NULL
 )
 }
 \arguments{
@@ -20,17 +20,17 @@ fnPltTestRetestLines(
 
 \item{stage}{Numeric (integer) - the current stage being plotted}
 
-\item{test_in_year}{Numeric (integer) - the test in the academic year of this assessment. 1 for the first assessment}
+\item{testInYear}{Numeric (integer) - the test in the academic year of this assessment. 1 for the first assessment}
 
 \item{gradeBounds}{A dataframe of the grade boundaries for the current assessment. Cols should be named "Stage 1" etc. Rows should be named "Unsatisfactory", "Borderline", "Satisfactory", "Excellent"}
 
 \item{gradeBoundsPrev}{A dataframe of the grade boundaries for the previous assessment. Cols should be named "Stage 1" etc. Rows should be named "Unsatisfactory", "Borderline", "Satisfactory", "Excellent"}
 
-\item{nBounds}{(OPTIONAL - if assessment_type is set) The number of grade boundaries to add for the current assessment (3 means plot the B, S and E boundaries, 1 means plot only the S boundary)}
+\item{nBounds}{(OPTIONAL - if assessmentType is set) The number of grade boundaries to add for the current assessment (3 means plot the B, S and E boundaries, 1 means plot only the S boundary)}
 
-\item{nBoundsPrev}{(OPTIONAL - if assessment_type is set) The number of grade boundaries to add for the previous assessment}
+\item{nBoundsPrev}{(OPTIONAL - if assessmentType is set) The number of grade boundaries to add for the previous assessment}
 
-\item{assessment_type}{The assessment type. Currently configured options are: "ADK", "ADTK", "AMK"}
+\item{assessmentType}{The assessment type. Currently configured options are: "ADK", "ADTK", "AMK"}
 }
 \value{
 An updated plot is returned. The new plot should be saved under the old plot (see examples)
@@ -41,7 +41,7 @@ A function for adding grade boundary lines to existing scatter plots of test ret
 NEW FUNCTIONALITY: If the assessment type is defined (along with the stage and the test in year), the number of current and previous grade boundaries to apply is automatically set.
 }
 \examples{
-plt[[glue('testRetestStage{i}')]] <- fnPltTestRetestLines(plot = plt[[glue('testRetestStage{i}')]], stage = i, test_in_year = cnst$test_in_year, gradeBounds = tab$gradeBoundaries, gradeBoundsPrev = tab$gradeBoundariesPrev, nBounds = 3, nBoundsPrev = 3)
+plt[[glue('testRetestStage{i}')]] <- fnPltTestRetestLines(plot = plt[[glue('testRetestStage{i}')]], stage = i, testInYear = cnst$testInYear, gradeBounds = tab$gradeBoundaries, gradeBoundsPrev = tab$gradeBoundariesPrev, nBounds = 3, nBoundsPrev = 3)
 Use ifelse when setting nBounds and nBoundsPrev to avoid having multiple loops in the main script dependent on the test in year
 
 
