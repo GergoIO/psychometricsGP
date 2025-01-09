@@ -1,7 +1,7 @@
 Package: psychometricsGP
 Type: Package
 Title: Functions for Psychometric Analysis
-Version: 0.2.0
+Version: 0.3.0
 Author: Gergo Pinter
 Maintainer: Gergo Pinter <gergo.pinter@plymouth.ac.uk>
 Description: Gathers all custom commonly-used functions
@@ -14,8 +14,8 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Imports:
+    devtools,
     emmeans,
     spatstat,
     ggplot2,
-    devtools,
     roxygen2
