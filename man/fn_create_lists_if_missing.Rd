@@ -4,10 +4,12 @@
 \alias{fn_create_lists_if_missing}
 \title{Create Lists if Missing}
 \usage{
-fn_create_lists_if_missing(var_names)
+fn_create_lists_if_missing(var_names, quiet = FALSE)
 }
 \arguments{
 \item{var_names}{A character vector containing the names of the lists to create.}
+
+\item{quiet}{A logical value. If `TRUE`, suppresses all messages except for error messages.}
 }
 \value{
 This function does not return a value but creates empty lists in the global environment as a side effect.
@@ -23,6 +25,8 @@ If a variable already exists as a list, no changes are made.
 \examples{
 fn_create_lists_if_missing(c("paths", "names", "data_list"))
 # Creates empty lists in the global environment only if they don't already exist.
+fn_create_lists_if_missing(c("paths", "names"), quiet = TRUE)
+# Suppresses messages.
 
 }
 \seealso{
