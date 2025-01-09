@@ -8,6 +8,24 @@
 #' @examples
 #' fn_startup_packages()
 fn_startup_packages <- function() {
+
+  # Before doing anything, load this specific dll file to fix a no text issue with file.choose
+  # See here https://github.com/r-lib/textshaping/issues/36
+  # Check if the file exists and try to load it
+  dll_path <- "C:\\Windows\\System32\\TextShaping.dll"
+  if (file.exists(dll_path)) {
+    tryCatch({
+      dyn.load(dll_path)
+      # message("TextShaping.dll loaded successfully.")
+    }, error = function(e) {
+      message("See fn_startup_packages: Failed to load TextShaping.dll: ", e$message)
+    })
+  } else {
+    message("See fn_startup_packages: TextShaping.dll not found at the specified path.")
+  }
+
+
+
   if (!requireNamespace("librarian", quietly = TRUE)) {
     install.packages("librarian", dependencies = TRUE)
   }
@@ -88,10 +106,11 @@ fn_startup_packages <- function() {
     spatstat.linnet,
     lorenzwalthert / strcode,
     stringi,
+    tcltk, # For getting prepopulated file path popups
     tictoc,
-    viridis,
     tjmahr / WrapRmd,
     usethis,
+    viridis,
     writexl, # For saving xlsx files
     tidyverse / glue,
     tidyverse # tidyverse should load dplyr
