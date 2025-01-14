@@ -62,7 +62,7 @@ fnPltGradeRange(
 fnPltGradeRange(
  data = testDataUS,
  grades = "US",
- xLabels = c(1, 2),
+ xLabels = c(1, 2, 3),
  axisTitles = c("Stage", "Score (\%)")
 )
 
