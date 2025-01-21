@@ -40,6 +40,7 @@ fn_startup_packages <- function() {
     lme4::fixef,
     patchwork::area,
     psych::rescale,
+    tidyr::smiths,
     .quiet = TRUE
   )
 
