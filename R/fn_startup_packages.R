@@ -31,6 +31,9 @@ fn_startup_packages <- function() {
   }
   library(librarian)
 
+  if (!requireNamespace("librarian", quietly = TRUE)) {
+    install.packages("librarian", dependencies = TRUE)
+  }
   library(conflicted)
 
   # Set specific function preferences
