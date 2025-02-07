@@ -11,6 +11,9 @@ fnRptAddTable(
   caption = NULL,
   stopTrailingLine = FALSE,
   stopFlextableConversion = FALSE,
+  add_vertical_line_1_from_left = FALSE,
+  add_vertical_line_1_from_right = FALSE,
+  add_horizontal_line_1_from_bottom = FALSE,
   ...
 )
 }

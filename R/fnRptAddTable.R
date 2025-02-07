@@ -26,6 +26,9 @@ fnRptAddTable <-
            caption = NULL,
            stopTrailingLine = FALSE,
            stopFlextableConversion = FALSE,
+           add_vertical_line_1_from_left = FALSE,
+           add_vertical_line_1_from_right = FALSE,
+           add_horizontal_line_1_from_bottom = FALSE,
            ...) {
     if (is.null(report) | is.null(table) |
         is.null(caption) |
@@ -38,13 +41,9 @@ fnRptAddTable <-
     else{
       # Caption goes above Table
       report <-
-        body_add_par(report,
-                     glue("Table {tableCount}: {caption}"),
-                     style = "caption")
+        body_add_par(report, glue("Table {tableCount}: {caption}"), style = "caption")
       # Ensure that the variable fed through as 'tableCount' is updated in main script
-      assign(deparse(substitute(tableCount)),
-             tableCount + 1,
-             envir = globalenv())
+      assign(deparse(substitute(tableCount)), tableCount + 1, envir = globalenv())
       if (stopFlextableConversion) {
         report <-
           body_add_flextable(
@@ -55,10 +54,34 @@ fnRptAddTable <-
             ...
           )
       } else if (stopFlextableConversion %in% c(NULL, FALSE)) {
+        n_cols = ncol(table)
+        n_rows = nrow(table)
+
+        report_table = qflextable(table)
+
+        # Add vertical line 1 from left if requested
+        if(add_vertical_line_1_from_left){
+          report_table <-
+            report_table |>
+            vline(j = 1, border = fp_border(width = 1, color = "grey60"))
+        }
+        # Add vertical line 1 from right if requested
+        if(add_vertical_line_1_from_right){
+          report_table <-
+            report_table |>
+            vline(j = n_cols - 1, border = fp_border(width = 1, color = "grey60"))
+        }
+        # Add horizontal line 1 from bottom if requested
+        if(add_horizontal_line_1_from_bottom){
+          report_table <-
+            report_table |>
+            hline(i = n_rows - 1, border = fp_border(width = 1, color = "grey60"))
+        }
+
         report <-
           body_add_flextable(
             x = report,
-            value = qflextable(table) |>
+            value = report_table |>
               # Default to using autofit for all tables
               set_table_properties(layout = "autofit"),
             ...
