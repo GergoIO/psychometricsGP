@@ -91,7 +91,7 @@ fn_rpt_add_table <- function(
   }
 
   # Add the table to the report
-  report <- officer::body_add_flextable(report, value = table, ...)
+  report <- body_add_flextable(report, value = table, ...)
 
   # Add an empty paragraph if stop_trailing_line is FALSE or NULL
   if (!stop_trailing_line) {
