@@ -6,25 +6,25 @@
 \usage{
 fn_point_biserial_significant(
   data,
-  assessment = cnst$assessment,
-  colStudentID = "StudentID",
-  colIsCorrect = "IsCorrect",
-  colItemID = "ItemID",
-  significanceLevel = 0.05
+  assessment = "Test",
+  col_student_id = "StudentID",
+  col_is_correct = "IsCorrect",
+  col_item_id = "ItemID",
+  significance_level = 0.05
 )
 }
 \arguments{
-\item{data}{(dataframe) Incoming long data eg a dataframe with cols StudentID, ItemID and IsCorrect}
+\item{data}{(dataframe) Incoming long data eg a dataframe with cols student_id, item_id, and is_correct}
 
 \item{assessment}{(String) The name of the test.}
 
-\item{colStudentID}{(default = "StudentID"), String The name of the column containing the Student ID number}
+\item{col_student_id}{(default = "StudentID"), String The name of the column containing the Student ID number}
 
-\item{colIsCorrect}{(default = "IsCorrect"), String. The name of the column containing the item score in each row}
+\item{col_is_correct}{(default = "IsCorrect"), String. The name of the column containing the item score in each row}
 
-\item{colItemID}{(default = "ItemID"), String. The name of the column containing the ItemID in each row}
+\item{col_item_id}{(default = "ItemID"), String. The name of the column containing the ItemID in each row}
 
-\item{significanceLevel}{(default = 0.05) Numeric. Set the significance level for each point biserial correlation}
+\item{significance_level}{(default = 0.05) Numeric. Set the significance level for each point biserial correlation}
 }
 \value{
 returns a new dataframe storing the point biserial info for all input items
@@ -33,7 +33,10 @@ returns a new dataframe storing the point biserial info for all input items
 Calculate PtBis and Statistical Significance for Test Items
 }
 \examples{
- df <- data.frame(
-
-
+df <- data.frame(
+  StudentID = rep(1:3, each = 6),
+  ItemID = rep(c("A", "B", "C", "D", "E", "F"), 3),
+  IsCorrect = c(1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0)
+)
+df |> fn_point_biserial_significant()
 }
