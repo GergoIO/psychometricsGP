@@ -6,7 +6,7 @@
 #' test is applied to assess the effect of each factor when removed.
 #'
 #' @param data A data frame containing the dataset.
-#' @param col_stage A string specifying the column name for the stages (e.g., "Stage").
+#' @param col_stage_current A string specifying the column name for the stages (e.g., "Stage").
 #' @param col_score A string specifying the column name for the score variable (e.g., "Score").
 #' @param cols_demographics A character vector of column names for the demographic variables (e.g., c("Gender", "AgeGroup")).
 #' @param cols_anova A character vector of column names to test in the ANOVA (e.g., c("Gender", "AgeGroup", "Region")).
@@ -14,7 +14,7 @@
 #' @return A data frame with ANOVA results. The columns include:
 #' \describe{
 #'   \item{Factor}{The demographic factor being tested.}
-#'   \item{Stage}{The stage corresponding to the subset of the data.}
+#'   \item{StageCurrent}{The stage corresponding to the subset of the data.}
 #'   \item{Method}{The method used for the analysis (e.g., "Individual", "All", "All - Drop1").}
 #'   \item{data}{Degrees of freedom for the factor.}
 #'   \item{sumsq}{Sum of squares for the factor.}
@@ -40,7 +40,7 @@
 #' # Example usage
 #' anova_results <- fn_anova_analysis(
 #'   data,
-#'   col_stage = "Stage",
+#'   col_stage_current = "Stage",
 #'   col_score = "Score",
 #'   cols_demographics = c("Gender", "AgeGroup"),
 #'   cols_anova = c("Gender", "AgeGroup", "Region")
@@ -49,13 +49,13 @@
 #'
 #' @export
 fn_anova_analysis <- function(data,
-                           col_stage,
+                           col_stage_current,
                            col_score,
                            cols_demographics,
                            cols_anova) {
   results <- list()
 
-  unique_stages <- unique(data[[col_stage]])
+  unique_stages <- unique(data[[col_stage_current]])
 
   # Check if there are any factors in cols_anova that are not in cols_demographics
   factors_not_in_demographics <- setdiff(cols_anova, cols_demographics)
@@ -64,12 +64,12 @@ fn_anova_analysis <- function(data,
          paste(factors_not_in_demographics, collapse = ", "))
   }
 
-  for (stage in unique_stages) {
-    df_stage <- data %>% filter(.data[[col_stage]] == stage)
+  for (stage_current in unique_stages) {
+    data_stage_current <- data %>% filter(.data[[col_stage_current]] == stage_current)
 
     # Filter cols_anova to only include those present in cols_demographics and having at least 2 factors
     valid_factors <- cols_anova[cols_anova %in% cols_demographics &
-                                  sapply(df_stage[cols_anova], function(col)
+                                  sapply(data_stage_current[cols_anova], function(col)
                                     length(unique(col)) > 1)]
 
     # Check if there are no valid factors and stop the function with an error message
@@ -87,12 +87,12 @@ fn_anova_analysis <- function(data,
     # Run individual ANOVA for each factor
     for (factor_col in valid_factors) {
       formula <- as.formula(paste(col_score, "~", factor_col))
-      anova_result <- aov(formula, data = df_stage)
+      anova_result <- aov(formula, data = data_stage_current)
       tidy_result <- tidy(anova_result)
 
       # Add metadata to the results
       tidy_result <- tidy_result %>% mutate(Factor = factor_col,
-                                            Stage = stage,
+                                            StageCurrent = stage_current,
                                             Method = "Individual")
 
       results[[length(results) + 1]] <- tidy_result
@@ -101,12 +101,12 @@ fn_anova_analysis <- function(data,
     # Run a combined ANOVA with all valid factors
     if (length(valid_factors) > 0) {
       formula_all <- as.formula(paste(col_score, "~ ."))
-      anova_all <- aov(formula_all, data = na.omit(df_stage[, c(col_score, valid_factors)]))
+      anova_all <- aov(formula_all, data = na.omit(data_stage_current[, c(col_score, valid_factors)]))
       tidy_all <- tidy(anova_all)
 
       # Add metadata for "All" method
       tidy_all <- tidy_all %>% mutate(Factor = term,
-                                      Stage = stage,
+                                      StageCurrent = stage_current,
                                       Method = "All")
 
       results[[length(results) + 1]] <- tidy_all
@@ -117,7 +117,7 @@ fn_anova_analysis <- function(data,
 
       # Add metadata for "All - Drop1" method
       drop1_results <- drop1_results %>% mutate(Factor = term,
-                                                Stage = stage,
+                                                StageCurrent = stage_current,
                                                 Method = "All - Drop1")
 
       results[[length(results) + 1]] <- drop1_results
@@ -128,7 +128,7 @@ fn_anova_analysis <- function(data,
   final_results <- bind_rows(results) %>%
     select(
       Factor,
-      Stage,
+      StageCurrent,
       Method,
       df,
       `Sum of Sq` = sumsq,

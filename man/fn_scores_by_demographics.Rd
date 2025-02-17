@@ -4,12 +4,17 @@
 \alias{fn_scores_by_demographics}
 \title{Scores by Demographics with Adjusted Means}
 \usage{
-fn_scores_by_demographics(data, col_stage, col_score, cols_demographics)
+fn_scores_by_demographics(
+  data,
+  col_stage_current,
+  col_score,
+  cols_demographics
+)
 }
 \arguments{
 \item{data}{A data frame containing the dataset.}
 
-\item{col_stage}{A string specifying the column name for the stages (e.g., "Stage").}
+\item{col_stage_current}{A string specifying the column name for the stages (e.g., "Stage").}
 
 \item{col_score}{A string specifying the column name for the score variable (e.g., "Score").}
 
@@ -43,7 +48,7 @@ data <- data.frame(
 )
 
 # Example usage
-results <- fn_scores_by_demographics(data, col_stage = "Stage", col_score = "Score", cols_demographics = c("Gender", "AgeGroup"))
+results <- fn_scores_by_demographics(data, col_stage_current = "Stage", col_score = "Score", cols_demographics = c("Gender", "AgeGroup"))
 print(results)
 
 }

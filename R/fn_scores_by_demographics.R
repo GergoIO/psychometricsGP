@@ -7,7 +7,7 @@
 #' influence of other factors.
 #'
 #' @param data A data frame containing the dataset.
-#' @param col_stage A string specifying the column name for the stages (e.g., "Stage").
+#' @param col_stage_current A string specifying the column name for the stages (e.g., "Stage").
 #' @param col_score A string specifying the column name for the score variable (e.g., "Score").
 #' @param cols_demographics A character vector of column names for the demographic variables (e.g., c("Gender", "AgeGroup")).
 #'
@@ -34,37 +34,37 @@
 #' )
 #'
 #' # Example usage
-#' results <- fn_scores_by_demographics(data, col_stage = "Stage", col_score = "Score", cols_demographics = c("Gender", "AgeGroup"))
+#' results <- fn_scores_by_demographics(data, col_stage_current = "Stage", col_score = "Score", cols_demographics = c("Gender", "AgeGroup"))
 #' print(results)
 #'
 #' @export
 fn_scores_by_demographics <- function(data,
-                                      col_stage,
+                                      col_stage_current,
                                       col_score,
                                       cols_demographics) {
   results <- list()
 
-  unique_stages <- unique(data[[col_stage]])
+  unique_stages <- unique(data[[col_stage_current]])
 
-  for (stage in unique_stages) {
-    data_stage <- data %>% filter(!!sym(col_stage) == stage)
+  for (stage_current in unique_stages) {
+    data_stage_current <- data %>% filter(!!sym(col_stage_current) == stage_current)
 
     # Iterate over each demographic column
     for (col_factor in cols_demographics) {
 
       # Calculate the observed mean score and count for each subset of the demographic
-      mean_scores <- data_stage %>%
+      mean_scores <- data_stage_current %>%
         group_by(!!sym(col_factor)) %>%
         summarise(
           ObservedMean = mean(!!sym(col_score), na.rm = TRUE),
           Count = n()
         ) %>%
         mutate(Factor = col_factor,
-               StageCurrent = stage,
+               StageCurrent = stage_current,
                Level = as.character(!!sym(col_factor)))
 
       # Fit the linear model to calculate adjusted means
-      lm_model <- lm(as.formula(paste(col_score, "~", col_factor)), data = data_stage)
+      lm_model <- lm(as.formula(paste(col_score, "~", col_factor)), data = data_stage_current)
 
       # Get adjusted means using emmeans
       adj_means <- as_tibble(emmeans(lm_model, specs = col_factor))

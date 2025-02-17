@@ -4,12 +4,18 @@
 \alias{fn_anova_analysis}
 \title{ANOVA Analysis by Demographics}
 \usage{
-fn_anova_analysis(data, col_stage, col_score, cols_demographics, cols_anova)
+fn_anova_analysis(
+  data,
+  col_stage_current,
+  col_score,
+  cols_demographics,
+  cols_anova
+)
 }
 \arguments{
 \item{data}{A data frame containing the dataset.}
 
-\item{col_stage}{A string specifying the column name for the stages (e.g., "Stage").}
+\item{col_stage_current}{A string specifying the column name for the stages (e.g., "Stage").}
 
 \item{col_score}{A string specifying the column name for the score variable (e.g., "Score").}
 
@@ -21,7 +27,7 @@ fn_anova_analysis(data, col_stage, col_score, cols_demographics, cols_anova)
 A data frame with ANOVA results. The columns include:
 \describe{
   \item{Factor}{The demographic factor being tested.}
-  \item{Stage}{The stage corresponding to the subset of the data.}
+  \item{StageCurrent}{The stage corresponding to the subset of the data.}
   \item{Method}{The method used for the analysis (e.g., "Individual", "All", "All - Drop1").}
   \item{data}{Degrees of freedom for the factor.}
   \item{sumsq}{Sum of squares for the factor.}
@@ -50,7 +56,7 @@ data <- data.frame(
 # Example usage
 anova_results <- fn_anova_analysis(
   data,
-  col_stage = "Stage",
+  col_stage_current = "Stage",
   col_score = "Score",
   cols_demographics = c("Gender", "AgeGroup"),
   cols_anova = c("Gender", "AgeGroup", "Region")
