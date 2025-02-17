@@ -134,8 +134,8 @@ fn_anova_analysis <- function(data,
       `Sum of Sq` = sumsq,
       RSS = meansq,
       AIC = statistic,
-      `F-statistic` = statistic,
-      `P-value` = p.value
+      `F-Statistic` = statistic,
+      `P-Value` = p.value
     )
 
   return(final_results)
