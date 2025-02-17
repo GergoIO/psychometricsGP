@@ -40,9 +40,9 @@ Perform ANOVA, save ANOVA results, adjusted means and observed means for differe
 }
 \examples{
 #With stage separation:
-    tabDemog <- append(tabDemog,fn_anova(data_demog = dfDemog, stages = cnst$stages, col_score = glue("{cnst$assessment}_Score"), vars_all = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability"), report_observed_mean_for_all_vars = FALSE))
+    tabDemog <- append(tabDemog,fn_anova(data_demog = data_demog, stages = cnst$stages, col_score = glue("{cnst$assessment}_Score"), vars_all = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability"), report_observed_mean_for_all_vars = FALSE))
 # Without stage separation:
-    tabDemog <- append(tabDemog,fn_anova(data_demog = dfDemog, col_score = glue("{cnst$assessment}_Score"), append_name = "All", vars_all = c("Gender", "Ethnicity", "Disability", "Stage", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability", "Stage"), report_observed_mean_for_all_vars = FALSE)))
+    tabDemog <- append(tabDemog,fn_anova(data_demog = data_demog, col_score = glue("{cnst$assessment}_Score"), append_name = "All", vars_all = c("Gender", "Ethnicity", "Disability", "Stage", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability", "Stage"), report_observed_mean_for_all_vars = FALSE)))
 
 
 }
