@@ -49,8 +49,24 @@ fn_scores_by_demographics <- function(data,
   for (stage_current in unique_stages) {
     data_stage_current <- data %>% filter(!!sym(col_stage_current) == stage_current)
 
+    # Filter cols_demographics to only those with at least 2 factors
+    valid_factors <- cols_demographics[sapply(data_stage_current[cols_demographics], function(col)
+      length(unique(col)) > 1)]
+
+    # Check if there are no valid factors and stop the function with an error message
+    if (length(valid_factors) == 0) {
+      stop("fn_scores_by_demographics - No valid factors available after filtering. Please check your columns.")
+    }
+
+    # Check if there are any factors that could not be included and display a message
+    factors_not_included <- setdiff(cols_demographics, valid_factors)
+    if (length(factors_not_included) > 0) {
+      message("fn_scores_by_demographic - The following factors could not be included due to insufficient categories or non-existence in the dataset: ",
+              paste(factors_not_included, collapse = ", "))
+    }
+
     # Iterate over each demographic column
-    for (col_factor in cols_demographics) {
+    for (col_factor in valid_factors) {
 
       # Calculate the observed mean score and count for each subset of the demographic
       mean_scores <- data_stage_current %>%
