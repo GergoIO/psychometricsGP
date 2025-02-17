@@ -13,9 +13,9 @@
 #' @export
 #'
 #' @examples #With stage separation:
-#'     tabDemog <- append(tabDemog,fn_anova(data_demog = dfDemog, stages = cnst$stages, col_score = glue("{cnst$assessment}_Score"), vars_all = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability"), report_observed_mean_for_all_vars = FALSE))
+#'     tabDemog <- append(tabDemog,fn_anova(data_demog = data_demog, stages = cnst$stages, col_score = glue("{cnst$assessment}_Score"), vars_all = c("Gender", "Ethnicity", "Disability", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability"), report_observed_mean_for_all_vars = FALSE))
 #' # Without stage separation:
-#'     tabDemog <- append(tabDemog,fn_anova(data_demog = dfDemog, col_score = glue("{cnst$assessment}_Score"), append_name = "All", vars_all = c("Gender", "Ethnicity", "Disability", "Stage", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability", "Stage"), report_observed_mean_for_all_vars = FALSE)))
+#'     tabDemog <- append(tabDemog,fn_anova(data_demog = data_demog, col_score = glue("{cnst$assessment}_Score"), append_name = "All", vars_all = c("Gender", "Ethnicity", "Disability", "Stage", "Entry", "Origin"), vars_anova = c("Gender", "Ethnicity", "Disability", "Stage"), report_observed_mean_for_all_vars = FALSE)))
 #'
 ################################################################################
 #'
@@ -41,17 +41,17 @@ fn_anova <-
 
         # When multiple stages are being considered
         # Check if there is a 'Stage' col in the data
-        if ("Stage" %in% colnames(dfDemog) == FALSE) {
+        if ("Stage" %in% colnames(data_demog) == FALSE) {
           stop(
             "fn_anova: There is no 'Stages' column in data_demog and there are multiple stages requested."
           )
         } else {
           # Store data separately so the original df is not modified
-          dfDemog <- data_demog |>
+          data_demog <- data_demog |>
             # Rename the col storing the scores (needed for manual input in aov fn)
             rename(Score = col_score)
 
-          demogDataStages <- split(dfDemog, dfDemog$Stage)
+          demogDataStages <- split(data_demog, data_demog$Stage)
           names(demogDataStages) <-
             glue("Stage {sort(unique(data_demog$Stage))}") # Rename each split df as "Stage *"
 
@@ -183,10 +183,10 @@ fn_anova <-
         }
 
         # Store data separately so the original df is not modified
-        dfDemog <- data_demog %>%
+        data_demog <- data_demog %>%
           # Rename the col storing the scores (needed for manual input in aov fn)
           rename(Score = col_score)
-        # names(dfDemog)[names(dfDemog) == col_score] <- "Score"
+        # names(data_demog)[names(data_demog) == col_score] <- "Score"
 
         # If Stage is still requested to be added to the ANOVA (though not including stage separation),
         # Then modify the values so they are characters and not numeric so the anova picks them up properly
@@ -196,9 +196,9 @@ fn_anova <-
               "fn_anova: 'Stage' is set to be one of the ANOVA vars and stage separation is not requested.\nBut, the 'stages_for_filtering' variable is not defined.\nThe 'stages_for_filtering' variable must be defined to perform the requested action."
             )
           } else{
-            dfDemog <-
-              dfDemog |>
-              # Still filter to make sure that only the specified stage exists in dfDemog
+            data_demog <-
+              data_demog |>
+              # Still filter to make sure that only the specified stage exists in data_demog
               filter(Stage %in% stages_for_filtering) |>
               mutate(Stage = paste0("Stage ", Stage))
           }
@@ -208,7 +208,7 @@ fn_anova <-
         ### ANOVA                                                           ####
 
         # Identify variables with at least two unique factors
-        valid_vars <- vars_anova[sapply(dfDemog[, vars_anova], function(col)
+        valid_vars <- vars_anova[sapply(data_demog[, vars_anova], function(col)
           length(unique(col)) >= 2)]
 
         # Identify excluded variables
@@ -226,14 +226,14 @@ fn_anova <-
 
         # Proceed with valid variables
         if (length(valid_vars) > 0) {
-          aov <- aov(Score ~ ., data = na.omit(dfDemog[, c("Score", valid_vars)]))
+          aov <- aov(Score ~ ., data = na.omit(data_demog[, c("Score", valid_vars)]))
         } else {
           stop("No valid variables remaining in vars_anova after exclusion.")
         }
 
         # Old way
         # aov <-
-        #   (aov(Score ~ ., data = na.omit(dfDemog[, c("Score", vars_anova)])))
+        #   (aov(Score ~ ., data = na.omit(data_demog[, c("Score", vars_anova)])))
 
         # Add the raw anova result to the list of data returned
         lReturn[[glue('RawAnova{append_name}')]] <- aov
@@ -279,9 +279,9 @@ fn_anova <-
 
         # Create a nested list of the number and mean scores for selected demographics
         lstOfLsts <-
-          apply(dfDemog[, obsMeans], 2, function(x)
+          apply(data_demog[, obsMeans], 2, function(x)
           {
-            tapply(dfDemog$Score, x, function(x) {
+            tapply(data_demog$Score, x, function(x) {
               c(length(x), fnGPRound(mean(x), 2))
             })
           })
@@ -319,7 +319,7 @@ fn_anova <-
 
 # https://www.datanovia.com/en/lessons/anova-in-r/
 # ddemog1 <-
-#   na.omit(dfDemog[, c("ScoreTotal", "Gender", "Ethnicity", "Disability")])
+#   na.omit(data_demog[, c("ScoreTotal", "Gender", "Ethnicity", "Disability")])
 #
 # install.packages("rstatix")
 # library(rstatix)
