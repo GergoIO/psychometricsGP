@@ -130,12 +130,12 @@ fn_anova_analysis <- function(data,
       Factor,
       Stage,
       Method,
-      data,
-      sumsq,
-      rss = meansq,
+      df,
+      `Sum of Sq` = sumsq,
+      RSS = meansq,
       AIC = statistic,
-      F.statistic = statistic,
-      p.value
+      `F-statistic` = statistic,
+      `P-value` = p.value
     )
 
   return(final_results)
