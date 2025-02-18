@@ -8,9 +8,9 @@
 #' "Correct" and "Incorrect" columns.
 #'
 #' @param data A data frame or flextable containing assessment data
-#' @param col_correct_answer Character. The name of the column containing correct answer indicators.
+#' @param colname_correct_answer Character. The name of the column containing correct answer indicators.
 #'   Default is "CorrectResponse". Can be NULL for VSAQ-only datasets.
-#' @param col_item_category Character. The name of the column indicating item types.
+#' @param colname_item_category Character. The name of the column indicating item types.
 #'   Default is "ItemCategory".
 #' @param prefix_mcq Character. The prefix for MCQ option columns. Default is "MCQ_Option_".
 #' @param prefix_vsaq Character. The prefix for VSAQ columns. Default is "VSAQ_".
@@ -25,7 +25,7 @@
 #' The function supports two types of assessment items:
 #'
 #' 1. MCQ (Multiple Choice Questions): For these items, the function uses the value in
-#'    `col_correct_answer` to identify which option is correct (e.g., if CorrectResponse = 3,
+#'    `colname_correct_answer` to identify which option is correct (e.g., if CorrectResponse = 3,
 #'    then MCQ_Option_3 is the correct answer). Incorrect answers are ranked by their values
 #'    and colored according to the `colour_incorrect` vector.
 #'
@@ -94,7 +94,7 @@
 #' )
 #' ft4 <- fn_colour_responses(
 #'   data = vsaq_only_df,
-#'   col_correct_answer = NULL  # No correct answer column needed for VSAQ only
+#'   colname_correct_answer = NULL  # No correct answer column needed for VSAQ only
 #' )
 #'
 #' # Use with existing flextable
@@ -108,8 +108,8 @@
 #'
 #' @export
 fn_colour_responses <- function(data,
-                              col_correct_answer = "CorrectResponse",
-                              col_item_category = "ItemCategory",
+                              colname_correct_answer = "CorrectResponse",
+                              colname_item_category = "ItemCategory",
                               prefix_mcq = "MCQ_Option_",
                               prefix_vsaq = "VSAQ_",
                               colour_correct = "lightgreen",
@@ -138,19 +138,19 @@ fn_colour_responses <- function(data,
   }
 
   # Check if required columns exist
-  if (!col_item_category %in% colnames(data)) {
-    stop(paste("Column", col_item_category, "not found in data"))
+  if (!colname_item_category %in% colnames(data)) {
+    stop(paste("Column", colname_item_category, "not found in data"))
   }
 
   # For MCQ items, check if correct answer column exists
-  if ("MCQ" %in% data[[col_item_category]] && !is.null(col_correct_answer) &&
-      !col_correct_answer %in% colnames(data)) {
-    stop(paste("Column", col_correct_answer, "not found in data"))
+  if ("MCQ" %in% data[[colname_item_category]] && !is.null(colname_correct_answer) &&
+      !colname_correct_answer %in% colnames(data)) {
+    stop(paste("Column", colname_correct_answer, "not found in data"))
   }
 
   # Get all column names with the prefixes
   mcq_cols <- grep(paste0("^", prefix_mcq), colnames(data), value = TRUE)
-  if (length(mcq_cols) == 0 && "MCQ" %in% data[[col_item_category]]) {
+  if (length(mcq_cols) == 0 && "MCQ" %in% data[[colname_item_category]]) {
     warning(paste("No columns with prefix", prefix_mcq, "found in data, but MCQ items exist"))
   }
 
@@ -158,7 +158,7 @@ fn_colour_responses <- function(data,
   vsaq_correct_col <- paste0(prefix_vsaq, "Correct")
   vsaq_incorrect_col <- paste0(prefix_vsaq, "Incorrect")
 
-  if (("VSAQ" %in% data[[col_item_category]]) &&
+  if (("VSAQ" %in% data[[colname_item_category]]) &&
       !(vsaq_correct_col %in% colnames(data) || vsaq_incorrect_col %in% colnames(data))) {
     warning(paste("No columns named", vsaq_correct_col, "or", vsaq_incorrect_col,
                   "found in data, but VSAQ items exist"))
@@ -167,17 +167,17 @@ fn_colour_responses <- function(data,
   # Process each row
   for (i in 1:nrow(data)) {
     # For MCQ items
-    if (data[[col_item_category]][i] == "MCQ" && !is.null(col_correct_answer) &&
-        !is.na(data[[col_correct_answer]][i])) {
+    if (data[[colname_item_category]][i] == "MCQ" && !is.null(colname_correct_answer) &&
+        !is.na(data[[colname_correct_answer]][i])) {
       # Get correct answer column based on the correct response value
-      correct_col <- paste0(prefix_mcq, data[[col_correct_answer]][i])
+      correct_col <- paste0(prefix_mcq, data[[colname_correct_answer]][i])
 
       # Highlight correct answer if needed
       if (add_colour_correct && correct_col %in% colnames(data)) {
-        col_idx <- which(colnames(data) == correct_col)
+        colname_idx <- which(colnames(data) == correct_col)
         ft <- ft %>%
-          bg(i = i, j = col_idx, bg = colour_correct) %>%
-          bold(i = i, j = col_idx)
+          bg(i = i, j = colname_idx, bg = colour_correct) %>%
+          bold(i = i, j = colname_idx)
       }
 
       # Get all incorrect answer columns and their values
@@ -198,23 +198,23 @@ fn_colour_responses <- function(data,
         for (rank in 1:min(length(incorrect_sorted), length(add_colour_incorrect))) {
           if (add_colour_incorrect[rank] && !is.na(incorrect_sorted[rank]) && incorrect_sorted[rank] > 0) {
             col <- names(incorrect_sorted)[rank]
-            col_idx <- which(colnames(data) == col)
+            colname_idx <- which(colnames(data) == col)
             ft <- ft %>%
-              bg(i = i, j = col_idx, bg = colour_incorrect[rank])
+              bg(i = i, j = colname_idx, bg = colour_incorrect[rank])
           }
         }
       }
     }
 
     # For VSAQ items
-    else if (data[[col_item_category]][i] == "VSAQ") {
+    else if (data[[colname_item_category]][i] == "VSAQ") {
       # Handle correct answer for VSAQ (single column)
       if (add_colour_correct && vsaq_correct_col %in% colnames(data)) {
         if (!is.na(data[[vsaq_correct_col]][i]) && data[[vsaq_correct_col]][i] > 0) {
-          col_idx <- which(colnames(data) == vsaq_correct_col)
+          colname_idx <- which(colnames(data) == vsaq_correct_col)
           ft <- ft %>%
-            bg(i = i, j = col_idx, bg = colour_correct) %>%
-            bold(i = i, j = col_idx)
+            bg(i = i, j = colname_idx, bg = colour_correct) %>%
+            bold(i = i, j = colname_idx)
         }
       }
 
@@ -222,9 +222,9 @@ fn_colour_responses <- function(data,
       if (length(add_colour_incorrect) > 0 && add_colour_incorrect[1] &&
           vsaq_incorrect_col %in% colnames(data)) {
         if (!is.na(data[[vsaq_incorrect_col]][i]) && data[[vsaq_incorrect_col]][i] > 0) {
-          col_idx <- which(colnames(data) == vsaq_incorrect_col)
+          colname_idx <- which(colnames(data) == vsaq_incorrect_col)
           ft <- ft %>%
-            bg(i = i, j = col_idx, bg = colour_incorrect[1])
+            bg(i = i, j = colname_idx, bg = colour_incorrect[1])
         }
       }
     }

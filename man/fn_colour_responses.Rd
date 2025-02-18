@@ -6,8 +6,8 @@
 \usage{
 fn_colour_responses(
   data,
-  col_correct_answer = "CorrectResponse",
-  col_item_category = "ItemCategory",
+  colname_correct_answer = "CorrectResponse",
+  colname_item_category = "ItemCategory",
   prefix_mcq = "MCQ_Option_",
   prefix_vsaq = "VSAQ_",
   colour_correct = "lightgreen",
@@ -19,10 +19,10 @@ fn_colour_responses(
 \arguments{
 \item{data}{A data frame or flextable containing assessment data}
 
-\item{col_correct_answer}{Character. The name of the column containing correct answer indicators.
+\item{colname_correct_answer}{Character. The name of the column containing correct answer indicators.
 Default is "CorrectResponse". Can be NULL for VSAQ-only datasets.}
 
-\item{col_item_category}{Character. The name of the column indicating item types.
+\item{colname_item_category}{Character. The name of the column indicating item types.
 Default is "ItemCategory".}
 
 \item{prefix_mcq}{Character. The prefix for MCQ option columns. Default is "MCQ_Option_".}
@@ -53,7 +53,7 @@ highlight incorrect answers by rank of their values. For VSAQ items, highlights 
 The function supports two types of assessment items:
 
 1. MCQ (Multiple Choice Questions): For these items, the function uses the value in
-   `col_correct_answer` to identify which option is correct (e.g., if CorrectResponse = 3,
+   `colname_correct_answer` to identify which option is correct (e.g., if CorrectResponse = 3,
    then MCQ_Option_3 is the correct answer). Incorrect answers are ranked by their values
    and colored according to the `colour_incorrect` vector.
 
@@ -120,7 +120,7 @@ vsaq_only_df <- tibble(
 )
 ft4 <- fn_colour_responses(
   data = vsaq_only_df,
-  col_correct_answer = NULL  # No correct answer column needed for VSAQ only
+  colname_correct_answer = NULL  # No correct answer column needed for VSAQ only
 )
 
 # Use with existing flextable
