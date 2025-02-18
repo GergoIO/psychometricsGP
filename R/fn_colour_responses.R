@@ -20,6 +20,7 @@
 #' @param add_colour_correct Logical. Whether to highlight correct answers. Default is TRUE.
 #' @param add_colour_incorrect Logical vector. Whether to highlight incorrect answers, by rank.
 #'   Default is c(TRUE). Must be the same length as colour_incorrect.
+#' @param bold_correct_answer Logical. Whether to bold the text of correct answers. Default is TRUE.
 #'
 #' @details
 #' The function supports two types of assessment items:
@@ -67,6 +68,12 @@
 #'   add_colour_incorrect = c(TRUE, TRUE, TRUE)
 #' )
 #'
+#' # Turn off bolding of correct answers
+#' ft3 <- fn_colour_responses(
+#'   data = df,
+#'   bold_correct_answer = FALSE
+#' )
+#'
 #' # Many MCQ options example
 #' many_options_df <- tibble(
 #'   ItemCategory = c("MCQ", "MCQ"),
@@ -80,42 +87,23 @@
 #'   MCQ_Option_7 = c(0.7, 0.05),
 #'   MCQ_Option_8 = c(0.05, 0.05)
 #' )
-#' ft3 <- fn_colour_responses(
+#' ft4 <- fn_colour_responses(
 #'   data = many_options_df,
 #'   colour_incorrect = c("pink", "lightyellow"),
 #'   add_colour_incorrect = c(TRUE, TRUE)
 #' )
 #'
-#' # VSAQ-only dataset
-#' vsaq_only_df <- tibble(
-#'   ItemCategory = c("VSAQ", "VSAQ"),
-#'   VSAQ_Correct = c(0.8, 0.9),
-#'   VSAQ_Incorrect = c(0.2, 0.1)
-#' )
-#' ft4 <- fn_colour_responses(
-#'   data = vsaq_only_df,
-#'   colname_correct_answer = NULL  # No correct answer column needed for VSAQ only
-#' )
-#'
-#' # Use with existing flextable
-#' ft5 <- flextable(df) %>%
-#'   bold(j = "ItemCategory") %>%
-#'   fn_colour_responses(
-#'     colour_correct = "lightblue",
-#'     colour_incorrect = c("lightsalmon"),
-#'     add_colour_incorrect = c(TRUE)
-#'   )
-#'
 #' @export
 fn_colour_responses <- function(data,
-                              colname_correct_answer = "CorrectResponse",
-                              colname_item_category = "ItemCategory",
-                              prefix_mcq = "MCQ_Option_",
-                              prefix_vsaq = "VSAQ_",
-                              colour_correct = "lightgreen",
-                              colour_incorrect = c("lightpink"),
-                              add_colour_correct = TRUE,
-                              add_colour_incorrect = c(TRUE)) {
+                                colname_correct_answer = "CorrectResponse",
+                                colname_item_category = "ItemCategory",
+                                prefix_mcq = "MCQ_Option_",
+                                prefix_vsaq = "VSAQ_",
+                                colour_correct = "lightgreen",
+                                colour_incorrect = c("lightpink"),
+                                add_colour_correct = TRUE,
+                                add_colour_incorrect = c(TRUE),
+                                bold_correct_answer = TRUE) {
 
   # Input validation
   if (length(colour_incorrect) != length(add_colour_incorrect)) {
@@ -176,8 +164,12 @@ fn_colour_responses <- function(data,
       if (add_colour_correct && correct_col %in% colnames(data)) {
         colname_idx <- which(colnames(data) == correct_col)
         ft <- ft %>%
-          bg(i = i, j = colname_idx, bg = colour_correct) %>%
-          bold(i = i, j = colname_idx)
+          bg(i = i, j = colname_idx, bg = colour_correct)
+
+        # Apply bold formatting conditionally
+        if (bold_correct_answer) {
+          ft <- ft %>% bold(i = i, j = colname_idx)
+        }
       }
 
       # Get all incorrect answer columns and their values
@@ -213,8 +205,12 @@ fn_colour_responses <- function(data,
         if (!is.na(data[[vsaq_correct_col]][i]) && data[[vsaq_correct_col]][i] > 0) {
           colname_idx <- which(colnames(data) == vsaq_correct_col)
           ft <- ft %>%
-            bg(i = i, j = colname_idx, bg = colour_correct) %>%
-            bold(i = i, j = colname_idx)
+            bg(i = i, j = colname_idx, bg = colour_correct)
+
+          # Apply bold formatting conditionally
+          if (bold_correct_answer) {
+            ft <- ft %>% bold(i = i, j = colname_idx)
+          }
         }
       }
 
