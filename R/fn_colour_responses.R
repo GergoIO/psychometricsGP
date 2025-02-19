@@ -75,25 +75,25 @@
 #'
 #' @export
 fn_colour_responses <- function(data,
-                                colname_correct_answer = "CorrectResponse",
-                                colname_item_category = "ItemCategory",
-                                prefix_mcq = "MCQ_Option_",
-                                prefix_vsaq = "VSAQ_",
-                                colour_correct = "lightgreen",
-                                colour_incorrect = c("lightpink"),
-                                highlight_correct = TRUE,
-                                highlight_top_n_incorrect = 1,
-                                min_value_threshold = 0,
-                                border_correct = FALSE,
-                                border_top_incorrect = FALSE,
-                                bold_correct = FALSE,
-                                bold_top_incorrect = FALSE,
-                                horizontal_lines = NULL,
-                                vertical_lines = NULL,
-                                border_colour = "black",
-                                border_width = 1.5,
-                                line_colour = "grey40",
-                                line_width = 1) {
+                                 colname_correct_answer = "CorrectResponse",
+                                 colname_item_category = "ItemCategory",
+                                 prefix_mcq = "MCQ_Option_",
+                                 prefix_vsaq = "VSAQ_",
+                                 colour_correct = "lightgreen",
+                                 colour_incorrect = c("lightpink"),
+                                 highlight_correct = TRUE,
+                                 highlight_top_n_incorrect = 1,
+                                 min_value_threshold = 0,
+                                 border_correct = FALSE,
+                                 border_top_incorrect = FALSE,
+                                 bold_correct = FALSE,
+                                 bold_top_incorrect = FALSE,
+                                 horizontal_lines = NULL,
+                                 vertical_lines = NULL,
+                                 border_colour = "black",
+                                 border_width = 1.5,
+                                 line_colour = "grey40",
+                                 line_width = 1) {
   # Input validation function
   validate_inputs <- function() {
     # Check color validity
@@ -167,13 +167,8 @@ fn_colour_responses <- function(data,
           paste(missing_cols, collapse = ", ")
         ))
       }
-    }
-    # Add validation for bolding
-    if (!is.logical(bold_correct)) {
-      stop("bold_correct must be a logical value (TRUE/FALSE)")
-    }
-    if (!is.logical(bold_top_incorrect)) {
-      stop("bold_top_incorrect must be a logical value (TRUE/FALSE)")
+    } else {
+      message("No VSAQ items found in data. Skipping VSAQ validation.")
     }
   }
 
