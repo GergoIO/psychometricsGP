@@ -4,7 +4,17 @@
 \alias{fn_round_table}
 \title{Round Values in Data Frame by Rows and Columns}
 \usage{
-fn_round_table(data, ..., rows_first = TRUE, use_max_precision = FALSE)
+fn_round_table(
+  data,
+  ...,
+  rows_first = TRUE,
+  use_max_precision = FALSE,
+  use_threshold_zero_replacement = TRUE,
+  threshold_replacement_format = "<{threshold}",
+  rounding_method = "round",
+  use_scientific_notation = FALSE,
+  return_numeric = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame containing values to be rounded.}
@@ -21,9 +31,31 @@ This parameter has no effect when `use_max_precision` is TRUE.}
 \item{use_max_precision}{Logical. If TRUE, the function uses the maximum precision mode where
 each cell is rounded to the maximum number of decimal places specified for it in any row or column specification.
 If FALSE (default), it uses sequential mode where rounding is applied in order.}
+
+\item{use_threshold_zero_replacement}{Logical. If TRUE (default), values that round to zero are replaced with
+threshold strings (e.g., "<0.001" for 3 decimal places). If FALSE, values are displayed as zeros with the
+appropriate number of decimal places (e.g., "0.000" for 3 decimal places).}
+
+\item{threshold_replacement_format}{Character string. Template for the threshold replacement text.
+Default is "<{threshold}", where {threshold} will be replaced by the smallest representable value
+at the given decimal places. For example, "<0.001" for 3 decimal places.}
+
+\item{rounding_method}{Character string. The method to use for rounding. Options are:
+* "round" (default): Standard rounding, away from zero for .5
+* "floor": Always rounds down toward negative infinity
+* "ceiling": Always rounds up toward positive infinity
+* "trunc": Truncates, always toward zero
+* "signif": Uses significant digits instead of decimal places}
+
+\item{use_scientific_notation}{Logical. If TRUE, very large or small numbers will be formatted using
+scientific notation. If FALSE (default), standard decimal notation is used.}
+
+\item{return_numeric}{Logical. If TRUE, returns a data frame with numeric values instead of
+character strings. If FALSE (default), returns a data frame with formatted character strings.}
 }
 \value{
-A data frame with specified numeric values rounded according to the parameters.
+A data frame with specified numeric values rounded according to the parameters. By default,
+  returns character strings, but will return numeric values if `return_numeric = TRUE`.
 }
 \description{
 Rounds numeric values in a data frame with fine-grained control over which rows and columns are rounded
@@ -41,53 +73,85 @@ The function has two operational modes:
    determine the maximum number of decimal places required for each cell, then applies rounding once.
    The `rows_first` parameter has no effect in this mode.
 
+The rounding behavior is controlled by several parameters:
+
+* `rounding_method` determines how values are rounded (standard, floor, ceiling, etc.)
+* `use_threshold_zero_replacement` determines whether very small values are replaced with threshold strings
+* `threshold_replacement_format` controls the format of threshold replacement strings
+* `use_scientific_notation` enables scientific notation for very large or small numbers
+* `return_numeric` controls whether the function returns formatted strings or numeric values
+
 For specifying multiple sets of rows or columns, append a number to the parameter name (e.g., `rows2`, `rows3`).
 Each row or column specification must have a corresponding decimal places specification.
 
-The function converts numeric values to character strings after rounding. It also:
+The function converts numeric values to character strings after rounding (unless `return_numeric = TRUE`). It also:
 * Preserves NA values
 * Leaves non-numeric values unchanged
-* Replaces values that round to zero with a threshold string (e.g., "<0.001" for 3 decimal places)
+* Handles zero values based on `use_threshold_zero_replacement` setting
 }
 \examples{
 # Create a sample data frame
 df <- data.frame(
   A = c(1.23456, 2.34567, 3.45678),
-  B = c(4.56789, 5.67890, 6.78901),
+  B = c(0.00012, 5.67890, 6.78901),
   C = c("text", "NA", "7.89012")
 )
 
-# Round specific rows and columns with sequential processing
+# Basic usage with default settings
 fn_round_table(
   df,
   rows = 1,
   rows_decimal = 2,
+  cols = "B",
+  cols_decimal = 3
+)
+
+# Display actual zeros instead of threshold strings
+fn_round_table(
+  df,
+  rows = 1,
+  rows_decimal = 3,
   cols = "B",
   cols_decimal = 3,
-  rows_first = TRUE
+  use_threshold_zero_replacement = FALSE
 )
 
-# Use maximum precision mode to handle intersections
-fn_round_table(
-  df,
-  rows = 1:2,
-  rows_decimal = 2,
-  cols = "B",
-  cols_decimal = 4,
-  use_max_precision = TRUE
-)
-
-# Specify multiple sets of rows and columns
+# Change the threshold replacement format
 fn_round_table(
   df,
   rows = 1,
-  rows_decimal = 2,
-  rows2 = 3,
-  rows_decimal2 = 4,
-  cols = "A",
-  cols_decimal = 1,
-  cols2 = "B",
-  cols_decimal2 = 3
+  rows_decimal = 3,
+  threshold_replacement_format = "Less than {threshold}"
 )
+
+# Use ceiling rounding method
+fn_round_table(
+  df,
+  rows = 1:3,
+  rows_decimal = 2,
+  rounding_method = "ceiling"
+)
+
+# Use scientific notation for large/small numbers
+df_big <- data.frame(
+  X = c(0.00000123, 9876543210),
+  Y = c(2.34567, 3.45678)
+)
+fn_round_table(
+  df_big,
+  rows = 1:2,
+  rows_decimal = 3,
+  use_scientific_notation = TRUE
+)
+
+# Return numeric values instead of strings
+result <- fn_round_table(
+  df,
+  rows = 1:3,
+  rows_decimal = 2,
+  return_numeric = TRUE
+)
+# Now you can perform calculations on the result
+result$A * 2
 
 }
