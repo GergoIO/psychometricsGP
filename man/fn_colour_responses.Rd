@@ -12,9 +12,13 @@ fn_colour_responses(
   prefix_vsaq = "VSAQ_",
   colour_correct = "lightgreen",
   colour_incorrect = c("lightpink"),
-  add_colour_correct = TRUE,
-  add_colour_incorrect = c(TRUE),
-  bold_correct_answer = TRUE
+  highlight_correct = TRUE,
+  highlight_top_n_incorrect = 1,
+  min_value_threshold = 0,
+  border_correct = FALSE,
+  border_top_incorrect = FALSE,
+  bold_correct = FALSE,
+  bold_top_incorrect = FALSE
 )
 }
 \arguments{
@@ -32,15 +36,24 @@ Default is "ItemCategory".}
 
 \item{colour_correct}{Character. The color to use for correct answers. Default is "lightgreen".}
 
-\item{colour_incorrect}{Character vector. The colors to use for incorrect answers, in order of
-rank (highest value first). Default is c("lightpink").}
+\item{colour_incorrect}{Character vector. Colors to create gradient for incorrect answers.
+Colors will be interpolated if more highlights are requested than colors provided.}
 
-\item{add_colour_correct}{Logical. Whether to highlight correct answers. Default is TRUE.}
+\item{highlight_correct}{Logical. Whether to highlight correct answers. Default is TRUE.}
 
-\item{add_colour_incorrect}{Logical vector. Whether to highlight incorrect answers, by rank.
-Default is c(TRUE). Must be the same length as colour_incorrect.}
+\item{highlight_top_n_incorrect}{Numeric. Number of top incorrect answers to highlight.
+Default is 1.}
 
-\item{bold_correct_answer}{Logical. Whether to bold the text of correct answers. Default is TRUE.}
+\item{min_value_threshold}{Numeric. Minimum value threshold for highlighting incorrect answers.
+Default is 0.}
+
+\item{border_correct}{Logical. Whether to add border to correct answers. Default is FALSE.}
+
+\item{border_top_incorrect}{Logical. Whether to add border to top incorrect answer. Default is FALSE.}
+
+\item{bold_correct}{Logical. Whether to bold correct answers. Default is FALSE.}
+
+\item{bold_top_incorrect}{Logical. Whether to bold top incorrect answer. Default is FALSE.}
 }
 \value{
 A flextable object with highlighting applied based on the specified parameters.
@@ -48,29 +61,14 @@ A flextable object with highlighting applied based on the specified parameters.
 \description{
 Creates a flextable with colored highlighting to indicate correct and incorrect answers
 in assessment data. Supports both MCQ (Multiple Choice Questions) and VSAQ (Very Short
-Answer Questions) formats. For MCQ items, highlights correct answers and can optionally
-highlight incorrect answers by rank of their values. For VSAQ items, highlights the
-"Correct" and "Incorrect" columns.
-}
-\details{
-The function supports two types of assessment items:
-
-1. MCQ (Multiple Choice Questions): For these items, the function uses the value in
-   `colname_correct_answer` to identify which option is correct (e.g., if CorrectResponse = 3,
-   then MCQ_Option_3 is the correct answer). Incorrect answers are ranked by their values
-   and colored according to the `colour_incorrect` vector.
-
-2. VSAQ (Very Short Answer Questions): For these items, the function looks for columns
-   named `prefix_vsaq + "Correct"` and `prefix_vsaq + "Incorrect"` and highlights them
-   according to the `colour_correct` and `colour_incorrect` settings.
-
-The function automatically handles input validation, including checking for required columns
-and handling mismatches between `colour_incorrect` and `add_colour_incorrect` lengths.
+Answer Questions) formats. For MCQ items, highlights correct answers and creates a smooth
+color gradient for top incorrect answers based on their values.
 }
 \examples{
 # Load required libraries
 library(dplyr)
 library(flextable)
+library(colorRamp2)
 
 # Create example data
 df <- tibble(
@@ -84,41 +82,23 @@ df <- tibble(
   VSAQ_Incorrect = c(NA, NA, 0.2, NA, 0.5)
 )
 
-# Basic usage - highlight only correct answers
-ft1 <- fn_colour_responses(df)
+# Basic usage with gradient colors and bold formatting
+ft1 <- fn_colour_responses(
+  data = df,
+  colour_incorrect = c("red", "orange", "yellow"),
+  highlight_top_n_incorrect = 3,
+  bold_correct = TRUE,
+  bold_top_incorrect = TRUE
+)
 
-# Using vectors for incorrect colors - highlight top 3 incorrect answers
+# With borders and minimum threshold
 ft2 <- fn_colour_responses(
   data = df,
-  colour_correct = "lightgreen",
-  colour_incorrect = c("pink", "lightyellow", "lightblue"),
-  add_colour_correct = TRUE,
-  add_colour_incorrect = c(TRUE, TRUE, TRUE)
-)
-
-# Turn off bolding of correct answers
-ft3 <- fn_colour_responses(
-  data = df,
-  bold_correct_answer = FALSE
-)
-
-# Many MCQ options example
-many_options_df <- tibble(
-  ItemCategory = c("MCQ", "MCQ"),
-  CorrectResponse = c(7, 3),
-  MCQ_Option_1 = c(0.1, 0.1),
-  MCQ_Option_2 = c(0.2, 0.2),
-  MCQ_Option_3 = c(0.3, 0.7),
-  MCQ_Option_4 = c(0.1, 0.3),
-  MCQ_Option_5 = c(0.05, 0.1),
-  MCQ_Option_6 = c(0.15, 0.05),
-  MCQ_Option_7 = c(0.7, 0.05),
-  MCQ_Option_8 = c(0.05, 0.05)
-)
-ft4 <- fn_colour_responses(
-  data = many_options_df,
   colour_incorrect = c("pink", "lightyellow"),
-  add_colour_incorrect = c(TRUE, TRUE)
+  highlight_top_n_incorrect = 2,
+  min_value_threshold = 0.2,
+  border_correct = TRUE,
+  border_top_incorrect = TRUE
 )
 
 }
