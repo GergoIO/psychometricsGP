@@ -75,25 +75,25 @@
 #'
 #' @export
 fn_colour_responses <- function(data,
-                                 colname_correct_answer = "CorrectResponse",
-                                 colname_item_category = "ItemCategory",
-                                 prefix_mcq = "MCQ_Option_",
-                                 prefix_vsaq = "VSAQ_",
-                                 colour_correct = "lightgreen",
-                                 colour_incorrect = c("lightpink"),
-                                 highlight_correct = TRUE,
-                                 highlight_top_n_incorrect = 1,
-                                 min_value_threshold = 0,
-                                 border_correct = FALSE,
-                                 border_top_incorrect = FALSE,
-                                 bold_correct = FALSE,
-                                 bold_top_incorrect = FALSE,
-                                 horizontal_lines = NULL,
-                                 vertical_lines = NULL,
-                                 border_colour = "black",
-                                 border_width = 1.5,
-                                 line_colour = "grey40",
-                                 line_width = 1) {
+                                colname_correct_answer = "CorrectResponse",
+                                colname_item_category = "ItemCategory",
+                                prefix_mcq = "MCQ_Option_",
+                                prefix_vsaq = "VSAQ_",
+                                colour_correct = "lightgreen",
+                                colour_incorrect = c("lightpink"),
+                                highlight_correct = TRUE,
+                                highlight_top_n_incorrect = 1,
+                                min_value_threshold = 0,
+                                border_correct = FALSE,
+                                border_top_incorrect = FALSE,
+                                bold_correct = FALSE,
+                                bold_top_incorrect = FALSE,
+                                horizontal_lines = NULL,
+                                vertical_lines = NULL,
+                                border_colour = "black",
+                                border_width = 1.5,
+                                line_colour = "grey40",
+                                line_width = 1) {
   # Input validation function
   validate_inputs <- function() {
     # Check color validity
@@ -192,7 +192,7 @@ fn_colour_responses <- function(data,
       rgb(x[1], x[2], x[3], maxColorValue = 255))
   }
 
-  # Process MCQ items
+  # Process MCQ items with consistent coloring for identical values
   process_mcq <- function(ft, row_idx) {
     if (is.na(data[[colname_correct_answer]][row_idx]))
       return(ft)
@@ -227,7 +227,7 @@ fn_colour_responses <- function(data,
       incorrect_cols <- setdiff(grep(paste0("^", prefix_mcq), colnames(data), value = TRUE), correct_col)
 
       if (length(incorrect_cols) > 0) {
-        # Get values and sort
+        # Get values for incorrect answers
         incorrect_values <- sapply(incorrect_cols, function(col) {
           val <- data[[col]][row_idx]
           if (is.numeric(val))
@@ -236,42 +236,51 @@ fn_colour_responses <- function(data,
             as.numeric(val)
         })
 
-        # Filter by threshold and sort
+        # Filter by threshold
         valid_incorrect <- incorrect_values[!is.na(incorrect_values) &
                                               incorrect_values >= min_value_threshold]
-        if (length(valid_incorrect) > 0) {
-          sorted_incorrect <- sort(valid_incorrect, decreasing = TRUE)
 
-          # Get colors for highlighting
-          n_highlights <- min(highlight_top_n_incorrect,
-                              length(sorted_incorrect))
+        if (length(valid_incorrect) > 0) {
+          # Get unique values and sort them
+          unique_values <- sort(unique(valid_incorrect), decreasing = TRUE)
+
+          # Determine how many unique values to highlight
+          n_highlights <- min(highlight_top_n_incorrect, length(unique_values))
+
+          # Get colors for the unique values
           highlight_colors <- create_color_gradient(n_highlights)
 
-          # Apply highlights
-          for (i in 1:n_highlights) {
-            col <- names(sorted_incorrect)[i]
-            col_idx <- which(colnames(data) == col)
+          # Create a mapping of values to colors
+          value_color_map <- setNames(highlight_colors[1:length(unique_values)], unique_values)
 
-            ft <- ft %>%
-              bg(i = row_idx,
-                 j = col_idx,
-                 bg = highlight_colors[i])
+          # Apply highlights based on value-color mapping
+          for (col in names(valid_incorrect)) {
+            value <- valid_incorrect[col]
+            if (value %in% unique_values[1:n_highlights]) {
+              col_idx <- which(colnames(data) == col)
+              color_idx <- which(unique_values == value)
 
-            # Add border to top incorrect if requested
-            if (border_top_incorrect && i == 1) {
               ft <- ft %>%
-                flextable::border(
-                  i = row_idx,
-                  j = col_idx,
-                  border = fp_border(color = border_colour, width = border_width),
-                  part = "body"
-                )
-            }
+                bg(i = row_idx,
+                   j = col_idx,
+                   bg = value_color_map[as.character(value)])
 
-            # Add bold to top incorrect if requested
-            if (bold_top_incorrect && i == 1) {
-              ft <- ft %>%
-                flextable::bold(i = row_idx, j = col_idx)
+              # Add border to top value if requested
+              if (border_top_incorrect && color_idx == 1) {
+                ft <- ft %>%
+                  flextable::border(
+                    i = row_idx,
+                    j = col_idx,
+                    border = fp_border(color = border_colour, width = border_width),
+                    part = "body"
+                  )
+              }
+
+              # Add bold to top value if requested
+              if (bold_top_incorrect && color_idx == 1) {
+                ft <- ft %>%
+                  flextable::bold(i = row_idx, j = col_idx)
+              }
             }
           }
         }
@@ -336,6 +345,7 @@ fn_colour_responses <- function(data,
 
     return(ft)
   }
+
 
   # Main function execution
   validate_inputs()
