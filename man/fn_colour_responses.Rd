@@ -18,7 +18,13 @@ fn_colour_responses(
   border_correct = FALSE,
   border_top_incorrect = FALSE,
   bold_correct = FALSE,
-  bold_top_incorrect = FALSE
+  bold_top_incorrect = FALSE,
+  horizontal_lines = NULL,
+  vertical_lines = NULL,
+  border_colour = "black",
+  border_width = 1.5,
+  line_colour = "grey40",
+  line_width = 1
 )
 }
 \arguments{
@@ -54,6 +60,24 @@ Default is 0.}
 \item{bold_correct}{Logical. Whether to bold correct answers. Default is FALSE.}
 
 \item{bold_top_incorrect}{Logical. Whether to bold top incorrect answer. Default is FALSE.}
+
+\item{horizontal_lines}{Numeric vector. Row indices where horizontal lines should be added.
+Default is NULL (no lines).}
+
+\item{vertical_lines}{Numeric vector. Column indices where vertical lines should be added.
+Default is NULL (no lines).}
+
+\item{border_colour}{Character. Color for borders around correct and incorrect answers.
+Default is "black".}
+
+\item{border_width}{Numeric. Width for borders around correct and incorrect answers.
+Default is 1.5.}
+
+\item{line_colour}{Character. Color for horizontal and vertical lines.
+Default is "black".}
+
+\item{line_width}{Numeric. Width for horizontal and vertical lines.
+Default is 1.}
 }
 \value{
 A flextable object with highlighting applied based on the specified parameters.
@@ -82,23 +106,19 @@ df <- tibble(
   VSAQ_Incorrect = c(NA, NA, 0.2, NA, 0.5)
 )
 
-# Basic usage with gradient colors and bold formatting
+# Basic usage with custom lines and borders
 ft1 <- fn_colour_responses(
   data = df,
   colour_incorrect = c("red", "orange", "yellow"),
   highlight_top_n_incorrect = 3,
   bold_correct = TRUE,
-  bold_top_incorrect = TRUE
-)
-
-# With borders and minimum threshold
-ft2 <- fn_colour_responses(
-  data = df,
-  colour_incorrect = c("pink", "lightyellow"),
-  highlight_top_n_incorrect = 2,
-  min_value_threshold = 0.2,
-  border_correct = TRUE,
-  border_top_incorrect = TRUE
+  bold_top_incorrect = TRUE,
+  horizontal_lines = c(2, 4),
+  vertical_lines = c(3, 5),
+  border_colour = "navy",
+  line_colour = "grey",
+  border_width = 2,
+  line_width = 0.5
 )
 
 }
