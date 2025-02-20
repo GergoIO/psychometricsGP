@@ -9,7 +9,7 @@ fn_colour_responses(
   colname_correct_answer = "CorrectResponse",
   colname_item_category = "ItemCategory",
   prefix_mcq = "MCQ_Option_",
-  prefix_vsaq = "VSAQ_",
+  prefix_non_mcq = "Non_MCQ_",
   colour_correct = "lightgreen",
   colour_incorrect = c("lightpink"),
   highlight_correct = TRUE,
@@ -31,14 +31,14 @@ fn_colour_responses(
 \item{data}{A data frame or flextable containing assessment data}
 
 \item{colname_correct_answer}{Character. The name of the column containing correct answer indicators.
-Default is "CorrectResponse". Can be NULL for VSAQ-only datasets.}
+Default is "CorrectResponse". Can be NULL for Non-MCQ-only datasets.}
 
 \item{colname_item_category}{Character. The name of the column indicating item types.
 Default is "ItemCategory".}
 
 \item{prefix_mcq}{Character. The prefix for MCQ option columns. Default is "MCQ_Option_".}
 
-\item{prefix_vsaq}{Character. The prefix for VSAQ columns. Default is "VSAQ_".}
+\item{prefix_non_mcq}{Character. The prefix for Non-MCQ columns. Default is "Non-MCQ_".}
 
 \item{colour_correct}{Character. The color to use for correct answers. Default is "lightgreen".}
 
@@ -84,7 +84,7 @@ A flextable object with highlighting applied based on the specified parameters.
 }
 \description{
 Creates a flextable with colored highlighting to indicate correct and incorrect answers
-in assessment data. Supports both MCQ (Multiple Choice Questions) and VSAQ (Very Short
+in assessment data. Supports both MCQ (Multiple Choice Questions) and Non-MCQ (Very Short
 Answer Questions) formats. For MCQ items, highlights correct answers and creates a smooth
 color gradient for top incorrect answers based on their values.
 }
@@ -96,14 +96,14 @@ library(colorRamp2)
 
 # Create example data
 df <- tibble(
-  ItemCategory = c("MCQ", "MCQ", "VSAQ", "MCQ", "VSAQ"),
+  ItemCategory = c("MCQ", "MCQ", "Non-MCQ", "MCQ", "Non-MCQ"),
   CorrectResponse = c(4, 2, NA, 3, NA),
   MCQ_Option_1 = c(0.1, 0.2, 0, 0.3, 0),
   MCQ_Option_2 = c(0.2, 0.7, 0, 0.1, 0),
   MCQ_Option_3 = c(0.3, 0.1, 0, 0.6, 0),
   MCQ_Option_4 = c(0.8, 0.0, 0, 0.2, 0),
-  VSAQ_Correct = c(NA, NA, 0.8, NA, 0.9),
-  VSAQ_Incorrect = c(NA, NA, 0.2, NA, 0.5)
+  Non_MCQ_Correct = c(NA, NA, 0.8, NA, 0.9),
+  Non_MCQ_Incorrect = c(NA, NA, 0.2, NA, 0.5)
 )
 
 # Basic usage with custom lines and borders

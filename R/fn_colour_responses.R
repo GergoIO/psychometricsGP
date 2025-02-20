@@ -2,17 +2,17 @@
 #'
 #' @description
 #' Creates a flextable with colored highlighting to indicate correct and incorrect answers
-#' in assessment data. Supports both MCQ (Multiple Choice Questions) and VSAQ (Very Short
+#' in assessment data. Supports both MCQ (Multiple Choice Questions) and Non-MCQ (Very Short
 #' Answer Questions) formats. For MCQ items, highlights correct answers and creates a smooth
 #' color gradient for top incorrect answers based on their values.
 #'
 #' @param data A data frame or flextable containing assessment data
 #' @param colname_correct_answer Character. The name of the column containing correct answer indicators.
-#'   Default is "CorrectResponse". Can be NULL for VSAQ-only datasets.
+#'   Default is "CorrectResponse". Can be NULL for Non-MCQ-only datasets.
 #' @param colname_item_category Character. The name of the column indicating item types.
 #'   Default is "ItemCategory".
 #' @param prefix_mcq Character. The prefix for MCQ option columns. Default is "MCQ_Option_".
-#' @param prefix_vsaq Character. The prefix for VSAQ columns. Default is "VSAQ_".
+#' @param prefix_non_mcq Character. The prefix for Non-MCQ columns. Default is "Non-MCQ_".
 #' @param colour_correct Character. The color to use for correct answers. Default is "lightgreen".
 #' @param colour_incorrect Character vector. Colors to create gradient for incorrect answers.
 #'   Colors will be interpolated if more highlights are requested than colors provided.
@@ -48,14 +48,14 @@
 #'
 #' # Create example data
 #' df <- tibble(
-#'   ItemCategory = c("MCQ", "MCQ", "VSAQ", "MCQ", "VSAQ"),
+#'   ItemCategory = c("MCQ", "MCQ", "Non-MCQ", "MCQ", "Non-MCQ"),
 #'   CorrectResponse = c(4, 2, NA, 3, NA),
 #'   MCQ_Option_1 = c(0.1, 0.2, 0, 0.3, 0),
 #'   MCQ_Option_2 = c(0.2, 0.7, 0, 0.1, 0),
 #'   MCQ_Option_3 = c(0.3, 0.1, 0, 0.6, 0),
 #'   MCQ_Option_4 = c(0.8, 0.0, 0, 0.2, 0),
-#'   VSAQ_Correct = c(NA, NA, 0.8, NA, 0.9),
-#'   VSAQ_Incorrect = c(NA, NA, 0.2, NA, 0.5)
+#'   Non_MCQ_Correct = c(NA, NA, 0.8, NA, 0.9),
+#'   Non_MCQ_Incorrect = c(NA, NA, 0.2, NA, 0.5)
 #' )
 #'
 #' # Basic usage with custom lines and borders
@@ -78,7 +78,7 @@ fn_colour_responses <- function(data,
                                  colname_correct_answer = "CorrectResponse",
                                  colname_item_category = "ItemCategory",
                                  prefix_mcq = "MCQ_Option_",
-                                 prefix_vsaq = "VSAQ_",
+                                 prefix_non_mcq = "Non_MCQ_",
                                  colour_correct = "lightgreen",
                                  colour_incorrect = c("lightpink"),
                                  highlight_correct = TRUE,
@@ -156,19 +156,19 @@ fn_colour_responses <- function(data,
       }
     }
 
-    # Check for VSAQ columns if VSAQ items exist
-    if ("VSAQ" %in% data[[colname_item_category]]) {
-      vsaq_cols <- c(paste0(prefix_vsaq, "Correct"),
-                     paste0(prefix_vsaq, "Incorrect"))
-      missing_cols <- vsaq_cols[!vsaq_cols %in% colnames(data)]
+    # Check for Non-MCQ columns if Non-MCQ items exist
+    if ("Non-MCQ" %in% data[[colname_item_category]]) {
+      non_mcq_cols <- c(paste0(prefix_non_mcq, "Correct"),
+                     paste0(prefix_non_mcq, "Incorrect"))
+      missing_cols <- non_mcq_cols[!non_mcq_cols %in% colnames(data)]
       if (length(missing_cols) > 0) {
         stop(sprintf(
-          "Required VSAQ columns missing: %s",
+          "Required Non-MCQ columns missing: %s",
           paste(missing_cols, collapse = ", ")
         ))
       }
     } else {
-      message("No VSAQ items found in data. Skipping VSAQ validation.")
+      message("No Non-MCQ items found in data. Skipping Non-MCQ validation.")
     }
   }
 
@@ -285,16 +285,16 @@ fn_colour_responses <- function(data,
     return(ft)
   }
 
-  # Process VSAQ items
-  process_vsaq <- function(ft, row_idx) {
-    vsaq_correct_col <- paste0(prefix_vsaq, "Correct")
-    vsaq_incorrect_col <- paste0(prefix_vsaq, "Incorrect")
+  # Process Non-MCQ items
+  process_non_mcq <- function(ft, row_idx) {
+    non_mcq_correct_col <- paste0(prefix_non_mcq, "Correct")
+    non_mcq_incorrect_col <- paste0(prefix_non_mcq, "Incorrect")
 
     # Handle correct answer
     if (highlight_correct &&
-        !is.na(data[[vsaq_correct_col]][row_idx]) &&
-        data[[vsaq_correct_col]][row_idx] > 0) {
-      col_idx <- which(colnames(data) == vsaq_correct_col)
+        !is.na(data[[non_mcq_correct_col]][row_idx]) &&
+        data[[non_mcq_correct_col]][row_idx] > 0) {
+      col_idx <- which(colnames(data) == non_mcq_correct_col)
       ft <- ft %>%
         bg(i = row_idx, j = col_idx, bg = colour_correct)
 
@@ -316,9 +316,9 @@ fn_colour_responses <- function(data,
 
     # Handle incorrect answer
     if (highlight_top_n_incorrect > 0 &&
-        !is.na(data[[vsaq_incorrect_col]][row_idx]) &&
-        data[[vsaq_incorrect_col]][row_idx] >= min_value_threshold) {
-      col_idx <- which(colnames(data) == vsaq_incorrect_col)
+        !is.na(data[[non_mcq_incorrect_col]][row_idx]) &&
+        data[[non_mcq_incorrect_col]][row_idx] >= min_value_threshold) {
+      col_idx <- which(colnames(data) == non_mcq_incorrect_col)
       ft <- ft %>%
         bg(i = row_idx, j = col_idx, bg = colour_incorrect[1])
 
@@ -382,8 +382,8 @@ fn_colour_responses <- function(data,
   for (i in 1:nrow(data)) {
     if (data[[colname_item_category]][i] == "MCQ") {
       ft <- process_mcq(ft, i)
-    } else if (data[[colname_item_category]][i] == "VSAQ") {
-      ft <- process_vsaq(ft, i)
+    } else if (data[[colname_item_category]][i] == "Non-MCQ") {
+      ft <- process_non_mcq(ft, i)
     }
   }
 
