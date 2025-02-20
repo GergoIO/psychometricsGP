@@ -9,7 +9,7 @@ fn_colour_responses(
   colname_correct_answer = "CorrectResponse",
   colname_item_category = "ItemCategory",
   prefix_mcq = "MCQ_Option_",
-  prefix_non_mcq = "Non_MCQ_",
+  prefix_non_mcq = "Non-MCQ_",
   colour_correct = "lightgreen",
   colour_incorrect = c("lightpink"),
   highlight_correct = TRUE,
