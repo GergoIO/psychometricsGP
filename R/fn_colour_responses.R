@@ -193,7 +193,9 @@ fn_colour_responses <- function(data,
       return(ft)
 
     # Get correct answer column
-    correct_col <- paste0(prefix_mcq, data[[colname_correct_answer]][row_idx])
+    # correct_col <- paste0(prefix_mcq, data[[colname_correct_answer]][row_idx])
+    # New version handles if the Correct Response col has values like Opt. 3 etc. It stripts the "Opt. " bit.
+    correct_col <- paste0(prefix_mcq, gsub("Opt\\. ", "", data[[colname_correct_answer]][row_idx]))
 
     # Highlight correct answer
     if (highlight_correct && correct_col %in% colnames(data)) {
