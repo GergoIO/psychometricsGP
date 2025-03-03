@@ -146,14 +146,23 @@ fn_round_table <- function(data,
   # Validate rounding method
   valid_rounding_methods <- c("round", "floor", "ceiling", "trunc", "signif")
   if (!(rounding_method %in% valid_rounding_methods)) {
-    stop(paste0("Invalid rounding method. Must be one of: ",
-                paste(valid_rounding_methods, collapse = ", "), "."))
+    stop(paste0(
+      "Invalid rounding method. Must be one of: ",
+      paste(valid_rounding_methods, collapse = ", "),
+      "."
+    ))
   }
 
   # Helper function to perform rounding based on the specified method
   perform_rounding <- function(value, decimals) {
     if (rounding_method == "round") {
-      return(round(value, digits = decimals))
+      # Previous unwanted behavious with using round()
+      # Base R round() function, which has a known behavior of rounding to the even digit in case of a tie (such as 5 exactly).
+      # This is called "banker's rounding" and is the default behavior in R.
+      # Custom round half up implementation
+      multiplier <- 10^decimals
+      return(sign(value) * floor(abs(value) * multiplier + 0.5) / multiplier)
+      # Another alternative would be using round2()
     } else if (rounding_method == "floor") {
       multiplier <- 10^decimals
       return(floor(value * multiplier) / multiplier)
@@ -194,7 +203,11 @@ fn_round_table <- function(data,
   create_threshold_string <- function(decimals) {
     threshold_value <- 1 / (10^decimals)
     threshold_formatted <- format_number(threshold_value, decimals)
-    return(gsub("\\{threshold\\}", threshold_formatted, threshold_replacement_format))
+    return(gsub(
+      "\\{threshold\\}",
+      threshold_formatted,
+      threshold_replacement_format
+    ))
   }
 
   # Collect all arguments
@@ -462,7 +475,8 @@ fn_round_table <- function(data,
               # Format the value for string output
               if (rounded_value == 0) {
                 # Check if we should use threshold replacement or display actual zero
-                if (use_threshold_zero_replacement && abs(num_value) > 0) {
+                if (use_threshold_zero_replacement &&
+                    abs(num_value) > 0) {
                   data[[c]][r] <- threshold_string
                 } else {
                   data[[c]][r] <- format_number(0, decimals)
@@ -523,7 +537,8 @@ fn_round_table <- function(data,
                   # Format the value for string output
                   if (rounded_value == 0) {
                     # Check if we should use threshold replacement or display actual zero
-                    if (use_threshold_zero_replacement && abs(num_value) > 0) {
+                    if (use_threshold_zero_replacement &&
+                        abs(num_value) > 0) {
                       data[[c]][idx] <- threshold_string
                     } else {
                       data[[c]][idx] <- format_number(0, decimals)
@@ -561,7 +576,8 @@ fn_round_table <- function(data,
                   # Format the value for string output
                   if (rounded_value == 0) {
                     # Check if we should use threshold replacement or display actual zero
-                    if (use_threshold_zero_replacement && abs(num_value) > 0) {
+                    if (use_threshold_zero_replacement &&
+                        abs(num_value) > 0) {
                       data[[idx]][r] <- threshold_string
                     } else {
                       data[[idx]][r] <- format_number(0, decimals)
