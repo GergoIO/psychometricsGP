@@ -2,53 +2,71 @@
 % Please edit documentation in R/fn_scores_by_demographics.R
 \name{fn_scores_by_demographics}
 \alias{fn_scores_by_demographics}
-\title{Scores by Demographics with Adjusted Means}
+\title{Calculate demographic breakdowns of scores and pass rates}
 \usage{
 fn_scores_by_demographics(
   data,
   col_stage_current,
   col_score,
+  col_grade,
+  passing_grades,
   cols_demographics
 )
 }
 \arguments{
-\item{data}{A data frame containing the dataset.}
+\item{data}{A data frame containing the student data to analyze.}
 
-\item{col_stage_current}{A string specifying the column name for the stages (e.g., "Stage").}
+\item{col_stage_current}{A character string specifying the column name that contains the stage information.}
 
-\item{col_score}{A string specifying the column name for the score variable (e.g., "Score").}
+\item{col_score}{A character string specifying the column name containing the numerical scores to analyze.}
 
-\item{cols_demographics}{A character vector of column names for the demographic variables (e.g., c("Gender", "AgeGroup")).}
+\item{col_grade}{A character string specifying the column name containing the grade information.}
+
+\item{passing_grades}{A vector of values that are considered passing grades.}
+
+\item{cols_demographics}{A character vector specifying the column names of demographic factors to analyze.}
 }
 \value{
-A data frame with columns:
-\describe{
-  \item{StageCurrent}{The stage corresponding to the subset of the data.}
-  \item{Factor}{The demographic variable being analyzed.}
-  \item{Level}{The specific level within the demographic factor (e.g., "Male", "Female").}
-  \item{Count}{The number of observations in each level of the factor.}
-  \item{ObservedMean}{The observed mean score for each level of the demographic factor.}
-  \item{AdjustedMean}{The adjusted mean score, accounting for other factors in the model.}
-}
+A tibble with the following columns:
+  \item{StageCurrent}{The current educational stage}
+  \item{Factor}{The demographic factor being analyzed}
+  \item{Level}{The specific category/level within the demographic factor}
+  \item{Count}{The number of students in each category}
+  \item{ObservedMean}{The mean score observed for each category}
+  \item{AdjustedMean}{The adjusted mean score calculated using linear models}
+  \item{PassCount}{The number of students with passing grades in each category}
+  \item{PassRate}{The percentage of students with passing grades in each category}
 }
 \description{
-This function calculates the observed mean scores and adjusted mean scores
-for each level of demographic factors, within each stage of a given dataset.
-The observed mean is simply the average score for each group, while the
-adjusted mean is calculated by fitting a linear model to account for the
-influence of other factors.
+This function analyzes educational performance metrics broken down by demographic factors.
+It calculates observed and adjusted mean scores, student counts, and passing rates for
+each demographic category. The function also accounts for different educational stages
+and generates statistics for each valid demographic factor.
+}
+\details{
+The function processes each demographic factor within each stage, excluding factors with fewer
+than two distinct categories. It calculates both observed means (raw averages) and
+adjusted means (using linear models via emmeans). The pass rate is calculated as the
+percentage of students within each demographic category who achieved one of the specified
+passing grades.
+}
+\note{
+The function requires the dplyr, emmeans, and rlang packages.
 }
 \examples{
-# Example dataset
-data <- data.frame(
-  Stage = c("A", "A", "B", "B", "A", "B"),
-  Score = c(85, 90, 88, 93, 87, 95),
-  Gender = c("Male", "Female", "Male", "Female", "Female", "Male"),
-  AgeGroup = c("Young", "Old", "Young", "Old", "Young", "Old")
+\dontrun{
+# Example with a student dataset
+results <- fn_scores_by_demographics(
+  data = student_data,
+  col_stage_current = "Stage",
+  col_score = "FinalScore",
+  col_grade = "LetterGrade",
+  passing_grades = c("A", "B", "C"),
+  cols_demographics = c("Gender", "Ethnicity", "SES")
 )
 
-# Example usage
-results <- fn_scores_by_demographics(data, col_stage_current = "Stage", col_score = "Score", cols_demographics = c("Gender", "AgeGroup"))
+# View results
 print(results)
+}
 
 }
