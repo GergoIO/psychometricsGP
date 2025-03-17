@@ -27,7 +27,7 @@
 #'
 #' @importFrom utils file_test
 #' @export
-fn_report_save <- function(report, path, filename,
+fn_save_report <- function(report, path, filename,
                            temp_suffix = "(TEMP Version)",
                            quiet = FALSE,
                            suppress_messages = TRUE) {
