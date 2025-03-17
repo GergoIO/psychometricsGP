@@ -18,10 +18,10 @@
 #' @examples
 #' \dontrun{
 #' # Save a report with default settings
-#' fn_report_save(my_report, "output/reports", "Analysis Report.docx")
+#' fn_save_report(my_report, "output/reports", "Analysis Report.docx")
 #'
 #' # Save with custom temporary suffix and suppressed warnings
-#' fn_report_save(my_report, "output/reports", "Analysis Report.docx",
+#' fn_save_report(my_report, "output/reports", "Analysis Report.docx",
 #'                temp_suffix = "(BACKUP)", suppress_messages = TRUE)
 #' }
 #'
