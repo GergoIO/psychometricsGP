@@ -10,7 +10,8 @@ fn_save_report(
   filename,
   temp_suffix = "(TEMP Version)",
   quiet = FALSE,
-  suppress_messages = TRUE
+  suppress_messages = TRUE,
+  create_dir = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ fn_save_report(
 \item{quiet}{Logical. If TRUE, suppresses informational messages. Default is FALSE.}
 
 \item{suppress_messages}{Logical. If TRUE, suppresses permission denied warnings when checking files. Default is TRUE}
+
+\item{create_dir}{Logical. If TRUE, creates the directory if it doesn't exist. Default is TRUE.}
 }
 \value{
 The full path to the saved file (either the original target or the temporary version)
@@ -34,6 +37,7 @@ This function attempts to save a report object to the specified path. If the tar
 is locked or inaccessible, it will save a temporary version with a custom suffix.
 It attempts to clean up previous temporary files before saving, and if temporary files
 cannot be deleted, it will create a new temporary file with an incremented number.
+By default, it will create the target directory if it doesn't exist.
 }
 \examples{
 \dontrun{
@@ -43,6 +47,9 @@ fn_save_report(my_report, "output/reports", "Analysis Report.docx")
 # Save with custom temporary suffix and suppressed warnings
 fn_save_report(my_report, "output/reports", "Analysis Report.docx",
                temp_suffix = "(BACKUP)", suppress_messages = TRUE)
+
+# Save without creating directory if it doesn't exist
+fn_save_report(my_report, "output/reports", "Analysis Report.docx", create_dir = FALSE)
 }
 
 }

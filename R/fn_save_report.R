@@ -5,6 +5,7 @@
 #' is locked or inaccessible, it will save a temporary version with a custom suffix.
 #' It attempts to clean up previous temporary files before saving, and if temporary files
 #' cannot be deleted, it will create a new temporary file with an incremented number.
+#' By default, it will create the target directory if it doesn't exist.
 #'
 #' @param report An object to be saved, typically an officer or flextable object with a print method
 #' @param path The directory where the file should be saved
@@ -12,6 +13,7 @@
 #' @param temp_suffix Character. The suffix to append to filename for temporary versions. Default is "(TEMP Version)".
 #' @param quiet Logical. If TRUE, suppresses informational messages. Default is FALSE.
 #' @param suppress_messages Logical. If TRUE, suppresses permission denied warnings when checking files. Default is TRUE
+#' @param create_dir Logical. If TRUE, creates the directory if it doesn't exist. Default is TRUE.
 #'
 #' @return The full path to the saved file (either the original target or the temporary version)
 #'
@@ -23,6 +25,9 @@
 #' # Save with custom temporary suffix and suppressed warnings
 #' fn_save_report(my_report, "output/reports", "Analysis Report.docx",
 #'                temp_suffix = "(BACKUP)", suppress_messages = TRUE)
+#'
+#' # Save without creating directory if it doesn't exist
+#' fn_save_report(my_report, "output/reports", "Analysis Report.docx", create_dir = FALSE)
 #' }
 #'
 #' @importFrom utils file_test
@@ -30,12 +35,27 @@
 fn_save_report <- function(report, path, filename,
                            temp_suffix = "(TEMP Version)",
                            quiet = FALSE,
-                           suppress_messages = TRUE) {
+                           suppress_messages = TRUE,
+                           create_dir = TRUE) {
 
   # Internal function to output messages if not in quiet mode
   msg <- function(...) {
     if (!quiet) {
       message(...)
+    }
+  }
+
+  # Check if directory exists and create it if needed
+  if (!dir.exists(path)) {
+    if (create_dir) {
+      msg("Directory does not exist. Creating: ", path)
+      dir_created <- dir.create(path, recursive = TRUE, showWarnings = !suppress_messages)
+      if (!dir_created) {
+        stop("Failed to create directory: ", path)
+      }
+      msg("Directory created successfully.")
+    } else {
+      stop("Directory does not exist: ", path)
     }
   }
 
