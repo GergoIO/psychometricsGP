@@ -6,6 +6,7 @@
 #' It attempts to clean up previous temporary files before saving, and if temporary files
 #' cannot be deleted, it will create a new temporary file with an incremented number.
 #' By default, it will create the target directory if it doesn't exist.
+#' The function now verifies successful saves and implements a retry mechanism.
 #'
 #' @param wb A workbook object created with createWorkbook() from the openxlsx package
 #' @param path The directory where the file should be saved
@@ -15,6 +16,8 @@
 #' @param quiet Logical. If TRUE, suppresses informational messages. Default is FALSE.
 #' @param suppress_messages Logical. If TRUE, suppresses permission denied warnings when checking files. Default is TRUE.
 #' @param create_dir Logical. If TRUE, creates the directory if it doesn't exist. Default is TRUE.
+#' @param max_retries Integer. Maximum number of save attempts before trying a temp file. Default is 3.
+#' @param retry_delay Numeric. Seconds to wait between retry attempts. Default is 1.
 #'
 #' @return The full path to the saved file (either the original target or the temporary version)
 #'
@@ -39,7 +42,9 @@ fn_save_excel <- function(wb, path, filename,
                           temp_suffix = "(TEMP Version)",
                           quiet = FALSE,
                           suppress_messages = TRUE,
-                          create_dir = TRUE) {
+                          create_dir = TRUE,
+                          max_retries = 3,
+                          retry_delay = 1) {
 
   # Check if openxlsx package is available
   if (!requireNamespace("openxlsx", quietly = TRUE)) {
@@ -70,7 +75,24 @@ fn_save_excel <- function(wb, path, filename,
   # Function to check if a file is accessible for writing (not locked)
   is_file_locked <- function(file_path) {
     if (!file.exists(file_path)) {
-      return(FALSE)  # File doesn't exist, so not locked
+      # File doesn't exist, now check directory permissions
+      dir_path <- dirname(file_path)
+      if (!dir.exists(dir_path)) {
+        return(TRUE)  # Directory doesn't exist, can't write
+      }
+
+      # Check if we can write to the directory
+      test_file <- file.path(dir_path, paste0("test_write_", format(Sys.time(), "%Y%m%d%H%M%S"), ".tmp"))
+      can_write <- tryCatch({
+        con <- file(test_file, "w")
+        close(con)
+        file.remove(test_file)
+        return(FALSE)  # Can write to directory
+      }, error = function(e) {
+        return(TRUE)   # Can't write to directory
+      })
+
+      return(can_write)
     }
 
     # Try to open the file for writing to check if it's locked
@@ -179,32 +201,96 @@ fn_save_excel <- function(wb, path, filename,
     }
   }
 
+  # Function to verify if the file was actually saved
+  verify_save <- function(file_path) {
+    if (!file.exists(file_path)) {
+      return(FALSE)
+    }
+
+    # Check if file size is greater than 0 (ensure it's not an empty file)
+    file_info <- file.info(file_path)
+    if (is.na(file_info$size) || file_info$size == 0) {
+      return(FALSE)
+    }
+
+    return(TRUE)
+  }
+
+  # Function to try saving with retries
+  try_save_with_retries <- function(file_path) {
+    for (attempt in 1:max_retries) {
+      success <- tryCatch({
+        if (attempt > 1) {
+          msg("Retry attempt ", attempt, " of ", max_retries, "...")
+          Sys.sleep(retry_delay)  # Pause before retry
+        }
+
+        openxlsx::saveWorkbook(wb, file_path, overwrite = overwrite)
+
+        # Verify the file was actually saved
+        if (verify_save(file_path)) {
+          return(TRUE)
+        } else {
+          msg("File appears to be saved but verification failed. File may be corrupted or inaccessible.")
+          return(FALSE)
+        }
+      }, error = function(e) {
+        msg("Error on save attempt ", attempt, ": ", e$message)
+        return(FALSE)
+      }, warning = function(w) {
+        if (grepl("Permission denied", w$message)) {
+          msg("Permission denied warning on save attempt ", attempt)
+        } else {
+          msg("Warning on save attempt ", attempt, ": ", w$message)
+        }
+        return(FALSE)
+      })
+
+      if (success) {
+        return(TRUE)
+      }
+    }
+
+    return(FALSE)  # All attempts failed
+  }
+
   # Always attempt to clean up temp files before saving
   cleanup_temp_files()
 
-  # Find an available filename
-  save_file <- find_available_filename()
+  # Try to save to the desired location first
+  target_file <- file.path(path, filename)
 
-  # Try to save the workbook
-  tryCatch({
-    openxlsx::saveWorkbook(wb, save_file, overwrite = overwrite)
+  # Check if file is writable before attempting save
+  if (!is_file_locked(target_file)) {
+    save_result <- try_save_with_retries(target_file)
 
-    # Determine what type of file was saved and show appropriate message
-    original_target <- file.path(path, filename)
-    if (save_file != original_target) {
-      # This is a temp file
-      if (grepl(paste0(temp_suffix, " [0-9]+\\."), basename(save_file))) {
-        msg("Original file and basic temp file are in use. Saved as numbered temp version: ", basename(save_file))
-      } else {
-        msg("Original file is in use. Saved temporary version: ", basename(save_file))
-      }
+    if (save_result) {
+      msg("Successfully saved Excel workbook to ", target_file)
+      return(target_file)
     } else {
-      msg("Successfully saved Excel workbook to ", save_file)
+      msg("Failed to save to target file after ", max_retries, " attempts. Trying a temporary file.")
     }
-  }, error = function(e) {
-    stop("Error saving Excel workbook: ", e$message)
-  })
+  } else {
+    msg("Target file is locked or not writable. Will try a temporary file.")
+  }
 
-  # Return the path to the saved file
-  return(save_file)
+  # If target file save failed, try with a temporary filename
+  temp_file <- find_available_filename()
+  if (temp_file != target_file) {  # Only if we got a different filename
+    save_result <- try_save_with_retries(temp_file)
+
+    if (save_result) {
+      # This is a temp file
+      if (grepl(paste0(temp_suffix, " [0-9]+\\."), basename(temp_file))) {
+        msg("Successfully saved as numbered temp version: ", temp_file)
+      } else {
+        msg("Successfully saved as temporary version: ", temp_file)
+      }
+      return(temp_file)
+    } else {
+      stop("Failed to save Excel workbook after all attempts. Please check file permissions.")
+    }
+  } else {
+    stop("Could not find any writable location to save the Excel workbook.")
+  }
 }

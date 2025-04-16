@@ -12,7 +12,9 @@ fn_save_excel(
   temp_suffix = "(TEMP Version)",
   quiet = FALSE,
   suppress_messages = TRUE,
-  create_dir = TRUE
+  create_dir = TRUE,
+  max_retries = 3,
+  retry_delay = 1
 )
 }
 \arguments{
@@ -31,6 +33,10 @@ fn_save_excel(
 \item{suppress_messages}{Logical. If TRUE, suppresses permission denied warnings when checking files. Default is TRUE.}
 
 \item{create_dir}{Logical. If TRUE, creates the directory if it doesn't exist. Default is TRUE.}
+
+\item{max_retries}{Integer. Maximum number of save attempts before trying a temp file. Default is 3.}
+
+\item{retry_delay}{Numeric. Seconds to wait between retry attempts. Default is 1.}
 }
 \value{
 The full path to the saved file (either the original target or the temporary version)
@@ -41,6 +47,7 @@ is locked or inaccessible, it will save a temporary version with a custom suffix
 It attempts to clean up previous temporary files before saving, and if temporary files
 cannot be deleted, it will create a new temporary file with an incremented number.
 By default, it will create the target directory if it doesn't exist.
+The function now verifies successful saves and implements a retry mechanism.
 }
 \examples{
 \dontrun{
