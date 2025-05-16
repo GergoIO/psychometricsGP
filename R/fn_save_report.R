@@ -1,42 +1,40 @@
-#' Save a report with automatic fallback to temporary file
+#' Save a report with retry mechanism and file locking protection
 #'
-#' @description
-#' This function attempts to save a report object to the specified path. If the target file
-#' is locked or inaccessible, it will save a temporary version with a custom suffix.
-#' It attempts to clean up previous temporary files before saving, and if temporary files
-#' cannot be deleted, it will create a new temporary file with an incremented number.
-#' By default, it will create the target directory if it doesn't exist.
+#' @param report The report object to save
+#' @param path Directory path where the file should be saved
+#' @param filename Filename to save the report as
+#' @param temp_suffix Suffix to append for temporary versions (default: "(TEMP Version)")
+#' @param quiet Logical, suppress messages if TRUE (default: FALSE)
+#' @param suppress_messages Logical, suppress system warning messages (default: TRUE)
+#' @param create_dir Logical, create directory if it doesn't exist (default: TRUE)
+#' @param max_retries Number of save attempts before giving up (default: 3)
+#' @param retry_delay Seconds to wait between retry attempts (default: 2)
 #'
-#' @param report An object to be saved, typically an officer or flextable object with a print method
-#' @param path The directory where the file should be saved
-#' @param filename The name of the file to save (without the path)
-#' @param temp_suffix Character. The suffix to append to filename for temporary versions. Default is "(TEMP Version)".
-#' @param quiet Logical. If TRUE, suppresses informational messages. Default is FALSE.
-#' @param suppress_messages Logical. If TRUE, suppresses permission denied warnings when checking files. Default is TRUE
-#' @param create_dir Logical. If TRUE, creates the directory if it doesn't exist. Default is TRUE.
+#' @return Path to the saved file
 #'
-#' @return The full path to the saved file (either the original target or the temporary version)
+#' @details
+#' This function saves reports to a specified location with built-in handling for
+#' file locks and network issues. It includes automatic retry logic for shared drives,
+#' creates temporary versions if files are locked, and cleans up temporary files.
 #'
 #' @examples
 #' \dontrun{
-#' # Save a report with default settings
-#' fn_save_report(my_report, "output/reports", "Analysis Report.docx")
+#' # Basic usage
+#' fn_save_report(my_report, "P:/Reports", "quarterly_report.docx")
 #'
-#' # Save with custom temporary suffix and suppressed warnings
-#' fn_save_report(my_report, "output/reports", "Analysis Report.docx",
-#'                temp_suffix = "(BACKUP)", suppress_messages = TRUE)
-#'
-#' # Save without creating directory if it doesn't exist
-#' fn_save_report(my_report, "output/reports", "Analysis Report.docx", create_dir = FALSE)
+#' # With custom retry settings for slow network
+#' fn_save_report(my_report, "P:/Reports", "quarterly_report.docx",
+#'                max_retries = 5, retry_delay = 5)
 #' }
 #'
-#' @importFrom utils file_test
 #' @export
 fn_save_report <- function(report, path, filename,
-                           temp_suffix = "(TEMP Version)",
-                           quiet = FALSE,
-                           suppress_messages = TRUE,
-                           create_dir = TRUE) {
+                            temp_suffix = "(TEMP Version)",
+                            quiet = FALSE,
+                            suppress_messages = TRUE,
+                            create_dir = TRUE,
+                            max_retries = 3,
+                            retry_delay = 2) {
 
   # Internal function to output messages if not in quiet mode
   msg <- function(...) {
@@ -174,29 +172,38 @@ fn_save_report <- function(report, path, filename,
   # Always attempt to clean up temp files before saving
   cleanup_temp_files()
 
+  # Implementation of retry logic for saving the report
+  save_with_retry <- function(report, file_path, attempt = 1) {
+    tryCatch({
+      print(report, target = file_path)
+      msg("Successfully saved report to ", file_path)
+      return(file_path)
+    }, error = function(e) {
+      if (attempt < max_retries) {
+        msg("Attempt ", attempt, " failed: ", e$message)
+        msg("Waiting ", retry_delay, " seconds before retry...")
+        Sys.sleep(retry_delay)
+        return(save_with_retry(report, file_path, attempt + 1))
+      } else {
+        stop("Error saving report after ", max_retries, " attempts: ", e$message)
+      }
+    })
+  }
+
   # Find an available filename
   save_file <- find_available_filename()
 
-  # Try to save the report
-  tryCatch({
-    print(report, target = save_file)
-
-    # Determine what type of file was saved and show appropriate message
-    original_target <- file.path(path, filename)
-    if (save_file != original_target) {
-      # This is a temp file
-      if (grepl(paste0(temp_suffix, " [0-9]+\\."), basename(save_file))) {
-        msg("Original file and basic temp file are in use. Saved as numbered temp version: ", basename(save_file))
-      } else {
-        msg("Original file is in use. Saved temporary version: ", basename(save_file))
-      }
+  # Determine what type of file is being saved and show appropriate message
+  original_target <- file.path(path, filename)
+  if (save_file != original_target) {
+    # This is a temp file
+    if (grepl(paste0(temp_suffix, " [0-9]+\\."), basename(save_file))) {
+      msg("Original file and basic temp file are in use. Using numbered temp version: ", basename(save_file))
     } else {
-      msg("Successfully saved report to ", save_file)
+      msg("Original file is in use. Using temporary version: ", basename(save_file))
     }
-  }, error = function(e) {
-    stop("Error saving report: ", e$message)
-  })
+  }
 
-  # Return the path to the saved file
-  return(save_file)
+  # Try to save the report with retry logic
+  return(save_with_retry(report, save_file))
 }

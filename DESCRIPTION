@@ -16,6 +16,7 @@ VignetteBuilder: knitr
 Imports:
     Amelia,
     beepr,
+    beepr,
     broom,
     conflicted,
     english,

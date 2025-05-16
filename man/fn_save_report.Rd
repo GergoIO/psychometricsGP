@@ -2,7 +2,7 @@
 % Please edit documentation in R/fn_save_report.R
 \name{fn_save_report}
 \alias{fn_save_report}
-\title{Save a report with automatic fallback to temporary file}
+\title{Save a report with retry mechanism and file locking protection}
 \usage{
 fn_save_report(
   report,
@@ -11,45 +11,49 @@ fn_save_report(
   temp_suffix = "(TEMP Version)",
   quiet = FALSE,
   suppress_messages = TRUE,
-  create_dir = TRUE
+  create_dir = TRUE,
+  max_retries = 3,
+  retry_delay = 2
 )
 }
 \arguments{
-\item{report}{An object to be saved, typically an officer or flextable object with a print method}
+\item{report}{The report object to save}
 
-\item{path}{The directory where the file should be saved}
+\item{path}{Directory path where the file should be saved}
 
-\item{filename}{The name of the file to save (without the path)}
+\item{filename}{Filename to save the report as}
 
-\item{temp_suffix}{Character. The suffix to append to filename for temporary versions. Default is "(TEMP Version)".}
+\item{temp_suffix}{Suffix to append for temporary versions (default: "(TEMP Version)")}
 
-\item{quiet}{Logical. If TRUE, suppresses informational messages. Default is FALSE.}
+\item{quiet}{Logical, suppress messages if TRUE (default: FALSE)}
 
-\item{suppress_messages}{Logical. If TRUE, suppresses permission denied warnings when checking files. Default is TRUE}
+\item{suppress_messages}{Logical, suppress system warning messages (default: TRUE)}
 
-\item{create_dir}{Logical. If TRUE, creates the directory if it doesn't exist. Default is TRUE.}
+\item{create_dir}{Logical, create directory if it doesn't exist (default: TRUE)}
+
+\item{max_retries}{Number of save attempts before giving up (default: 3)}
+
+\item{retry_delay}{Seconds to wait between retry attempts (default: 2)}
 }
 \value{
-The full path to the saved file (either the original target or the temporary version)
+Path to the saved file
 }
 \description{
-This function attempts to save a report object to the specified path. If the target file
-is locked or inaccessible, it will save a temporary version with a custom suffix.
-It attempts to clean up previous temporary files before saving, and if temporary files
-cannot be deleted, it will create a new temporary file with an incremented number.
-By default, it will create the target directory if it doesn't exist.
+Save a report with retry mechanism and file locking protection
+}
+\details{
+This function saves reports to a specified location with built-in handling for
+file locks and network issues. It includes automatic retry logic for shared drives,
+creates temporary versions if files are locked, and cleans up temporary files.
 }
 \examples{
 \dontrun{
-# Save a report with default settings
-fn_save_report(my_report, "output/reports", "Analysis Report.docx")
+# Basic usage
+fn_save_report(my_report, "P:/Reports", "quarterly_report.docx")
 
-# Save with custom temporary suffix and suppressed warnings
-fn_save_report(my_report, "output/reports", "Analysis Report.docx",
-               temp_suffix = "(BACKUP)", suppress_messages = TRUE)
-
-# Save without creating directory if it doesn't exist
-fn_save_report(my_report, "output/reports", "Analysis Report.docx", create_dir = FALSE)
+# With custom retry settings for slow network
+fn_save_report(my_report, "P:/Reports", "quarterly_report.docx",
+               max_retries = 5, retry_delay = 5)
 }
 
 }
