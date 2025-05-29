@@ -10,6 +10,7 @@ fn_colour_responses(
   colname_item_category = "ItemCategory",
   prefix_mcq = "MCQ_Option_",
   prefix_non_mcq = "Non-MCQ_",
+  exclude_columns = NULL,
   colour_correct = "lightgreen",
   colour_incorrect = c("lightpink"),
   highlight_correct = TRUE,
@@ -39,6 +40,8 @@ Default is "ItemCategory".}
 \item{prefix_mcq}{Character. The prefix for MCQ option columns. Default is "MCQ_Option_".}
 
 \item{prefix_non_mcq}{Character. The prefix for Non-MCQ columns. Default is "Non-MCQ_".}
+
+\item{exclude_columns}{Character vector. Column names to exclude from coloring even if they match prefixes. Default is NULL.}
 
 \item{colour_correct}{Character. The color to use for correct answers. Default is "lightgreen".}
 
