@@ -13,6 +13,7 @@
 #'   Default is "ItemCategory".
 #' @param prefix_mcq Character. The prefix for MCQ option columns. Default is "MCQ_Option_".
 #' @param prefix_non_mcq Character. The prefix for Non-MCQ columns. Default is "Non-MCQ_".
+#' @param exclude_columns Character vector. Column names to exclude from coloring even if they match prefixes. Default is NULL.
 #' @param colour_correct Character. The color to use for correct answers. Default is "lightgreen".
 #' @param colour_incorrect Character vector. Colors to create gradient for incorrect answers.
 #'   Colors will be interpolated if more highlights are requested than colors provided.
@@ -75,25 +76,26 @@
 #'
 #' @export
 fn_colour_responses <- function(data,
-                                 colname_correct_answer = "CorrectResponse",
-                                 colname_item_category = "ItemCategory",
-                                 prefix_mcq = "MCQ_Option_",
-                                 prefix_non_mcq = "Non-MCQ_",
-                                 colour_correct = "lightgreen",
-                                 colour_incorrect = c("lightpink"),
-                                 highlight_correct = TRUE,
-                                 highlight_top_n_incorrect = 1,
-                                 min_value_threshold = 0,
-                                 border_correct = FALSE,
-                                 border_top_incorrect = FALSE,
-                                 bold_correct = FALSE,
-                                 bold_top_incorrect = FALSE,
-                                 horizontal_lines = NULL,
-                                 vertical_lines = NULL,
-                                 border_colour = "black",
-                                 border_width = 1.5,
-                                 line_colour = "grey40",
-                                 line_width = 1) {
+                                colname_correct_answer = "CorrectResponse",
+                                colname_item_category = "ItemCategory",
+                                prefix_mcq = "MCQ_Option_",
+                                prefix_non_mcq = "Non-MCQ_",
+                                exclude_columns = NULL,
+                                colour_correct = "lightgreen",
+                                colour_incorrect = c("lightpink"),
+                                highlight_correct = TRUE,
+                                highlight_top_n_incorrect = 1,
+                                min_value_threshold = 0,
+                                border_correct = FALSE,
+                                border_top_incorrect = FALSE,
+                                bold_correct = FALSE,
+                                bold_top_incorrect = FALSE,
+                                horizontal_lines = NULL,
+                                vertical_lines = NULL,
+                                border_colour = "black",
+                                border_width = 1.5,
+                                line_colour = "grey40",
+                                line_width = 1) {
   # Input validation function
   validate_inputs <- function() {
     # Check color validity
@@ -159,7 +161,7 @@ fn_colour_responses <- function(data,
     # Check for Non-MCQ columns if Non-MCQ items exist
     if ("Non-MCQ" %in% data[[colname_item_category]]) {
       non_mcq_cols <- c(paste0(prefix_non_mcq, "Correct"),
-                     paste0(prefix_non_mcq, "Incorrect"))
+                        paste0(prefix_non_mcq, "Incorrect"))
       missing_cols <- non_mcq_cols[!non_mcq_cols %in% colnames(data)]
       if (length(missing_cols) > 0) {
         stop(sprintf(
@@ -222,6 +224,10 @@ fn_colour_responses <- function(data,
     # Process incorrect answers
     if (highlight_top_n_incorrect > 0) {
       incorrect_cols <- setdiff(grep(paste0("^", prefix_mcq), colnames(data), value = TRUE), correct_col)
+      # Exclude any excluded cols
+      if (!is.null(exclude_columns)) {
+        incorrect_cols <- setdiff(incorrect_cols, exclude_columns)
+      }
 
       if (length(incorrect_cols) > 0) {
         # Get values for incorrect answers
