@@ -1,142 +1,195 @@
-#' ANOVA Analysis by Demographics
+#' Perform ANOVA Analysis Across Multiple Stages
 #'
-#' This function performs individual and combined ANOVA analyses for each demographic factor,
-#' as well as a drop1 test for factor removal. The individual ANOVA is performed for each
-#' demographic factor, and a combined ANOVA is run for all factors. Additionally, a drop1
-#' test is applied to assess the effect of each factor when removed.
+#' This function performs ANOVA analysis on a dataset across different stages,
+#' with filtering for group sizes and handling of missing data. It runs both
+#' individual and combined ANOVA tests for specified demographic factors.
 #'
-#' @param data A data frame containing the dataset.
-#' @param col_stage_current A string specifying the column name for the stages (e.g., "Stage").
-#' @param col_score A string specifying the column name for the score variable (e.g., "Score").
-#' @param cols_demographics A character vector of column names for the demographic variables (e.g., c("Gender", "AgeGroup")).
-#' @param cols_anova A character vector of column names to test in the ANOVA (e.g., c("Gender", "AgeGroup", "Region")).
+#' @param data A data frame containing the dataset to analyze
+#' @param col_stage_current Character string specifying the column name that
+#'   contains the current stage information
+#' @param col_score Character string specifying the column name that contains
+#'   the dependent variable (score) for ANOVA analysis
+#' @param cols_demographics Character vector of column names that represent
+#'   all available demographic variables in the dataset
+#' @param cols_anova Character vector of column names specifying which
+#'   demographic factors to include in the ANOVA analysis. Must be a subset
+#'   of cols_demographics
+#' @param min_group_pct Numeric value specifying the minimum percentage of
+#'   observations required in each group for a factor to be included in analysis.
+#'   Default is 2 (representing 2%)
+#' @param min_group_n Integer specifying the minimum number of observations
+#'   required in each group for a factor to be included in analysis. Default is 5
+#' @param remove_na_missing Logical indicating whether to remove rows with
+#'   NA values or "Missing" entries in relevant columns. Default is TRUE
 #'
-#' @return A data frame with ANOVA results. The columns include:
+#' @return A list containing two elements:
 #' \describe{
-#'   \item{Factor}{The demographic factor being tested.}
-#'   \item{StageCurrent}{The stage corresponding to the subset of the data.}
-#'   \item{Method}{The method used for the analysis (e.g., "Individual", "All", "All - Drop1").}
-#'   \item{data}{Degrees of freedom for the factor.}
-#'   \item{sumsq}{Sum of squares for the factor.}
-#'   \item{rss}{Residual sum of squares (meansq for the factor).}
-#'   \item{AIC}{Akaike Information Criterion for the model.}
-#'   \item{F.statistic}{F-statistic value for the ANOVA.}
-#'   \item{p.value}{P-value for the factor in the ANOVA.}
+#'   \item{anova_results}{A data frame with ANOVA results including Factor,
+#'     StageCurrent, Method, degrees of freedom, Sum of Squares, RSS,
+#'     F-Statistic, and P-Value}
+#'   \item{exclusion_summary}{A data frame summarizing exclusions for each
+#'     stage including original sample size, excluded missing data, and
+#'     which demographics were included/excluded}
 #' }
 #'
-#' @import dplyr
-#' @import broom
+#' @details
+#' The function performs three types of ANOVA analysis:
+#' \itemize{
+#'   \item Individual: Separate one-way ANOVA for each valid factor
+#'   \item All: Combined ANOVA using all valid factors simultaneously
+#'   \item All - Drop1: Type III ANOVA using drop1() with F-test
+#' }
+#'
+#' Factors are excluded from analysis if they don't meet the minimum group
+#' size requirements (both absolute count and percentage) or if they have
+#' only one unique value.
+#'
+#' @importFrom dplyr filter select mutate all_of bind_rows
+#' @importFrom broom tidy
+#' @importFrom stats aov drop1
+#' @importFrom rlang .data
 #'
 #' @examples
-#' # Example dataset
-#' data <- data.frame(
-#'   Stage = c("A", "A", "B", "B", "A", "B"),
-#'   Score = c(85, 90, 88, 93, 87, 95),
-#'   Gender = c("Male", "Female", "Male", "Female", "Female", "Male"),
-#'   AgeGroup = c("Young", "Old", "Young", "Old", "Young", "Old"),
-#'   Region = c("North", "South", "North", "South", "North", "South")
+#' # Create sample data
+#' set.seed(123)
+#' sample_data <- data.frame(
+#'   stage = rep(c("Stage1", "Stage2"), each = 100),
+#'   score = c(rnorm(100, 75, 10), rnorm(100, 80, 12)),
+#'   gender = sample(c("Male", "Female"), 200, replace = TRUE),
+#'   age_group = sample(c("Young", "Middle", "Old"), 200, replace = TRUE),
+#'   education = sample(c("High School", "College", "Graduate"), 200, replace = TRUE),
+#'   income = sample(c("Low", "Medium", "High"), 200, replace = TRUE)
 #' )
 #'
-#' # Example usage
-#' anova_results <- fn_anova_analysis(
-#'   data,
-#'   col_stage_current = "Stage",
-#'   col_score = "Score",
-#'   cols_demographics = c("Gender", "AgeGroup"),
-#'   cols_anova = c("Gender", "AgeGroup", "Region")
+#' # Define demographic columns
+#' demo_cols <- c("gender", "age_group", "education", "income")
+#' anova_cols <- c("gender", "age_group", "education")
+#'
+#' # Run ANOVA analysis
+#' results <- fn_anova_analysis(
+#'   data = sample_data,
+#'   col_stage_current = "stage",
+#'   col_score = "score",
+#'   cols_demographics = demo_cols,
+#'   cols_anova = anova_cols,
+#'   min_group_pct = 5,
+#'   min_group_n = 10
 #' )
-#' print(anova_results)
+#'
+#' # View results
+#' print(results$anova_results)
+#' print(results$exclusion_summary)
 #'
 #' @export
 fn_anova_analysis <- function(data,
-                           col_stage_current,
-                           col_score,
-                           cols_demographics,
-                           cols_anova) {
-  results <- list()
+                              col_stage_current,
+                              col_score,
+                              cols_demographics,
+                              cols_anova,
+                              min_group_pct = 2,
+                              min_group_n = 5,
+                              remove_na_missing = TRUE) {
 
-  unique_stages <- unique(data[[col_stage_current]])
-
-  # Check if there are any factors in cols_anova that are not in cols_demographics
-  factors_not_in_demographics <- setdiff(cols_anova, cols_demographics)
-  if (length(factors_not_in_demographics) > 0) {
-    stop("fn_anova_analysis - The following ANOVA factors are not in cols_demographics and will be ignored: ",
-         paste(factors_not_in_demographics, collapse = ", "))
+  # Check factors exist in demographics
+  missing_factors <- setdiff(cols_anova, cols_demographics)
+  if (length(missing_factors) > 0) {
+    stop("ANOVA factors not in demographics: ", paste(missing_factors, collapse = ", "))
   }
 
-  for (stage_current in unique_stages) {
-    data_stage_current <- data %>% filter(.data[[col_stage_current]] == stage_current)
+  results <- list()
+  exclusion_summary <- list()
+  min_prop <- min_group_pct / 100
 
-    # Filter cols_anova to only include those present in cols_demographics and having at least 2 factors
-    valid_factors <- cols_anova[cols_anova %in% cols_demographics &
-                                  sapply(data_stage_current[cols_anova], function(col)
-                                    length(unique(col)) > 1)]
+  for (stage in unique(data[[col_stage_current]])) {
+    stage_data <- data |> filter(.data[[col_stage_current]] == stage)
+    original_n <- nrow(stage_data)
 
-    # Check if there are no valid factors and stop the function with an error message
+    # Remove missing data
+    excluded_missing <- 0
+    if (remove_na_missing) {
+      relevant_cols <- c(col_score, cols_anova[cols_anova %in% names(stage_data)])
+      stage_data <- stage_data |>
+        filter(if_all(all_of(relevant_cols), ~ !is.na(.))) |>
+        filter(if_all(all_of(relevant_cols), ~ . != "Missing"))
+      excluded_missing <- original_n - nrow(stage_data)
+
+      if (excluded_missing > 0) {
+        message("Removed ", excluded_missing, " rows with NA/Missing values for stage '", stage, "'")
+      }
+    }
+
+    # Find valid factors
+    valid_factors <- c()
+    excluded_factors <- c()
+    for (factor in cols_anova) {
+      if (!factor %in% names(stage_data)) next
+      if (length(unique(stage_data[[factor]])) <= 1) next
+
+      # Check group sizes
+      group_counts <- table(stage_data[[factor]])
+      group_props <- group_counts / nrow(stage_data)
+
+      if (all(group_counts >= min_group_n & group_props >= min_prop)) {
+        valid_factors <- c(valid_factors, factor)
+      } else {
+        excluded_factors <- c(excluded_factors, factor)
+        small_groups <- names(group_counts[group_counts < min_group_n | group_props < min_prop])
+        message("Excluding demographic '", factor, "' for Stage '", stage,
+                "' - small groups: ", paste(small_groups, collapse = ", "))
+      }
+    }
+
+    # Store exclusion info
+    exclusion_summary[[length(exclusion_summary) + 1]] <- data.frame(
+      stage = stage,
+      original_n = original_n,
+      excluded_missing = excluded_missing,
+      demographics_included = paste(valid_factors, collapse = ", "),
+      demographics_excluded = paste(setdiff(cols_anova, valid_factors), collapse = ", ")
+    )
+
     if (length(valid_factors) == 0) {
-      stop("fn_anova_analysis - No valid ANOVA factors available after filtering. Please check your columns.")
+      stop("No valid ANOVA factors for Stage: ", stage)
     }
 
-    # Check if there are any factors that could not be included and display a message
-    factors_not_included <- setdiff(cols_anova, valid_factors)
-    if (length(factors_not_included) > 0) {
-      message("fn_anova_analysis - The following ANOVA factors could not be included due to insufficient categories or non-existence in the dataset: ",
-              paste(factors_not_included, collapse = ", "))
-    }
-
-    # Run individual ANOVA for each factor
-    for (factor_col in valid_factors) {
-      formula <- as.formula(paste(col_score, "~", factor_col))
-      anova_result <- aov(formula, data = data_stage_current)
-      tidy_result <- tidy(anova_result)
-
-      # Add metadata to the results
-      tidy_result <- tidy_result %>% mutate(Factor = factor_col,
-                                            StageCurrent = stage_current,
-                                            Method = "Individual")
-
+    # Run individual ANOVAs
+    for (factor in valid_factors) {
+      aov_result <- aov(as.formula(paste(col_score, "~", factor)), data = stage_data)
+      tidy_result <- broom::tidy(aov_result) |>
+        mutate(Factor = factor, StageCurrent = stage, Method = "Individual")
       results[[length(results) + 1]] <- tidy_result
     }
 
-    # Run a combined ANOVA with all valid factors
-    if (length(valid_factors) > 0) {
-      formula_all <- as.formula(paste(col_score, "~ ."))
-      anova_all <- aov(formula_all, data = na.omit(data_stage_current[, c(col_score, valid_factors)]))
-      tidy_all <- tidy(anova_all)
+    # Run combined ANOVA
+    if (length(valid_factors) > 1) {
+      combined_data <- stage_data |>
+        select(all_of(c(col_score, valid_factors))) |>
+        na.omit()
 
-      # Add metadata for "All" method
-      tidy_all <- tidy_all %>% mutate(Factor = term,
-                                      StageCurrent = stage_current,
-                                      Method = "All")
+      aov_all <- aov(as.formula(paste(col_score, "~ .")), data = combined_data)
 
+      # All method
+      tidy_all <- broom::tidy(aov_all) |>
+        mutate(Factor = term, StageCurrent = stage, Method = "All")
       results[[length(results) + 1]] <- tidy_all
 
-      # Apply the drop1 test and capture results
-      tabAov <- drop1(anova_all, test = "F")
-      drop1_results <- tidy(tabAov)
-
-      # Add metadata for "All - Drop1" method
-      drop1_results <- drop1_results %>% mutate(Factor = term,
-                                                StageCurrent = stage_current,
-                                                Method = "All - Drop1")
-
-      results[[length(results) + 1]] <- drop1_results
+      # Drop1 method
+      drop1_result <- broom::tidy(drop1(aov_all, test = "F")) |>
+        mutate(Factor = term, StageCurrent = stage, Method = "All - Drop1")
+      results[[length(results) + 1]] <- drop1_result
     }
   }
 
-  # Bind all results into a single dataframe
-  final_results <- bind_rows(results) %>%
-    select(
-      Factor,
-      StageCurrent,
-      Method,
-      df,
-      `Sum of Sq` = sumsq,
-      RSS = meansq,
-      AIC = statistic,
-      `F-Statistic` = statistic,
-      `P-Value` = p.value
-    )
+  # Combine results
+  final_results <- bind_rows(results) |>
+    select(Factor, StageCurrent, Method, df,
+           `Sum of Sq` = sumsq, RSS = meansq,
+           `F-Statistic` = statistic, `P-Value` = p.value)
 
-  return(final_results)
+  exclusion_df <- bind_rows(exclusion_summary)
+
+  return(list(
+    anova_results = final_results,
+    exclusion_summary = exclusion_df
+  ))
 }

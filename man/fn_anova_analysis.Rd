@@ -2,65 +2,102 @@
 % Please edit documentation in R/fn_anova_analysis.R
 \name{fn_anova_analysis}
 \alias{fn_anova_analysis}
-\title{ANOVA Analysis by Demographics}
+\title{Perform ANOVA Analysis Across Multiple Stages}
 \usage{
 fn_anova_analysis(
   data,
   col_stage_current,
   col_score,
   cols_demographics,
-  cols_anova
+  cols_anova,
+  min_group_pct = 2,
+  min_group_n = 5,
+  remove_na_missing = TRUE
 )
 }
 \arguments{
-\item{data}{A data frame containing the dataset.}
+\item{data}{A data frame containing the dataset to analyze}
 
-\item{col_stage_current}{A string specifying the column name for the stages (e.g., "Stage").}
+\item{col_stage_current}{Character string specifying the column name that
+contains the current stage information}
 
-\item{col_score}{A string specifying the column name for the score variable (e.g., "Score").}
+\item{col_score}{Character string specifying the column name that contains
+the dependent variable (score) for ANOVA analysis}
 
-\item{cols_demographics}{A character vector of column names for the demographic variables (e.g., c("Gender", "AgeGroup")).}
+\item{cols_demographics}{Character vector of column names that represent
+all available demographic variables in the dataset}
 
-\item{cols_anova}{A character vector of column names to test in the ANOVA (e.g., c("Gender", "AgeGroup", "Region")).}
+\item{cols_anova}{Character vector of column names specifying which
+demographic factors to include in the ANOVA analysis. Must be a subset
+of cols_demographics}
+
+\item{min_group_pct}{Numeric value specifying the minimum percentage of
+observations required in each group for a factor to be included in analysis.
+Default is 2 (representing 2%)}
+
+\item{min_group_n}{Integer specifying the minimum number of observations
+required in each group for a factor to be included in analysis. Default is 5}
+
+\item{remove_na_missing}{Logical indicating whether to remove rows with
+NA values or "Missing" entries in relevant columns. Default is TRUE}
 }
 \value{
-A data frame with ANOVA results. The columns include:
+A list containing two elements:
 \describe{
-  \item{Factor}{The demographic factor being tested.}
-  \item{StageCurrent}{The stage corresponding to the subset of the data.}
-  \item{Method}{The method used for the analysis (e.g., "Individual", "All", "All - Drop1").}
-  \item{data}{Degrees of freedom for the factor.}
-  \item{sumsq}{Sum of squares for the factor.}
-  \item{rss}{Residual sum of squares (meansq for the factor).}
-  \item{AIC}{Akaike Information Criterion for the model.}
-  \item{F.statistic}{F-statistic value for the ANOVA.}
-  \item{p.value}{P-value for the factor in the ANOVA.}
+  \item{anova_results}{A data frame with ANOVA results including Factor,
+    StageCurrent, Method, degrees of freedom, Sum of Squares, RSS,
+    F-Statistic, and P-Value}
+  \item{exclusion_summary}{A data frame summarizing exclusions for each
+    stage including original sample size, excluded missing data, and
+    which demographics were included/excluded}
 }
 }
 \description{
-This function performs individual and combined ANOVA analyses for each demographic factor,
-as well as a drop1 test for factor removal. The individual ANOVA is performed for each
-demographic factor, and a combined ANOVA is run for all factors. Additionally, a drop1
-test is applied to assess the effect of each factor when removed.
+This function performs ANOVA analysis on a dataset across different stages,
+with filtering for group sizes and handling of missing data. It runs both
+individual and combined ANOVA tests for specified demographic factors.
+}
+\details{
+The function performs three types of ANOVA analysis:
+\itemize{
+  \item Individual: Separate one-way ANOVA for each valid factor
+  \item All: Combined ANOVA using all valid factors simultaneously
+  \item All - Drop1: Type III ANOVA using drop1() with F-test
+}
+
+Factors are excluded from analysis if they don't meet the minimum group
+size requirements (both absolute count and percentage) or if they have
+only one unique value.
 }
 \examples{
-# Example dataset
-data <- data.frame(
-  Stage = c("A", "A", "B", "B", "A", "B"),
-  Score = c(85, 90, 88, 93, 87, 95),
-  Gender = c("Male", "Female", "Male", "Female", "Female", "Male"),
-  AgeGroup = c("Young", "Old", "Young", "Old", "Young", "Old"),
-  Region = c("North", "South", "North", "South", "North", "South")
+# Create sample data
+set.seed(123)
+sample_data <- data.frame(
+  stage = rep(c("Stage1", "Stage2"), each = 100),
+  score = c(rnorm(100, 75, 10), rnorm(100, 80, 12)),
+  gender = sample(c("Male", "Female"), 200, replace = TRUE),
+  age_group = sample(c("Young", "Middle", "Old"), 200, replace = TRUE),
+  education = sample(c("High School", "College", "Graduate"), 200, replace = TRUE),
+  income = sample(c("Low", "Medium", "High"), 200, replace = TRUE)
 )
 
-# Example usage
-anova_results <- fn_anova_analysis(
-  data,
-  col_stage_current = "Stage",
-  col_score = "Score",
-  cols_demographics = c("Gender", "AgeGroup"),
-  cols_anova = c("Gender", "AgeGroup", "Region")
+# Define demographic columns
+demo_cols <- c("gender", "age_group", "education", "income")
+anova_cols <- c("gender", "age_group", "education")
+
+# Run ANOVA analysis
+results <- fn_anova_analysis(
+  data = sample_data,
+  col_stage_current = "stage",
+  col_score = "score",
+  cols_demographics = demo_cols,
+  cols_anova = anova_cols,
+  min_group_pct = 5,
+  min_group_n = 10
 )
-print(anova_results)
+
+# View results
+print(results$anova_results)
+print(results$exclusion_summary)
 
 }
