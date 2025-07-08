@@ -41,7 +41,7 @@
 #'
 #' @examples
 #' # Assuming your data structure
-#' results <- fn_chisq_demographics_analysis(
+#' results <- fn_chisq_analysis(
 #'   data = demographics_sitting |>
 #'     filter(StageCurrent %in% demographics$anovas$stages) |>
 #'     left_join(universal_students |>
@@ -59,7 +59,7 @@
 #' )
 #'
 #' @export
-fn_chisq_demographics_analysis <- function(data,
+fn_chisq_analysis <- function(data,
                                            col_stage_current,
                                            cols_demographics,
                                            min_subgroup_n = 5,
@@ -335,7 +335,7 @@ fn_chisq_demographics_analysis <- function(data,
 #
 #
 #
-# fn_chisq_demographics_analysis(
+# fn_chisq_analysis(
 #   data = demographics_sitting |>
 #     filter(StageCurrent %in% demographics$anovas$stages) |>
 #     left_join(universal_students |>
