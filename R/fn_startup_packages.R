@@ -62,6 +62,7 @@ fn_startup_packages <- function() {
     Amelia,
     beepr,
     # beep sound
+    binom, # For confidence intervals in Chi Analysis (used for demogs)
     conflicted,
     # allow setting a default fns from a package
     english,
