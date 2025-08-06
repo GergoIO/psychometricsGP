@@ -149,7 +149,23 @@ fn_anova_analysis <- function(data,
     )
 
     if (length(valid_factors) == 0) {
-      stop("No valid ANOVA factors for Stage: ", stage)
+      message("No valid ANOVA factors for Stage: ", stage, " - creating blank result rows")
+
+      # Create blank result rows for each factor in cols_anova
+      for (factor in cols_anova) {
+        blank_result <- data.frame(
+          Factor = factor,
+          StageCurrent = stage,
+          Method = NA,
+          df = NA,
+          sumsq = NA,
+          meansq = NA,
+          statistic = NA,
+          p.value = NA
+        )
+        results[[length(results) + 1]] <- blank_result
+      }
+      next
     }
 
     # Run individual ANOVAs
