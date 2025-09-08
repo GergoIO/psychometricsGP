@@ -22,12 +22,23 @@
 #' fn_check_nested_var("include$AR_report$scores_density_plot", c("Raw Scores"))
 #' # Returns FALSE (variable missing)
 fn_check_nested_var <- function(full_var, check_values = NULL) {
+  # Check if full_var is a character string
+  if (!is.character(full_var) || length(full_var) != 1) {
+    warning(
+      "Input 'full_var' must be a single string in quotes specifying the variable path (e.g. \"include$AR_report$scores_plot\"). ",
+      "It looks like the variable name was passed unquoted or incorrectly."
+    )
+    return(FALSE)
+  }
+
   parts <- strsplit(full_var, "\\$")[[1]]
+
   # Try to get the root variable from global environment
   if (!exists(parts[1], envir = .GlobalEnv, inherits = FALSE)) {
     return(FALSE)
   }
   current <- get(parts[1], envir = .GlobalEnv, inherits = FALSE)
+
   # Traverse nested parts
   if (length(parts) > 1) {
     for (p in parts[-1]) {
@@ -46,6 +57,7 @@ fn_check_nested_var <- function(full_var, check_values = NULL) {
       }
     }
   }
+
   # Evaluation: membership or logical test
   if (is.null(check_values)) {
     return(isTRUE(current))
@@ -62,7 +74,6 @@ fn_check_nested_var <- function(full_var, check_values = NULL) {
     return(current %in% check_values)
   }
 }
-
 
 #' fn_check_nested_var <- function(full_var, check_values = NULL) {
 #'   parts <- strsplit(full_var, "\\$")[[1]]
