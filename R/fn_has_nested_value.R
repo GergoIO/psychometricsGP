@@ -1,3 +1,5 @@
+
+# OLD USE fn_check_nested_var instead
 #' Check if a nested variable exists and has a value
 #'
 #' This function safely checks whether a nested variable or list element
