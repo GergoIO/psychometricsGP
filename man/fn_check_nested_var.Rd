@@ -30,5 +30,4 @@ fn_check_nested_var("include$AR_report$scores_plot", c("Raw Scores", "Both"))
 
 fn_check_nested_var("include$AR_report$scores_density_plot", c("Raw Scores"))
 # Returns FALSE (variable missing)
-
 }
