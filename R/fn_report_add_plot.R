@@ -58,7 +58,7 @@ fn_report_add_plot <- function(report = NULL, plot = NULL, plot_count = NULL, ca
   } else {
     report <- body_add_gg(report, value = plot, width = as.numeric(dimensions[1] / 2.54),
                           height = as.numeric(dimensions[2] / 2.54))
-    caption_text <- paste("Figure", plot_count, ":", caption)
+    caption_text <- paste0("Figure ", plot_count, ": ", caption)
     report <- body_add_par(report, caption_text, style = "caption")
     assign(deparse(substitute(plot_count)), plot_count + 1, envir = parent.frame())
     if (stop_trailing_line %in% c(NULL, FALSE)) {

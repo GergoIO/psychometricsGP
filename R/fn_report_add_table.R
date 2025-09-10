@@ -58,7 +58,7 @@ fn_report_add_table <- function(
     stop("One of the required variables for this function has not been specified.")
   }
   # Add caption above the table
-  report <- officer::body_add_par(report, paste("Table", table_count, ":", caption), style = "caption")
+  report <- officer::body_add_par(report, paste0("Table ", table_count, ": ", caption), style = "caption")
   # Update table count in caller's environment
   assign(deparse(substitute(table_count)), table_count + 1, envir = parent.frame())
   # Convert to flextable unless told not to

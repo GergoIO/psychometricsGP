@@ -75,6 +75,7 @@ fn_startup_packages <- function() {
     #for new_scale
     ggThemeAssist,
     ggprism,
+    ggridges,
     ggtext,
     # For minor ticks
     # glue,
