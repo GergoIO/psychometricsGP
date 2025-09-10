@@ -29,7 +29,7 @@
 #'
 #' p <- ggplot(mtcars, aes(mpg)) + geom_histogram()
 #'
-#' my_report <- fnRptAddPlot(
+#' my_report <- fn_report_add_plot(
 #'   report = my_report,
 #'   plot = p,
 #'   plot_count = n_plot,
@@ -39,7 +39,7 @@
 #'
 #' # Add another plot (shows figure number increasing)
 #' p2 <- ggplot(mtcars, aes(hp)) + geom_histogram()
-#' my_report <- fnRptAddPlot(
+#' my_report <- fn_report_add_plot(
 #'   report = my_report,
 #'   plot = p2,
 #'   plot_count = n_plot,
