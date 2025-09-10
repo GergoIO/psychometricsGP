@@ -11,7 +11,7 @@
 #' @param stop_flextable_conversion Logical. If `TRUE`, the table is assumed to be a flextable and will not be converted. Defaults to `FALSE`.
 #' @param vertical_lines Numeric vector specifying the columns where vertical lines should be added. Defaults to `NULL`.
 #' @param horizontal_lines Numeric vector specifying the rows where horizontal lines should be added. Defaults to `NULL`.
-#' @param ... Additional arguments passed to `officer::body_add_flextable()`, such as text alignment.
+#' @param ... Additional arguments passed to `flextable::body_add_flextable()`, such as text alignment.
 #'
 #' @return The updated Officer report object with the added table and caption. The `table_count` variable is incremented by 1 in the calling environment.
 #' @export
@@ -42,19 +42,6 @@
 #'   vertical_lines = c(2),
 #'   horizontal_lines = c(2),
 #'   stop_trailing_line = FALSE
-#' )
-#'
-#' # Add a second table and see count increase
-#' second_df <- data.frame(
-#'   name = c("X", "Y", "Z"),
-#'   value = c(3, 4, 5)
-#' )
-#' my_report <- fn_report_add_table(
-#'   report = my_report,
-#'   table = second_df,
-#'   table_count = table_count,
-#'   caption = "Second Table Example",
-#'   stop_trailing_line = TRUE
 #' )
 fn_report_add_table <- function(
     report = NULL,
@@ -93,7 +80,7 @@ fn_report_add_table <- function(
     }
   }
   # Add the table to the report
-  report <- officer::body_add_flextable(report, value = table, ...)
+  report <- flextable::body_add_flextable(report, value = table, ...)
   # Optionally add an empty line
   if (!stop_trailing_line) {
     report <- officer::body_add_par(report, "")

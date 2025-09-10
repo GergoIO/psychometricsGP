@@ -33,7 +33,7 @@ fn_report_add_table(
 
 \item{horizontal_lines}{Numeric vector specifying the rows where horizontal lines should be added. Defaults to `NULL`.}
 
-\item{...}{Additional arguments passed to `officer::body_add_flextable()`, such as text alignment.}
+\item{...}{Additional arguments passed to `flextable::body_add_flextable()`, such as text alignment.}
 }
 \value{
 The updated Officer report object with the added table and caption. The `table_count` variable is incremented by 1 in the calling environment.
@@ -68,18 +68,5 @@ my_report <- fn_report_add_table(
   vertical_lines = c(2),
   horizontal_lines = c(2),
   stop_trailing_line = FALSE
-)
-
-# Add a second table and see count increase
-second_df <- data.frame(
-  name = c("X", "Y", "Z"),
-  value = c(3, 4, 5)
-)
-my_report <- fn_report_add_table(
-  report = my_report,
-  table = second_df,
-  table_count = table_count,
-  caption = "Second Table Example",
-  stop_trailing_line = TRUE
 )
 }
