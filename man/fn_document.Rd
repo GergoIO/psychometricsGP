@@ -18,5 +18,5 @@ fn_document()
 
 }
 \author{
-Gergo Pinter, \email{gergo.pinter@plymouth.ac.uk}, \url{https://www.gergo.io}
+Gergo Pinter, \email{gergo.pinter@plymouth.ac.uk}
 }
