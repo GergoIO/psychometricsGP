@@ -79,7 +79,7 @@ fn_startup_packages <- function() {
     ggtext,
     # For minor ticks
     # glue,
-    hrbrthemes,
+    # hrbrthemes,
     janitor,
     ltm,
     lme4,
