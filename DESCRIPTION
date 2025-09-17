@@ -1,6 +1,7 @@
 Package: psychometricsGP
 Type: Package
 Title: Functions for Psychometric Analysis
+Depends: R (>= 4.1.0)
 Version: 0.3.0
 Author: Gergo Pinter
 Maintainer: Gergo Pinter <gergo.pinter@plymouth.ac.uk>
@@ -28,7 +29,6 @@ Imports:
     ggnewscale,
     ggprism,
     ggtext,
-    hrbrthemes,
     janitor,
     ltm,
     lme4,
