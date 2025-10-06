@@ -46,6 +46,7 @@
 #' @return A modified `.grades_short` data frame with added columns for boundaries and assigned grades.
 #'   Boundary columns are named `GradeBoundPct_<abbrev>_<suffix>` and `GradeBoundRaw_<abbrev>_<suffix>`.
 #'   Grade column is named `Grade_<abbrev>`.
+#' @export
 #'
 #' @examples
 #' \dontrun{
