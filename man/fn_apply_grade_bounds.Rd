@@ -2,128 +2,103 @@
 % Please edit documentation in R/fn_apply_grade_bounds.R
 \name{fn_apply_grade_bounds}
 \alias{fn_apply_grade_bounds}
-\title{Apply Grade Boundaries and Assign Grades by Stage}
+\title{Apply Grade Boundaries and Assign Grades by Stage (No Global Lookups)}
 \usage{
 fn_apply_grade_bounds(
-  .grades_short,
-  grading_method_name,
+  data,
   n_grade_bounds_per_stage,
-  grade_bounds = NULL,
-  grade_bounds_type = NULL,
-  stages_with_grading = NULL,
-  assessment_max_score = NULL,
-  grade_labels = c("Fail", "Pass"),
-  grade_bound_suffixes = c("FP"),
+  grade_bounds,
+  grade_bounds_type,
+  stages_with_grading,
+  max_raw_score,
+  grade_labels,
+  grade_bound_suffixes,
+  grading_method_name,
   grading_method_name_abbreviated = NULL,
   stage_col = "StageCurrent",
   score_pct_col = "ScorePct",
-  formative_label = "Formative"
+  formative_label = "Formative",
+  require_integer_stages = TRUE
 )
 }
 \arguments{
-\item{.grades_short}{A data frame containing at least the current stage and percentage score columns.
-The stage column should be numeric or factor matching the `stages_with_grading`.}
+\item{data}{A data frame with at least two columns: one for stage IDs, one for percentage scores.}
 
-\item{grading_method_name}{Character. Internal name/key of the grading method configuration.
-Used to locate bounds and types in global `grading` object if `grade_bounds` not supplied directly.}
+\item{n_grade_bounds_per_stage}{Integer scalar: number of grade boundaries for each stage.}
 
-\item{n_grade_bounds_per_stage}{Integer. Number of boundaries configured per stage.}
+\item{grade_bounds}{A concatenated vector of grade boundaries for all stages.
+Must have length \code{n_grade_bounds_per_stage * length(stages_with_grading)}.}
 
-\item{grade_bounds}{Vector of grade boundaries (numeric or character) for all stages concatenated.
-Length must be `n_grade_bounds_per_stage * length(stages_with_grading)`.
-Optional; function retrieves from `grading$values[[grading_method_name]]` if missing.}
+\item{grade_bounds_type}{Character scalar; must be one of \dQuote{Percentage Score} or \dQuote{Raw Score}.}
 
-\item{grade_bounds_type}{Character. Type of grade bounds: "PCT Score" or "Raw Score".
-Optional; retrieves from `grading$value_type[[grading_method_name]]` if missing.}
+\item{stages_with_grading}{Numeric vector of stage IDs to be graded.}
 
-\item{stages_with_grading}{Numeric vector. Vector of numeric stage IDs to be graded.
-Length multiplied by `n_grade_bounds_per_stage` must equal length of `grade_bounds`.
-Optional; retrieves from `grading$values$stages_with_grading` if missing.}
+\item{max_raw_score}{Numeric scalar representing the maximum raw score achievable.}
 
-\item{assessment_max_score}{Numeric. Maximum raw score of the assessment.
-Required if converting bounds between raw and percentage scores.
-Optional; retrieves from `assessment$score_raw_max` if missing.}
+\item{grade_labels}{Character vector with length \code{n_grade_bounds_per_stage + 1}, ordered grade labels.}
 
-\item{grade_labels}{Character vector. Ordered vector of grade labels, length = `n_grade_bounds_per_stage + 1`.
-Example: c("Fail", "Pass") for 1 boundary; c("Fail", "Pass", "Excellent") for 2 boundaries.}
+\item{grade_bound_suffixes}{Character vector with length \code{n_grade_bounds_per_stage} used for naming boundary columns.}
 
-\item{grade_bound_suffixes}{Character vector. Suffixes for naming boundary columns.
-Length must equal `n_grade_bounds_per_stage`.
-Example: c("FP") for 1 boundary, c("FP", "PE") for 2, c("UB", "BS", "SE") for 3.}
+\item{grading_method_name}{Character scalar used as part of new column names.}
 
-\item{grading_method_name_abbreviated}{Character. Optional abbreviated name for naming columns.
-If NULL, uses `grading_method_name` as column name base.}
+\item{grading_method_name_abbreviated}{Character scalar (optional) abbreviated string used for column names.}
 
-\item{stage_col}{Character. Name of the column in `.grades_short` holding the current stage ID.
-Default is "StageCurrent".}
+\item{stage_col}{Character scalar naming the column in \code{data} that contains stage IDs. Default: \dQuote{StageCurrent}.}
 
-\item{score_pct_col}{Character. Name of the column in `.grades_short` holding the percentage score.
-Default is "ScorePct".}
+\item{score_pct_col}{Character scalar naming the column in \code{data} that contains percentage scores. Default: \dQuote{ScorePct}.}
 
-\item{formative_label}{Character. Special label string used to mark formative grade bounds.
-Default is "Formative".}
+\item{formative_label}{Character scalar designating formative-only grade bounds. Default: \dQuote{Formative}.}
+
+\item{require_integer_stages}{Logical scalar indicating if \code{stages_with_grading} should be strictly integer. Default: \code{TRUE}.}
 }
 \value{
-A modified `.grades_short` data frame with added columns for boundaries and assigned grades.
-  Boundary columns are named `GradeBoundPct_<abbrev>_<suffix>` and `GradeBoundRaw_<abbrev>_<suffix>`.
-  Grade column is named `Grade_<abbrev>`.
+Modified \code{data} with new columns for grade boundaries and assigned grades.
+  Boundary columns are named \code{GradeBoundPct_<abbrev>_<suffix>} and \code{GradeBoundRaw_<abbrev>_<suffix>}.
+  The grade column is named \code{Grade_<abbrev>}, where \code{<abbrev>} is \code{grading_method_name_abbreviated} if provided or \code{grading_method_name}.
 }
 \description{
-This function assigns grades to assessment results based on fixed grade boundaries configured for numeric stage IDs.
-It supports multiple grade boundaries per stage and dynamically creates boundary columns and a grade column.
-Grade boundaries can be provided per stage as raw scores or percent scores; the function converts as needed.
-Grades are assigned to intervals defined by the boundaries, promoting grades when the score equals a boundary.
-Rows with unmatched stages or stages marked as formative receive special handling.
+Assign grades to assessment results using explicit, user-supplied grade boundaries,
+grade bounds type, stage mapping, and other parameters.
+No lookups are performed in external/global objects — all configuration must be
+provided during the call.
 }
 \details{
-For stages where all grade bounds equal a formative label (default "Formative"), the function:
-- sets all boundary columns (percentage and raw) to NA,
-- sets the grade column to blank "",
-- skips boundary conversion and grade assignment.
+The input \code{data} must contain columns representing the current stage and the
+percentage score, named as specified by \code{stage_col} (default: "StageCurrent") and
+\code{score_pct_col} (default: "ScorePct").
 
-Partial formative bounds for a stage (some formative, some numeric) cause an error.
+Grade boundaries can be expressed either as raw scores or as percentage scores; these
+are converted as needed based on \code{grade_bounds_type} which must be either
+\dQuote{Percentage Score} or \dQuote{Raw Score}.
 }
 \examples{
-\dontrun{
-# FP example with numeric stages
-.grades_short <- tibble::tibble(
-  StageCurrent = c(1, 1, 1),
-  ScorePct = c(45, 75, NA)
-)
-.grades_short <- fn_apply_grade_bounds(
-  .grades_short,
-  grading_method_name = "fixed_fail_pass",
-  grading_method_name_abbreviated = "FixedFP",
+library(tibble)
+# Simple pass/fail grading on two stages
+scores <- tibble(StageCurrent = c(1, 1, 2, 2),
+                 ScorePct = c(45, 82, 40, 99))
+fn_apply_grade_bounds(
+  data = scores,
   n_grade_bounds_per_stage = 1,
-  grade_bounds = c(50),
-  grade_bounds_type = "PCT Score",
-  stages_with_grading = c(1),
-  assessment_max_score = 100,
+  grade_bounds = c(50, 60),
+  grade_bounds_type = "Percentage Score",
+  stages_with_grading = c(1, 2),
+  max_raw_score = 100,
   grade_labels = c("Fail", "Pass"),
-  grade_bound_suffixes = c("FP")
+  grade_bound_suffixes = c("FP"),
+  grading_method_name = "FP"
 )
 
-# UBSE example with two numeric stages (1 formative, 2 graded)
-# Stage 1 is formative (all bounds "Formative"), stage 2 has numeric bounds
-.grades_short <- tibble::tibble(
-  StageCurrent = c(1, 1, 2, 2),
-  ScorePct = c(25, 40, 55, 85)
-)
-.grades_short <- fn_apply_grade_bounds(
-  .grades_short,
-  grading_method_name = "fixed_ubse",
-  grading_method_name_abbreviated = "FixedUBSE",
-  n_grade_bounds_per_stage = 3,
-  grade_bounds = c(
-    "Formative", "Formative", "Formative",  # Stage 1 (formative)
-    40, 60, 90                             # Stage 2
-  ),
-  grade_bounds_type = "PCT Score",
+# Formative stage example (bounds all Formative)
+scores2 <- tibble(StageCurrent = c(1, 2, 2), ScorePct = c(10, 40, 90))
+fn_apply_grade_bounds(
+  data = scores2,
+  n_grade_bounds_per_stage = 2,
+  grade_bounds = c("Formative", "Formative", 35, 85),
+  grade_bounds_type = "Percentage Score",
   stages_with_grading = c(1, 2),
-  assessment_max_score = 100,
-  grade_labels = c("Unsat", "Bord", "Sat", "Exc"),
-  grade_bound_suffixes = c("UB", "BS", "SE"),
-  formative_label = "Formative"
+  max_raw_score = 100,
+  grade_labels = c("Unsat", "Sat", "Exc"),
+  grade_bound_suffixes = c("UB", "SE"),
+  grading_method_name = "UBSE"
 )
-}
 }
