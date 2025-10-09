@@ -15,6 +15,7 @@ fn_apply_grade_bounds(
   grade_bound_suffixes,
   grading_method_name,
   grading_method_name_abbreviated = NULL,
+  negative_marking_penalty = -0.25,
   stage_col = "StageCurrent",
   score_pct_col = "ScorePct",
   formative_label = "Formative"
@@ -26,11 +27,12 @@ fn_apply_grade_bounds(
 \item{n_grade_bounds_per_stage}{Integer scalar: number of grade boundaries for each stage.}
 
 \item{grade_bounds}{A concatenated vector of grade boundaries for all configured stages.
-Must have length \code{n_grade_bounds_per_stage * length(configured_stages)}.}
+Must have length \code{n_grade_bounds_per_stage * length(configured_stages)}.
+Formative stages are indicated by all boundaries equalling \code{formative_label}.}
 
 \item{grade_bounds_type}{Character scalar; must be one of \dQuote{Percentage Score} or \dQuote{Raw Score}.}
 
-\item{configured_stages}{Numeric vector of stage IDs to be graded (authoritative list).
+\item{configured_stages}{Numeric or factor vector of stage IDs to be graded (authoritative list).
 Only these stages are assigned grades. Rows with other stages will have blank grades.}
 
 \item{max_raw_score}{Numeric scalar representing the maximum raw score achievable.}
@@ -41,7 +43,10 @@ Only these stages are assigned grades. Rows with other stages will have blank gr
 
 \item{grading_method_name}{Character scalar used as part of new column names.}
 
-\item{grading_method_name_abbreviated}{Character scalar (optional) abbreviated string used for column names.}
+\item{grading_method_name_abbreviated}{Character scalar (optional) abbreviated string used for column names.
+Defaults to \code{grading_method_name} if \code{NULL}.}
+
+\item{negative_marking_penalty}{Numeric scalar penalty applied to negative marking; default is -0.25.}
 
 \item{stage_col}{Character scalar naming the column in \code{data} that contains stage IDs. Default: \dQuote{StageCurrent}.}
 
@@ -70,9 +75,13 @@ percentage score, named as specified by \code{stage_col} (default: "StageCurrent
 Grade boundaries can be expressed either as raw scores or as percentage scores; these
 are converted as needed based on \code{grade_bounds_type} which must be either
 \dQuote{Percentage Score} or \dQuote{Raw Score}.
+
+Negative marking penalties affect the minimum allowed raw score boundary floors.
+Formative stages can be identified by setting all grade bounds to the \code{formative_label}.
 }
 \examples{
 library(tibble)
+
 # Simple pass/fail grading on two stages
 scores <- tibble(StageCurrent = c(1, 1, 2, 2),
                  ScorePct = c(45, 82, 40, 99))
@@ -100,5 +109,23 @@ fn_apply_grade_bounds(
   grade_labels = c("Unsat", "Sat", "Exc"),
   grade_bound_suffixes = c("UB", "SE"),
   grading_method_name = "UBSE"
+)
+
+# Raw score grade bounds with multiple grades per stage
+scores3 <- tibble(StageCurrent = c(1, 1, 2, 2), ScorePct = c(75, 55, 80, 40))
+grade_bounds3 <- c(50, 65, 80, 60, 70, 85)
+grade_bound_suffixes3 <- c("Low", "Mid", "High")
+grade_labels3 <- c("Fail", "Pass", "Merit", "Distinction")
+configured_stages3 <- c(1, 2)
+fn_apply_grade_bounds(
+  data = scores3,
+  n_grade_bounds_per_stage = 3,
+  grade_bounds = grade_bounds3,
+  grade_bounds_type = "Raw Score",
+  configured_stages = configured_stages3,
+  max_raw_score = 100,
+  grade_labels = grade_labels3,
+  grade_bound_suffixes = grade_bound_suffixes3,
+  grading_method_name = "Test1"
 )
 }

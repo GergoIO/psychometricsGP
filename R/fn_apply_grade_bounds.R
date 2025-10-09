@@ -13,18 +13,24 @@
 #' are converted as needed based on \code{grade_bounds_type} which must be either
 #' \dQuote{Percentage Score} or \dQuote{Raw Score}.
 #'
+#' Negative marking penalties affect the minimum allowed raw score boundary floors.
+#' Formative stages can be identified by setting all grade bounds to the \code{formative_label}.
+#'
 #' @param data A data frame with at least two columns: one for stage IDs, one for percentage scores.
 #' @param n_grade_bounds_per_stage Integer scalar: number of grade boundaries for each stage.
 #' @param grade_bounds A concatenated vector of grade boundaries for all configured stages.
 #'   Must have length \code{n_grade_bounds_per_stage * length(configured_stages)}.
+#'   Formative stages are indicated by all boundaries equalling \code{formative_label}.
 #' @param grade_bounds_type Character scalar; must be one of \dQuote{Percentage Score} or \dQuote{Raw Score}.
-#' @param configured_stages Numeric vector of stage IDs to be graded (authoritative list).
+#' @param configured_stages Numeric or factor vector of stage IDs to be graded (authoritative list).
 #'   Only these stages are assigned grades. Rows with other stages will have blank grades.
 #' @param max_raw_score Numeric scalar representing the maximum raw score achievable.
 #' @param grade_labels Character vector with length \code{n_grade_bounds_per_stage + 1}, ordered grade labels.
 #' @param grade_bound_suffixes Character vector with length \code{n_grade_bounds_per_stage} used for naming boundary columns.
 #' @param grading_method_name Character scalar used as part of new column names.
 #' @param grading_method_name_abbreviated Character scalar (optional) abbreviated string used for column names.
+#'   Defaults to \code{grading_method_name} if \code{NULL}.
+#' @param negative_marking_penalty Numeric scalar penalty applied to negative marking; default is -0.25.
 #' @param stage_col Character scalar naming the column in \code{data} that contains stage IDs. Default: \dQuote{StageCurrent}.
 #' @param score_pct_col Character scalar naming the column in \code{data} that contains percentage scores. Default: \dQuote{ScorePct}.
 #' @param formative_label Character scalar designating formative-only grade bounds. Default: \dQuote{Formative}.
@@ -39,6 +45,7 @@
 #'
 #' @examples
 #' library(tibble)
+#'
 #' # Simple pass/fail grading on two stages
 #' scores <- tibble(StageCurrent = c(1, 1, 2, 2),
 #'                  ScorePct = c(45, 82, 40, 99))
@@ -67,6 +74,25 @@
 #'   grade_bound_suffixes = c("UB", "SE"),
 #'   grading_method_name = "UBSE"
 #' )
+#'
+#' # Raw score grade bounds with multiple grades per stage
+#' scores3 <- tibble(StageCurrent = c(1, 1, 2, 2), ScorePct = c(75, 55, 80, 40))
+#' grade_bounds3 <- c(50, 65, 80, 60, 70, 85)
+#' grade_bound_suffixes3 <- c("Low", "Mid", "High")
+#' grade_labels3 <- c("Fail", "Pass", "Merit", "Distinction")
+#' configured_stages3 <- c(1, 2)
+#' fn_apply_grade_bounds(
+#'   data = scores3,
+#'   n_grade_bounds_per_stage = 3,
+#'   grade_bounds = grade_bounds3,
+#'   grade_bounds_type = "Raw Score",
+#'   configured_stages = configured_stages3,
+#'   max_raw_score = 100,
+#'   grade_labels = grade_labels3,
+#'   grade_bound_suffixes = grade_bound_suffixes3,
+#'   grading_method_name = "Test1"
+#' )
+
 fn_apply_grade_bounds <- function(
     data,
     n_grade_bounds_per_stage,
@@ -78,6 +104,7 @@ fn_apply_grade_bounds <- function(
     grade_bound_suffixes,
     grading_method_name,
     grading_method_name_abbreviated = NULL,
+    negative_marking_penalty = -0.25,
     stage_col = "StageCurrent",
     score_pct_col = "ScorePct",
     formative_label = "Formative"
@@ -105,30 +132,33 @@ fn_apply_grade_bounds <- function(
     warning(sprintf("%s: All values are NA in score percentage column '%s'.", fn_name, score_pct_col))
   }
 
+  # Validate negative_marking_penalty input
+  if (!is.numeric(negative_marking_penalty) || length(negative_marking_penalty) != 1) {
+    stop(sprintf("%s: negative_marking_penalty must be a single numeric scalar.", fn_name))
+  }
+
+  # Compute minimum raw score floor
+  min_raw_score <- negative_marking_penalty * max_raw_score
+
   # Save original stage column for restoration after processing
   .original_stage_col <- data[[stage_col]]
 
   # ----- Stage Column Conversion for Matching -----
-  # Convert ordered factor / factor to integer codes internally for matching
   if (is.factor(data[[stage_col]]) || is.ordered(data[[stage_col]])) {
-    # Must convert to char here first otherwise you get the order of the factor not the actual label/value of it
-    .stage_codes <- as.numeric(as.character(.scores_short[["StageCurrent"]]))
+    .stage_codes <- as.numeric(as.character(data[[stage_col]]))
   } else {
     .stage_codes <- data[[stage_col]]
   }
 
-  # Prepare configured_stages codes for matching
   configured_stages_codes <- configured_stages
   if (is.factor(configured_stages) || is.ordered(configured_stages)) {
     configured_stages_codes <- as.integer(configured_stages)
   }
 
-  # Check for duplicate stages in configured_stages
   if (any(duplicated(configured_stages_codes))) {
     stop(sprintf("%s: 'configured_stages' contains duplicates, please remove.", fn_name))
   }
 
-  # Warn if any configured stage is missing from the data stages
   if (any(!configured_stages_codes %in% unique(.stage_codes))) {
     warning(sprintf("%s: Some configured_stages (%s) do not appear in the data stage column '%s'.",
                     fn_name, paste0(setdiff(configured_stages_codes, unique(.stage_codes)), collapse = ", "), stage_col))
@@ -163,7 +193,8 @@ fn_apply_grade_bounds <- function(
     stop(sprintf("%s: max_raw_score must be a single positive numeric value.", fn_name))
   }
 
-  # Validate grade bounds for each configured stage
+  # Validate grade bounds for each configured stage;
+  # apply minimum raw score floor where needed (skip formative)
   for (i_stage in seq_along(configured_stages)) {
     idx_start <- ((i_stage - 1) * n_grade_bounds_per_stage + 1)
     idx_end <- i_stage * n_grade_bounds_per_stage
@@ -183,13 +214,34 @@ fn_apply_grade_bounds <- function(
       if (any(diff(numeric_bounds) < 0)) {
         stop(sprintf("%s: Grade bounds for stage '%s' are not in ascending order.", fn_name, configured_stages[i_stage]))
       }
-      if (grade_bounds_type == "Percentage Score" && any(numeric_bounds < 0 | numeric_bounds > 100)) {
-        stop(sprintf("%s: Percentage grade bounds for stage '%s' must be between 0 and 100.", fn_name, configured_stages[i_stage]))
+      # Removed the percentage bounds between 0-100 stop statement to allow negative grade boundaries
+
+      # Minimum raw score floor enforcement for non-formative stages and negative_marking_penalty < 0
+      if (negative_marking_penalty < 0) {
+        bounds_raw <- if (grade_bounds_type == "Raw Score") {
+          numeric_bounds
+        } else {
+          numeric_bounds * max_raw_score / 100
+        }
+
+        if (any(bounds_raw < min_raw_score)) {
+          warning(sprintf("%s: Some grade boundaries for stage '%s' were below minimum raw score floor %.2f and have been raised.",
+                          fn_name, configured_stages[i_stage], min_raw_score))
+          adjusted_raw <- pmax(bounds_raw, min_raw_score)
+
+          if (grade_bounds_type == "Raw Score") {
+            bounds_stage <- adjusted_raw
+          } else {
+            bounds_stage <- adjusted_raw / max_raw_score * 100
+          }
+          grade_bounds[idx_start:idx_end] <- bounds_stage
+        }
       }
     }
   }
 
-  # Initialize or verify grade column
+  # --- Original logic for initializing columns and assigning grades follows ---
+
   grade_col <- paste0("Grade_", grade_method_colname)
   if (!grade_col %in% names(data) || !is.character(data[[grade_col]])) {
     data[[grade_col]] <- rep(NA_character_, nrow(data))
@@ -198,14 +250,12 @@ fn_apply_grade_bounds <- function(
   pct_cols <- paste0("GradeBoundPct_", grade_method_colname, "_", grade_bound_suffixes)
   raw_cols <- paste0("GradeBoundRaw_", grade_method_colname, "_", grade_bound_suffixes)
 
-  # Initialize boundary columns if missing or wrong type
   for (col in c(pct_cols, raw_cols)) {
     if (!col %in% names(data) || !is.numeric(data[[col]])) {
       data[[col]] <- rep(NA_real_, nrow(data))
     }
   }
 
-  # Match stage codes to configured stages
   data <- data %>%
     mutate(index_stage = match(.stage_codes, configured_stages_codes)) %>%
     mutate(
@@ -263,7 +313,6 @@ fn_apply_grade_bounds <- function(
     }
   }
 
-  # Handle formative-only stages
   formative_stage_indices <- which(formative_stages)
   if (length(formative_stage_indices) > 0) {
     for (i_stage in formative_stage_indices) {
@@ -276,7 +325,6 @@ fn_apply_grade_bounds <- function(
 
   # Restore original stage column (preserves factor/ordinal state)
   data[[stage_col]] <- .original_stage_col
-  # Remove temporary index column
   data <- data |> select(-index_stage)
 
   return(data)
