@@ -83,6 +83,7 @@ fn_startup_packages <- function() {
     janitor,
     ltm,
     lme4,
+    magrittr, # for operators like %<>%
     minpack.lm,
     # For nlsLM fn
     mirt,
