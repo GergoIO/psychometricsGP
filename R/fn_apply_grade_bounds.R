@@ -36,7 +36,7 @@
 #' @param formative_label Character scalar designating formative-only grade bounds. Default: \dQuote{Formative}.
 #'
 #' @return Modified \code{data} with new columns for grade boundaries and assigned grades.
-#'   Boundary columns are named \code{GradeBoundPct_<abbrev>_<suffix>} and \code{GradeBoundRaw_<abbrev>_<suffix>}.
+#'   Boundary columns are named \code{GradeBoundaryPct_<abbrev>_<suffix>} and \code{GradeBoundaryRaw_<abbrev>_<suffix>}.
 #'   The grade column is named \code{Grade_<abbrev>}, where \code{<abbrev>} is \code{grading_method_name_abbreviated} if provided or \code{grading_method_name}.
 #'
 #'   Rows with stages *not* in \code{configured_stages} will have blank grades and NA boundaries.
@@ -247,8 +247,8 @@ fn_apply_grade_bounds <- function(
     data[[grade_col]] <- rep(NA_character_, nrow(data))
   }
 
-  pct_cols <- paste0("GradeBoundPct_", grade_method_colname, "_", grade_bound_suffixes)
-  raw_cols <- paste0("GradeBoundRaw_", grade_method_colname, "_", grade_bound_suffixes)
+  pct_cols <- paste0("GradeBoundaryPct_", grade_method_colname, "_", grade_bound_suffixes)
+  raw_cols <- paste0("GradeBoundaryRaw_", grade_method_colname, "_", grade_bound_suffixes)
 
   for (col in c(pct_cols, raw_cols)) {
     if (!col %in% names(data) || !is.numeric(data[[col]])) {
