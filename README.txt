@@ -1,5 +1,5 @@
 Selection of commonly used functions
-New/used functions begin 'fn_' and use snake case
+New/in use functions begin 'fn_' and use snake case
 Some legacy functions stored here also (staring 'fn' and using camel case)
 
 Notes on adding a new function
