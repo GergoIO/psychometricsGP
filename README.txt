@@ -1,3 +1,7 @@
+Selection of commonly used functions
+New/used functions begin 'fn_' and use snake case
+Some legacy functions stored here also (staring 'fn' and using camel case)
+
 Notes on adding a new function
 
 - May need to install the following in Console before starting edits (check this):
@@ -13,7 +17,7 @@ library(roxygen2)
 Then,
 - Create a new R Script (Ctrl Shift N)
 - Add the function:
-      fnName <- function(){
+      fn_name <- function(){
 
       }
 - Code > Insert Roxgen skeleton (Ctrl Alt Shift R)
@@ -25,8 +29,6 @@ Then,
 - Build > Install and Restart
 - Git > Commit (select and add a comment/description)
 - Git > Push
-
-
 
 Main usage while writing packages is the following:
 
