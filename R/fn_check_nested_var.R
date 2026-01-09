@@ -115,6 +115,7 @@
 #' # 4. Handling unquoted or malformed full_var
 #' fn_check_nested_var(include$AR_report$scores_plot)
 #' # Returns FALSE with a warning, because full_var was not passed as a string
+#' @export
 fn_check_nested_var <- function(full_var,
                                 check_values = NULL,
                                 require_value = FALSE) {
