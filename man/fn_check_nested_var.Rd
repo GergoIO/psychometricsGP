@@ -2,32 +2,126 @@
 % Please edit documentation in R/fn_check_nested_var.R
 \name{fn_check_nested_var}
 \alias{fn_check_nested_var}
-\title{Check Nested Variable Existence and Value from Full Variable String}
+\title{Check nested variable existence and value from a string path}
 \usage{
-fn_check_nested_var(full_var, check_values = NULL)
+fn_check_nested_var(full_var, check_values = NULL, require_value = FALSE)
 }
 \arguments{
-\item{full_var}{A string specifying the full variable path including root, separated by "$"
-(e.g. "include$AR_report$scores_plot").}
+\item{full_var}{String, the full variable path including the root object,
+using `$` to separate nesting levels (for example `"include$AR_report$scores_plot"`).}
 
-\item{check_values}{Optional vector of values to check membership against. If missing or NULL,
-the value is tested for logical truthiness (isTRUE).}
+\item{check_values}{Optional vector of values to check membership against.
+If supplied, the function returns `TRUE` when the resolved value is
+contained in `check_values` (using `%in%` semantics, with `any()` for
+vectors/lists).}
+
+\item{require_value}{Logical, default `FALSE`. If `TRUE` and `check_values`
+is `NULL`, the function returns `TRUE` when the resolved value is
+considered to be “set” (not `NULL`, length greater than zero, and not all
+`NA`). If `FALSE` and `check_values` is `NULL`, the function falls back to
+the original behaviour of `isTRUE(resolved_value)`.}
 }
 \value{
-Logical TRUE if the nested variable exists and checks out. FALSE otherwise.
+A single logical. `TRUE` if the nested variable exists and satisfies
+  the requested condition (truthiness, membership, or having any value);
+  `FALSE` otherwise.
 }
 \description{
-This function safely checks whether a fully qualified nested variable (given as a single string
-like "include$AR_report$scores_plot") exists in the global environment, and evaluates its value
-either by membership (%in%) or logical truthiness.
-If any part of the path is missing, returns FALSE.
+Safely checks whether a fully qualified nested variable (given as a single string
+like `"include$AR_report$scores_plot"`) exists in the global environment, and
+evaluates its value either by membership (`%in%`), logical truthiness, or by
+simply requiring that it has some value set (not `NULL`, not zero-length, not
+all `NA`).
+}
+\details{
+The function is designed to be robust when intermediate components of the
+path are missing; if any part does not exist, it returns `FALSE` instead of
+erroring.
+
+
+The logic is:
+- If the root object (first element of `full_var`) does not exist in the
+  global environment, the function returns `FALSE`.
+- The function then walks the remaining `$`-separated parts, assuming lists
+  and environments along the way. If a required component is missing in a
+  list or environment, it returns `FALSE`.
+- Once the final object (`current`) is resolved:
+  - If `check_values` is not `NULL`, the function performs a membership test:
+    `current %in% check_values`, using `any()` for vectors/lists.
+  - If `check_values` is `NULL` and `require_value = FALSE`, the function
+    uses `isTRUE(current)` (original behaviour).
+  - If `check_values` is `NULL` and `require_value = TRUE`, the function
+    checks that `current` is not `NULL`, has length greater than zero, and
+    is not entirely `NA`.
 }
 \examples{
-include <- list(AR_report = list(scores_plot = "Raw Scores"))
+# Basic setup
+include <- list(
+  AR_report = list(
+    scores_plot          = "Raw Scores",
+    scores_density_plot  = NULL,
+    flags                = c("Raw Scores", "Something Else")
+  )
+)
 assign("include", include, envir = .GlobalEnv)
-fn_check_nested_var("include$AR_report$scores_plot", c("Raw Scores", "Both"))
-# Returns TRUE
 
-fn_check_nested_var("include$AR_report$scores_density_plot", c("Raw Scores"))
-# Returns FALSE (variable missing)
+# 1. Membership check (original behaviour with check_values)
+fn_check_nested_var(
+  "include$AR_report$scores_plot",
+  check_values = c("Raw Scores", "Both")
+)
+# TRUE, because "Raw Scores" is in the supplied values
+
+fn_check_nested_var(
+  "include$AR_report$scores_plot",
+  check_values = "Something Else"
+)
+# FALSE, not in the supplied values
+
+fn_check_nested_var(
+  "include$AR_report$flags",
+  check_values = "Something Else"
+)
+# TRUE, any element of the vector matching is enough
+
+# 2. Logical truthiness (original behaviour, no check_values)
+include$AR_report$show_section <- TRUE
+fn_check_nested_var("include$AR_report$show_section")
+# TRUE, because isTRUE(TRUE) is TRUE
+
+include$AR_report$show_section <- FALSE
+fn_check_nested_var("include$AR_report$show_section")
+# FALSE, because isTRUE(FALSE) is FALSE
+
+# 3. Has-value check (new behaviour via require_value = TRUE)
+include$AR_report$note <- "Some note"
+fn_check_nested_var(
+  "include$AR_report$note",
+  require_value = TRUE
+)
+# TRUE, non-empty character string
+
+include$AR_report$empty_vec <- numeric(0)
+fn_check_nested_var(
+  "include$AR_report$empty_vec",
+  require_value = TRUE
+)
+# FALSE, zero-length vector
+
+include$AR_report$all_na <- c(NA_real_, NA_real_)
+fn_check_nested_var(
+  "include$AR_report$all_na",
+  require_value = TRUE
+)
+# FALSE, all values are NA
+
+fn_check_nested_var(
+  "include$AR_report$does_not_exist",
+  require_value = TRUE
+)
+# FALSE, path does not exist at all
+
+# 4. Handling unquoted or malformed full_var
+fn_check_nested_var(include$AR_report$scores_plot)
+# Returns FALSE with a warning, because full_var was not passed as a string
 }

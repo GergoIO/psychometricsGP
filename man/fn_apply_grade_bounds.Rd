@@ -56,7 +56,7 @@ Defaults to \code{grading_method_name} if \code{NULL}.}
 }
 \value{
 Modified \code{data} with new columns for grade boundaries and assigned grades.
-  Boundary columns are named \code{GradeBoundPct_<abbrev>_<suffix>} and \code{GradeBoundRaw_<abbrev>_<suffix>}.
+  Boundary columns are named \code{GradeBoundaryPct_<abbrev>_<suffix>} and \code{GradeBoundaryRaw_<abbrev>_<suffix>}.
   The grade column is named \code{Grade_<abbrev>}, where \code{<abbrev>} is \code{grading_method_name_abbreviated} if provided or \code{grading_method_name}.
 
   Rows with stages *not* in \code{configured_stages} will have blank grades and NA boundaries.
