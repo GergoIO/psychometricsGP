@@ -185,7 +185,7 @@ fn_chisq_analysis <- function(data,
         exclusion_summary[[paste0(demographic, "_", stage)]] <- tibble(
           Demographic = demographic,
           Stage = stage,
-          Reason = "Insufficient count in Pass/Fail categories",
+          Reason = "Insufficient count in grade categories",
           Subgroups_Excluded = paste(.excluded_subgroups[[demographic]], collapse = ", "),
           Students_Affected = sum(.excluded_subgroups$Count)
         )
@@ -413,7 +413,7 @@ fn_chisq_analysis <- function(data,
           exclusion_summary[[paste0("Foundation_", stage, "_failed")]] <- tibble(
             Demographic = "Foundation",
             Stage = stage,
-            Reason = "Insufficient count in Pass/Fail categories for Foundation split",
+            Reason = "Insufficient count in grade categories for Foundation split",
             Subgroups_Excluded = "Foundation or Not Foundation",
             Students_Affected = sum(.foundation_stats$Count[
               .foundation_stats$Pass_Count < min_subgroup_n |
