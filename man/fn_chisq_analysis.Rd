@@ -7,6 +7,8 @@
 fn_chisq_analysis(
   data,
   col_stage_current,
+  col_grade,
+  passing_grades,
   cols_demographics,
   min_subgroup_n = 5,
   verbose_stats = TRUE,
@@ -22,6 +24,10 @@ fn_chisq_analysis(
 Grade, and ScorePct columns}
 
 \item{col_stage_current}{Character string specifying the column name for stages}
+
+\item{col_grade}{Character string specifying the column name containing the grade information}
+
+\item{passing_grades}{A vector of values that are considered passing grades}
 
 \item{cols_demographics}{Character vector of demographic column names to analyse}
 
@@ -53,7 +59,8 @@ Default is NULL}
 A list containing:
 \describe{
   \item{results_tables}{List of tibbles, one per demographic, with subgroup
-    statistics including count, observed mean score, pass rate, and confidence intervals}
+    statistics including count, observed mean score, pass rate (as percentage),
+    and confidence intervals}
   \item{exclusion_summary}{Tibble summarising exclusions per demographic}
   \item{overall_tests}{Tibble with overall chi-square test results per demographic,
     including Cramér's V effect size (ranges from 0 to 1, where 0.1 = small effect,
@@ -75,6 +82,8 @@ results <- fn_chisq_analysis(
               select(StudentID, Grade, ScorePct), by = "StudentID") |>
     filter(!is.na(Grade)),
   col_stage_current = "StageCurrent",
+  col_grade = "Grade",
+  passing_grades = c("Pass", "Satisfactory", "Excellent"),
   cols_demographics = demographics$anovas$included,
   min_subgroup_n = 5,
   verbose_stats = FALSE,
