@@ -103,6 +103,7 @@ fn_startup_packages <- function() {
     ragg,
     # potentially threw errors when adding plots to reports without it (flextable dependency?)
     RColorBrewer,
+    rcompanion,
     reshape,
     readxl,
     reshape2,
