@@ -2,16 +2,17 @@
 #'
 #' This function performs chi-square tests for each demographic factor against
 #' pass/fail rates derived from Grade data. It handles minimum group size requirements
-#' and can fallback to binary comparisons when needed.
+#' and can fallback to binary comparisons when needed. Includes Cramér's V effect size
+#' to assess the strength of associations.
 #'
 #' @param data A data frame containing the dataset with demographic variables,
 #'   Grade, and ScorePct columns
 #' @param col_stage_current Character string specifying the column name for stages
-#' @param cols_demographics Character vector of demographic column names to analyze
+#' @param cols_demographics Character vector of demographic column names to analyse
 #' @param min_subgroup_n Minimum number of students required in each Pass/Fail
 #'   category for a subgroup to be included. Default is 5
 #' @param verbose_stats Logical indicating whether to include detailed chi-square
-#'   statistics or just p-values. Default is FALSE
+#'   statistics or just p-values and Cramér's V. Default is FALSE
 #' @param include_ci Logical indicating whether to include confidence intervals
 #'   for pass rates. Default is TRUE
 #' @param overall_test Logical indicating whether to perform overall chi-square
@@ -30,14 +31,17 @@
 #' \describe{
 #'   \item{results_tables}{List of tibbles, one per demographic, with subgroup
 #'     statistics including count, observed mean score, pass rate, and confidence intervals}
-#'   \item{exclusion_summary}{Tibble summarizing exclusions per demographic}
-#'   \item{overall_tests}{Tibble with overall chi-square test results per demographic}
+#'   \item{exclusion_summary}{Tibble summarising exclusions per demographic}
+#'   \item{overall_tests}{Tibble with overall chi-square test results per demographic,
+#'     including Cramér's V effect size (ranges from 0 to 1, where 0.1 = small effect,
+#'     0.3 = medium effect, 0.5 = large effect)}
 #' }
 #'
 #' @importFrom dplyr filter select mutate group_by summarise ungroup arrange
 #' @importFrom dplyr left_join bind_rows case_when n
 #' @importFrom stats chisq.test prop.test
-#' @importFrom binom binom.wilson
+#' @importFrom binom binom.confint
+#' @importFrom rcompanion cramerV
 #'
 #' @examples
 #' # Assuming your data structure
@@ -60,15 +64,15 @@
 #'
 #' @export
 fn_chisq_analysis <- function(data,
-                                           col_stage_current,
-                                           cols_demographics,
-                                           min_subgroup_n = 5,
-                                           verbose_stats = TRUE,
-                                           include_ci = TRUE,
-                                           overall_test = TRUE,
-                                           use_binary_fallback = TRUE,
-                                           binary_on_any_exclusion = TRUE,
-                                           entry_override = NULL) {
+                              col_stage_current,
+                              cols_demographics,
+                              min_subgroup_n = 5,
+                              verbose_stats = TRUE,
+                              include_ci = TRUE,
+                              overall_test = TRUE,
+                              use_binary_fallback = TRUE,
+                              binary_on_any_exclusion = TRUE,
+                              entry_override = NULL) {
 
   # Check required columns exist
   required_cols <- c("Grade", "ScorePct")
@@ -94,7 +98,7 @@ fn_chisq_analysis <- function(data,
     ) |>
     filter(!is.na(PassFail))
 
-  # Initialize results storage
+  # Initialise results storage
   results_tables <- list()
   exclusion_summary <- list()
   overall_tests <- list()
@@ -274,18 +278,22 @@ fn_chisq_analysis <- function(data,
           if (min(contingency_table) >= min_subgroup_n) {
             chisq_result <- stats::chisq.test(contingency_table)
 
+            # Calculate Cramér's V using rcompanion package
+            cramers_v <- rcompanion::cramerV(contingency_table)
+
             test_summary <- tibble(
               Demographic = demographic,
               Stage = stage,
               Analysis_Type = analysis_type,
               Chi_Square = chisq_result$statistic,
               DF = chisq_result$parameter,
-              P_Value = chisq_result$p.value
+              P_Value = chisq_result$p.value,
+              Cramers_V = as.numeric(cramers_v)
             )
 
             if (!verbose_stats) {
               test_summary <- test_summary |>
-                select(Demographic, Stage, Analysis_Type, P_Value)
+                select(Demographic, Stage, Analysis_Type, P_Value, Cramers_V)
             }
 
             overall_tests[[paste0(demographic, "_", stage)]] <- test_summary
