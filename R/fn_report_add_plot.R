@@ -51,13 +51,36 @@
 #' @seealso \code{\link[officer]{body_add_gg}}, \code{\link[officer]{body_add_par}}
 #' @importFrom officer body_add_gg body_add_par
 #' @export
-fn_report_add_plot <- function(report = NULL, plot = NULL, plot_count = NULL, caption = NULL,
-                         stop_trailing_line = FALSE, dimensions = c(15.24, 10.16)) {
-  if (is.null(report) | is.null(plot) | is.null(caption) | is.null(plot_count)) {
+fn_report_add_plot <- function(report     = NULL,
+                               plot       = NULL,
+                               plot_count = NULL,
+                               caption    = NULL,
+                               stop_trailing_line = FALSE,
+                               dimensions = c(15.24, 10.16)) {
+
+  # Sanity check — warn if plot height would exceed usable page area
+  .doc_dims   <- docx_dim(report)
+  .max_plot_h <- (.doc_dims$page[["height"]] -
+                    .doc_dims$margins[["top"]] -
+                    .doc_dims$margins[["bottom"]]) * 2.54 - 3
+
+  if (dimensions[2] > .max_plot_h) {
+    warning(sprintf(
+      "Plot height %.1f cm exceeds available page height %.1f cm — plot will be clipped.",
+      dimensions[2], .max_plot_h
+    ))
+  }
+
+  if (is.null(report) |
+      is.null(plot) | is.null(caption) | is.null(plot_count)) {
     stop("One of the required variables for this function has not been specified.")
   } else {
-    report <- body_add_gg(report, value = plot, width = as.numeric(dimensions[1] / 2.54),
-                          height = as.numeric(dimensions[2] / 2.54))
+    report <- body_add_gg(
+      report,
+      value = plot,
+      width = as.numeric(dimensions[1] / 2.54),
+      height = as.numeric(dimensions[2] / 2.54)
+    )
     caption_text <- paste0("Figure ", plot_count, ": ", caption)
     report <- body_add_par(report, caption_text, style = "caption")
     assign(deparse(substitute(plot_count)), plot_count + 1, envir = parent.frame())

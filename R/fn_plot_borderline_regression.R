@@ -3,7 +3,7 @@
 
 #' Plot of the Borderline Regression method
 #'
-#' @description fn_plt_borderline_regression creates a scatterplot of assessment
+#' @description fn_plot_borderline_regression creates a scatterplot of assessment
 #' scores against global grades. A regression line is added and its intersection
 #' with the borderline group is used to calculate a pass mark.
 #'
@@ -18,7 +18,7 @@
 #' global environment.
 #'
 #' @export
-fn_plt_borderline_regression <- function(x,
+fn_plot_borderline_regression <- function(x,
                                          grade_col = "Grade",
                                          score_col = "Score") {
 

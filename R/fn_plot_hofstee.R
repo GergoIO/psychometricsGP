@@ -1,10 +1,10 @@
 #' Carries out the Hofstee standard setting method and displays the method and the result on a graph.
 #'
-#' @description fnGPHofstee plots a cumulative relative frequency curve (ogive) of assessment scores and adds a graphical display of the Hofstee standard setting method.
+#' @description fn_plot_hofstee plots a cumulative relative frequency curve (ogive) of assessment scores and adds a graphical display of the Hofstee standard setting method.
 #' The output is a ggplot object, which can be saved or customised as needed, together with the coordinates of the Hofstee point.
 #' See Examples for more details.
 #'
-#' @usage fnGPHofstee(x, pars=c(62.5,75,0,20), cutDigits=2)
+#' @usage fn_plot_hofstee(x, pars=c(62.5,75,0,20), cutDigits=2)
 #'
 #' @param x A vector of percentage scores.
 #' @param pars A vector of length 4 containing the Hofstee parameters in this order:
@@ -26,16 +26,16 @@
 #' }
 #'
 #' @examples
-#' fnGPHofstee(x=rnorm(90,75,7))
-#' fnGPHofstee(x=rnorm(90,60,10),pars=c(45,65,0,20),cutDigits=4)
-#' fnGPHofstee(rnorm(90,50,10),c(45,60,0,10))
-#' fnGPHofstee(rnorm(90,80,5),c(50,60,5,20))
+#' fn_plot_hofstee(x=rnorm(90,75,7))
+#' fn_plot_hofstee(x=rnorm(90,60,10),pars=c(45,65,0,20),cutDigits=4)
+#' fn_plot_hofstee(rnorm(90,50,10),c(45,60,0,10))
+#' fn_plot_hofstee(rnorm(90,80,5),c(50,60,5,20))
 #'
 #' @source Written by Martin Roberts (psychometrics@plymouth.ac.uk)
 #'
 #' @export
 
-fnGPHofstee <- function(x,
+fn_plot_hofstee <- function(x,
                         pars = c(62.5, 75, 0, 20),
                         cutDigits = 2) {
   # Written by: Martin Roberts
